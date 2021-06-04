@@ -49,7 +49,7 @@
 <meta itemprop="name" content="if语句的作用域">
 <meta itemprop="description" content="今天我们来看看C语言中作用域的例子"><meta itemprop="datePublished" content="2021-06-04T18:06:24&#43;08:00" />
 <meta itemprop="dateModified" content="2021-06-04T18:06:24&#43;08:00" />
-<meta itemprop="wordCount" content="1524">
+<meta itemprop="wordCount" content="1520">
 <meta itemprop="keywords" content="C,Scope," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="if语句的作用域"/>
 <meta name="twitter:description" content="今天我们来看看C语言中作用域的例子"/>
@@ -136,7 +136,7 @@
         <div class="post-category">
             <a href="/categories/miscellany/"> Miscellany </a>
             </div>
-          <span class="more-meta"> 约 1524 字 </span>
+          <span class="more-meta"> 约 1520 字 </span>
           <span class="more-meta"> 预计阅读 4 分钟 </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
@@ -223,7 +223,7 @@
     return 0l
 }
 </code></pre>
-<p>实际上，这里的<code>if</code>就是单个语句，比如<code>if (b &lt; a &amp;&amp; a &lt; c) t = a;</code>这条语句，并不具有所谓的块作用域的说法，通过缩进我们也可以清楚地知道，<code>if</code>它所管理的语句就只有<code>t = a;</code>这一条罢了，是无法处理之后的语句的</p>
+<p>实际上，这里的<code>if</code>就是单个语句，比如<code>if (b &lt; a &amp;&amp; a &lt; c) t = a;</code>这条语句，这就是它的作用域，并且通过缩进我们也可以清楚地知道，<code>if</code>它所管理的语句就只有<code>t = a;</code>这一条罢了，是无法处理之后的语句的</p>
 <p>所以我们带入相关逻辑就可知道，<code>a = c</code>，<code>c = t</code>，<code>t = b</code>， <code>b = a</code>，最后<code>a = t</code>，再代入相应的值<code>a = 3, b = 4, c = 5, t = 99</code>，就可以知道</p>
 <pre><code>a* = b = 4
 b* = c = 4
