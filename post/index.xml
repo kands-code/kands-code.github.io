@@ -6,7 +6,16 @@
     <description>Recent content in Posts on Kevin Stephen&#39;s Blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 03 Jun 2021 16:28:45 +0800</lastBuildDate><atom:link href="https://blogs.qarks.top/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Jun 2021 18:06:24 +0800</lastBuildDate><atom:link href="https://blogs.qarks.top/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>if语句的作用域</title>
+      <link>https://blogs.qarks.top/post/20210604-scope-of-if-statement/</link>
+      <pubDate>Fri, 04 Jun 2021 18:06:24 +0800</pubDate>
+      
+      <guid>https://blogs.qarks.top/post/20210604-scope-of-if-statement/</guid>
+      <description>今天我们来看看C语言中作用域的例子</description>
+    </item>
+    
     <item>
       <title>Init</title>
       <link>https://blogs.qarks.top/post/init/</link>

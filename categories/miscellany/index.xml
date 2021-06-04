@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Miscellany on Kevin Stephen&#39;s Blogs</title>
+    <link>https://blogs.qarks.top/categories/miscellany/</link>
+    <description>Recent content in Miscellany on Kevin Stephen&#39;s Blogs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 04 Jun 2021 18:06:24 +0800</lastBuildDate><atom:link href="https://blogs.qarks.top/categories/miscellany/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>if语句的作用域</title>
+      <link>https://blogs.qarks.top/post/20210604-scope-of-if-statement/</link>
+      <pubDate>Fri, 04 Jun 2021 18:06:24 +0800</pubDate>
+      
+      <guid>https://blogs.qarks.top/post/20210604-scope-of-if-statement/</guid>
+      <description>今天我们来看看C语言中作用域的例子</description>
+    </item>
+    
+  </channel>
+</rss>

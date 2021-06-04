@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Init - Kevin Stephen&#39;s Blogs</title>
+  <title>if语句的作用域 - Kevin Stephen&#39;s Blogs</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Kevin Stephen" /><meta name="description" content="又开新坑了" /><meta name="keywords" content="Share, Codes, Life" />
+<meta name="author" content="Kevin Stephen" /><meta name="description" content="今天我们来看看C语言中作用域的例子" /><meta name="keywords" content="Share, Codes, Life" />
 
 
 
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.83.1 with theme even" />
 
 
-<link rel="canonical" href="https://blogs.qarks.top/post/init/" />
+<link rel="canonical" href="https://blogs.qarks.top/post/20210604-scope-of-if-statement/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,20 +39,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Init" />
-<meta property="og:description" content="又开新坑了" />
+<meta property="og:title" content="if语句的作用域" />
+<meta property="og:description" content="今天我们来看看C语言中作用域的例子" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://blogs.qarks.top/post/init/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2021-06-03T16:28:45&#43;08:00" />
-<meta property="article:modified_time" content="2021-06-03T16:28:45&#43;08:00" />
+<meta property="og:url" content="https://blogs.qarks.top/post/20210604-scope-of-if-statement/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-06-04T18:06:24&#43;08:00" />
+<meta property="article:modified_time" content="2021-06-04T18:06:24&#43;08:00" />
 
-<meta itemprop="name" content="Init">
-<meta itemprop="description" content="又开新坑了"><meta itemprop="datePublished" content="2021-06-03T16:28:45&#43;08:00" />
-<meta itemprop="dateModified" content="2021-06-03T16:28:45&#43;08:00" />
-<meta itemprop="wordCount" content="214">
-<meta itemprop="keywords" content="init,blogs," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Init"/>
-<meta name="twitter:description" content="又开新坑了"/>
+<meta itemprop="name" content="if语句的作用域">
+<meta itemprop="description" content="今天我们来看看C语言中作用域的例子"><meta itemprop="datePublished" content="2021-06-04T18:06:24&#43;08:00" />
+<meta itemprop="dateModified" content="2021-06-04T18:06:24&#43;08:00" />
+<meta itemprop="wordCount" content="1524">
+<meta itemprop="keywords" content="C,Scope," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="if语句的作用域"/>
+<meta name="twitter:description" content="今天我们来看看C语言中作用域的例子"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -129,15 +129,15 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Init</h1>
+      <h1 class="post-title">if语句的作用域</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2021-06-03 </span>
+        <span class="post-time"> 2021-06-04 </span>
         <div class="post-category">
-            <a href="/categories/meta/"> Meta </a>
+            <a href="/categories/miscellany/"> Miscellany </a>
             </div>
-          <span class="more-meta"> 约 214 字 </span>
-          <span class="more-meta"> 预计阅读 1 分钟 </span>
+          <span class="more-meta"> 约 1524 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
     </header>
@@ -149,8 +149,13 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#关于本博客">关于本博客</a></li>
-        <li><a href="#hello-world">Hello World</a></li>
+        <li><a href="#缘起">缘起</a></li>
+        <li><a href="#c语言的作用域2">C语言的作用域</a>
+          <ul>
+            <li><a href="#作用域分类">作用域分类</a></li>
+          </ul>
+        </li>
+        <li><a href="#来看看这道题">来看看这道题</a></li>
       </ul>
     </li>
   </ul>
@@ -158,44 +163,89 @@
   </div>
 </div>
     <div class="post-content">
-      <blockquote>
-<p>$e^{ix}=\cos{x}+i\sin{x}$</p>
-</blockquote>
-<p>$$
-\int_{-\infty}^{\infty}\delta(x)=1
-$$</p>
-<h2 id="关于本博客">关于本博客</h2>
-<p>实际上，这是我第n次来写博客了，距离上次开博客这个坑估计是半年前了</p>
-<p>为什么要写博客呢，多半是想用博客来记录点什么，哪怕是生活的小事，也是可以的</p>
-<blockquote>
-<p><strong>怀着期待而活</strong></p>
-</blockquote>
-<p>多半是这样的心情，我又开了这个博客，来记录生活和学习，期待能有人因为我的博客受益，学到点什么</p>
-<h2 id="hello-world">Hello World</h2>
-<blockquote>
-<p>这个是老环节了</p>
-</blockquote>
-<p>不知道该说点什么，就写几个 <code>Hello World</code> 助助兴吧</p>
-<p><code>Java</code> 版</p>
-<pre><code class="language-java">class Hello {
-    public static void main(String[] args) {
-        System.out.println(&quot;Hello World.&quot;);
-    }
-}
-</code></pre>
-<p><code>C</code> 版</p>
-<pre><code class="language-c">#include &lt;stdio.h&gt;
-int main(void) {
-    printf(&quot;Hello World.\n&quot;);
+      <h2 id="缘起">缘起</h2>
+<p>最近看到群里有个人问了个比较有意思的问题</p>
+<pre><code class="language-c">main() {
+    int a = 3, b = 4, c = 5, t = 99;
 
-    return 0;
+    if (b &lt; a &amp;&amp; a &lt; c) t = a; a = c; c = t;
+
+    if (a &lt; c &amp;&amp; b &lt; c) t = b; b = a; a = t;
+
+    printf(&quot;%d%d%d\n&quot;, a, b, c);
 }
 </code></pre>
-<p><code>Python</code> 版</p>
-<pre><code class="language-python">print(&quot;Hello World.&quot;)
+<p>问这个程序的输出是什么</p>
+<p>我们简单看一下程序就知道，输出结果应该是 <code>4599</code></p>
+<p>但是他却问：“那两个<code>if</code>那里不是做的交换操作吗？第一个<code>if</code>不执行，而第二个执行，所以<code>b</code>被赋上了<code>a</code>的值，<code>a</code>赋上了<code>b</code>的值，<code>c</code>不变，所以答案不应该是 <code>435</code> 吗？”</p>
+<p>这个错误可谓是十分经典了，很多初学者对于这些格式不规范的 <em>谭氏C语言<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></em> 总是不知措辞，在这里，他将<code>if</code>的作用域当成了该语句所在的那一行了，而忽略了 <code>;</code> 的作用</p>
+<h2 id="c语言的作用域2">C语言的作用域<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></h2>
+<p>作用域，说白了，就是说这个语句或者变量，它的影响范围有多广，比较直接的就是 <code>block scope</code>，也就是被一对花括号 (curly bracket) 包裹起来的区域</p>
+<pre><code class="language-c">for (int i = 0; i &lt; n; ++i) {
+    // do some
+    ...
+}
 </code></pre>
+<p>在这样一个<code>for</code>循环里，<code>i</code>就具有<strong>块作用域</strong>，也就是说<code>i</code>仅在它在被声明开始到花括号结束为止，这个范围内有效，其他范围都不会被<code>i</code>影响</p>
+<h3 id="作用域分类">作用域分类</h3>
+<p>在C语言里，最规范的分类，应该有以下<strong>四个</strong>作用域的分类：</p>
+<ul>
+<li>block scope</li>
+<li>function scope</li>
+<li>function prototype scope</li>
+<li>file scope</li>
+</ul>
+<p>其中最为常见的就是<code>block scope</code>，因为在C语言里，用来组织语句的方式就是代码块，或者说，用一对大括号将一堆语句括起来</p>
+<p>其次就是<code>function prototype scope</code>，这个作用域的定义就是在函数原型，或者说声明语句内，其中声明的变量具有函数原型作用域</p>
+<pre><code class="language-c">void exampleFunction(int paramA, double paramB[paramA]);
+</code></pre>
+<p>就比如上面这个例子，<code>paramA</code>和<code>paramB</code>都具有函数原型作用域，也是就是说他们的影响范围仅在这样一条语句内，对之后的所有语句或代码块都不会有所影响，出了这条语句，也无法再次访问这个参数变量了</p>
+<p>该作用域同时说明了，函数原型中重要的不是变量名，而是其类型，在有函数重载的语言里，比如<code>Java</code>，如何判断一个函数和另一个同名函数是重复还是重载，看的是其参数列表的参数的<strong>类型</strong>，参数列表的类型都一一对应的话，如果无继承关系，那么就是 <em>函数重复</em>，而非 <em>函数重载</em>，若参数列表的参数的类型不尽相同，那么就是 <em>函数重载</em></p>
+<p><code>function scope</code>是针对于跳转语句 (jump statement) 而言的，说的是在一个函数内声明的<code>label</code>的作用域范围是整个函数，但超出这个函数的限定范围就不在生效。这也是为什么在同一个函数内不能有两个相同名称的标签的原因，因为会产生歧义，无法正常解析究竟要跳转到哪个标签</p>
+<p><code>file scope</code>就是所谓的 <em>全局作用域</em>，这个全局指的就是一个编译单元<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>，通常就是一个<code>.c</code>文件，因为一个<code>.c</code>文件和一个<code>.o(bj)</code>文件一般而言是对应的，而在C语言里，一个<code>.o(bj)</code>就是所谓的编译单元</p>
+<h2 id="来看看这道题">来看看这道题</h2>
+<p>这道题的代码，我们格式化 (format) 一下，就看得很清楚了</p>
+<pre><code class="language-c">int main(void) {
+    int a = 3, b = 4, c = 5, t = 99;
+
+    if (b &lt; a &amp;&amp; a &lt; c)
+        t = a;
+    a = c;
+    c = t;
+
+    if (a &lt; c &amp;&amp; b &lt; c)
+        t = b;
+    b = a;
+    a = t;
+
+    printf(&quot;%d%d%d\n&quot;, a, b, c);
+
+    return 0l
+}
+</code></pre>
+<p>实际上，这里的<code>if</code>就是单个语句，比如<code>if (b &lt; a &amp;&amp; a &lt; c) t = a;</code>这条语句，并不具有所谓的块作用域的说法，通过缩进我们也可以清楚地知道，<code>if</code>它所管理的语句就只有<code>t = a;</code>这一条罢了，是无法处理之后的语句的</p>
+<p>所以我们带入相关逻辑就可知道，<code>a = c</code>，<code>c = t</code>，<code>t = b</code>， <code>b = a</code>，最后<code>a = t</code>，再代入相应的值<code>a = 3, b = 4, c = 5, t = 99</code>，就可以知道</p>
+<pre><code>a* = b = 4
+b* = c = 4
+c* = t = 99
+</code></pre>
+<p>所以答案自然是 <code>4599</code></p>
 <hr>
-<p>好，总之，希望我的博客能够帮到什么人，这就足够了</p>
+<p>这是一道很简单的逻辑推理题，但是主要考察的地方在于对于作用域的判断上，还是一个比较容易犯错的点，这同时也说明了有一个好的编程风格和习惯是一件多么重要的事</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>谭浩强所著的C语言教材多以这类不规范的代码书写，经常有初学者出现一个程序999<strong>error</strong>的事迹， 因此得名&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>参考网站，<a href="https://en.cppreference.com/w/c/language/scope">cppreference</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p>又称翻译单元&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
 
     </div>
 
@@ -207,7 +257,7 @@ int main(void) {
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        2021-06-03
+        2021-06-04
         
     </span>
   </p>
@@ -233,16 +283,16 @@ int main(void) {
   </div>
 </div><footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/init/">init</a>
-          <a href="/tags/blogs/">blogs</a>
+          <a href="/tags/c/">C</a>
+          <a href="/tags/scope/">Scope</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/20210604-scope-of-if-statement/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">if语句的作用域</span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
         
+        <a class="next" href="/post/init/">
+            <span class="next-text nav-default">Init</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
       </nav>
     </footer>
   </article>
@@ -252,8 +302,8 @@ int main(void) {
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
       var gitalk = new Gitalk({
-        id: '2021-06-03 16:28:45 \u002b0800 CST',
-        title: 'Init',
+        id: '2021-06-04 18:06:24 \u002b0800 CST',
+        title: 'if语句的作用域',
         clientID: '00300cc952589449bf5a',
         clientSecret: 'd88ee5d559eac5dd3aca2b184f5b8231b6de6482',
         repo: 'kands-code.github.io',
