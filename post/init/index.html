@@ -33,10 +33,9 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
-<script src="https://cdn.jsdelivr.net/npm/eruda@1.2.6/eruda.min.js" integrity="sha256-Jmz4bc3kp+rRrXX2tGadNBKFLwtzMapr8kHABxSAAP8=" crossorigin="anonymous"></script>
-<script>eruda.init();</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link href="/sass/main.min.39038b9b8a49ff2eec40ff8662692dcb38faf0d17621144290e4becd4f3362fc.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -139,7 +138,7 @@
             </div>
           <span class="more-meta"> 约 214 字 </span>
           <span class="more-meta"> 预计阅读 1 分钟 </span>
-        
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
     </header>
 
@@ -218,7 +217,21 @@ int main(void) {
     <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
   </p>
 </div>
-<footer class="post-footer">
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://cdn.jsdelivr.net/gh/kands-code/img@master/2021/06/04/wxpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://cdn.jsdelivr.net/gh/kands-code/img@master/2021/06/04/zfbpay.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
       <div class="post-tags">
           <a href="/tags/init/">init</a>
           <a href="/tags/blogs/">blogs</a>
@@ -230,7 +243,23 @@ int main(void) {
     </footer>
   </article>
         </div>
-        
+        <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        id: '2021-06-03 16:28:45 \u002b0800 CST',
+        title: 'Init',
+        clientID: '00300cc952589449bf5a',
+        clientSecret: 'd88ee5d559eac5dd3aca2b184f5b8231b6de6482',
+        repo: 'kands-code.github.io',
+        owner: 'kands-code',
+        admin: ['kands-code'],
+        body: decodeURI(location.href)
+      });
+      gitalk.render('gitalk-container');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
 
   
 
@@ -241,21 +270,11 @@ int main(void) {
 
     <footer id="footer" class="footer">
       <div class="social-links">
-      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
-      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
-      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
-      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
-      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
-      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
-      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
-      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
-      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
-      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
-      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
-      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
-      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
-      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+      <a href="mailto:kands-code@qq.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://stackoverflow.com/users/13461694/kandscode" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="https://www.linkedin.com/in/%E8%8C%82%E6%B0%91-%E5%8D%BF-0255b2213/" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://github.com/kands-code" class="iconfont icon-github" title="github"></a>
+      <a href="https://space.bilibili.com/34490657" class="iconfont icon-bilibili" title="bilibili"></a>
   <a href="https://blogs.qarks.top/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
 </div>
 
@@ -269,7 +288,11 @@ int main(void) {
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
 
-  
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
 
   <span class="copyright-year">
     &copy; 
