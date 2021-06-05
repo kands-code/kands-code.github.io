@@ -6,15 +6,8 @@ draft: false
 summary: "今天我们来看看C语言中作用域的例子"
 tags: ["C", "Scope"]
 categories: ["Miscellany"]
-comment: true
 reward: true
 enableOutdatedInfoWarning: false
-flowchartDiagrams:
-  enable: false
-  options: ""
-sequenceDiagrams:
-  enable: false
-  options: ""
 ---
 
 ## 缘起
@@ -41,9 +34,9 @@ main() {
 
 这个错误可谓是十分经典了，很多初学者对于这些格式不规范的 *谭氏C语言[^1]* 总是不知措辞，在这里，他将`if`的作用域当成了该语句所在的那一行了，而忽略了 `;` 的作用
 
-## C语言的作用域[^2]
+## C语言的作用域
 
-作用域，说白了，就是说这个语句或者变量，它的影响范围有多广，比较直接的就是 `block scope`，也就是被一对花括号 (curly bracket) 包裹起来的区域
+作用域[^2]，说白了，就是说这个语句或者变量，它的影响范围有多广，比较直接的就是 `block scope`，也就是被一对花括号 (curly bracket) 包裹起来的区域
 
 ```c
 for (int i = 0; i < n; ++i) {
