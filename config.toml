@@ -1,4 +1,4 @@
-    baseURL = "https://blogs.qarks.top/"
+baseURL = "https://blogs.qarks.top/"
 title = "Kevin Stephen's blog"
 languageCode = "zh-cn"
 hasCJKLanguage = true
