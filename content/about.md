@@ -17,7 +17,7 @@ comment: true
 
 ## 关于这个博客
 
-这个博客是基于[hugo](https://gohugo.io/)生成的静态网站，网站主题目前是[Even](https://github.com/olOwOlo/hugo-theme-even/)，但保不准之后会换成其他更~~花里胡哨~~的主题
+这个博客是基于[hugo](https://gohugo.io/)生成的静态网站，网站主题目前是[MemE](https://github.com/reuixiy/hugo-theme-meme)，但保不准之后会换成其他更~~花里胡哨~~的主题
 
 ## 联系我
 
