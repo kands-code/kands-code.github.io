@@ -1,4 +1,4 @@
-baseURL = "https://blogs.qarks.top/"
+    baseURL = "https://blogs.qarks.top/"
 title = "Kevin Stephen's blog"
 languageCode = "zh-cn"
 hasCJKLanguage = true
@@ -941,7 +941,7 @@ uglyURLs = false
     ######################################
     ## 行间距
 
-    lineHeight = 2
+    lineHeight = 1.5
     # 说明：只会应用到文章的段落和目录
 
     ######################################
@@ -1257,7 +1257,7 @@ uglyURLs = false
     # 是否开启竖直滚动
     enableOverflowY = true
     # 最大高度
-    maxHeight = 15
+    maxHeight = 20
     # 单位：em
 
     # 是否开启复制
