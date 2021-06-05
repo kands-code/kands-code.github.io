@@ -12,9 +12,9 @@
     
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <title>Tags | Kevin Stephen&#39;s blog</title>
+    <title>梧桐叶 | Tags | Kevin Stephen&#39;s blog</title>
 
-    <link rel="stylesheet" href="../css/meme.min.326c97e19aeb2a006994cc386c412c92d51c6fdf9b37507797a2be30f2a98fe7.css"/>
+    <link rel="stylesheet" href="../css/meme.min.bbabbe034498b84be948c5cba6153560104f1f0a44ac1e72202e9f40ab4e1674.css"/>
 
     
     
@@ -53,10 +53,10 @@
     {
         "@context": "https://schema.org",
         "@type": "WebPage",
-        "datePublished": "2021-06-01T00:00:00+00:00",
-        "dateModified": "2021-06-04T18:06:24+08:00",
+        "datePublished": "2021-06-05T14:54:51+08:00",
+        "dateModified": "2021-06-05T14:54:51+08:00",
         "url": "https://blogs.qarks.top/tags/",
-        "name": "Tags",
+        "name": "梧桐叶 | Tags",
         "description": "看世间百态，品百味人生",
         "image": "https://cdn.jsdelivr.net/gh/kands-code/img@master/2021/06/03/fav.png",
         "license": "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)",
@@ -85,7 +85,7 @@
 
 
 
-<meta property="og:title" content="Tags" />
+<meta property="og:title" content="梧桐叶 | Tags" />
 <meta property="og:description" content="看世间百态，品百味人生" />
 <meta property="og:url" content="https://blogs.qarks.top/tags/" />
 <meta property="og:site_name" content="Kevin Stephen&#39;s blog" />
@@ -183,7 +183,7 @@
     <div class="main-inner">
         <div class="content tag-cloud">
             
-                <h1 class="list-title">Tags</h1>
+                <h1 class="list-title">梧桐叶 | Tags</h1>
             
             
                 
@@ -220,6 +220,24 @@
                     
                     
                         <a href="../tags/init/" class="tag-cloud-item" style="font-size: 1.5em">init</a>
+                    
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                        <a href="../tags/notes/" class="tag-cloud-item" style="font-size: 1.5em">Notes</a>
+                    
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                        <a href="../tags/rust/" class="tag-cloud-item" style="font-size: 1.5em">Rust</a>
                     
                 
                     
@@ -350,6 +368,61 @@
 </script>
 
 
+
+    
+
+        
+
+        
+
+        
+
+        
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script>
+    function loadComments() {
+        if (typeof Gitalk === 'undefined') {
+            var getScript = (options) => {
+                var script = document.createElement('script');
+                script.defer = true;
+                script.crossOrigin = 'anonymous';
+                Object.keys(options).forEach((key) => {
+                    script[key] = options[key];
+                });
+                document.body.appendChild(script);
+            };
+            getScript({
+                src: 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+                onload: () => {
+                    newGitalk();
+                }
+            });
+        } else {
+            newGitalk();
+        }
+    }
+    function newGitalk() {
+        const gitalk = new Gitalk({
+            clientID: "00300cc952589449bf5a",
+            clientSecret: "d88ee5d559eac5dd3aca2b184f5b8231b6de6482",
+            repo: "kands-code.github.io",
+            owner: "kands-code",
+            admin: ["kands-code"],
+            labels: ["Gitalk"],
+            distractionFreeMode:  false , 
+            perPage:  10 ,
+            language: "zh-CN",
+            pagerDirection: "last",
+            createIssueManually:  false ,
+            proxy: "https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token",
+            enableHotKey:  true ,
+            id:  location.pathname
+        })
+
+        gitalk.render('gitalk-container')
+    }
+</script>
+        
 
     
 
