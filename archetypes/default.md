@@ -4,9 +4,11 @@ date: {{ .Date }}
 lastmod: {{ .Date }}
 draft: true
 summary: ""
+katex: true
+mermaid: true
+comments: true
 tags: []
 categories: []
-reward: true
-enableOutdatedInfoWarning: false
 dropCap: false
+indent: false
 ---

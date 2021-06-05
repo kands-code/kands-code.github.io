@@ -6,8 +6,6 @@ draft: false
 summary: "今天我们来看看C语言中作用域的例子"
 tags: ["C", "Scope"]
 categories: ["Miscellany"]
-reward: true
-enableOutdatedInfoWarning: false
 ---
 
 ## 缘起
