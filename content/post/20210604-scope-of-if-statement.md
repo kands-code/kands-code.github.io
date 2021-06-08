@@ -5,7 +5,7 @@ lastmod: 2021-06-04T18:06:24+08:00
 draft: false
 summary: "今天我们来看看C语言中作用域的例子"
 tags: ["C", "Scope"]
-categories: ["Miscellany"]
+categories: ["Miscellany", "Coding"]
 ---
 
 ## 缘起

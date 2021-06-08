@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn">
     <title type="text">Kevin Stephen&#39;s blog</title>
     <subtitle type="html">看世间百态，品百味人生</subtitle>
-    <updated>2021-06-05T18:22:27&#43;08:00</updated>
+    <updated>2021-06-08T19:44:41&#43;08:00</updated>
     <id>https://blogs.qarks.top/</id>
     <link rel="alternate" type="text/html" href="https://blogs.qarks.top/" />
     <link rel="self" type="application/atom&#43;xml" href="https://blogs.qarks.top/atom.xml" />
@@ -16,6 +16,563 @@
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
     <generator uri="https://gohugo.io/" version="0.83.1">Hugo</generator>
+        <entry>
+            <title type="text">学习Maven</title>
+            <link rel="alternate" type="text/html" href="https://blogs.qarks.top/post/20210608-mavenlearn/" />
+            <id>https://blogs.qarks.top/post/20210608-mavenlearn/</id>
+            <updated>2021-06-08T17:04:24&#43;08:00</updated>
+            <published>2021-06-08T17:04:24&#43;08:00</published>
+            <author>
+                    <name>Kevin Stephen</name>
+                    <uri>https://blogs.qarks.top/</uri>
+                    <email>kands-code@qq.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">出于某些原因，我选择放弃了IDE，所以不得不学习一下如何使用Maven手动创建工程</summary>
+            
+                <content type="html">&lt;h2 id=&#34;起因&#34;&gt;起因&lt;/h2&gt;
+&lt;p&gt;由于某些 &lt;em&gt;心理洁癖&lt;/em&gt;，我将系统上的所有不必要的组件和IDE都卸载删除了，特别是喷气大脑&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210608-mavenlearn/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;strong&gt;IDEA&lt;/strong&gt;，删除后在清理掉不必要的缓存和配置&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210608-mavenlearn/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;后，整整空出了&lt;code&gt;5G&lt;/code&gt;的空间，到目前为止，我的系统硬盘空间使用情况为&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;kands@ksc ~ 17:27&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;$&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; yes &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+In&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;1&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; df -h
+Out&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;1&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+文件系统        容量  已用  可用 已用% 挂载点
+dev             7.5G     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  7.5G    0% /dev
+run             7.6G  1.6M  7.6G    1% /run
+/dev/nvme0n1p3  472G   45G  427G   10% /
+tmpfs           7.6G   16K  7.6G    1% /dev/shm
+tmpfs           7.6G   44K  7.6G    1% /tmp
+/dev/nvme0n1p1  511M  144K  511M    1% /boot/efi
+tmpfs           1.6G   56K  1.6G    1% /run/user/1000
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;启动后内存占用也基本在&lt;code&gt;900M&lt;/code&gt;左右，平常使用&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210608-mavenlearn/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;时在&lt;code&gt;3G&lt;/code&gt;左右，相较于之前使用 &lt;em&gt;IDE&lt;/em&gt; 的情况好了不知道多少，而且由于我使用了&lt;code&gt;environment.d&lt;/code&gt;配置方法，且拒绝使用 &lt;em&gt;电子系&lt;/em&gt; 软件&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210608-mavenlearn/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;，配置文件基本统一集中在&lt;code&gt;./config&lt;/code&gt;目录下，除了&lt;code&gt;.ssh&lt;/code&gt;这样比较特殊的文件夹外，基本无隐藏文件，我的家目录也是极为干净的，目前身心&lt;del&gt;极度愉悦&lt;/del&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;kands@ksc ~ 17:28&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;$&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; yes &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+In&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;9&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; ls -alh
+Out&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;9&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+总用量 24K
+drwx------ &lt;span class=&#34;m&#34;&gt;20&lt;/span&gt; kands kands  &lt;span class=&#34;m&#34;&gt;313&lt;/span&gt;  6月  &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; 17:02 .
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; root  root    &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt;  2月 &lt;span class=&#34;m&#34;&gt;20&lt;/span&gt; 11:59 ..
+drwxr-xr-x &lt;span class=&#34;m&#34;&gt;46&lt;/span&gt; kands kands 4.0K  6月  &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; 17:02 .cache
+drwx------ &lt;span class=&#34;m&#34;&gt;45&lt;/span&gt; kands kands 4.0K  6月  &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; 17:18 .config
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; kands kands   &lt;span class=&#34;m&#34;&gt;23&lt;/span&gt;  2月 &lt;span class=&#34;m&#34;&gt;23&lt;/span&gt; 14:59 .designer
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; kands kands   &lt;span class=&#34;m&#34;&gt;49&lt;/span&gt;  6月  &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt; 21:47 Desktop
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; kands kands   &lt;span class=&#34;m&#34;&gt;92&lt;/span&gt;  6月  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; 14:31 Documents
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; kands kands  &lt;span class=&#34;m&#34;&gt;125&lt;/span&gt;  6月  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; 21:37 Downloads
+-rw-r--r--  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; kands kands  &lt;span class=&#34;m&#34;&gt;276&lt;/span&gt;  6月  &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; 17:02 .gtkrc-2.0
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; kands kands   &lt;span class=&#34;m&#34;&gt;37&lt;/span&gt;  6月  &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; 12:48 .java
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; kands kands   &lt;span class=&#34;m&#34;&gt;41&lt;/span&gt;  6月  &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; 20:30 .local
+drwxr-xr-x &lt;span class=&#34;m&#34;&gt;14&lt;/span&gt; kands kands 4.0K  5月 &lt;span class=&#34;m&#34;&gt;22&lt;/span&gt; 17:55 .minecraft
+drwx------  &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; kands kands   &lt;span class=&#34;m&#34;&gt;66&lt;/span&gt;  2月 &lt;span class=&#34;m&#34;&gt;20&lt;/span&gt; 13:04 .mozilla
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; kands kands    &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt;  4月  &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; 20:28 Music
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; kands kands   &lt;span class=&#34;m&#34;&gt;95&lt;/span&gt;  6月  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; 21:02 Pictures
+drwx------  &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; kands kands   &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt;  3月 &lt;span class=&#34;m&#34;&gt;13&lt;/span&gt; 12:18 .pki
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; kands kands    &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt;  2月 &lt;span class=&#34;m&#34;&gt;20&lt;/span&gt; 12:57 Public
+drwx------  &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; kands kands   &lt;span class=&#34;m&#34;&gt;65&lt;/span&gt;  3月 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt; 13:54 .ssh
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; kands kands   &lt;span class=&#34;m&#34;&gt;22&lt;/span&gt;  6月  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; 20:23 Templates
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; kands kands    &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt;  6月  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; 00:45 Videos
+drwxr-xr-x  &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; kands kands   &lt;span class=&#34;m&#34;&gt;33&lt;/span&gt;  5月 &lt;span class=&#34;m&#34;&gt;24&lt;/span&gt; 14:47 .Wolfram
+-rw-------  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; kands kands   &lt;span class=&#34;m&#34;&gt;48&lt;/span&gt;  6月  &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; 17:02 .Xauthority
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;不过我这种状态完全不是做事的状态，真要做事还得将效率，该用IDE还是得用，但是自己折腾一下也是十分有意思的，反正很闲（qs&lt;/p&gt;
+&lt;p&gt;下面我就来讲讲&lt;code&gt;Maven&lt;/code&gt;的使用方法吧&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注：文中出现的路径均为本人配置路径，需要根据你的配置进行一定的修改&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;maven&#34;&gt;Maven&lt;/h2&gt;
+&lt;p&gt;要使用Maven，那首先得去下载一个，建议到官网去下载，而不是使用源里面的Maven&lt;/p&gt;
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+&lt;p&gt;不是说源里面的版本老&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210608-mavenlearn/#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;，arch源里面的软件还是很新的，如果你想 &lt;ruby&gt;体验最新&lt;rp&gt;(&lt;/rp&gt;&lt;rt&gt;自 己 作 死&lt;/rt&gt;&lt;rp&gt;)&lt;/rp&gt;&lt;/ruby&gt;，那么你还可以试试&lt;code&gt;test&lt;/code&gt;源&lt;/p&gt;
+&lt;p&gt;但从源里面下载的软件有一个比较大的缺点，那就是不好该配置，基本上都需要使用 &lt;em&gt;root权限&lt;/em&gt;，本着&lt;strong&gt;最小权限原则&lt;/strong&gt;&lt;sup id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210608-mavenlearn/#fn:6&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;6&lt;/a&gt;&lt;/sup&gt;，我们应该自己到官网去下载对应二进制包或源码包，源码包还需要自行编译，我这里选择下载二进制包&lt;/p&gt;
+&lt;p&gt;将下载好的二进制包解压后放进一个你喜欢的目录即可，还需要配置好&lt;code&gt;M2_HOME&lt;/code&gt;和&lt;code&gt;PATH&lt;/code&gt;等环境变量，这样就算安装好了，可以使用&lt;code&gt;mvn -v&lt;/code&gt;来验证一下是否能够使用了&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;kands@ksc ~ 18:19&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;$&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; yes &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+In&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;14&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$M2_HOME&lt;/span&gt;
+Out&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;14&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+/home/kands/.local/bin/self-bin/maven-3.8
+&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;kands@ksc ~ 18:19&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;$&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; yes &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+In&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;15&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$PATH&lt;/span&gt;
+Out&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;15&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/kands/.local/bin/self-bin/maven-3.8/bin
+&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;kands@ksc ~ 18:19&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;$&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; yes &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+In&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;17&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; mvn -v
+Out&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;17&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+Apache Maven 3.8.1 &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;05c21c65bdfed0f71a2f2ada8b84da59348c4c5d&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+Maven home: /home/kands/.local/bin/self-bin/maven-3.8
+Java version: 11.0.11, vendor: Oracle Corporation, runtime: /usr/lib/jvm/java-11-openjdk
+Default locale: zh_CN, platform encoding: UTF-8
+OS name: &lt;span class=&#34;s2&#34;&gt;&amp;#34;linux&amp;#34;&lt;/span&gt;, version: &lt;span class=&#34;s2&#34;&gt;&amp;#34;5.12.9-arch1-1&amp;#34;&lt;/span&gt;, arch: &lt;span class=&#34;s2&#34;&gt;&amp;#34;amd64&amp;#34;&lt;/span&gt;, family: &lt;span class=&#34;s2&#34;&gt;&amp;#34;unix&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;配置本地仓库&#34;&gt;配置本地仓库&lt;/h3&gt;
+&lt;p&gt;修改&lt;code&gt;M2_HOME/conf/settings.xml&lt;/code&gt;文件，找到&lt;code&gt;&amp;lt;localRepository&amp;gt;&lt;/code&gt;这个配置&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;!-- localRepository
+&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;| The path to the local repository maven will use to store artifacts.
+&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;|
+&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;| Default: ${user.home}/.m2/repository
+&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;localRepository&amp;gt;/path/to/local/repo&amp;lt;/localRepository&amp;gt;
+&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;--&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;默认是没有配置的，而是在注释中，你需要在这个注释底下的空白位置自己补充配置&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;localRepository&amp;gt;&lt;/span&gt;/home/kands/.local/lib/mavenRepo&lt;span class=&#34;nt&#34;&gt;&amp;lt;/localRepository&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我这里是配置到我的&lt;code&gt;~/.local/lib/mavenRepo&lt;/code&gt;目录下了，你们找个空闲点的位置就可以了，这个不是特别重要，只要你能找到就行&lt;/p&gt;
+&lt;h3 id=&#34;文件结构&#34;&gt;文件结构&lt;/h3&gt;
+&lt;p&gt;首先，我们要来看看一个Maven项目的基本文件结构，这里介绍一个很好的用法，&lt;code&gt;archetype&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;有了&lt;code&gt;archetype&lt;/code&gt;就不需要我们自己手动创建文件结构和写初始的&lt;code&gt;pom.xml&lt;/code&gt;了&lt;/p&gt;
+&lt;p&gt;要看有那些模板，可以查看&lt;a href=&#34;http://maven.apache.org/archetypes/index.html&#34;&gt;这个网站&lt;/a&gt;，这里，我们使用&lt;code&gt;maven-archetype-simple&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;.
+└── TestMaven
+    ├── pom.xml
+    └── src
+        ├── main
+        │   └── java
+        │       └── top
+        │           └── kands
+        │               └── App.java
+        └── &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt;
+            └── java
+                └── top
+                    └── kands
+                        └── AppTest.java
+
+&lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; directories, &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; files
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;上面显示的就是创建的项目结构，在使用了官方提供的命令后&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;mvn archetype:generate -DarchetypeGroupId&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;org.apache.maven.archetypes -DarchetypeArtifactId&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;maven-archetype-quickstart -DarchetypeVersion&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;1.4
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Maven以交互式方式为我们创建好了项目并配置了基本的&lt;code&gt;pom.xml&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;46
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;47
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;48
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;49
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;50
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;51
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;52
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;53
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;54
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;55
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;56
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;57
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;58
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;59
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;60
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;61
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;62
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;63
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;64
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;65
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;66
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;67
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;68
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;69
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;70
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;71
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;72
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;73
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;74
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;75
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span&gt;
+
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;project&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;xmlns=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;http://maven.apache.org/POM/4.0.0&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;xmlns:xsi=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34;&lt;/span&gt;
+  &lt;span class=&#34;na&#34;&gt;xsi:schemaLocation=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&amp;#34;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;modelVersion&amp;gt;&lt;/span&gt;4.0.0&lt;span class=&#34;nt&#34;&gt;&amp;lt;/modelVersion&amp;gt;&lt;/span&gt;
+
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;top.kands&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;TestMaven&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;0.0.1-SNAPSHOT&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;TestMaven&lt;span class=&#34;nt&#34;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class=&#34;c&#34;&gt;&amp;lt;!-- FIXME change it to the project&amp;#39;s website --&amp;gt;&lt;/span&gt;
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;url&amp;gt;&lt;/span&gt;http://www.example.com&lt;span class=&#34;nt&#34;&gt;&amp;lt;/url&amp;gt;&lt;/span&gt;
+
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;properties&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;project.build.sourceEncoding&amp;gt;&lt;/span&gt;UTF-8&lt;span class=&#34;nt&#34;&gt;&amp;lt;/project.build.sourceEncoding&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;maven.compiler.source&amp;gt;&lt;/span&gt;1.7&lt;span class=&#34;nt&#34;&gt;&amp;lt;/maven.compiler.source&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;maven.compiler.target&amp;gt;&lt;/span&gt;1.7&lt;span class=&#34;nt&#34;&gt;&amp;lt;/maven.compiler.target&amp;gt;&lt;/span&gt;
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;/properties&amp;gt;&lt;/span&gt;
+
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;dependencies&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+      &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;junit&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+      &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;junit&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+      &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;4.11&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+      &lt;span class=&#34;nt&#34;&gt;&amp;lt;scope&amp;gt;&lt;/span&gt;test&lt;span class=&#34;nt&#34;&gt;&amp;lt;/scope&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;/dependencies&amp;gt;&lt;/span&gt;
+
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;build&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;pluginManagement&amp;gt;&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) --&amp;gt;&lt;/span&gt;
+      &lt;span class=&#34;nt&#34;&gt;&amp;lt;plugins&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;c&#34;&gt;&amp;lt;!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle --&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;plugin&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;maven-clean-plugin&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;3.1.0&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;c&#34;&gt;&amp;lt;!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging --&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;plugin&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;maven-resources-plugin&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;3.0.2&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;plugin&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;maven-compiler-plugin&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;3.8.0&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;plugin&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;maven-surefire-plugin&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;2.22.1&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;plugin&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;maven-jar-plugin&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;3.0.2&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;plugin&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;maven-install-plugin&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;2.5.2&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;plugin&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;maven-deploy-plugin&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;2.8.2&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;c&#34;&gt;&amp;lt;!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle --&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;plugin&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;maven-site-plugin&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;3.7.1&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;plugin&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;maven-project-info-reports-plugin&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;3.0.0&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+      &lt;span class=&#34;nt&#34;&gt;&amp;lt;/plugins&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;/pluginManagement&amp;gt;&lt;/span&gt;
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;/build&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;/project&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以见到&lt;code&gt;&amp;lt;groupId&amp;gt;&lt;/code&gt;，&lt;code&gt;&amp;lt;artifactId&amp;gt;&lt;/code&gt;以及&lt;code&gt;&amp;lt;version&amp;gt;&lt;/code&gt;，也就是常说的 &lt;em&gt;gav坐标&lt;/em&gt;，已经在交互模式下，根据我们提供的信息为我们配置好了&lt;/p&gt;
+&lt;p&gt;所谓的 &lt;em&gt;gav坐标&lt;/em&gt; 也就是Maven项目的&lt;strong&gt;唯一标识&lt;/strong&gt;，也就是说，每一个Maven项目都有独一无二的gav坐标，Maven会根据这三个值来区分是否为同一项目&lt;/p&gt;
+&lt;h3 id=&#34;pomxml-文件简述&#34;&gt;pom.xml 文件简述&lt;/h3&gt;
+&lt;p&gt;在项目根目录下的&lt;code&gt;pom.xml&lt;/code&gt;文件就是这个项目的配置文件，规定了项目的方方面面，主要要看的就是 &lt;em&gt;gav&lt;/em&gt;，&lt;em&gt;dependencies&lt;/em&gt; 以及 &lt;em&gt;build&lt;/em&gt; 这几个配置项&lt;/p&gt;
+&lt;p&gt;在创建项目时，gav坐标就已经创建好了，除了&lt;code&gt;&amp;lt;version&amp;gt;&lt;/code&gt;还需要自己手动修改一下，其他两项就不必再动&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;dependencies&amp;gt;&lt;/code&gt;下定义的是这个项目要用到的依赖，都可以到&lt;a href=&#34;https://mvnrepository.com/&#34;&gt;这个网站&lt;/a&gt;去查询，需要什么依赖，什么版本的，就直接复制网页提供的配置方法到&lt;code&gt;&amp;lt;dependencies&amp;gt;&lt;/code&gt;下就好了，比如&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;dependencies&amp;gt;&lt;/span&gt;
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;junit&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;junit&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;4.11&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;scope&amp;gt;&lt;/span&gt;test&lt;span class=&#34;nt&#34;&gt;&amp;lt;/scope&amp;gt;&lt;/span&gt;
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;/dependencies&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这个是默认生成的一个依赖，其中&lt;code&gt;&amp;lt;scope&amp;gt;&lt;/code&gt;项定义的就是这个依赖使用的范围，这里，这个&lt;code&gt;junit&lt;/code&gt;依赖使用的范围就是&lt;code&gt;test&lt;/code&gt;，也就是测试环节需要使用到这个依赖，一般不需要额外指定这个选项&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;build&amp;gt;&lt;/code&gt;说明了你的编译时的配置，比如使用什么版本的jdk，要编译出什么版本上的jre上可以运行的项目等等，还有打包等事宜都是在这里配置的&lt;/p&gt;
+&lt;h3 id=&#34;maven生命周期&#34;&gt;Maven生命周期&lt;/h3&gt;
+&lt;p&gt;Maven的生命周期，简单来说就是Maven完成一次项目所要经过的步骤，或者说功能，与我们要使用的指令都是一一对应的&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;清理 &lt;code&gt;mvn clean&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;编译 &lt;code&gt;mvn compile&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;测试 &lt;code&gt;mvn test-compile&lt;/code&gt; 用来编译测试文件 &lt;code&gt;mvn test&lt;/code&gt; 来测试&lt;/li&gt;
+&lt;li&gt;报告&lt;/li&gt;
+&lt;li&gt;打包 &lt;code&gt;mvn package&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;安装 &lt;code&gt;mvn install&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Maven的功能是通过Maven插件（jar包）来实现的，这个在你们运行&lt;code&gt;mvn&lt;/code&gt;命令时自然就会看见它会&lt;code&gt;download&lt;/code&gt;一些&lt;code&gt;jar&lt;/code&gt;包，即便你没有依赖到那个包，因为要完成生命周期需要那些jar包，或者说插件，的支持&lt;/p&gt;
+&lt;p&gt;由于 &lt;em&gt;生命周期&lt;/em&gt;，某个阶段之前的命令在某个阶段前都会被执行，意思是说如果你执行 &lt;code&gt;mvn install&lt;/code&gt;，那么前面的 &lt;code&gt;compile&lt;/code&gt; 什么的也都会先执行一遍&lt;/p&gt;
+&lt;h4 id=&#34;编译&#34;&gt;编译&lt;/h4&gt;
+&lt;p&gt;默认的 &lt;code&gt;mvn compile&lt;/code&gt; 只会编译 &lt;code&gt;src/main/java&lt;/code&gt; 目录下的所有 &lt;code&gt;.java&lt;/code&gt; 文件，而要编译&lt;code&gt;src/test/java&lt;/code&gt;则需要使用&lt;code&gt;mvn test-compile&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;编译出来的文件默认存放在 &lt;code&gt;target/classes&lt;/code&gt; 目录下，test目录的则会编译到 &lt;code&gt;target/test-classes&lt;/code&gt; 目录下&lt;/p&gt;
+&lt;h4 id=&#34;创建测试程序&#34;&gt;创建测试程序&lt;/h4&gt;
+&lt;p&gt;在Maven项目中的&lt;code&gt;src/test/java&lt;/code&gt;目录下，创建测试程序&lt;/p&gt;
+&lt;p&gt;推荐的创建类和方法的提示&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;测试类的名称是 &lt;code&gt;&amp;lt;test-class&amp;gt; + Test&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;测试的方法是 &lt;code&gt;test + &amp;lt;test-method&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例如测试&lt;code&gt;HelloMaven&lt;/code&gt;类中的&lt;code&gt;add&lt;/code&gt;方法是否正确&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.junit.Assert&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.junit.Test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Main&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;span class=&#34;nd&#34;&gt;@Test&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;testAddInt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Test started!&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;Main&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;m1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Main&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+        &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;res&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;m1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;addInt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;// 验证 10 + 20 是不是30
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;c1&#34;&gt;// assertEquals(期望, 实际)
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;n&#34;&gt;Assert&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;assertEquals&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;res&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;testAdd()&lt;/code&gt;的定义规则是&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;方法是&lt;code&gt;public&lt;/code&gt;的&lt;/li&gt;
+&lt;li&gt;返回值是&lt;code&gt;void&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;推荐按照规则定义方法名&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;@Test&lt;/code&gt; 的测试标签&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;resources文件夹&#34;&gt;resources文件夹&lt;/h4&gt;
+&lt;p&gt;这个目录在&lt;code&gt;quickstart&lt;/code&gt;这个模板里没有生成，需要我们手动创建&lt;/p&gt;
+&lt;p&gt;test也是，这个目录对于项目本身是在&lt;code&gt;src/main/resources&lt;/code&gt;，对于测试文件则在&lt;code&gt;src/test/resources&lt;/code&gt;目录&lt;/p&gt;
+&lt;p&gt;编译时，resources文件夹下的所有文件都会被拷贝到 &lt;code&gt;target/classes/&lt;/code&gt; 目录下，而在&lt;code&gt;test-compile&lt;/code&gt;命令下，test目录的&lt;code&gt;resources&lt;/code&gt;目录下的所有内容也会被拷贝到&lt;code&gt;target/test-classes&lt;/code&gt;目录下&lt;/p&gt;
+&lt;h4 id=&#34;install&#34;&gt;install&lt;/h4&gt;
+&lt;p&gt;会把打包出来的jar包安装到本地仓库里&lt;/p&gt;
+&lt;p&gt;至于如何打包，一般而言直接 &lt;code&gt;mvn package&lt;/code&gt; 就足够了，如果要打包出一个可以使用 &lt;code&gt;java -jar&lt;/code&gt; 执行的jar包，则需要额外配置，我这里就不细说了，因为太多了&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;好了，Maven的大致使用方法就是上面这些，希望能够帮到大家&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;即Jetbrains，Jet 喷射，brains 大脑，由此得名&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210608-mavenlearn/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;缓存一般在 &lt;code&gt;~/.cache/Jetbrains&lt;/code&gt; 底下，配置一般在 &lt;code&gt;~/.config/Jetbrains&lt;/code&gt; 底下，还要检查一下 &lt;code&gt;~/.local/share&lt;/code&gt; 看看有无喷气大脑的文件&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210608-mavenlearn/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;指开三个左右终端，分别用来编辑，查看，监测，以及10个网页标签&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210608-mavenlearn/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;指用&lt;a href=&#34;https://github.com/electron/electron&#34;&gt;electron&lt;/a&gt;开发的项目&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210608-mavenlearn/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;点名批评&lt;strong&gt;Debian&lt;/strong&gt;系&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210608-mavenlearn/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:6&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;百度文库.最小权限原则 [DB/OL].&lt;a href=&#34;https://baike.baidu.com/item/%E6%9C%80%E5%B0%8F%E6%9D%83%E9%99%90%E5%8E%9F%E5%88%99&#34;&gt;https://baike.baidu.com/item/最小权限原则&lt;/a&gt;,2019-12-06/2021-06-08&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210608-mavenlearn/#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/categories/miscellany/" term="Miscellany" label="Miscellany" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/categories/coding/" term="Coding" label="Coding" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/tags/maven/" term="Maven" label="Maven" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/tags/notes/" term="Notes" label="Notes" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">Rust学习 01</title>
             <link rel="alternate" type="text/html" href="https://blogs.qarks.top/post/20210605-rustlearn-01/" />
@@ -314,6 +871,12 @@ cargo run                 &lt;span class=&#34;c1&#34;&gt;# 运行项目&lt;/span
                             
                             
                             
+                                <category scheme="https://blogs.qarks.top/categories/notes/" term="Notes" label="Notes" />
+                            
+                        
+                            
+                            
+                            
                                 <category scheme="https://blogs.qarks.top/categories/rust/" term="Rust" label="Rust" />
                             
                         
@@ -497,6 +1060,12 @@ c* = t = 99
                             
                             
                                 <category scheme="https://blogs.qarks.top/categories/miscellany/" term="Miscellany" label="Miscellany" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/categories/coding/" term="Coding" label="Coding" />
                             
                         
                     
