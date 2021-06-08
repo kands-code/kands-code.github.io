@@ -1,5 +1,5 @@
 ---
-title: "学习Maven"
+title: "Maven基础操作"
 date: 2021-06-08T17:04:24+08:00
 lastmod: 2021-06-08T17:04:24+08:00
 draft: false

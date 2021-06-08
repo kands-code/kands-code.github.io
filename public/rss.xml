@@ -23,13 +23,13 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Tue, 08 Jun 2021 19:44:41 &#43;0800</lastBuildDate>
+        <lastBuildDate>Tue, 08 Jun 2021 19:45:22 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blogs.qarks.top/rss.xml" />
         
         
             <item>
-                <title>学习Maven</title>
+                <title>Maven基础操作</title>
                 <link>https://blogs.qarks.top/post/20210608-mavenlearn/</link>
                 <guid isPermaLink="true">https://blogs.qarks.top/post/20210608-mavenlearn/</guid>
                 <pubDate>Tue, 08 Jun 2021 17:04:24 &#43;0800</pubDate>

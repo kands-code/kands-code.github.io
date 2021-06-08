@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn">
     <title type="text">Kevin Stephen&#39;s blog</title>
     <subtitle type="html">看世间百态，品百味人生</subtitle>
-    <updated>2021-06-08T19:44:41&#43;08:00</updated>
+    <updated>2021-06-08T19:45:22&#43;08:00</updated>
     <id>https://blogs.qarks.top/</id>
     <link rel="alternate" type="text/html" href="https://blogs.qarks.top/" />
     <link rel="self" type="application/atom&#43;xml" href="https://blogs.qarks.top/atom.xml" />
@@ -17,7 +17,7 @@
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
     <generator uri="https://gohugo.io/" version="0.83.1">Hugo</generator>
         <entry>
-            <title type="text">学习Maven</title>
+            <title type="text">Maven基础操作</title>
             <link rel="alternate" type="text/html" href="https://blogs.qarks.top/post/20210608-mavenlearn/" />
             <id>https://blogs.qarks.top/post/20210608-mavenlearn/</id>
             <updated>2021-06-08T17:04:24&#43;08:00</updated>
