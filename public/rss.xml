@@ -23,10 +23,264 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Tue, 08 Jun 2021 19:45:22 &#43;0800</lastBuildDate>
+        <lastBuildDate>Thu, 10 Jun 2021 17:51:19 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blogs.qarks.top/rss.xml" />
         
+        
+            <item>
+                <title>Rust学习 02</title>
+                <link>https://blogs.qarks.top/post/20210610-rustlearn-02/</link>
+                <guid isPermaLink="true">https://blogs.qarks.top/post/20210610-rustlearn-02/</guid>
+                <pubDate>Thu, 10 Jun 2021 16:49:51 &#43;0800</pubDate>
+                
+                    <author>kands-code@qq.com (Kevin Stephen)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;p&gt;从这一章的标题，&lt;strong&gt;Common Programming Concepts&lt;/strong&gt;，我们就可以清晰地看出这一章讲的是&lt;code&gt;Rust&lt;/code&gt;这门编程语言的基础内容，即 &lt;em&gt;变量&lt;/em&gt;，&lt;em&gt;函数&lt;/em&gt; 等等概念&lt;/p&gt;
+&lt;p&gt;我们这篇博客讲的是&lt;code&gt;Rust&lt;/code&gt;中的变量&lt;/p&gt;
+&lt;h2 id=&#34;变量与可变性&#34;&gt;变量与可变性&lt;/h2&gt;
+&lt;p&gt;在编程语言中，变量，通常意味着一块有命名的，可以存储一定数据的空间，并且在大多数编程语言中，即使这个空间的大小不可以改变，其中存储的内容也是可以改变的，而不能改变的那部分，我们称其为常量&lt;/p&gt;
+&lt;p&gt;而在&lt;code&gt;Rust&lt;/code&gt;里，这个就有点区别了，在&lt;code&gt;Rust&lt;/code&gt;中，“变量”默认是不可变的 (immutable)，一旦变量与一个值&lt;strong&gt;绑定&lt;/strong&gt;后，你就不能改变这个变量的值了&lt;/p&gt;
+&lt;p&gt;我们可以用一小段代码来验证一下&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span class=&#34;k&#34;&gt;fn&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;The value of x is: {}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;6&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;The value of x is: {}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;通过&lt;code&gt;rustc&lt;/code&gt;编译，我们就会得到这样一个报错&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;kands@ksc ~/Downloads 17:04&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;$&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; yes &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+In&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;6&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; rustc main.rs
+Out&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;6&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+error&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;E0384&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;: cannot assign twice to immutable variable &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;x&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;
+ --&amp;gt; main.rs:4:5
+  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;     &lt;span class=&#34;nb&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; 5&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;         -
+  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;         &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;         first assignment to &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;x&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;         help: make this binding mutable: &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;mut x&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;
+&lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;     println!&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;The value of x is: {}&amp;#34;&lt;/span&gt;, x&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;     &lt;span class=&#34;nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; 6&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;     ^^^^^ cannot assign twice to immutable variable
+
+error: aborting due to previous error
+
+For more information about this error, try &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;rustc --explain E0384&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;前文就有提到，&lt;code&gt;Rust&lt;/code&gt;的编译器是极为智能的，它清晰地指出了我们的错误，&lt;strong&gt;cannot assign twice to immutable variable&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;Rust&lt;/code&gt;中，变量默认是不可变的，既然不可变，就不能够二次赋值 (assign)，所以它在这里提醒我们不能给不可变量二次赋值，即重复绑定&lt;/p&gt;
+&lt;p&gt;如果要改变&lt;code&gt;x&lt;/code&gt;的值，可以用之前的办法，即将&lt;code&gt;x&lt;/code&gt;改成可变的，在声明变量时，我们在前面加一个&lt;code&gt;mut&lt;/code&gt;表示可变变量，这样，这个变量就可以重复赋值了&lt;/p&gt;
+&lt;p&gt;即&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;kands@ksc ~/Downloads 17:12&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;$&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; yes &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+In&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;9&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; cat main.rs
+Out&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;9&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+fn main&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nb&#34;&gt;let&lt;/span&gt; mut &lt;span class=&#34;nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; 5&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    println!&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;The value of x is: {}&amp;#34;&lt;/span&gt;, x&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; 6&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    println!&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;The value of x is: {}&amp;#34;&lt;/span&gt;, x&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;kands@ksc ~/Downloads 17:12&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;$&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; yes &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+In&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;10&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; rustc main.rs
+Out&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;10&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;kands@ksc ~/Downloads 17:12&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;$&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; yes &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+In&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;11&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; ./main
+Out&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;11&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+The value of x is: &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;
+The value of x is: &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这样，我们的代码就正确执行了&lt;/p&gt;
+&lt;p&gt;为什么在&lt;code&gt;Rust&lt;/code&gt;中要区分可变变量和不可变变量呢？&lt;/p&gt;
+&lt;p&gt;因为这是可能出现 &lt;em&gt;bug&lt;/em&gt; 的地方，&lt;code&gt;Rust&lt;/code&gt;出于安全考虑，设计成了可变和不可变，就是为了防止一些变量本来存储了一个值，不能够改变，但在无意之中被其他程序给改变的情况，因为这种错误是极难被发现的&lt;/p&gt;
+&lt;p&gt;如果你想让这个变量改变，那就需要显式的声明这个变量是可变的，否则就是不可变的，这样就不用担心某个变量的值在不经意间被其他代码给改变的情况了&lt;/p&gt;
+&lt;h2 id=&#34;变量和常量的区别&#34;&gt;变量和常量的区别&lt;/h2&gt;
+&lt;p&gt;之前提到了，在&lt;code&gt;Rust&lt;/code&gt;中，变量默认是不可变的，而常量也是不可变的，那么这样的变量和常量又有什么区别呢？&lt;/p&gt;
+&lt;p&gt;首先，你不能在常量前加&lt;code&gt;mut&lt;/code&gt;使其变得可变，常量一直是不可变的，而变量仅是默认不可变，但还是可以改变的&lt;/p&gt;
+&lt;p&gt;要声明一个常量，可以使用&lt;code&gt;const&lt;/code&gt;关键字，同时，是什么类型的量也需要说明，即 &lt;code&gt;const X: u16 = 10;&lt;/code&gt; 这种形式&lt;/p&gt;
+&lt;p&gt;还有一个关键点就是常量的值一定是一个不变的表达式，即一个确定的值，而不是像函数的返回值那样，只有在运行时才能得到其返回值&lt;/p&gt;
+&lt;p&gt;常量在整个程序的运行期间，在其定义的作用域间，都是有效的&lt;/p&gt;
+&lt;h2 id=&#34;shadowing&#34;&gt;Shadowing&lt;/h2&gt;
+&lt;p&gt;这个概念在其他语言里几乎见不到，在&lt;code&gt;Rust&lt;/code&gt;中，你可以声明一个重复的变量，同时，新声明的变量会掩盖掉之前那个变量的值&lt;/p&gt;
+&lt;p&gt;对于这样一段代码，在其他语言里，妥妥的是错误的，重复声明变量，而在&lt;code&gt;Rust&lt;/code&gt;中，由于&lt;code&gt;Shadowing&lt;/code&gt;机制，这样做是可以的&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span class=&#34;k&#34;&gt;fn&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;The value of x is: {}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我们编译运行一下看看结果&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;kands@ksc ~/Downloads 17:39&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;$&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; yes &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+In&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;15&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; rustc main.rs
+Out&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;15&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;kands@ksc ~/Downloads 17:39&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;$&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; yes &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+In&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;16&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; ./main
+Out&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;16&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+The value of x is: &lt;span class=&#34;m&#34;&gt;36&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;结果如我们预期一样，$x = (5 + 1) ^ 2 = 36$&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Shadowing&lt;/code&gt;与我们之前将变量设为&lt;code&gt;mut&lt;/code&gt;来改变变量的值不一样，我们在&lt;code&gt;let&lt;/code&gt;的时候就是创建了一个新的变量，同时，我们可以改变这个变量的值甚至是类型&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;spaces&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;    &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;spaces&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;spaces&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;第二个&lt;code&gt;spaces&lt;/code&gt;由字符串变成了整形，如果我们用&lt;code&gt;mut&lt;/code&gt;来做，就会得到一个报错&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;error&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;E0308&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;: mismatched types
+ --&amp;gt; main.rs:3:14
+  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;     &lt;span class=&#34;nv&#34;&gt;spaces&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; spaces.len&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;              ^^^^^^^^^^^^ expected &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;amp;&lt;/span&gt;str&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;, found &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;usize&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;
+
+error: aborting due to previous error
+
+For more information about this error, try &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;rustc --explain E0308&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;这就是我们今天要讲的内容，&lt;code&gt;Rust&lt;/code&gt;中的变量，希望能够帮你理清楚&lt;code&gt;Rust&lt;/code&gt;变量的规则&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://blogs.qarks.top/categories/notes/">Notes</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://blogs.qarks.top/categories/rust/">Rust</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://blogs.qarks.top/tags/rust/">Rust</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://blogs.qarks.top/tags/notes/">Notes</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Maven基础操作</title>
