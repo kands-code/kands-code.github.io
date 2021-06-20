@@ -2,11 +2,35 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blogs.qarks.top/</loc>
+    <lastmod>2021-06-20T09:57:10+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/tags/mariadb/</loc>
+    <lastmod>2021-06-20T09:40:43+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/tags/notes/</loc>
+    <lastmod>2021-06-20T09:57:10+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/categories/notes/</loc>
+    <lastmod>2021-06-20T09:40:43+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/tags/postgresql/</loc>
+    <lastmod>2021-06-20T09:40:43+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/tags/sql/</loc>
+    <lastmod>2021-06-20T09:40:43+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/categories/sql/</loc>
+    <lastmod>2021-06-20T09:40:43+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/post/20210620-sqllearn-01/</loc>
+    <lastmod>2021-06-20T09:40:43+08:00</lastmod>
+  </url><url>
     <loc>https://blogs.qarks.top/tags/c/</loc>
     <lastmod>2021-06-19T11:43:07+08:00</lastmod>
   </url><url>
     <loc>https://blogs.qarks.top/categories/coding/</loc>
-    <lastmod>2021-06-19T11:43:07+08:00</lastmod>
+    <lastmod>2021-06-20T09:57:10+08:00</lastmod>
   </url><url>
     <loc>https://blogs.qarks.top/tags/examples/</loc>
     <lastmod>2021-06-19T11:43:07+08:00</lastmod>
@@ -14,11 +38,8 @@
     <loc>https://blogs.qarks.top/tags/go/</loc>
     <lastmod>2021-06-19T11:43:07+08:00</lastmod>
   </url><url>
-    <loc>https://blogs.qarks.top/</loc>
-    <lastmod>2021-06-19T11:43:07+08:00</lastmod>
-  </url><url>
     <loc>https://blogs.qarks.top/categories/miscellany/</loc>
-    <lastmod>2021-06-19T11:43:07+08:00</lastmod>
+    <lastmod>2021-06-20T09:57:10+08:00</lastmod>
   </url><url>
     <loc>https://blogs.qarks.top/tags/python/</loc>
     <lastmod>2021-06-19T11:43:07+08:00</lastmod>
@@ -29,12 +50,6 @@
     <loc>https://blogs.qarks.top/post/20210619-a-funny-game/</loc>
     <lastmod>2021-06-19T11:43:07+08:00</lastmod>
   </url><url>
-    <loc>https://blogs.qarks.top/tags/notes/</loc>
-    <lastmod>2021-06-10T16:49:51+08:00</lastmod>
-  </url><url>
-    <loc>https://blogs.qarks.top/categories/notes/</loc>
-    <lastmod>2021-06-10T16:49:51+08:00</lastmod>
-  </url><url>
     <loc>https://blogs.qarks.top/categories/rust/</loc>
     <lastmod>2021-06-10T16:49:51+08:00</lastmod>
   </url><url>
@@ -42,10 +57,10 @@
     <lastmod>2021-06-10T16:49:51+08:00</lastmod>
   </url><url>
     <loc>https://blogs.qarks.top/tags/maven/</loc>
-    <lastmod>2021-06-08T17:04:24+08:00</lastmod>
+    <lastmod>2021-06-20T09:57:10+08:00</lastmod>
   </url><url>
     <loc>https://blogs.qarks.top/post/20210608-mavenlearn/</loc>
-    <lastmod>2021-06-08T17:04:24+08:00</lastmod>
+    <lastmod>2021-06-20T09:57:10+08:00</lastmod>
   </url><url>
     <loc>https://blogs.qarks.top/tags/</loc>
     <lastmod>2021-06-05T14:54:51+08:00</lastmod>
@@ -64,9 +79,6 @@
   </url><url>
     <loc>https://blogs.qarks.top/tags/scope/</loc>
     <lastmod>2021-06-04T18:06:24+08:00</lastmod>
-  </url><url>
-    <loc>https://blogs.qarks.top/about/</loc>
-    <lastmod>2021-06-05T14:49:38+08:00</lastmod>
   </url><url>
     <loc>https://blogs.qarks.top/tags/blogs/</loc>
     <lastmod>2021-06-04T13:04:51+08:00</lastmod>
