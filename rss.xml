@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Thu, 01 Jul 2021 18:20:01 &#43;0800</lastBuildDate>
+        <lastBuildDate>Thu, 01 Jul 2021 18:29:53 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blogs.qarks.top/rss.xml" />
         
@@ -209,6 +209,7 @@ $2 = 0.121
 &lt;/div&gt;&lt;p&gt;这里，&lt;code&gt;(display &amp;lt;obj&amp;gt;)&lt;/code&gt;用于在屏幕输出东西，而&lt;code&gt;(newline)&lt;/code&gt;用于输出换行&lt;/p&gt;
 &lt;p&gt;我们定义了两个变量，&lt;code&gt;radius&lt;/code&gt;和&lt;code&gt;pi&lt;/code&gt;，之后使用这两个变量进行运算，将算出来的结果绑定到&lt;code&gt;areaSize&lt;/code&gt;上，最后输出了这个值&lt;/p&gt;
 &lt;p&gt;这里，&lt;code&gt;(* pi radius radius)&lt;/code&gt;还可以写作&lt;code&gt;(* pi (* radius radius))&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;对于一个较复杂的程序，会有很多这样的绑定，或者说对应关系，要管理他们，我们可以使用环境 (Environment)，这在之后会提到&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;本次博客的内容到这里就结束了，这算是对这个系列开了个头，之后我会按照这个方式继续讲解这本书&lt;/p&gt;
 &lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;

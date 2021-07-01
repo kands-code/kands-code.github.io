@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn">
     <title type="text">Kevin Stephen&#39;s blog</title>
     <subtitle type="html">看世间百态，品百味人生</subtitle>
-    <updated>2021-07-01T18:20:01&#43;08:00</updated>
+    <updated>2021-07-01T18:29:53&#43;08:00</updated>
     <id>https://blogs.qarks.top/</id>
     <link rel="alternate" type="text/html" href="https://blogs.qarks.top/" />
     <link rel="self" type="application/atom&#43;xml" href="https://blogs.qarks.top/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">SICP 读书笔记 01</title>
             <link rel="alternate" type="text/html" href="https://blogs.qarks.top/post/20210701-sicp01/" />
             <id>https://blogs.qarks.top/post/20210701-sicp01/</id>
-            <updated>2021-07-01T15:39:14&#43;08:00</updated>
+            <updated>2021-07-01T18:29:09&#43;08:00</updated>
             <published>2021-07-01T15:39:14&#43;08:00</published>
             <author>
                     <name>Kevin Stephen</name>
@@ -200,6 +200,7 @@ $2 = 0.121
 &lt;/div&gt;&lt;p&gt;这里，&lt;code&gt;(display &amp;lt;obj&amp;gt;)&lt;/code&gt;用于在屏幕输出东西，而&lt;code&gt;(newline)&lt;/code&gt;用于输出换行&lt;/p&gt;
 &lt;p&gt;我们定义了两个变量，&lt;code&gt;radius&lt;/code&gt;和&lt;code&gt;pi&lt;/code&gt;，之后使用这两个变量进行运算，将算出来的结果绑定到&lt;code&gt;areaSize&lt;/code&gt;上，最后输出了这个值&lt;/p&gt;
 &lt;p&gt;这里，&lt;code&gt;(* pi radius radius)&lt;/code&gt;还可以写作&lt;code&gt;(* pi (* radius radius))&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;对于一个较复杂的程序，会有很多这样的绑定，或者说对应关系，要管理他们，我们可以使用环境 (Environment)，这在之后会提到&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;本次博客的内容到这里就结束了，这算是对这个系列开了个头，之后我会按照这个方式继续讲解这本书&lt;/p&gt;
 &lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
