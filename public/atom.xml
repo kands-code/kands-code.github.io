@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn">
     <title type="text">Kevin Stephen&#39;s blog</title>
     <subtitle type="html">看世间百态，品百味人生</subtitle>
-    <updated>2021-06-21T00:46:55&#43;08:00</updated>
+    <updated>2021-07-01T18:20:01&#43;08:00</updated>
     <id>https://blogs.qarks.top/</id>
     <link rel="alternate" type="text/html" href="https://blogs.qarks.top/" />
     <link rel="self" type="application/atom&#43;xml" href="https://blogs.qarks.top/atom.xml" />
@@ -15,7 +15,261 @@
                 <email>kands-code@qq.com</email>
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
-    <generator uri="https://gohugo.io/" version="0.84.0">Hugo</generator>
+    <generator uri="https://gohugo.io/" version="0.84.3">Hugo</generator>
+        <entry>
+            <title type="text">SICP 读书笔记 01</title>
+            <link rel="alternate" type="text/html" href="https://blogs.qarks.top/post/20210701-sicp01/" />
+            <id>https://blogs.qarks.top/post/20210701-sicp01/</id>
+            <updated>2021-07-01T15:39:14&#43;08:00</updated>
+            <published>2021-07-01T15:39:14&#43;08:00</published>
+            <author>
+                    <name>Kevin Stephen</name>
+                    <uri>https://blogs.qarks.top/</uri>
+                    <email>kands-code@qq.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">难得假期，就一起来读读SICP这本书吧</summary>
+            
+                <content type="html">&lt;p&gt;拼了一个月终于考完了，但是成绩极度不理想，不过这也算是自食其果，没什么好抱怨的，只能期待能够顺利毕业拿到学位证了&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;为什么要学习 &lt;em&gt;SICP&lt;/em&gt; 呢？主要是想了解一下计算机的一些基础知识，更多的是想要了解一下&lt;strong&gt;Lisp&lt;/strong&gt;，或者说&lt;strong&gt;Scheme&lt;/strong&gt;这门语言&lt;/p&gt;
+&lt;p&gt;SCIP，全称是 &lt;em&gt;Structure and Interpretation of Computer Programs&lt;/em&gt;，从标题我们就可以知道，这是本教我们如何构建程序的书，但这本书和其他上手就教我们如何构建一个实在的程序的书不一样，这本书主要是介绍了一种思想，如何去构思一个程序，需要注意什么&lt;/p&gt;
+&lt;h2 id=&#34;environment&#34;&gt;Environment&lt;/h2&gt;
+&lt;p&gt;环境搭建，关于这本书的代码和实现基本上是使用 &lt;em&gt;Scheme&lt;/em&gt; 语言的&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Scheme的哲学是：设计计算机语言不应该进行功能的堆砌，而应该尽可能减少弱点和限制，使剩下的功能显得必要。Scheme是第一个使用静态作用域的Lisp方言，也是第一个引入“干净宏”和第一类续延的编程语言。 &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210701-sicp01/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;MIT-Scheme&lt;/code&gt;是他们实际使用的语言，所以使用这个就足够了，但是由于MIT-Scheme不支持Windows了，所以需要想一个办法，比较好的替代方案就是&lt;code&gt;Racket&lt;/code&gt;这个语言，也是 &lt;em&gt;Scheme&lt;/em&gt; 的一种实现，但是更加现代，支持很多新的特性，主要用于语言设计，可以设计一些 &lt;em&gt;DSL&lt;/em&gt;，Domain Special Language&lt;/p&gt;
+&lt;p&gt;相较于传统的Scheme或Lisp，Racket的优势之一就是有&lt;code&gt;raco pkg&lt;/code&gt;这样的工具支持，可以下载库和包，也就是支持语言拓展&lt;/p&gt;
+&lt;p&gt;对于SICP，我们既可以使用Racket语言，也可以通过&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;raco pkg install sicp
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;下载相应的语言支持&lt;/p&gt;
+&lt;p&gt;Racket需要指明你使用的是哪门语言，故在编写相关的Racket代码的时候需要使用&lt;code&gt;#lang&lt;/code&gt;来指定语言&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-racket&#34; data-lang=&#34;racket&#34;&gt;&lt;span class=&#34;kn&#34;&gt;#lang &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;racket&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;;; 使用Racket语言&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;或者使用SICP语言规范&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-racket&#34; data-lang=&#34;racket&#34;&gt;&lt;span class=&#34;kn&#34;&gt;#lang &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;sicp&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;;; 使用与SICP配套的语言规范&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;比较推荐的包还有&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;racket-langserver&lt;/code&gt; LSP后端，可以配合vscode或者(n)vim来使用&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;r5rs&lt;/code&gt;, &lt;code&gt;r6sr&lt;/code&gt;, &lt;code&gt;r7sr&lt;/code&gt; 几种语言规范，详情可以参考这里：&lt;a href=&#34;https://docs.racket-lang.org/r5rs/&#34;&gt;r5rs&lt;/a&gt;, &lt;a href=&#34;https://docs.racket-lang.org/r6rs/&#34;&gt;r6rs&lt;/a&gt;, &lt;a href=&#34;https://www.gnu.org/software/guile/manual/html_node/R7RS-Standard-Libraries.html&#34;&gt;r7rs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;plait&lt;/code&gt; 一种Racket &lt;em&gt;方言&lt;/em&gt;，主要用于教学&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;除此之外，在Linux和MacOS中，你还可以选择是guile，gnu实现的一个scheme，来完成本书的习题，基本上是足够的&lt;/p&gt;
+&lt;h2 id=&#34;chapter-01----building-abstractions-with-procedures&#34;&gt;Chapter 01 -- Building Abstractions with Procedures&lt;/h2&gt;
+&lt;p&gt;这一章，从标题就可以得到两个很重要的信息，第一个是 &lt;em&gt;Abstraction&lt;/em&gt;，要构建抽象，说明这一章讲的是如何抽象&lt;/p&gt;
+&lt;p&gt;第二个就是 &lt;em&gt;Procedure&lt;/em&gt;，步骤，这与 &lt;em&gt;Process&lt;/em&gt; 是区分的，在之后会讲到&lt;/p&gt;
+&lt;p&gt;正如书中所言，“We are about tp study the idea of a computational process”，这算是对本章最好的总结，我们要学习如何 &lt;em&gt;计算&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;在第一小节的前面还提到了软件工程，软件工程师们需要能将软件的运行过程可视化 (visualize) 出来，并且需要知道怎样做才能避免一些意料之外的 （unanticipated) 不会导致程序崩溃，并且需要能够debug，修改errors (glitches, bugs)&lt;/p&gt;
+&lt;h3 id=&#34;programming-in-lisp&#34;&gt;Programming in Lisp&lt;/h3&gt;
+&lt;p&gt;本章是介绍Lisp的优势和特点，Lisp能够描述过程 (processes)，这就是为什么真本书选择了Lisp作为主要语言，但实际上使用的是&lt;code&gt;MIT-Scheme&lt;/code&gt;，Scheme算是Lisp的一种实现，但是在一些细节上与Lisp有所不同，比如在Lisp的基本的7个表达式或操作中，有一个用于判断是否是原子表达式的操作或表达式，ATOM，但是在Scheme中没有实现这个方法，他们使用了另一种方式，详情可以参考&lt;a href=&#34;http://hyperpolyglot.wikidot.com/lisp&#34;&gt;这里&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;当然，你可以手动实现这个操作&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-racket&#34; data-lang=&#34;racket&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;define&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;atom?&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;null?&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+       &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pair?&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这段代码的具体含义我之后会提，现在不懂也没关系&lt;/p&gt;
+&lt;h3 id=&#34;the-elements-of-programming&#34;&gt;The Elements of Programming&lt;/h3&gt;
+&lt;p&gt;这里开始介绍一些编程的具体概念，首先是编程的要素&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;primitive expression&lt;/p&gt;
+&lt;p&gt;原始表达式，即预先定义好的一些操作，其余操作都可以由这些原始表达式实现&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;means of combination&lt;/p&gt;
+&lt;p&gt;如何将这些要素结合起来，与要一种方法，或者说规范&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;means of abstraction&lt;/p&gt;
+&lt;p&gt;如何抽象，这是极为关键的，我们需要一种抽象的方法来抽象出一些操作以完成更复杂的事情&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以上三点就是书中描述的编程的基本要素 (Elements)&lt;/p&gt;
+&lt;h4 id=&#34;expressions&#34;&gt;Expressions&lt;/h4&gt;
+&lt;p&gt;表达式，可以说就是一个值，在百度百科里是这样定义的&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;表达式，是由数字、算符、数字分组符号（括号）、自由变量和约束变量等以能求得数值的有意义排列方法所得的组合。约束变量在表达式中已被指定数值，而自由变量则可以在表达式之外另行指定数值。&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210701-sicp01/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在Scheme中，数字是一种原始表达式，如果你在Scheme的interpreter里输入一个数字，他会将对这个数字 &lt;em&gt;evaluate&lt;/em&gt; 后得到的值返回，通常会原样输出&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ racket # 以racket为例
+Welcome to Racket v8.1 [cs].
+&amp;gt; 468
+468
+&amp;gt; 1.200
+1.2
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;退出racket解释器，使用&lt;code&gt;,exit&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;其中&lt;code&gt;$ &lt;/code&gt;是Linux中shell的默认提示符 (prompt)，而&lt;code&gt;&amp;gt; &lt;/code&gt;是racket的提示符&lt;/p&gt;
+&lt;p&gt;你还可以使用guile&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ guile
+GNU Guile 2.2.7
+Copyright (C) 1995-2019 Free Software Foundation, Inc.
+
+Guile comes with ABSOLUTELY NO WARRANTY; for details type `,show w&#39;.
+This program is free software, and you are welcome to redistribute it
+under certain conditions; type `,show c&#39; for details.
+
+Enter `,help&#39; for help.
+scheme@(guile-user)&amp;gt; 386
+$1 = 386
+scheme@(guile-user)&amp;gt; 0.1210
+$2 = 0.121
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;退出guile使用&lt;code&gt;,q&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;guile中&lt;code&gt;scheme@(guile-user)&amp;gt; &lt;/code&gt;是他的默认提示符，下面输出前使用了&lt;code&gt;$&amp;lt;n&amp;gt;&lt;/code&gt;这种格式说明是第几个输出&lt;/p&gt;
+&lt;p&gt;使用操作符号，在Scheme中，加减乘除都有很好定义，就是&lt;code&gt;+&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;, &lt;code&gt;*&lt;/code&gt;, &lt;code&gt;/&lt;/code&gt;，但是没有定义通常编程语言里会定义的取余&lt;/p&gt;
+&lt;p&gt;在Scheme里，或者说Lisp系里，一般的表达式之间结合 (combine) 的格式是&lt;code&gt;(&amp;lt;operator&amp;gt; &amp;lt;operands&amp;gt;)&lt;/code&gt;，operands就是操作符operator要操作的对象
+，可以是多个，也可以只是一个，例如:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;gt; (+ 2 3)
+5
+&amp;gt; (- 2 3)
+-1
+&amp;gt; (* 2 3)
+6
+&amp;gt; (/ 2 3)
+2/3
+&amp;gt; (/ 2.0 3)
+0.6666666666666666
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;注意到对于除法，如果两个操作数都是整数，那么将返回一个整数或分数，而一旦有一个操作数是浮点数，也就是小数，那么就会返回一个小数，精度为机器精度&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210701-sicp01/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;，Scheme中&lt;strong&gt;整数&lt;/strong&gt;的长度&lt;strong&gt;没有限制&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;通过复合表达式，我们可以算出来一个值，我们可以将这个值作为一个operand参与运算&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-racket&#34; data-lang=&#34;racket&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+         &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))&lt;/span&gt;
+   &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+      &lt;span class=&#34;mi&#34;&gt;6&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;对于比较复杂的复合表达式，括号比较多，不便于阅读，故可以使用缩进的方式使其变得较为美观，这叫做 &lt;em&gt;pretty-printing&lt;/em&gt;&lt;/p&gt;
+&lt;h4 id=&#34;naming-and-the-environment&#34;&gt;Naming and the Environment&lt;/h4&gt;
+&lt;p&gt;一般而言，对于编程语言都有个 &lt;em&gt;变量&lt;/em&gt; 的概念，Scheme中也有，变量的定义方式是&lt;code&gt;(define &amp;lt;nams&amp;gt; &amp;lt;value&amp;gt;)&lt;/code&gt;，定义变量后我们就可以使用他们了，例如:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-racket&#34; data-lang=&#34;racket&#34;&gt;&lt;span class=&#34;kn&#34;&gt;#lang &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;sicp&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;define&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;radius&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;define&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;pi&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;3.1415926&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;define&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;areaSize&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;pi&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;radius&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;radius&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;display&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;areaSize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;newline&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里，&lt;code&gt;(display &amp;lt;obj&amp;gt;)&lt;/code&gt;用于在屏幕输出东西，而&lt;code&gt;(newline)&lt;/code&gt;用于输出换行&lt;/p&gt;
+&lt;p&gt;我们定义了两个变量，&lt;code&gt;radius&lt;/code&gt;和&lt;code&gt;pi&lt;/code&gt;，之后使用这两个变量进行运算，将算出来的结果绑定到&lt;code&gt;areaSize&lt;/code&gt;上，最后输出了这个值&lt;/p&gt;
+&lt;p&gt;这里，&lt;code&gt;(* pi radius radius)&lt;/code&gt;还可以写作&lt;code&gt;(* pi (* radius radius))&lt;/code&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;本次博客的内容到这里就结束了，这算是对这个系列开了个头，之后我会按照这个方式继续讲解这本书&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;Wikipedia.Scheme [DB/OL] &lt;a href=&#34;https://zh.wikipedia.org/wiki/Scheme&#34;&gt;https://zh.wikipedia.org/wiki/Scheme&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210701-sicp01/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;百度百科.表达式 [DB/OL] &lt;a href=&#34;https://baike.baidu.com/item/%E8%A1%A8%E8%BE%BE%E5%BC%8F&#34;&gt;https://baike.baidu.com/item/表达式&lt;/a&gt;,2021-01-27/2021-07-01&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210701-sicp01/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;IEEE.IEEE754 [DB/OL] &lt;a href=&#34;https://standards.ieee.org/standard/60559-2020.html&#34;&gt;https://standards.ieee.org/standard/60559-2020.html&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210701-sicp01/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/categories/notes/" term="Notes" label="Notes" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/categories/sicp/" term="SICP" label="SICP" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/tags/sicp/" term="SICP" label="SICP" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/tags/lisp/" term="Lisp" label="Lisp" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/tags/scheme/" term="Scheme" label="Scheme" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/tags/notes/" term="Notes" label="Notes" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">C Primer Plus Chapter12 01</title>
             <link rel="alternate" type="text/html" href="https://blogs.qarks.top/post/20210620-cprimerplus-ch12-01/" />
