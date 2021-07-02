@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn">
     <title type="text">Kevin Stephen&#39;s blog</title>
     <subtitle type="html">看世间百态，品百味人生</subtitle>
-    <updated>2021-07-02T10:39:50&#43;08:00</updated>
+    <updated>2021-07-02T17:40:06&#43;08:00</updated>
     <id>https://blogs.qarks.top/</id>
     <link rel="alternate" type="text/html" href="https://blogs.qarks.top/" />
     <link rel="self" type="application/atom&#43;xml" href="https://blogs.qarks.top/atom.xml" />
@@ -16,6 +16,695 @@
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
     <generator uri="https://gohugo.io/" version="0.84.4">Hugo</generator>
+        <entry>
+            <title type="text">SQL 语句学习 02</title>
+            <link rel="alternate" type="text/html" href="https://blogs.qarks.top/post/20210702-sqllearn-02/" />
+            <id>https://blogs.qarks.top/post/20210702-sqllearn-02/</id>
+            <updated>2021-07-02T17:39:03&#43;08:00</updated>
+            <published>2021-07-02T10:44:22&#43;08:00</published>
+            <author>
+                    <name>Kevin Stephen</name>
+                    <uri>https://blogs.qarks.top/</uri>
+                    <email>kands-code@qq.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">继续来看看数据库</summary>
+            
+                <content type="html">&lt;p&gt;好，我们继续学习数据库操作&lt;/p&gt;
+&lt;h2 id=&#34;数据库操作&#34;&gt;数据库操作&lt;/h2&gt;
+&lt;h3 id=&#34;查看建表语句&#34;&gt;查看建表语句&lt;/h3&gt;
+&lt;p&gt;有时候我们拿到一个数据库想要对其中某张表进行分析，当我们想要知道这张表是如何被创建的，这时候我们可以去查看这张表的建表语句&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;MariaDB&lt;/code&gt;中，查看建表语句可以使用&lt;code&gt;SHOW CREATE TABLE &amp;lt;table-name&amp;gt;&lt;/code&gt;的方式&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;MariaDB [learnsql]&amp;gt; show create table EMP;
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                         |
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| EMP   | CREATE TABLE `EMP` (
+  `EMPNO` int(11) NOT NULL,
+  `ENAME` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `JOB` varchar(9) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `MGR` int(11) DEFAULT NULL,
+  `HIREDATE` date DEFAULT NULL,
+  `SAL` double DEFAULT NULL,
+  `COMM` double DEFAULT NULL,
+  `DEPTNO` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`EMPNO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;而在&lt;code&gt;PostgreSQL&lt;/code&gt;里情况不太一样，官方给出在数据库内查看建标语句的方式，但是提供了&lt;code&gt;pg_dump&lt;/code&gt;工具帮助我们分析&lt;/p&gt;
+&lt;p&gt;我们可以在数据库外使用&lt;code&gt;pg_dump -st &amp;lt;table-name&amp;gt; &amp;lt;db-name&amp;gt;&lt;/code&gt;的方式查询建表语句&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[kands@ksc ~/Documents/Tcodes/racket/sicp-src/chapter01 12:39] [$] [ yes ]
+In[21]:= pg_dump -st emp learnpostgresql
+Out[21]:=
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.3
+-- Dumped by pg_dump version 13.3
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = &#39;UTF8&#39;;
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config(&#39;search_path&#39;, &#39;&#39;, false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = &#39;&#39;;
+
+SET default_table_access_method = heap;
+
+--
+-- Name: emp; Type: TABLE; Schema: public; Owner: kands
+--
+
+CREATE TABLE public.emp (
+    empno integer NOT NULL,
+    ename character varying(10),
+    job character varying(9),
+    mgr integer,
+    hiredate date,
+    sal real,
+    comm real,
+    deptno smallint
+);
+
+
+ALTER TABLE public.emp OWNER TO kands;
+
+--
+-- Name: emp emp_pkey; Type: CONSTRAINT; Schema: public; Owner: kands
+--
+
+ALTER TABLE ONLY public.emp
+    ADD CONSTRAINT emp_pkey PRIMARY KEY (empno);
+
+
+--
+-- PostgreSQL database dump complete
+--
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;同样也能达到我们的目的&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;PostgreSQL&lt;/code&gt;还有种了解数据库中某张表的信息的方法，那就是查询&lt;code&gt;information_schema.columns&lt;/code&gt;这张表，这张表会返回&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;table_catalog  | table_schema | table_name | column_name | ordinal_position | column_default | is_nullable |     data_type     | character_maximum_length | character_octet_length | numeri
+c_precision | numeric_precision_radix | numeric_scale | datetime_precision | interval_type | interval_precision | character_set_catalog | character_set_schema | character_set_name | collati
+on_catalog | collation_schema | collation_name | domain_catalog | domain_schema | domain_name |   udt_catalog   | udt_schema | udt_name | scope_catalog | scope_schema | scope_name | maximum
+_cardinality | dtd_identifier | is_self_referencing | is_identity | identity_generation | identity_start | identity_increment | identity_maximum | identity_minimum | identity_cycle | is_gen
+erated | generation_expression | is_updatable
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这么多信息，我们一般查询可以使用&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-postgresql&#34; data-lang=&#34;postgresql&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;
+   &lt;span class=&#34;n&#34;&gt;table_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+   &lt;span class=&#34;n&#34;&gt;column_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+   &lt;span class=&#34;n&#34;&gt;data_type&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;
+   &lt;span class=&#34;n&#34;&gt;information_schema&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;WHERE&lt;/span&gt;
+   &lt;span class=&#34;n&#34;&gt;table_name&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;lt;your-table-name&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;例如查询表&lt;code&gt;emp&lt;/code&gt;，它将返回&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; table_name | column_name |     data_type
+------------+-------------+-------------------
+ emp        | deptno      | smallint
+ emp        | comm        | real
+ emp        | empno       | integer
+ emp        | mgr         | integer
+ emp        | hiredate    | date
+ emp        | sal         | real
+ emp        | ename       | character varying
+ emp        | job         | character varying
+(8 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们也能给根据这个信息再配合上&lt;code&gt;\d &amp;lt;table-name&amp;gt;&lt;/code&gt;复写出这张表的建表语句，不过没有&lt;code&gt;pg_dump&lt;/code&gt;来得直接&lt;/p&gt;
+&lt;h2 id=&#34;查询语句-dql&#34;&gt;查询语句 DQL&lt;/h2&gt;
+&lt;p&gt;之前的所谓命令基本上都是单个数据库所特有的，而非通用的，例如查询建表语句，&lt;code&gt;MairaDB&lt;/code&gt;与&lt;code&gt;PostgreSQL&lt;/code&gt;可谓是截然不同&lt;/p&gt;
+&lt;p&gt;但是，不同关系数据库间的SQL语句的使用却是通用的，虽然实现和性能上还是有所差异&lt;/p&gt;
+&lt;p&gt;从查询开始，就是SQL语句的讲解了&lt;/p&gt;
+&lt;h3 id=&#34;简单查询&#34;&gt;简单查询&lt;/h3&gt;
+&lt;p&gt;之前说了，字段就是表的一列，体现的是表的一个特征，如何从一张表中查询特定字段的信息呢？&lt;/p&gt;
+&lt;p&gt;在SQL中，简单查询可以使用如下格式&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-postgresql&#34; data-lang=&#34;postgresql&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;field01&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;field02&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;mf&#34;&gt;...&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;field&lt;/code&gt;就是字段的意思&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;例如查询&lt;code&gt;emp&lt;/code&gt;表&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210702-sqllearn-02/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;中的&lt;code&gt;empno&lt;/code&gt;和&lt;code&gt;ename&lt;/code&gt;这两个字段，则可以使用&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT
+learnpostgresql-# EMPNO,
+learnpostgresql-# ENAME
+learnpostgresql-# FROM
+learnpostgresql-# EMP;
+ empno | ename
+-------+--------
+  7369 | SMITH
+  7499 | ALLEN
+  7521 | WARD
+  7566 | JONES
+  7654 | MARTIN
+  7698 | BLAKE
+  7782 | CLARK
+  7788 | SCOTT
+  7839 | KING
+  7844 | TURNER
+  7876 | ADAMS
+  7900 | JAMES
+  7902 | FORD
+  7934 | MILLER
+(14 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这样我们就查询出来了，注意到，我这里使用的是全大写，在SQL语句规范里，应该使用全大写的，而SQL语句本身是&lt;strong&gt;不区分大小写的&lt;/strong&gt;，哪怕你写成&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-postgresql&#34; data-lang=&#34;postgresql&#34;&gt;&lt;span class=&#34;k&#34;&gt;sElEct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;EmpNo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;eNaMe&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;fRoM&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;emP&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;它也能查询出来对应信息&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# sElEct EmpNo, eNaMe fRoM emP;
+ empno | ename
+-------+--------
+  7369 | SMITH
+  7499 | ALLEN
+  7521 | WARD
+  7566 | JONES
+  7654 | MARTIN
+  7698 | BLAKE
+  7782 | CLARK
+  7788 | SCOTT
+  7839 | KING
+  7844 | TURNER
+  7876 | ADAMS
+  7900 | JAMES
+  7902 | FORD
+  7934 | MILLER
+(14 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;需要注意以下信息&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每条SQL语句&lt;strong&gt;都要以&lt;/strong&gt;&lt;code&gt;;&lt;/code&gt;结尾&lt;/li&gt;
+&lt;li&gt;字段名之间需要使用&lt;code&gt;,&lt;/code&gt;隔开&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;不要使用全角符号&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;使用全角符号，这算是很多初学者的通病了，分不清中文符号和英文符号的区别&lt;/p&gt;
+&lt;p&gt;这里需要说明一下的就是，这里的&lt;code&gt;SELECT&lt;/code&gt;和&lt;code&gt;FROM&lt;/code&gt;都是SQL语句的关键字，&lt;code&gt;SELECT&lt;/code&gt;表示你要提取的信息，&lt;code&gt;FROM&lt;/code&gt;表示你的信息源，从哪里，哪张表提取信息&lt;/p&gt;
+&lt;h4 id=&#34;例查询员工年薪&#34;&gt;例：查询员工年薪&lt;/h4&gt;
+&lt;p&gt;我们这张表里记载的是员工的月薪，如果想要查询员工的年薪&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210702-sqllearn-02/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;那该怎么办呢？&lt;/p&gt;
+&lt;p&gt;在SQL中，字段是可以参与简单的数学运算的，包括加减乘除，&lt;code&gt;+&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;, &lt;code&gt;*&lt;/code&gt;, &lt;code&gt;/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;所以在这里，年薪约等于就是月薪乘上12，故可以使用&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-postgresql&#34; data-lang=&#34;postgresql&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ENAME&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SAL&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;12&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;EMP&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;结果将返回&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT ENAME, SAL * 12 FROM EMP;
+ ename  | ?column?
+--------+----------
+ SMITH  |     9600
+ ALLEN  |    19200
+ WARD   |    15000
+ JONES  |    35700
+ MARTIN |    15000
+ BLAKE  |    34200
+ CLARK  |    29400
+ SCOTT  |    36000
+ KING   |    60000
+ TURNER |    18000
+ ADAMS  |    13200
+ JAMES  |    11400
+ FORD   |    36000
+ MILLER |    15600
+(14 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;注意到，在返回的表中参与运算的字段名是&lt;code&gt;?column?&lt;/code&gt;，这是我们不想看到的，我们想要得到一个更加明确的字段名&lt;/p&gt;
+&lt;p&gt;给返回的表中的字段重命名可以使用&lt;code&gt;AS&lt;/code&gt;关键字&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT
+    &amp;lt;field01&amp;gt; AS &amp;lt;new-field01&amp;gt;,
+    &amp;lt;field02&amp;gt; AS &amp;lt;new-field02&amp;gt;
+    ...
+FROM
+    &amp;lt;table-name&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;故我们可以给&lt;code&gt;SAL * 12&lt;/code&gt;重命名一下&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-postgresql&#34; data-lang=&#34;postgresql&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ENAME&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;员工名&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SAL&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;12&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;年薪&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;EMP&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;字段名在&lt;code&gt;MySQL&lt;/code&gt;中如果含中文需要使用单引号&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210702-sqllearn-02/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;引起来，在&lt;code&gt;MariaDB&lt;/code&gt;以及&lt;code&gt;PostgreSQL&lt;/code&gt;中都不需要&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;关于引号&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;PostgreSQL&lt;/code&gt;中，单引号用来标识值，双引号用来标识表名或字段名，故在&lt;code&gt;PostgreSQL&lt;/code&gt;中需要使用双引号，而在&lt;code&gt;MySQL&lt;/code&gt;以及&lt;code&gt;MariaDB&lt;/code&gt;中，但双引号都可以表示值，而使用反引号 &#39; ` &#39; 来标识系统标识符，如表名和字段名&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210702-sqllearn-02/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;，如果在&lt;code&gt;PostgreSQL&lt;/code&gt;中对字段名使用了单引号，那么将会报错&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT ENAME AS &#39;员工名&#39;, SAL * 12 AS 年薪 FROM EMP;
+ERROR:  syntax error at or near &amp;quot;&#39;员工名&#39;&amp;quot;
+第1行SELECT ENAME AS &#39;员工名&#39;, SAL * 12 AS 年薪 FROM EMP;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;而应该使用双引号&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT ENAME AS &amp;quot;员工名&amp;quot;, SAL * 12 AS &amp;quot;年薪&amp;quot; FROM EMP;
+ 员工名 | 年薪
+--------+-------
+ SMITH  |  9600
+ ALLEN  | 19200
+ WARD   | 15000
+ JONES  | 35700
+ MARTIN | 15000
+ BLAKE  | 34200
+ CLARK  | 29400
+ SCOTT  | 36000
+ KING   | 60000
+ TURNER | 18000
+ ADAMS  | 13200
+ JAMES  | 11400
+ FORD   | 36000
+ MILLER | 15600
+(14 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;/blockquote&gt;
+&lt;p&gt;当然，在这里&lt;code&gt;AS&lt;/code&gt;关键字可以省略，使用空格替代&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-postgresql&#34; data-lang=&#34;postgresql&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ENAME&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;员工名&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SAL&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;12&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;年薪&amp;#34;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;EMP&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里的&lt;code&gt;&amp;quot;年薪&amp;quot;&lt;/code&gt;&lt;strong&gt;不是&lt;/strong&gt;字符串值，而是一个系统标识符，这里要格外注意&lt;/p&gt;
+&lt;h3 id=&#34;条件查询&#34;&gt;条件查询&lt;/h3&gt;
+&lt;p&gt;有时候我们不需要查询一个字段内的所有内容，而是要将满足条件的某些内容挑选出来，这时候就需要使用条件查询了&lt;/p&gt;
+&lt;p&gt;条件查询的基本格式如下&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-postgresql&#34; data-lang=&#34;postgresql&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;field01&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;field01&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;field02&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;field02&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;mf&#34;&gt;...&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;WHERE&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cond&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;条件查询需要使用&lt;code&gt;WHERE&lt;/code&gt;关键字指明我们查询的条件是什么&lt;/p&gt;
+&lt;p&gt;这里的&lt;strong&gt;执行顺序&lt;/strong&gt;是，先&lt;code&gt;FROM&lt;/code&gt;找到我们要查询的表，之后使用&lt;code&gt;WHERE&lt;/code&gt;将满足条件的部分选出，最后使用&lt;code&gt;SELECT&lt;/code&gt;将选出的内容组合成一张新表返回&lt;/p&gt;
+&lt;h4 id=&#34;例查询工资等于5000的员工的姓名&#34;&gt;例：查询工资等于5000的员工的姓名&lt;/h4&gt;
+&lt;p&gt;条件&lt;code&gt;&amp;lt;cond&amp;gt;&lt;/code&gt;在这里是&lt;code&gt;SAL = 5000&lt;/code&gt;，故可以使用如下方式&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT ENAME AS &amp;quot;员工姓名&amp;quot; FROM EMP WHERE SAL = &#39;5000&#39;;
+ 员工姓名
+----------
+ KING
+(1 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;注意，在SQL中相等是&lt;code&gt;=&lt;/code&gt;而不是&lt;code&gt;==&lt;/code&gt;，值使用引号括起来比直接使用要安全一点，引起来后值本身不会受到影响，例如&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT &#39;11&#39; * 2;
+ ?column?
+----------
+       22
+(1 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;他会根据你的运算或需要来判断是否是字符串还是一个值，算是自动推断类型 (?)&lt;/p&gt;
+&lt;p&gt;非字符串值可以不使用引号，而对于字符串值，如果不用引号，PostgreSQL默认会将其识别为一个字段 (field, column) 而不是字符串，故必须使用引号&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;例查询smith的工资&#34;&gt;例：查询Smith的工资&lt;/h4&gt;
+&lt;p&gt;这里的条件是&lt;code&gt;ENAME = &#39;SMITH&#39;&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT SAL AS &amp;quot;薪水&amp;quot; FROM EMP WHERE ENAME = &#39;SMITH&#39;;
+ 薪水
+------
+  800
+(1 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;其他条件&#34;&gt;其他条件&lt;/h4&gt;
+&lt;p&gt;对于大于小于都和其他语言一样,&lt;code&gt;&amp;lt;&lt;/code&gt;, &lt;code&gt;&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;gt;=&lt;/code&gt;, &lt;code&gt;&amp;lt;=&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;对于不等，有两种写法，一是使用&lt;code&gt;!=&lt;/code&gt;，其次你可以使用&lt;code&gt;NOT FOO=&#39;BAR&#39;&lt;/code&gt;，使用&lt;code&gt;NOT&lt;/code&gt;关键字来使条件取反，当然，还可以使用&lt;code&gt;&amp;lt;&amp;gt;&lt;/code&gt;这样的操作表示不相等，既大于又小于，就是不等于&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT ENAME AS &amp;quot;员工姓名&amp;quot;, SAL AS &amp;quot;薪水&amp;quot; FROM EMP WHERE ENAME != &#39;SMITH&#39;;
+ 员工姓名 | 薪水
+----------+------
+ ALLEN    | 1600
+ WARD     | 1250
+ JONES    | 2975
+ MARTIN   | 1250
+ BLAKE    | 2850
+ CLARK    | 2450
+ SCOTT    | 3000
+ KING     | 5000
+ TURNER   | 1500
+ ADAMS    | 1100
+ JAMES    |  950
+ FORD     | 3000
+ MILLER   | 1300
+(13 行记录)
+
+learnpostgresql=# SELECT ENAME AS &amp;quot;员工姓名&amp;quot;, SAL AS &amp;quot;薪水&amp;quot; FROM EMP WHERE NOT ENAME = &#39;SMITH&#39;;
+ 员工姓名 | 薪水
+----------+------
+ ALLEN    | 1600
+ WARD     | 1250
+ JONES    | 2975
+ MARTIN   | 1250
+ BLAKE    | 2850
+ CLARK    | 2450
+ SCOTT    | 3000
+ KING     | 5000
+ TURNER   | 1500
+ ADAMS    | 1100
+ JAMES    |  950
+ FORD     | 3000
+ MILLER   | 1300
+(13 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;多个条件可以使用&lt;code&gt;AND&lt;/code&gt;,  &lt;code&gt;OR&lt;/code&gt;来判断，而对于在某个范围内的值，可以使用&lt;code&gt;BETWEEN &amp;lt;lb&amp;gt; AND &amp;lt;ub&amp;gt;&lt;/code&gt;，这是表明数据是在闭区间 $[lb, ub]$ 里的值，要想要这个查询有意义，需要 $lb \leq ub$&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT ENAME AS &amp;quot;员工姓名&amp;quot;, SAL AS &amp;quot;薪水&amp;quot; FROM EMP WHERE SAL BETWEEN &#39;1100&#39; AND &#39;3000&#39;;
+ 员工姓名 | 薪水
+----------+------
+ ALLEN    | 1600
+ WARD     | 1250
+ JONES    | 2975
+ MARTIN   | 1250
+ BLAKE    | 2850
+ CLARK    | 2450
+ SCOTT    | 3000
+ TURNER   | 1500
+ ADAMS    | 1100
+ FORD     | 3000
+ MILLER   | 1300
+(11 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;还有&lt;code&gt;IS&lt;/code&gt;, &lt;code&gt;IN&lt;/code&gt;和&lt;code&gt;LIKE&lt;/code&gt;这三个查询关键字&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;IS&lt;/code&gt;用来判断是否为空的，使用方法为&lt;code&gt;WHERE FOO IS NULL&lt;/code&gt;，判断不为空则使用&lt;code&gt;IS NOT NULL&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT * FROM EMP WHERE COMM IS NOT NULL;
+ empno | ename  |   job    | mgr  |  hiredate  | sal  | comm | deptno
+-------+--------+----------+------+------------+------+------+--------
+  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600 |  300 |     30
+  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1250 |  500 |     30
+  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250 | 1400 |     30
+  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500 |    0 |     30
+(4 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;IN&lt;/code&gt;用来判断是否在某个范围里，使用方法为&lt;code&gt;WHERE FOO IN (&#39;BAR&#39;, &#39;EGG&#39;, ...)&lt;/code&gt;，相反使用&lt;code&gt;NOT IN&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT ENAME AS &amp;quot;员工姓名&amp;quot;, SAL AS &amp;quot;薪水&amp;quot;, DEPTNO AS &amp;quot;部门编号&amp;quot; FROM EMP WHERE DEPTNO IN (&#39;20&#39;, &#39;30&#39;) AND SAL &amp;gt; 1000;
+ 员工姓名 | 薪水 | 部门编号
+----------+------+----------
+ ALLEN    | 1600 |       30
+ WARD     | 1250 |       30
+ JONES    | 2975 |       20
+ MARTIN   | 1250 |       30
+ BLAKE    | 2850 |       30
+ SCOTT    | 3000 |       20
+ TURNER   | 1500 |       30
+ ADAMS    | 1100 |       20
+ FORD     | 3000 |       20
+(9 行记录)
+
+learnpostgresql=# SELECT ENAME AS &amp;quot;员工姓名&amp;quot;, SAL AS &amp;quot;薪水&amp;quot;, DEPTNO AS &amp;quot;部门编号&amp;quot; FROM EMP WHERE DEPTNO NOT IN (&#39;20&#39;, &#39;30&#39;) AND SAL &amp;gt; 1000;
+ 员工姓名 | 薪水 | 部门编号
+----------+------+----------
+ CLARK    | 2450 |       10
+ KING     | 5000 |       10
+ MILLER   | 1300 |       10
+(3 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;LIKE&lt;/code&gt;用来模糊查询，用于字符串的匹配查询，&lt;code&gt;%&lt;/code&gt; 表示多个字符，&lt;code&gt;_&lt;/code&gt; 表示一个字符，还有&lt;code&gt;[]&lt;/code&gt;表示匹配其中的&lt;strong&gt;任一&lt;/strong&gt;字符，&lt;code&gt;[^]&lt;/code&gt;表示不匹配其中的字符&lt;/p&gt;
+&lt;p&gt;例如查询名字中含有‘O’或‘S’的员工&lt;/p&gt;
+&lt;p&gt;这在&lt;code&gt;MariaDB&lt;/code&gt;中可以这样&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;MariaDB [learnsql]&amp;gt; SELECT * FROM EMP WHERE ENAME REGEXP &#39;[OS]&#39;;
++-------+-------+---------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+---------+------+------------+------+------+--------+
+|  7369 | SMITH | CLERK   | 7902 | 1980-12-17 |  800 | NULL |     20 |
+|  7566 | JONES | MANAGER | 7839 | 1981-04-02 | 2975 | NULL |     20 |
+|  7788 | SCOTT | ANALYST | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7876 | ADAMS | CLERK   | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | JAMES | CLERK   | 7698 | 1981-12-03 |  950 | NULL |     30 |
+|  7902 | FORD  | ANALYST | 7566 | 1981-12-03 | 3000 | NULL |     20 |
++-------+-------+---------+------+------------+------+------+--------+
+6 rows in set (0.000 sec)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这在&lt;code&gt;PostgreSQL&lt;/code&gt;中可以这样&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT * FROM EMP WHERE ENAME LIKE &#39;%O%&#39; OR ENAME LIKE &#39;%S%&#39;;
+ empno | ename |   job   | mgr  |  hiredate  | sal  | comm | deptno
+-------+-------+---------+------+------------+------+------+--------
+  7369 | SMITH | CLERK   | 7902 | 1980-12-17 |  800 |      |     20
+  7566 | JONES | MANAGER | 7839 | 1981-04-02 | 2975 |      |     20
+  7788 | SCOTT | ANALYST | 7566 | 1987-04-19 | 3000 |      |     20
+  7876 | ADAMS | CLERK   | 7788 | 1987-05-23 | 1100 |      |     20
+  7900 | JAMES | CLERK   | 7698 | 1981-12-03 |  950 |      |     30
+  7902 | FORD  | ANALYST | 7566 | 1981-12-03 | 3000 |      |     20
+(6 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;PostgreSQL也是支持正则表达式匹配的，有&lt;code&gt;regexp_match&lt;/code&gt;，之后有机会我会将这些用法集中再讲一下的&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;对于&lt;code&gt;AND&lt;/code&gt;和&lt;code&gt;OR&lt;/code&gt;的优先级，可以看这样一个例子&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;learnpostgresql=# SELECT ENAME AS &amp;quot;员工姓名&amp;quot;, SAL AS &amp;quot;薪水&amp;quot;, DEPTNO AS &amp;quot;部门编号&amp;quot; FROM EMP WHERE DEPTNO = 30 OR DEPTNO = 20 AND SAL &amp;gt; 1000;
+ 员工姓名 | 薪水 | 部门编号
+----------+------+----------
+ ALLEN    | 1600 |       30
+ WARD     | 1250 |       30
+ JONES    | 2975 |       20
+ MARTIN   | 1250 |       30
+ BLAKE    | 2850 |       30
+ SCOTT    | 3000 |       20
+ TURNER   | 1500 |       30
+ ADAMS    | 1100 |       20
+ JAMES    |  950 |       30
+ FORD     | 3000 |       20
+(10 行记录)
+
+learnpostgresql=# SELECT ENAME AS &amp;quot;员工姓名&amp;quot;, SAL AS &amp;quot;薪水&amp;quot;, DEPTNO AS &amp;quot;部门编号&amp;quot; FROM EMP WHERE DEPTNO = 20 OR DEPTNO = 30 AND SAL &amp;gt; 1000;
+ 员工姓名 | 薪水 | 部门编号
+----------+------+----------
+ SMITH    |  800 |       20
+ ALLEN    | 1600 |       30
+ WARD     | 1250 |       30
+ JONES    | 2975 |       20
+ MARTIN   | 1250 |       30
+ BLAKE    | 2850 |       30
+ SCOTT    | 3000 |       20
+ TURNER   | 1500 |       30
+ ADAMS    | 1100 |       20
+ FORD     | 3000 |       20
+(10 行记录)
+
+learnpostgresql=# SELECT ENAME AS &amp;quot;员工姓名&amp;quot;, SAL AS &amp;quot;薪水&amp;quot;, DEPTNO AS &amp;quot;部门编号&amp;quot; FROM EMP WHERE (DEPTNO = 20 OR DEPTNO = 30) AND SAL &amp;gt; 1000;
+ 员工姓名 | 薪水 | 部门编号
+----------+------+----------
+ ALLEN    | 1600 |       30
+ WARD     | 1250 |       30
+ JONES    | 2975 |       20
+ MARTIN   | 1250 |       30
+ BLAKE    | 2850 |       30
+ SCOTT    | 3000 |       20
+ TURNER   | 1500 |       30
+ ADAMS    | 1100 |       20
+ FORD     | 3000 |       20
+(9 行记录)
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;第一次查询&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-postgresql&#34; data-lang=&#34;postgresql&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;ENAME&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;员工姓名&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;SAL&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;薪水&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;DEPTNO&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;部门编号&amp;#34;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;EMP&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;WHERE&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;DEPTNO&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;30&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;OR&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;DEPTNO&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;20&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AND&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SAL&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;等价于查询 &lt;em&gt;部门编号等于20且薪资大于1000的员工&lt;/em&gt; 或 &lt;em&gt;编号等于30&lt;/em&gt; 的员工&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;第二次查询&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-postgresql&#34; data-lang=&#34;postgresql&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;ENAME&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;员工姓名&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;SAL&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;薪水&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;DEPTNO&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;部门编号&amp;#34;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;EMP&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;WHERE&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;DEPTNO&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;20&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;OR&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;DEPTNO&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;30&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AND&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SAL&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;等价于查询 &lt;em&gt;部门编号等于30且薪资大于1000的员工&lt;/em&gt; 或 &lt;em&gt;编号等于20&lt;/em&gt; 的员工&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;第三次查询&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-postgresql&#34; data-lang=&#34;postgresql&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;ENAME&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;员工姓名&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;SAL&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;薪水&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;DEPTNO&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;部门编号&amp;#34;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;EMP&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;WHERE&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DEPTNO&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;20&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;OR&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DEPTNO&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;AND&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;SAL&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;等价于查询 &lt;em&gt;部门编号等于20或30的员工&lt;/em&gt; 并且 &lt;em&gt;员工薪资需要大于1000&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通过这三次查询可以知道，在同时出现的情况下，条件优先与&lt;code&gt;AND&lt;/code&gt;结合，结合后的条件才会与&lt;code&gt;OR&lt;/code&gt;结合&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;在不确定优先级的情况下可通过加括号来规范&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;好了，本次查询语句的内容暂时告一段落，谢谢大家的阅读&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;表的内容的大小写依据你实际创建出来的表为准，我这里都是大写&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210702-sqllearn-02/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;不考虑奖金等因素&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210702-sqllearn-02/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;SQL规范中，&lt;strong&gt;值&lt;/strong&gt;是使用单引号引起来的&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210702-sqllearn-02/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;PostgreSQLWiki.Things to find out about when moving from MySQL to PostgreSQL [EB/OL].&lt;a href=&#34;https://wiki.postgresql.org/wiki/Things_to_find_out_about_when_moving_from_MySQL_to_PostgreSQL&#34;&gt;https://wiki.postgresql.org/wiki/Things_to_find_out_about_when_moving_from_MySQL_to_PostgreSQL&lt;/a&gt;,2013-07-12/2021-07-02&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210702-sqllearn-02/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/categories/notes/" term="Notes" label="Notes" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/categories/sql/" term="SQL" label="SQL" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/tags/sql/" term="SQL" label="SQL" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/tags/mariadb/" term="MariaDB" label="MariaDB" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/tags/postgresql/" term="PostgreSQL" label="PostgreSQL" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blogs.qarks.top/tags/notes/" term="Notes" label="Notes" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">SICP 读书笔记 01</title>
             <link rel="alternate" type="text/html" href="https://blogs.qarks.top/post/20210701-sicp01/" />
@@ -75,7 +764,7 @@
 &lt;li&gt;&lt;code&gt;plait&lt;/code&gt; 一种Racket &lt;em&gt;方言&lt;/em&gt;，主要用于教学&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;除此之外，在Linux和MacOS中，你还可以选择是guile，gnu实现的一个scheme，来完成本书的习题，基本上是足够的&lt;/p&gt;
-&lt;h2 id=&#34;chapter-01----building-abstractions-with-procedures&#34;&gt;Chapter 01 -- Building Abstractions with Procedures&lt;/h2&gt;
+&lt;h2 id=&#34;chapter01-building-abstractions-with-procedures&#34;&gt;Chapter01 Building Abstractions with Procedures&lt;/h2&gt;
 &lt;p&gt;这一章，从标题就可以得到两个很重要的信息，第一个是 &lt;em&gt;Abstraction&lt;/em&gt;，要构建抽象，说明这一章讲的是如何抽象&lt;/p&gt;
 &lt;p&gt;第二个就是 &lt;em&gt;Procedure&lt;/em&gt;，步骤，这与 &lt;em&gt;Process&lt;/em&gt; 是区分的，在之后会讲到&lt;/p&gt;
 &lt;p&gt;正如书中所言，“We are about tp study the idea of a computational process”，这算是对本章最好的总结，我们要学习如何 &lt;em&gt;计算&lt;/em&gt;&lt;/p&gt;

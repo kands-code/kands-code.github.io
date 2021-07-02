@@ -3,15 +3,30 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://blogs.qarks.top/</loc>
-    <lastmod>2021-07-02T10:39:15+08:00</lastmod>
+    <lastmod>2021-07-02T17:39:03+08:00</lastmod>
   </url><url>
-    <loc>https://blogs.qarks.top/tags/lisp/</loc>
-    <lastmod>2021-07-02T10:39:15+08:00</lastmod>
+    <loc>https://blogs.qarks.top/tags/mariadb/</loc>
+    <lastmod>2021-07-02T17:39:03+08:00</lastmod>
   </url><url>
     <loc>https://blogs.qarks.top/tags/notes/</loc>
-    <lastmod>2021-07-02T10:39:15+08:00</lastmod>
+    <lastmod>2021-07-02T17:39:03+08:00</lastmod>
   </url><url>
     <loc>https://blogs.qarks.top/categories/notes/</loc>
+    <lastmod>2021-07-02T17:39:03+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/tags/postgresql/</loc>
+    <lastmod>2021-07-02T17:39:03+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/tags/sql/</loc>
+    <lastmod>2021-07-02T17:39:03+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/categories/sql/</loc>
+    <lastmod>2021-07-02T17:39:03+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/post/20210702-sqllearn-02/</loc>
+    <lastmod>2021-07-02T17:39:03+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/tags/lisp/</loc>
     <lastmod>2021-07-02T10:39:15+08:00</lastmod>
   </url><url>
     <loc>https://blogs.qarks.top/tags/scheme/</loc>
@@ -43,18 +58,6 @@
   </url><url>
     <loc>https://blogs.qarks.top/tags/storage/</loc>
     <lastmod>2021-06-20T21:52:23+08:00</lastmod>
-  </url><url>
-    <loc>https://blogs.qarks.top/tags/mariadb/</loc>
-    <lastmod>2021-06-20T09:40:43+08:00</lastmod>
-  </url><url>
-    <loc>https://blogs.qarks.top/tags/postgresql/</loc>
-    <lastmod>2021-06-20T09:40:43+08:00</lastmod>
-  </url><url>
-    <loc>https://blogs.qarks.top/tags/sql/</loc>
-    <lastmod>2021-06-20T09:40:43+08:00</lastmod>
-  </url><url>
-    <loc>https://blogs.qarks.top/categories/sql/</loc>
-    <lastmod>2021-06-20T09:40:43+08:00</lastmod>
   </url><url>
     <loc>https://blogs.qarks.top/post/20210620-sqllearn-01/</loc>
     <lastmod>2021-06-20T09:40:43+08:00</lastmod>
@@ -106,6 +109,9 @@
   </url><url>
     <loc>https://blogs.qarks.top/post/20210604-scope-of-if-statement/</loc>
     <lastmod>2021-06-04T18:06:24+08:00</lastmod>
+  </url><url>
+    <loc>https://blogs.qarks.top/about/</loc>
+    <lastmod>2021-07-02T11:04:34+08:00</lastmod>
   </url><url>
     <loc>https://blogs.qarks.top/tags/blogs/</loc>
     <lastmod>2021-06-04T13:04:51+08:00</lastmod>
