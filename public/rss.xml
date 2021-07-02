@@ -10,7 +10,7 @@
         <title>Kevin Stephen&#39;s blog</title>
         <link>https://blogs.qarks.top/</link>
         <description>看世间百态，品百味人生</description>
-        <generator>Hugo 0.84.3 https://gohugo.io/</generator>
+        <generator>Hugo 0.84.4 https://gohugo.io/</generator>
         
             <language>zh-cn</language>
         
@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Thu, 01 Jul 2021 18:29:53 &#43;0800</lastBuildDate>
+        <lastBuildDate>Fri, 02 Jul 2021 10:39:50 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blogs.qarks.top/rss.xml" />
         
@@ -47,7 +47,7 @@
 &lt;blockquote&gt;
 &lt;p&gt;Scheme的哲学是：设计计算机语言不应该进行功能的堆砌，而应该尽可能减少弱点和限制，使剩下的功能显得必要。Scheme是第一个使用静态作用域的Lisp方言，也是第一个引入“干净宏”和第一类续延的编程语言。 &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210701-sicp01/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;code&gt;MIT-Scheme&lt;/code&gt;是他们实际使用的语言，所以使用这个就足够了，但是由于MIT-Scheme不支持Windows了，所以需要想一个办法，比较好的替代方案就是&lt;code&gt;Racket&lt;/code&gt;这个语言，也是 &lt;em&gt;Scheme&lt;/em&gt; 的一种实现，但是更加现代，支持很多新的特性，主要用于语言设计，可以设计一些 &lt;em&gt;DSL&lt;/em&gt;，Domain Special Language&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;MIT-Scheme&lt;/code&gt;是他们实际使用的语言，所以使用这个就足够了，但是由于MIT-Scheme不支持Windows了，所以需要想一个办法，比较好的替代方案就是&lt;code&gt;Racket&lt;/code&gt;这个语言，也是 &lt;em&gt;Scheme&lt;/em&gt; 的一种实现，但是更加现代，支持很多新的特性，主要用于语言设计，可以设计一些 &lt;em&gt;DSL&lt;/em&gt;，Domain-Specific Language&lt;/p&gt;
 &lt;p&gt;相较于传统的Scheme或Lisp，Racket的优势之一就是有&lt;code&gt;raco pkg&lt;/code&gt;这样的工具支持，可以下载库和包，也就是支持语言拓展&lt;/p&gt;
 &lt;p&gt;对于SICP，我们既可以使用Racket语言，也可以通过&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
