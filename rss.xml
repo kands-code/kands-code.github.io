@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Fri, 02 Jul 2021 17:40:06 &#43;0800</lastBuildDate>
+        <lastBuildDate>Sat, 03 Jul 2021 10:12:24 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blogs.qarks.top/rss.xml" />
         
@@ -60,7 +60,7 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
 +-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 1 row in set (0.000 sec)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;而在&lt;code&gt;PostgreSQL&lt;/code&gt;里情况不太一样，官方给出在数据库内查看建标语句的方式，但是提供了&lt;code&gt;pg_dump&lt;/code&gt;工具帮助我们分析&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;而在&lt;code&gt;PostgreSQL&lt;/code&gt;里情况不太一样，官方没有给出在数据库内查看建标语句的方式，但是提供了&lt;code&gt;pg_dump&lt;/code&gt;工具帮助我们分析&lt;/p&gt;
 &lt;p&gt;我们可以在数据库外使用&lt;code&gt;pg_dump -st &amp;lt;table-name&amp;gt; &amp;lt;db-name&amp;gt;&lt;/code&gt;的方式查询建表语句&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[kands@ksc ~/Documents/Tcodes/racket/sicp-src/chapter01 12:39] [$] [ yes ]
 In[21]:= pg_dump -st emp learnpostgresql
@@ -277,7 +277,7 @@ learnpostgresql-# EMP;
  FORD   |    36000
  MILLER |    15600
 (14 行记录)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;注意到，在返回的表中参与运算的字段名是&lt;code&gt;?column?&lt;/code&gt;，这是我们不想看到的，我们想要得到一个更加明确的字段名&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;注意到，在参与运算后返回的表中字段名是&lt;code&gt;?column?&lt;/code&gt;，这是我们不想看到的，我们想要得到一个更加明确的字段名&lt;/p&gt;
 &lt;p&gt;给返回的表中的字段重命名可以使用&lt;code&gt;AS&lt;/code&gt;关键字&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;SELECT
     &amp;lt;field01&amp;gt; AS &amp;lt;new-field01&amp;gt;,
