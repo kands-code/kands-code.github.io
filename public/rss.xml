@@ -10,7 +10,7 @@
         <title>Kevin Stephen&#39;s blog</title>
         <link>https://blogs.qarks.top/</link>
         <description>看世间百态，品百味人生</description>
-        <generator>Hugo 0.84.4 https://gohugo.io/</generator>
+        <generator>Hugo 0.85.0 https://gohugo.io/</generator>
         
             <language>zh-cn</language>
         
@@ -23,10 +23,263 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sat, 03 Jul 2021 13:50:31 &#43;0800</lastBuildDate>
+        <lastBuildDate>Wed, 07 Jul 2021 20:22:56 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blogs.qarks.top/rss.xml" />
         
+        
+            <item>
+                <title>计算机三级 Linux 01</title>
+                <link>https://blogs.qarks.top/post/20210707-nrclinuxexam01/</link>
+                <guid isPermaLink="true">https://blogs.qarks.top/post/20210707-nrclinuxexam01/</guid>
+                <pubDate>Wed, 07 Jul 2021 12:44:11 &#43;0800</pubDate>
+                
+                    <author>kands-code@qq.com (Kevin Stephen)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;h2 id=&#34;计算机体系结构与操作系统&#34;&gt;计算机体系结构与操作系统&lt;/h2&gt;
+&lt;p&gt;这章算是操作系统相关的基础知识，但是如果是之前从未接触过相关知识的人来说，这些东西都是全新的，而且多而杂，很难去记忆，算是块硬骨头&lt;/p&gt;
+&lt;h3 id=&#34;计算机科学与计算机系统&#34;&gt;计算机科学与计算机系统&lt;/h3&gt;
+&lt;h4 id=&#34;计算科学&#34;&gt;计算科学&lt;/h4&gt;
+&lt;p&gt;计算机科学，或者计算科学，CS，是一门控制复杂度的学科&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;the techniques used to control the intellectual complexity of large software systems&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210707-nrclinuxexam01/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;对于计算机，书上说这样描述的&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;计算机本身是一个&lt;strong&gt;软硬件结合&lt;/strong&gt;的复杂系统，用来进行信息的计算处理，存储和传输，从而解决现实世界中与 &lt;em&gt;计算&lt;/em&gt; 相关的各种实际问题&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这里的计算，或者说 &lt;em&gt;Computing&lt;/em&gt;，是有别于我们日常的计算 (Calculation) 的&lt;/p&gt;
+&lt;p&gt;计算被定义为了: “&lt;strong&gt;&lt;mark&gt;任何需要创建或使用计算机的活动&lt;/mark&gt;&lt;/strong&gt;，包括为广泛的应用目的而设计和构建软硬件系统，处理、存储和管理各种类型的信息，使用计算机进行科学计算，使计算机系统智能地运行，创建和使用通信和娱乐媒体，查找和收集与特定目的相关的信息等，实际上这个列表是可能无限扩展的”&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原文：&lt;/p&gt;
+&lt;p&gt;Computing is any goal-oriented activity requiring, benefiting from, or creating computing machinery. It includes the study and experimentation of algorithmic processes and development of both hardware and software. It has scientific, engineering, mathematical, technological and social aspects. Major computing disciplines include computer engineering, computer science, cybersecurity, data science, information systems, information technology and software engineering.&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://blogs.qarks.top/post/20210707-nrclinuxexam01/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;可见计算本身是和计算机分不开的&lt;/p&gt;
+&lt;p&gt;人类进行科学研究，在计算机技术发展之前，都是依靠理论研究和科学实验的，但计算机发展之后，计算分析成为了第三种方式&lt;/p&gt;
+&lt;p&gt;即，&lt;mark&gt;科学研究有三种手段，&lt;em&gt;理论研究&lt;/em&gt;，&lt;em&gt;科学实验&lt;/em&gt; 和 &lt;em&gt;计算分析&lt;/em&gt;&lt;/mark&gt;&lt;/p&gt;
+&lt;h4 id=&#34;图灵机与计算机系统&#34;&gt;图灵机与计算机系统&lt;/h4&gt;
+&lt;p&gt;&lt;em&gt;图灵机&lt;/em&gt; 是图灵 (Alan Mathison Turing, 1912-1954) 于1936年发表的《论数字计算在决断难题中的应用》论文中提出的 &lt;strong&gt;理想模型&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;图灵机由一条可向两端无限延伸且被划分为一个个小格子的纸带、一个控制器和一个可以在带子上左右移动的读写头组成&lt;/p&gt;
+&lt;p&gt;图灵机的所有状态数目是&lt;strong&gt;有限的&lt;/strong&gt;，并且有个特殊的状态，停机 (halting) 状态&lt;/p&gt;
+&lt;p&gt;&lt;mark&gt;一切合理的计算模型都等同于图灵机&lt;/mark&gt;，所以我们可以用图灵机模型去模拟估计一个实际的计算模型&lt;/p&gt;
+&lt;p&gt;意义:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;证明了通用计算理论，肯定了计算机实现的可能性&lt;/li&gt;
+&lt;li&gt;引入了读写，算法与程序语言的概念&lt;/li&gt;
+&lt;li&gt;计算极限为通用图灵机的极限&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;真正实现计算机的是冯·诺依曼 (John vo Neumann, 1903-1957)，他的计算机结构被称为“冯·诺依曼结构”，除此之外，还有个哈佛结构，不过冯诺依曼结构是主流&lt;/p&gt;
+&lt;p&gt;冯·诺依曼结构由&lt;strong&gt;控制器&lt;/strong&gt;，&lt;strong&gt;运算器&lt;/strong&gt;，&lt;strong&gt;存储器&lt;/strong&gt;，&lt;strong&gt;输入设备&lt;/strong&gt;和&lt;strong&gt;输出设备&lt;/strong&gt;五部分组成，控制器及其状态对应着CPU，即运算器和控制器部分，纸带对应着存储器，读写头对应着输入输出设备&lt;/p&gt;
+&lt;p&gt;存储器和CPU间的交互，即存储，对应着空间域，输入输出设备与CPU间的交互，即指令流，对应着时间域，冯·诺依曼结构的计算机很好地映射可现实世界的时空观&lt;/p&gt;
+&lt;h3 id=&#34;计算机体系结构的基本概念&#34;&gt;计算机体系结构的基本概念&lt;/h3&gt;
+&lt;h4 id=&#34;摩尔定律&#34;&gt;摩尔定律&lt;/h4&gt;
+&lt;p&gt;每过18个月，芯片上可集成的晶体管数量将增加一倍&lt;/p&gt;
+&lt;p&gt;单核处理器频率随着晶体管数量增长而不断提升，多核处理器芯片功率和频率基本不再增长&lt;/p&gt;
+&lt;h4 id=&#34;计算机系统的层次结构&#34;&gt;计算机系统的层次结构&lt;/h4&gt;
+&lt;ol start=&#34;0&#34;&gt;
+&lt;li&gt;数字逻辑层&lt;/li&gt;
+&lt;li&gt;微体系结构层&lt;/li&gt;
+&lt;li&gt;传统机器层&lt;/li&gt;
+&lt;li&gt;操作系统层&lt;/li&gt;
+&lt;li&gt;汇编语言层&lt;/li&gt;
+&lt;li&gt;高级语言层&lt;/li&gt;
+&lt;li&gt;应用程序层&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;其中第0到第2层&lt;strong&gt;主要由&lt;/strong&gt;硬件实现，第3到第6层&lt;strong&gt;主要由&lt;/strong&gt;软件实现，但 &lt;strong&gt;&lt;mark&gt;计算机系统的软硬件没有一个明确的分界面&lt;/mark&gt;&lt;/strong&gt;，一般以指令集作为分界面&lt;/p&gt;
+&lt;h4 id=&#34;指令集&#34;&gt;指令集&lt;/h4&gt;
+&lt;p&gt;指令集是一个计算机系统支持的所有&lt;strong&gt;机器指令&lt;/strong&gt;的集合&lt;/p&gt;
+&lt;p&gt;指令集，又称为指令集体系统结构 (Instruction Set Architecture, ISA)，ISA主要被分为CISC和RISC两类，而X86指令集，即许多与早期X86指令集 (Intel 8086 CPU) 兼容的指令集，是被认为现存唯一的CISC指令集&lt;/p&gt;
+&lt;p&gt;ARM和MIPS都是RISC指令集，但&lt;strong&gt;MIPS的内核寄存器比ARM多一倍&lt;/strong&gt;，在同样的性能下MIPS的功耗会比ARM更低&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;指令格式&lt;/p&gt;
+&lt;p&gt;主要的指令格式为 &lt;code&gt;&amp;lt;操作码&amp;gt; (&amp;lt;操作数&amp;gt;)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;其中操作码指明操作的类型，操作数指明具体操作的数或者操作数的地址，根据操作数的数量，指令格式可分为&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;零地址指令&lt;/li&gt;
+&lt;li&gt;一地址指令&lt;/li&gt;
+&lt;li&gt;二地址指令&lt;/li&gt;
+&lt;li&gt;三地址指令&lt;/li&gt;
+&lt;li&gt;多地址指令&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;汇编通过 &lt;em&gt;助记符&lt;/em&gt; 代表操作码，使得编写程序容易了一点，例如:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;MOV AX,0010H
+MOV BX,0020H
+ADD AX,BX
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;寻址方式&lt;/p&gt;
+&lt;p&gt;寻址方式指如何确定指令中操作数的地址及下一条指令的地址&lt;/p&gt;
+&lt;p&gt;由于采用了程序计数器 (PC)，因此对 &lt;em&gt;非转移指令&lt;/em&gt;，寻找下一条指令的地址只需要对PC递增即可&lt;/p&gt;
+&lt;p&gt;对于转移指令需要由操作数给出下条指令的地址&lt;/p&gt;
+&lt;p&gt;按照指令的寻址空间来分，寻址方式可分为 &lt;strong&gt;&lt;mark&gt;立即数寻址&lt;/mark&gt;&lt;/strong&gt;，&lt;strong&gt;&lt;mark&gt;寄存器寻址&lt;/mark&gt;&lt;/strong&gt;，&lt;strong&gt;&lt;mark&gt;主存寻址&lt;/mark&gt;&lt;/strong&gt; 和 &lt;strong&gt;&lt;mark&gt;堆栈寻址&lt;/mark&gt;&lt;/strong&gt; 这4种&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;指令的功能分类&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;数据传送指令&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;取数指令: LOAD&lt;/li&gt;
+&lt;li&gt;存数指令: STORE&lt;/li&gt;
+&lt;li&gt;存储器或寄存器之间数据传送指令： MOV&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;算术运算指令&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;加法: ADD&lt;/li&gt;
+&lt;li&gt;减法: SUB&lt;/li&gt;
+&lt;li&gt;乘法: MUL&lt;/li&gt;
+&lt;li&gt;除法: DIV&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;逻辑运算指令&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;逻辑与: AND&lt;/li&gt;
+&lt;li&gt;逻辑或: OR&lt;/li&gt;
+&lt;li&gt;逻辑非: NOT&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;程序控制指令&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;转移指令: JUMP (无条件或有条件)&lt;/li&gt;
+&lt;li&gt;程序调用指令: CALL&lt;/li&gt;
+&lt;li&gt;程序返回指令: RETURN&lt;/li&gt;
+&lt;li&gt;循环控制指令&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;输入输出指令&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;处理器控制和调试指令&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;空操作指令: NOP&lt;/li&gt;
+&lt;li&gt;复位中断指令: CLI&lt;/li&gt;
+&lt;li&gt;复位进位标识指令: CLC&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;CISC与RISC&lt;/p&gt;
+&lt;p&gt;CISC结构追求的目标是强化指令功能，减少程序的指令条数，以达到提高性能的目的&lt;/p&gt;
+&lt;p&gt;RISC体系结构的基本思想是尽量简化计算机指令功能，之保留那些功能简单，能在一个 &lt;em&gt;节拍&lt;/em&gt; 内执行完成的指令，而把复杂的功能用一段子程序来实现&lt;/p&gt;
+&lt;p&gt;RISC通过减少指令种类，规范指令格式和简化寻址方式等方法，方便处理器内出的&lt;strong&gt;并行处理&lt;/strong&gt;，提高超大规模集成电路 (VLSI) 器件的使用效率，从而大幅地提高处理器的性能&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;RISC技术在CPU芯片上设置大量寄存器，用来存常用的数据&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;存储系统&#34;&gt;存储系统&lt;/h4&gt;
+&lt;p&gt;存储系统可根据其读取速度和价格可分为以下层次&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;寄存器组，&lt;strong&gt;是汇编程序员可编程的空间，也是高级语言中编译器可支配的空间&lt;/strong&gt;，寄存器见数据的传递只需要&lt;strong&gt;一个时钟的周期&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;高速缓冲存储器 Cache，位于主存和CPU间&lt;/li&gt;
+&lt;li&gt;主存储器，&lt;strong&gt;是存储系统的核心&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;辅助存储器&lt;/li&gt;
+&lt;li&gt;脱机存储器&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;存储系统必须能够向应用程序员提供足够大的程序空间，且&lt;em&gt;无需应用程序员参与调度&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;在应用程序员心目中，整个存储系统是一个单一的，直接可寻址的主存，其速度接近于离CPU最近的存储层次，其容量和每位价格接近于离CPU最远的存储层次，这是因为 &lt;mark&gt;程序对存储空间的访问具有&lt;strong&gt;局部性&lt;/strong&gt;&lt;/mark&gt;&lt;/p&gt;
+&lt;p&gt;把空间位置邻近的信息作为一“块”或一“页”放到靠近CPU的一级存储器M1中，根据局部性原理，在之后的一段时间内的访存有很大可能会在M1的同一块或同一页中找到需要的信息，称之为&lt;strong&gt;命中&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;“Cache-主存-辅存”是存储体系里最重要的三级层次，通常分成“Cache-主存”和“主存-辅存”两个两级存储系统来讨论&lt;/p&gt;
+&lt;p&gt;“主存-辅存”两级存储系统也称为&lt;strong&gt;虚拟存储系统&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Cache-主存&lt;/p&gt;
+&lt;p&gt;为了便于进行地址的映射和变换以及替换控制需要把Cache和主存划分成&lt;strong&gt;大小相同&lt;/strong&gt;的块&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;mark&gt;块是Cache与主存之间的信息传输单位&lt;/mark&gt;&lt;/strong&gt;，其中Cache块也称为Cache行 (Cache Line)，&lt;strong&gt;是Cache存取的基本单位&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;根据数据是否仅在某一Cache中，多级Cahce的工作方式可分为Inclusive (共享) 和Exclusive (独占)&lt;/p&gt;
+&lt;p&gt;“Cahce-主存”层次主要涉及以下几个关键问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;地址映射问题&lt;/p&gt;
+&lt;p&gt;Cache和主存见最基本的地址映射方式有&lt;strong&gt;全相联映射&lt;/strong&gt;，&lt;strong&gt;直接映射&lt;/strong&gt;和&lt;strong&gt;组相联映射&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;全相联映射，主存中的第i块可以放入Cache中的任意一个位置，缺点是线路复杂，成本高，速度低，只适用于小容量的Cahce&lt;/p&gt;
+&lt;p&gt;直接映射，主存按照Cache大小划分成若干区，每个区域按照Cache的分块而分块，每块之间都一一对应，这样访问速度块，硬件设备简单，但会导致Cache频繁换出且命中率低，Cache空间利用率低&lt;/p&gt;
+&lt;p&gt;组相联映射就是前两者的结合，或者说，前两者就是组相联映射的特例&lt;/p&gt;
+&lt;p&gt;主存中的一个组内的块数与Cache的分组数量相同，组建采用直接映射，组内采用全相联映射&lt;/p&gt;
+&lt;p&gt;全相联映射为M路组相联映射 (M为Cache的总块数)，直接映射是1路组相联映射&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;替换策略&lt;/p&gt;
+&lt;p&gt;常用的替换算法有&lt;strong&gt;随机法 (RAND)&lt;/strong&gt;，&lt;strong&gt;先进先出 (FIFO)&lt;/strong&gt;，&lt;strong&gt;最近最少使用法 (LRU)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;数据一致性&lt;/p&gt;
+&lt;p&gt;一致性是指同一份数据在不同存储位置的多个拷贝应保持一致，Cache和主存的数据一致性是通过Cache的特定写操作方式来保证&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;写直达 (Write Through)： 每次修改立刻更新到主存，常会引起 &lt;em&gt;总线事务的竞争&lt;/em&gt;，一致性高，效率低&lt;/li&gt;
+&lt;li&gt;写回 (Write Back): 修改后在特定时机才会更新回主存&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;多核处理器中，处理器内核之间的缓存一致性通过 &lt;strong&gt;&lt;mark&gt;缓存一致性协议&lt;/mark&gt;&lt;/strong&gt; 来维护，最经典的协议是 &lt;em&gt;MESI&lt;/em&gt;，表明Cache Line的四种状态，在MESI协议中，Cache的控制器不仅知道自己的读写操作，还会监听 (Snoop) 别的Cache的读写操作以更新自己的状态，以此来保证数据在多个Cache之间的一致性&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;虚拟存储系统&lt;/p&gt;
+&lt;p&gt;为避免程序在不同机器间运行时由于地址问题导致崩溃，系统需要为应用程序提供一个虚拟的存储空间，程序在编写是都采用虚拟存储空间的地址，运行时再将寻你存储空间映射 (map) 到实际的物理内存中&lt;/p&gt;
+&lt;p&gt;虚拟存储系统的大小 (理论最大值) 是由总线决定的，一般在32位系统上，空间大小就是4GB ($2^{32}$B)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;内容有点小多，这次就到此结束了，谢谢大家阅读&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;Alan J. Perlis.Structure and Interpretation of Computer Programs[M].London England: The MIT Press,2016.xxii&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210707-nrclinuxexam01/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;Wikipedia.Computing [DB/OL].&lt;a href=&#34;https://en.wikipedia.org/wiki/Computing&#34;&gt;https://en.wikipedia.org/wiki/Computing&lt;/a&gt;.2021-07-05/2021-07-07&amp;#160;&lt;a href=&#34;https://blogs.qarks.top/post/20210707-nrclinuxexam01/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://blogs.qarks.top/categories/exam/">Exam</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://blogs.qarks.top/categories/nrclinux/">NRCLinux</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://blogs.qarks.top/tags/linux/">Linux</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://blogs.qarks.top/tags/exam/">Exam</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>C Primer Plus Chapter12 02</title>
