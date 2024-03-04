@@ -1,0 +1,28 @@
+p.archive-time {
+  color: rgba(255, 64, 125, 0.8);
+  font-weight: bold;
+  font-size: 96%;
+  font-family: "Times New Roman", Times, serif;
+}
+
+p.sp-comment {
+  color: rgba(128, 145, 30, 0.8);
+  font-weight: bold;
+  font-size: 112%;
+  font-style: italic;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+div.giscus-comment {
+  margin: auto;
+  margin-bottom: 4ex;
+  width: 80%;
+}
+
+.header {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.menu-title {
+  font-family: Arial, Helvetica, sans-serif;
+}

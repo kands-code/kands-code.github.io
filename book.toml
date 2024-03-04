@@ -1,0 +1,125 @@
+#! basic config
+[book]
+# meta info of this book
+title = "Kevin Stephen's Blogs"
+authors = ["kands-code"]
+description = "找到属于自己的光"
+# source directory
+src = "src"
+# see: https://datatracker.ietf.org/doc/html/rfc5646#appendix-A
+language = "zh-Hans"
+# possible value: "ltr" | "rtl"
+text-direction = "ltr"
+
+[rust]
+# edition of rust version: "2015" | "2018" | "2021"
+edition = "2021"
+
+[build]
+# build output directory
+build-dir = "book"
+# whether or not to create missing pages
+create-missing = false
+# use the default preprocessors ["links", "index"]
+use-default-preprocessors = true
+# directories to watch for triggering builds
+extra-watch-dirs = ["src", "theme"]
+
+#! third party plugins
+#? mdbook-toc
+[preprocessor.toc]
+# command of mdbook-toc
+command = "mdbook-toc"
+# render marker
+marker = "[[toc]]"
+# max level of heading to render
+max-level = 4
+# render options
+after = ["links", "index"]
+renderer = ["html"]
+#? mdbook-katex
+[preprocessor.katex]
+# render options
+after = ["links", "index", "toc"]
+# katex render output
+output = "html"
+# left equation number
+leqno = false
+# display math flash left with 2em left margin
+fleqn = false
+# show error for unsupported or wrong command
+throw-on-error = true
+error-color = "#cc0000"
+# minimum thickness for some rule lines, -1.0 for no-limit
+min-rule-thickness = -1.0
+# max size user can use, "Infinity" for no-limit
+max-size = "Infinity"
+# max depth of macro expand, default 1000
+max-expand = 512
+# whether or not to enable some command that unsupport
+trust = false
+# whether or not to prevent from injecting katex css
+no-css = false
+# user defined macros
+macros = "theme/macros.txt"
+# inlcude math as source code
+include-src = false
+# delimiter
+block-delimiter = { left = "$$", right = "$$" }
+inline-delimiter = { left = "$", right = "$" }
+
+#! output config
+#? html option
+[output.html]
+# theme = "user-defined-theme"
+# default light theme name
+default-theme = "rust"
+# default dark theme name
+preferred-dark-theme = "ayu"
+# convert straight quotes to curly quotes
+curly-quotes = true
+# use mathjax
+mathjax-support = false
+# user difined css & js
+additional-css = ["theme/utils.css"]
+additional-js = ["theme/giscus.js"]
+# disable section number
+no-section-label = true
+# github options
+git-repository-url = "https://github.com/kands-code/kands-code.github.io"
+git-repository-icon = "fa-github"
+edit-url-template = "https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/{path}"
+# 404 pages
+input-404 = "404.md"
+# site base url
+site-url = "/"
+# cname
+cname = "blogs.qarks.top"
+#? print options
+[output.html.print]
+# include support for printable output
+enable = false
+# insert page-break after each chapter
+page-break = true
+#? fold options
+[output.html.fold]
+# whether or not to enable section folding
+enable = true
+# the depth to start folding, 0 means "all folds are closed"
+level = 0
+#? rust playground option
+[output.html.playground]
+# allows editing the source code
+editable = false
+# include the copy button for copying code snippets
+copyable = true
+# includes the JavaScript for the code editor
+copy-js = false
+# displays line numbers for editable code
+line-numbers = false
+# displays a run button for rust code
+runnable = false
+#? code options
+[output.html.code]
+# hide some code with hidelines
+hidelines = { python = "//", rust = "#" }
