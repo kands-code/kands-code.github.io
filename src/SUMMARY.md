@@ -1,6 +1,7 @@
 # Summary
 
-[Init](./init.md)
+- [Init](./init.md)
+- [About](./about.md)
 
 # Notes
 
@@ -55,7 +56,3 @@
   - [暑假结束了](./miscellany/life/20230915-end-of-summer.md)
   - [新的生活](./miscellany/life/20231020-new-life.md)
   - [忙忙碌碌](./miscellany/life/20240120-busy-life.md)
-
-# About
-
-[About](./about.md)
