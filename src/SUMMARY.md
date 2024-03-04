@@ -1,6 +1,6 @@
 # Summary
 
-- [Init](./init.md)
+[Init](./init.md)
 
 # Notes
 
@@ -56,6 +56,6 @@
   - [新的生活](./miscellany/life/20231020-new-life.md)
   - [忙忙碌碌](./miscellany/life/20240120-busy-life.md)
 
----
+# About
 
-- [About](./about.md)
+[About](./about.md)
