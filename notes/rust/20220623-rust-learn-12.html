@@ -1,0 +1,570 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>Rust 学习 12 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+        
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="../../init.html">Init</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item expanded "><a href="../../notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/rust/20210605-rust-learn-01.html">Rust 学习 01</a></li><li class="chapter-item "><a href="../../notes/rust/20210610-rust-learn-02.html">Rust 学习 02</a></li><li class="chapter-item "><a href="../../notes/rust/20210824-rust-learn-03.html">Rust 学习 03</a></li><li class="chapter-item "><a href="../../notes/rust/20211216-rust-learn-04.html">Rust 学习 04</a></li><li class="chapter-item "><a href="../../notes/rust/20220512-rust-learn-05.html">Rust 学习 05</a></li><li class="chapter-item "><a href="../../notes/rust/20220514-rust-learn-06.html">Rust 学习 06</a></li><li class="chapter-item "><a href="../../notes/rust/20220520-rust-learn-07.html">Rust 学习 07</a></li><li class="chapter-item "><a href="../../notes/rust/20220522-rust-learn-08.html">Rust 学习 08</a></li><li class="chapter-item "><a href="../../notes/rust/20220523-rust-learn-09.html">Rust 学习 09</a></li><li class="chapter-item "><a href="../../notes/rust/20220611-rust-learn-10.html">Rust 学习 10</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-11.html">Rust 学习 11</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-project-01.html">Rust 学习 实例 01</a></li><li class="chapter-item expanded "><a href="../../notes/rust/20220623-rust-learn-12.html" class="active">Rust 学习 12</a></li><li class="chapter-item "><a href="../../notes/rust/20220624-rust-learn-13.html">Rust 学习 13</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-14.html">Rust 学习 14</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-15.html">Rust 学习 15</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-final.html">Rust 学习 final</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-project-02.html">Rust 学习 实例 02</a></li></ol></li><li class="chapter-item "><a href="../../notes/postgresql/index.html">PostgreSQL</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/postgresql/20230502-psql-learn-01.html">PostgreSQL 学习 01</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231024-psql-learn-02.html">PostgreSQL 学习 02</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231110-psql-learn-03.html">PostgreSQL 学习 03</a></li></ol></li><li class="chapter-item "><a href="../../notes/typechallenges/index.html">Type Challenges</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/typechallenges/20230425-type-challenges-01.html">TypeScript 类型体操 01</a></li><li class="chapter-item "><a href="../../notes/typechallenges/20230428-type-challenges-02.html">TypeScript 类型体操 02</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="../../miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="../../miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="../../miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/study/20221108-qiskit-linear-algebra.html">qiskit 线性代数</a></li><li class="chapter-item "><a href="../../miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">qiskit Deutsch-Jozsa 算法</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="../../miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="../../miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="../../miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="spacer"></li></ol></li><li class="chapter-item "><a href="../../about.html">About</a></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                                        <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20220623-rust-learn-12.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="rust-学习-12"><a class="header" href="#rust-学习-12">Rust 学习 12</a></h1>
+<p class="archive-time">archive time: 2022-06-23</p>
+<p class="sp-comment">这回来看看 cargo 打包</p>
+<ul>
+<li><a href="#release-profile">release profile</a></li>
+<li><a href="#%E5%8F%91%E5%B8%83-crate">发布 Crate</a>
+<ul>
+<li><a href="#%E6%96%87%E6%A1%A3%E6%B3%A8%E9%87%8A">文档注释</a>
+<ul>
+<li><a href="#%E6%96%87%E6%A1%A3%E6%B5%8B%E8%AF%95">文档测试</a></li>
+<li><a href="#%E6%B3%A8%E9%87%8A%E6%96%87%E6%A1%A3">注释文档</a></li>
+</ul>
+</li>
+<li><a href="#pub-use">pub use</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA-cratesio-%E8%B4%A6%E5%8F%B7">创建 crates.io 账号</a></li>
+<li><a href="#%E5%8F%91%E5%B8%83%E4%B9%8B%E5%90%8E">发布之后</a></li>
+</ul>
+</li>
+<li><a href="#cargo-%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4">Cargo 工作空间</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85%E4%BA%8C%E8%BF%9B%E5%88%B6-crate">安装二进制 crate</a>
+<ul>
+<li><a href="#%E6%89%A9%E5%B1%95-cargo">扩展 cargo</a></li>
+</ul>
+</li>
+</ul>
+<p>Rust 有一个很大的优势就是它有一个完整的完善的工具链, cargo</p>
+<p>通过 cargo, 我们可以很轻松的完成编译, 测试, 打包这几个步骤</p>
+<p>不过关于 cargo 打包, 有一些内容还是需要主要</p>
+<h2 id="release-profile"><a class="header" href="#release-profile">release profile</a></h2>
+<p>profile 是预先定义好的相关的配置, 对应的有 release 和 dev 两种</p>
+<p>每个 profile 都是可以自行配制的, 就是在 <code>Cargo.toml</code> 里设置</p>
+<pre><code class="language-toml"># Cargo.toml
+# ...
+[profile.dev]
+opt-level = 0
+
+[profile.release]
+opt-level = 3
+</code></pre>
+<p>这样我们就可以覆盖默认的 profile 里的 <code>opt-level</code> 设置了</p>
+<p>至于有哪些选项, 可以参考文档<sup class="footnote-reference"><a href="#1">1</a></sup></p>
+<h2 id="发布-crate"><a class="header" href="#发布-crate">发布 Crate</a></h2>
+<p>我们除了可以下载 crate, 我们还可以上传我们的 crate</p>
+<h3 id="文档注释"><a class="header" href="#文档注释">文档注释</a></h3>
+<p>在 crate 里, 文档是很重要的, 在 Rust 里, 专门有种注释来生产文档, 那就是 <em>文档注释</em></p>
+<p>文档注释 用于生成 HTML 文档, 显式公共 API 的注释还可以说明如何使用 API</p>
+<p>甚至在 Rust 还可以进行文档测试, 即在文档里测试代码, 以保证文档和代码同步以及代码或文档的正确性</p>
+<p>文档注释使用 <code>///</code> 来实现, 支持一定的 <strong>Markdown</strong> 语法</p>
+<pre><code class="language-rust">/// Adds one to the number given.
+///
+/// # Examples
+///
+/// ```
+/// let arg = 5;
+/// let answer = learn_rust::add_one(arg);
+///
+/// assert_eq!(6, answer);
+/// ```
+pub fn add_one(x: i32) -&gt; i32 {
+    x + 1
+}</code></pre>
+<p>效果如下图</p>
+<p><img src="../../assert/img/rust-learn-12-pic01.png" alt="doc comment" /></p>
+<p>我们可以使用 <code>cargo doc</code> 来生成文档</p>
+<p>注意到在项目目录下的 <code>target/</code> 目录下有了一个 <code>doc/</code> 目录, 里面就是生成的文档</p>
+<pre><code class="language-text">(base) PS projRoot&gt; dir .\target\doc\
+
+
+    目录: projRoot\target\doc
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----         2022/6/23     14:14                cfg_if
+d-----         2022/6/23     14:14                either
+d-----         2022/6/23     14:14                getrandom
+d-----         2022/6/23     14:14                implementors
+d-----         2022/6/23     14:14                itertools
+d-----         2022/6/23     14:14                learn_rust
+d-----         2022/6/23     14:14                ppv_lite86
+d-----         2022/6/23     14:14                rand
+d-----         2022/6/23     14:14                rand_chacha
+d-----         2022/6/23     14:14                rand_core
+d-----         2022/6/23     14:14                src
+-a----         2022/6/23     14:14              0 .lock
+-a----         2022/6/23     14:14          12235 ayu.css
+-a----         2022/6/23     14:14            576 clipboard.svg
+-a----         2022/6/23     14:14           1791 COPYRIGHT.txt
+-a----         2022/6/23     14:14            123 crates.js
+-a----         2022/6/23     14:14          10683 dark.css
+-a----         2022/6/23     14:14            510 down-arrow.svg
+-a----         2022/6/23     14:14            715 favicon-16x16.png
+-a----         2022/6/23     14:14           1125 favicon-32x32.png
+-a----         2022/6/23     14:14           4298 favicon.svg
+-a----         2022/6/23     14:14           4419 FiraSans-LICENSE.txt
+-a----         2022/6/23     14:14         132780 FiraSans-Medium.woff2
+-a----         2022/6/23     14:14         129188 FiraSans-Regular.woff2
+-a----         2022/6/23     14:14          10847 LICENSE-APACHE.txt
+-a----         2022/6/23     14:14           1023 LICENSE-MIT.txt
+-a----         2022/6/23     14:14          10287 light.css
+-a----         2022/6/23     14:14          19656 main.js
+-a----         2022/6/23     14:14           4745 NanumBarunGothic-LICENSE.txt
+-a----         2022/6/23     14:14         399468 NanumBarunGothic.ttf.woff2
+-a----         2022/6/23     14:14           1853 normalize.css
+-a----         2022/6/23     14:14             97 noscript.css
+-a----         2022/6/23     14:14           3297 rust-logo.svg
+-a----         2022/6/23     14:14          28317 rustdoc.css
+-a----         2022/6/23     14:14         164833 search-index.js
+-a----         2022/6/23     14:14          34753 search.js
+-a----         2022/6/23     14:14           1425 settings.css
+-a----         2022/6/23     14:14           3792 settings.html
+-a----         2022/6/23     14:14           6064 settings.js
+-a----         2022/6/23     14:14           2019 source-files.js
+-a----         2022/6/23     14:14           4403 source-script.js
+-a----         2022/6/23     14:14          44896 SourceCodePro-It.ttf.woff2
+-a----         2022/6/23     14:14           4528 SourceCodePro-LICENSE.txt
+-a----         2022/6/23     14:14          52228 SourceCodePro-Regular.ttf.woff2
+-a----         2022/6/23     14:14          52348 SourceCodePro-Semibold.ttf.woff2
+-a----         2022/6/23     14:14          81320 SourceSerif4-Bold.ttf.woff2
+-a----         2022/6/23     14:14          59860 SourceSerif4-It.ttf.woff2
+-a----         2022/6/23     14:14           4485 SourceSerif4-LICENSE.md
+-a----         2022/6/23     14:14          76180 SourceSerif4-Regular.ttf.woff2
+-a----         2022/6/23     14:14           3556 storage.js
+-a----         2022/6/23     14:14            174 toggle-minus.svg
+-a----         2022/6/23     14:14            191 toggle-plus.svg
+-a----         2022/6/23     14:14           3764 wheel.svg
+</code></pre>
+<p>在 <code>&lt;projRoot&gt;/target/doc/&lt;projName&gt;/index.html</code> 就是文档的主页面了</p>
+<p>打开后可以看到类似这样的页面, 一个很标准的 Rust 文档界面</p>
+<p><img src="../../assert/img/rust-learn-12-pic02.png" alt="standard doc pages" /></p>
+<p>当然, 除了手动打开, 我们可以使用 <code>cargo doc --open</code> 来打开页面, 效果是一样的</p>
+<p>在文档注释里面一般有几个固定的区域</p>
+<ul>
+<li>Examples: 示例, 说明函数或代码的用法</li>
+<li>Panics: 可能发生 panic 的场景</li>
+<li>Errors: 返回 Result 或 Option 时的错误类型或者产生错误的条件</li>
+<li>Safty: 如果函数是 <em>unsafe</em> 的, 说明原因, 以及使用前提</li>
+</ul>
+<h4 id="文档测试"><a class="header" href="#文档测试">文档测试</a></h4>
+<p>我们在文档里写的例子可以进行文档测试, 使用 <code>cargo test --doc</code> 即可</p>
+<pre><code class="language-text">(base) PS projRoot&gt; cargo test --doc
+    Finished test [optimized + debuginfo] target(s) in 0.03s
+   Doc-tests learn_rust
+
+running 1 test
+test src\lib.rs - add_one (line 122) ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
+</code></pre>
+<h4 id="注释文档"><a class="header" href="#注释文档">注释文档</a></h4>
+<p>除了为文档下的代码进行注释, 我们还可以对整个文件或者 crate 或者 模块 进行注释, 使用符号 <code>//!</code></p>
+<pre><code class="language-rust">// src/lib.rs
+
+//! # Learn Rust
+//!
+//! `learn_rust` 是我学习 Rust 时的一个测试项目, 方便进行测试
+
+// ....</code></pre>
+<p>在 <code>src/lib.rs</code> 里添加了这么一些注释后, 我们再打开文档, 发现文档内容也发生了变化</p>
+<p><img src="../../assert/img/rust-learn-12-pic03.png" alt="after doc" /></p>
+<h3 id="pub-use"><a class="header" href="#pub-use">pub use</a></h3>
+<p>有时候我们需要为方便调用来导出一些公共 API, 这样就可以使用 <code>pub use</code> 关键字</p>
+<p><code>pub use</code> 作用是 <em>重新导出</em>, 创建了一个与内部私有结构不同的对外公共结构</p>
+<p>假设我们有这么一个文件 <code>src/lib.rs</code></p>
+<pre><code class="language-rust">//! # Learn Rust
+//!
+//! `learn_rust` 是我学习 Rust 时的一个测试项目, 方便进行测试
+
+pub mod kinds {
+    /// The primary colors according to the RYB color model
+    pub enum PrimaryColor {
+        Red,
+        Yellow,
+        Blue,
+    }
+
+    /// The secondary colors according to the RYB color model
+    pub enum SecondaryColor {
+        Orange,
+        Green,
+        Purple,
+    }
+}
+
+pub mod utils {
+    use crate::kinds::*;
+
+    /// Combines two primary colors in equal amounts to create
+    /// a secondary color
+    pub fn mix(color1: PrimaryColor, color2: PrimaryColor) -&gt; SecondaryColor {
+        SecondaryColor::Green
+    }
+}</code></pre>
+<p>在文档里表现出来是这样的</p>
+<p><img src="../../assert/img/rust-learn-12-pic04.png" alt="test doc" /></p>
+<p>不是很直观, 也不清楚每个模块里的的东西</p>
+<p>如果我们在文件里加上这几行</p>
+<pre><code class="language-rust">// src/lib.rs
+
+pub use self::kinds::PrimaryColor;
+pub use self::kinds::SecondaryColor;
+pub use self::utils::mix;
+
+// ...</code></pre>
+<p>再看一眼文档, 会出现一个 <code>Re-exports</code> 栏目, 里面摆上了我们重新导出的内容, 就很直观了</p>
+<p><img src="../../assert/img/rust-learn-12-pic05.png" alt="after pub use" /></p>
+<p>在使用时, 我们也只需要 <code>&lt;projName&gt;::&lt;itemName&gt;</code> 即可, <code>itemName</code> 是你导出的内容的名字</p>
+<h3 id="创建-cratesio-账号"><a class="header" href="#创建-cratesio-账号">创建 crates.io 账号</a></h3>
+<p>前面部分我们知道了如何写文档注释和生成文档, 现在来正式看看如何发布</p>
+<p>再发布之前我们还需要有一个 <a href="https://crates.io/">crates.io</a> 的账号, 这是自然的</p>
+<p>注意看 crates.io 的主界面 (2022 年 06 月 23 日), 我们可以看到这么一个选项</p>
+<p><img src="../../assert/img/rust-learn-12-pic06.png" alt="crates.io" /></p>
+<p>注册好账号后, 我们就有了一个 crates.io 的 API Token</p>
+<p>点击 <strong>Account Settings</strong>, 我们就可以看到一个 <em>API Tokens</em> 的地方</p>
+<p><img src="../../assert/img/rust-learn-12-pic07.png" alt="some steps" /></p>
+<p>然后我们就可以生成一个新的 token 供我们使用了</p>
+<p><img src="../../assert/img/rust-learn-12-pic08.png" alt="generate token" /></p>
+<p>有了 token, 我们就可以在 cargo 使用 <code>cargo login</code> 来进行登录操作</p>
+<pre><code class="language-text">(base) PS projRoot&gt; cargo login &lt;API Token&gt;
+       Login token for `crates.io` saved
+</code></pre>
+<p>API Token 会被存放在 <code>&lt;cargo-home&gt;/credentials</code> 里面</p>
+<p>不过在发布前还是需要在我们的 crate 里的 <code>[package]</code> 添加对应元数据</p>
+<ul>
+<li>name: crate 的唯一标识</li>
+<li>description: 对 crate 的简单描述</li>
+<li>license: 许可证的标识值<sup class="footnote-reference"><a href="#2">2</a></sup>, 多个许可使用 <code>OR</code> 隔开</li>
+<li>version: 版本</li>
+<li>authors: 作者, 一个列表, 可以放多个名字</li>
+</ul>
+<p>例如对于 <code>learn_rust</code> 我们可以这样</p>
+<pre><code class="language-toml">[package]
+name = "learn_rust"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+authors = ["kands-code"]
+</code></pre>
+<p>确保一切准备妥当, 我们就可以使用 <code>cargo publish</code> 来发布 crate 了</p>
+<h3 id="发布之后"><a class="header" href="#发布之后">发布之后</a></h3>
+<p>发布 crate 之后, 我们是 <strong><em>不能够</em></strong> 删除 crate 的, 不过我们可以 <strong>撤回(yank)</strong> 一个 crate 版本</p>
+<p>yank 可以防止新项目依赖于该版本, 但是无法阻止继续使用其作为依赖</p>
+<p>yank 了就意味着</p>
+<ul>
+<li>所有产生 <code>Cargo.lock</code> 的项目都不会中断</li>
+<li>任何将来生成的 <code>Cargo.lock</code> 文件都不会使用被 yank 的版本</li>
+</ul>
+<pre><code class="language-text">cargo yank --vers &lt;version&gt;
+</code></pre>
+<p>我们还可以取消 yank</p>
+<pre><code class="language-text">cargo yank --vers &lt;version&gt; --undo
+</code></pre>
+<h2 id="cargo-工作空间"><a class="header" href="#cargo-工作空间">Cargo 工作空间</a></h2>
+<p>有些时候, 为了模块化项目, 我们需要将项目拆成多个 crate</p>
+<p>而工作空间就是一套共享 <code>Cargo.lock</code> 和 输出文件夹 的包</p>
+<p>对于作为工作空间的目录, 我们需要准备一个 <code>Cargo.toml</code> 文件, 里面设置工作空间</p>
+<pre><code class="language-toml">[workspace]
+members = ["adder", "add-one"]
+</code></pre>
+<p>然后在目录下使用 <code>cargo new adder</code> 和 <code>cargo new add-one --lib</code> 来创建这两个成员</p>
+<p>我们使用 <code>cargo build</code> 发现, 在 <code>adder/</code> 和 <code>add-one/</code> 目录下都没有 <code>target/</code> 目录, 而是在工作空间目录有一个统一的 <code>target/</code></p>
+<pre><code class="language-text">(base) PS ws&gt; dir .
+
+    Directory: ws
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----           2022/6/23    16:17                add-one
+d----           2022/6/23    16:15                adder
+d----           2022/6/23    16:14                target
+-a---           2022/6/23    16:14              8 .gitignore
+-a---           2022/6/23    16:18            197 Cargo.lock
+-a---           2022/6/23    16:18             45 Cargo.toml
+</code></pre>
+<p>如果需要说明这两个 crate 相互依赖, 需要在对应的 crate 里说明</p>
+<pre><code class="language-toml"># adder/Cargo.toml
+[package]
+name = "adder"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+add-one = { path = "../add-one" }
+</code></pre>
+<p>我们如果要执行工作空间中某一特定 crate, 则需要 <code>cargo run -p &lt;crate-name&gt;</code></p>
+<pre><code class="language-rust">(base) PS ws&gt; cargo run -p adder
+    Finished dev [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target\debug\adder.exe`
+31</code></pre>
+<p>工作空间的一个很重要的意义就是同步版本, 因为一个工作空间内的 crate 都共用一个 <code>Cargo.lock</code>, 保证了使用的库的版本统一</p>
+<p>这样一来, 一个工作空间内的 crate 都是相互兼容的</p>
+<h2 id="安装二进制-crate"><a class="header" href="#安装二进制-crate">安装二进制 crate</a></h2>
+<p>我们可以从 crates.io 中安装二进制 crate, 使用 <code>cargo install &lt;crate-name&gt;</code> 即可</p>
+<p>这个就无需演示了</p>
+<h3 id="扩展-cargo"><a class="header" href="#扩展-cargo">扩展 cargo</a></h3>
+<p>如果二进制名称为 <code>cargo-xxx</code>, 则我们可以使用 <code>cargo xxx</code> 来执行这个二进制名字, <del>看起来就是扩展了 cargo 的功能</del></p>
+<hr />
+<p>好, cargo 就算学得差不多了, 开摸!</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>相关文档 <a href="https://doc.rust-lang.org/stable/cargo/reference/manifest.html">Cargo.toml</a>,
+<a href="https://doc.rust-lang.org/stable/cargo/reference/profiles.html">Profiles</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>可以在 <a href="https://spdx.org/licenses/">这里</a> 查找, 对应 <strong>identifier</strong> 一栏</p>
+</div>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/rust/20220619-rust-learn-project-01.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/rust/20220624-rust-learn-13.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/rust/20220619-rust-learn-project-01.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/rust/20220624-rust-learn-13.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>

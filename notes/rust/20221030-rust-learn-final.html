@@ -1,0 +1,608 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>Rust 学习 final - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+        
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="../../init.html">Init</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item expanded "><a href="../../notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/rust/20210605-rust-learn-01.html">Rust 学习 01</a></li><li class="chapter-item "><a href="../../notes/rust/20210610-rust-learn-02.html">Rust 学习 02</a></li><li class="chapter-item "><a href="../../notes/rust/20210824-rust-learn-03.html">Rust 学习 03</a></li><li class="chapter-item "><a href="../../notes/rust/20211216-rust-learn-04.html">Rust 学习 04</a></li><li class="chapter-item "><a href="../../notes/rust/20220512-rust-learn-05.html">Rust 学习 05</a></li><li class="chapter-item "><a href="../../notes/rust/20220514-rust-learn-06.html">Rust 学习 06</a></li><li class="chapter-item "><a href="../../notes/rust/20220520-rust-learn-07.html">Rust 学习 07</a></li><li class="chapter-item "><a href="../../notes/rust/20220522-rust-learn-08.html">Rust 学习 08</a></li><li class="chapter-item "><a href="../../notes/rust/20220523-rust-learn-09.html">Rust 学习 09</a></li><li class="chapter-item "><a href="../../notes/rust/20220611-rust-learn-10.html">Rust 学习 10</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-11.html">Rust 学习 11</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-project-01.html">Rust 学习 实例 01</a></li><li class="chapter-item "><a href="../../notes/rust/20220623-rust-learn-12.html">Rust 学习 12</a></li><li class="chapter-item "><a href="../../notes/rust/20220624-rust-learn-13.html">Rust 学习 13</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-14.html">Rust 学习 14</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-15.html">Rust 学习 15</a></li><li class="chapter-item expanded "><a href="../../notes/rust/20221030-rust-learn-final.html" class="active">Rust 学习 final</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-project-02.html">Rust 学习 实例 02</a></li></ol></li><li class="chapter-item "><a href="../../notes/postgresql/index.html">PostgreSQL</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/postgresql/20230502-psql-learn-01.html">PostgreSQL 学习 01</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231024-psql-learn-02.html">PostgreSQL 学习 02</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231110-psql-learn-03.html">PostgreSQL 学习 03</a></li></ol></li><li class="chapter-item "><a href="../../notes/typechallenges/index.html">Type Challenges</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/typechallenges/20230425-type-challenges-01.html">TypeScript 类型体操 01</a></li><li class="chapter-item "><a href="../../notes/typechallenges/20230428-type-challenges-02.html">TypeScript 类型体操 02</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="../../miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="../../miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="../../miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/study/20221108-qiskit-linear-algebra.html">qiskit 线性代数</a></li><li class="chapter-item "><a href="../../miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">qiskit Deutsch-Jozsa 算法</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="../../miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="../../miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="../../miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="spacer"></li></ol></li><li class="chapter-item "><a href="../../about.html">About</a></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                                        <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20221030-rust-learn-final.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="rust-学习-final"><a class="header" href="#rust-学习-final">Rust 学习 Final</a></h1>
+<p class="archive-time">archive time: 2022-10-30</p>
+<p class="sp-comment">总算看完杨旭大佬的 Rust 视频了，这是 Rust 学习的最后一篇了</p>
+<ul>
+<li><a href="#rust-%E7%9A%84-oop">Rust 的 OOP</a>
+<ul>
+<li><a href="#%E5%B0%81%E8%A3%85">封装</a></li>
+<li><a href="#%E7%BB%A7%E6%89%BF">继承</a></li>
+<li><a href="#%E5%A4%9A%E6%80%81">多态</a></li>
+<li><a href="#example">Example</a></li>
+</ul>
+</li>
+<li><a href="#%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D">模式匹配</a></li>
+<li><a href="#%E5%AE%8F">宏</a>
+<ul>
+<li><a href="#example-1">Example</a>
+<ul>
+<li><a href="#%E7%BB%84%E7%BB%87%E9%A1%B9%E7%9B%AE">组织项目</a></li>
+<li><a href="#hello_macro">hello_macro</a></li>
+<li><a href="#proc_test">proc_test</a></li>
+<li><a href="#%E7%BB%93%E6%9E%9C">结果</a></li>
+</ul>
+</li>
+<li><a href="#%E5%B1%9E%E6%80%A7%E5%AE%8F">属性宏</a></li>
+<li><a href="#%E5%87%BD%E6%95%B0%E5%AE%8F">函数宏</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="rust-的-oop"><a class="header" href="#rust-的-oop">Rust 的 OOP</a></h2>
+<p>OOP，即 <em>Object Oriented Programming</em>，是一种目前比较通用的 <em>编程范式</em> <sup class="footnote-reference"><a href="#1">1</a></sup></p>
+<p>Rust 中，<code>struct</code> 和 <code>enum</code> 中包含数据，同时可以使用 <code>impl</code> 来提供方法或函数，这可以被看成是对象的一种</p>
+<p>而 OOP 总结下来就是三种特点，<strong>封装</strong>，<strong>继承</strong> 和 <strong>多态</strong></p>
+<h3 id="封装"><a class="header" href="#封装">封装</a></h3>
+<p>Rust 中，封装这个特性应该是最好体现的了</p>
+<p>Rust 的 <code>struct</code> 和 <code>enum</code>，默认情况下是 <em>private</em> 的，只有写了 <code>pub</code> 关键字才能够从外部访问</p>
+<p>而且 Rust 的 <code>enum</code> 在标记 <code>pub</code> 后，每个字段也变成公开的了</p>
+<p>而 <code>struct</code> 则还需要将需要公开的字段加上 <code>pub</code> 标记才能公开</p>
+<h3 id="继承"><a class="header" href="#继承">继承</a></h3>
+<p>这点，Rust 中是没有继承机制的，但是我们可以使用 <code>trait</code> 来做到</p>
+<p>我们可以为我们的 <code>enum</code> 或者 <code>struct</code> 实现 (即 <code>impl</code>) 某个 <code>trait</code> 来当作继承了这个 <code>trait</code></p>
+<h3 id="多态"><a class="header" href="#多态">多态</a></h3>
+<p>多态在 Rust 里也是通过 <code>trait</code> 来实现的，我们可以通过 <code>trait</code> 约束和泛型来做到 <sup class="footnote-reference"><a href="#2">2</a></sup></p>
+<p>相关 RFC 可以参考 <a href="https://rust-lang.github.io/rfcs/0034-bounded-type-parameters.html">这里</a></p>
+<blockquote>
+<p>这种方案我们还可以称为组合 <sup class="footnote-reference"><a href="#3">3</a></sup></p>
+</blockquote>
+<h3 id="example"><a class="header" href="#example">Example</a></h3>
+<p>这里我们来定义一个 <code>traie</code> 叫做 <code>Draw</code></p>
+<pre><code class="language-rust">pub trait Draw {
+    fn draw(&amp;self);
+}
+
+pub struct Screen {
+    pub components: Vec&lt;Box&lt;dyn Draw&gt;&gt;,
+}
+
+impl Screen {
+    pub fn run(&amp;self) {
+        for component in self.components.iter() {
+            component.draw();
+        }
+    }
+}
+
+pub struct Button {
+    pub width: u8,
+    pub height: u8,
+    pub label: String,
+}
+
+impl Draw for Button {
+    fn draw(&amp;self) {
+        println!(
+            "Draw Button w: {} h: {} s: {}",
+            self.width, self.height, self.label
+        );
+    }
+}
+
+pub struct SelectBox {
+    pub width: u8,
+    pub height: u8,
+    pub options: Vec&lt;String&gt;,
+    pub selected: bool,
+}
+
+impl Draw for SelectBox {
+    fn draw(&amp;self) {
+        println!(
+            "Draw Selected state: {} w: {} h: {} s: {:?}",
+            self.selected, self.width, self.height, self.options
+        );
+    }
+}</code></pre>
+<p><code>Draw</code> 里面有一个方法需要我们来实现 <code>draw()</code></p>
+<p>而我们可以使用 <code>impl</code> 为 <code>Button</code> 和 <code>SelectBox</code> 来实现 <code>Draw</code></p>
+<p>配合 <code>Box&lt;dyn Draw&gt;</code>，就好像 <code>Button</code> 和 <code>SelectBox</code> 继承了 <code>Draw</code></p>
+<p>使用一下</p>
+<pre><code class="language-rust">use rustex::rust::{self, Button, SelectBox};
+
+fn main() {
+    let s = rust::Screen {
+        components: vec![
+            Box::new(SelectBox {
+                width: 75,
+                height: 10,
+                options: vec![String::from("Here")],
+                selected: false,
+            }),
+            Box::new(Button {
+                width: 50,
+                height: 10,
+                label: String::from("Ok"),
+            }),
+        ],
+    };
+
+    s.run();
+}</code></pre>
+<p>输出如下</p>
+<pre><code class="language-text">Draw Selected state: false w: 75 h: 10 s: ["Here"]
+Draw Button w: 50 h: 10 s: Ok
+</code></pre>
+<p>可以看到是正常执行了</p>
+<h2 id="模式匹配"><a class="header" href="#模式匹配">模式匹配</a></h2>
+<p>这个我们就很常见了，例如 <code>match</code>，<code>while let</code>，<code>if let</code> 以及 <code>let</code> 都可以使用模式匹配</p>
+<pre><code class="language-rust">let x = Some(10);
+if let Some(v) = x {
+    println!("val in x is: {}", v);
+}</code></pre>
+<p><code>for</code> 循环里面也有模式匹配</p>
+<pre><code class="language-rust">let vals = vec![1, 2, 3, 4];
+for (i, v) in vals.iter().enumerate() {
+    println!("{}: {}", i, v);
+}</code></pre>
+<p>函数参数也可以使用模式匹配</p>
+<pre><code class="language-rust">fn print_point(&amp;(x, y): &amp;(f32, f32)) {
+    println!("(x: {}, y: {})", x, y);
+}</code></pre>
+<p>模式匹配的规则可以参考 <a href="https://doc.rust-lang.org/reference/patterns.html">这里</a></p>
+<h2 id="宏"><a class="header" href="#宏">宏</a></h2>
+<p>宏也是 Rust 的一大特色</p>
+<blockquote>
+<p>the functionality and syntax of Rust can be extended with custom definitions called macros</p>
+</blockquote>
+<p>宏在 Rust 中可以用在如下场景 <sup class="footnote-reference"><a href="#4">4</a></sup></p>
+<ul>
+<li>宏作为表达式或语句</li>
+<li>模式 (patterns)</li>
+<li>类型 (types)</li>
+<li>item，包括 关联 item</li>
+<li><code>macro_rules</code> 的 transcribers</li>
+<li>外部语句块</li>
+</ul>
+<p>下面是官方给出的例子</p>
+<pre><code class="language-rust">// Used as an expression.
+let x = vec![1,2,3];
+
+// Used as a statement.
+println!("Hello!");
+
+// Used in a pattern.
+macro_rules! pat {
+    ($i:ident) =&gt; (Some($i))
+}
+
+if let pat!(x) = Some(1) {
+    assert_eq!(x, 1);
+}
+
+// Used in a type.
+macro_rules! Tuple {
+    { $A:ty, $B:ty } =&gt; { ($A, $B) };
+}
+
+type N2 = Tuple!(i32, i32);
+
+// Used as an item.
+use std::cell::RefCell;
+thread_local!(static FOO: RefCell&lt;u32&gt; = RefCell::new(1));
+
+// Used as an associated item.
+macro_rules! const_maker {
+    ($t:ty, $v:tt) =&gt; { const CONST: $t = $v; };
+}
+trait T {
+    const_maker!{i32, 7}
+}
+
+// Macro calls within macros.
+macro_rules! example {
+    () =&gt; { println!("Macro call in a macro!") };
+}
+// Outer macro `example` is expanded, then inner macro `println` is expanded.
+example!();</code></pre>
+<p>而过程宏 <sup class="footnote-reference"><a href="#5">5</a></sup> 可以分为 <em>衍生 (derive) 宏</em>，<em>属性宏</em>，<em>函数宏</em>，分别用在 <code>#[derive(xxx)]</code>，自定义属性，以及作为函数调用</p>
+<h3 id="example-1"><a class="header" href="#example-1">Example</a></h3>
+<p>这里我直接用例子来实践，一般，需要包含 <a href="https://crates.io/crates/syn">syn</a>, 和 <a href="https://crates.io/crates/quote">quote</a> 这两个包</p>
+<h4 id="组织项目"><a class="header" href="#组织项目">组织项目</a></h4>
+<p>项目目录结构如下</p>
+<pre><code class="language-text">$ tree -L 1 .
+.
+├── Cargo.toml
+├── hello_macro
+│   ├── Cargo.toml
+│   └── src
+└── proc_test
+    ├── Cargo.toml
+    └── src
+</code></pre>
+<p>即，我们需要创建一个工作空间，包含 <code>proc_test</code> 和 <code>hello_macro</code> 两个包</p>
+<pre><code class="language-toml">[workspace]
+
+members = ["proc_test", "hello_macro"]
+</code></pre>
+<h4 id="hello_macro"><a class="header" href="#hello_macro">hello_macro</a></h4>
+<p><code>hello_macro</code> 是我们的测试包，即我们的 <code>trait</code> 和 <code>main</code> 都在这个包里</p>
+<pre><code class="language-toml">[package]
+name = "hello_macro"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "hello_macro"
+crate-type = ["rlib", "staticlib"]
+
+[dependencies]
+proc_test = { path = "../proc_test" }
+</code></pre>
+<p>在 <code>hello_macro/src/lib.rs</code> 里，我们仅需要定义 <code>trait</code></p>
+<pre><code class="language-rust">pub trait HelloMacro {
+    fn hello_macro();
+}</code></pre>
+<h4 id="proc_test"><a class="header" href="#proc_test">proc_test</a></h4>
+<p>我们的宏定义在 <code>proc_test</code> 里</p>
+<pre><code class="language-toml">[package]
+name = "proc_test"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "proc_test"
+proc-macro = true
+
+[dependencies]
+syn = "1.0.103"
+quote = "1.0.21"
+</code></pre>
+<p>重点来了，每个包含过程宏的包必定是 <code>proc-macro</code> 类型的 <em>crate</em></p>
+<p>而 <code>proc-macro</code> 不允许导出除了过程宏以外的其他函数或宏，所以一般需要单独成包</p>
+<p>在 <code>proc_test/src/lib.rs</code> 下就是我们主要的内容了</p>
+<pre><code class="language-rust">extern crate proc_macro;
+
+use crate::proc_macro::TokenStream;
+use quote::quote;
+use syn;
+
+#[proc_macro_derive(HelloMacro)]
+pub fn hello_macro_derive(input: TokenStream) -&gt; TokenStream {
+    let ast = syn::parse(input).unwrap();
+    impl_hello_macro(&amp;ast)
+}
+
+fn impl_hello_macro(ast: &amp;syn::DeriveInput) -&gt; TokenStream {
+    let name = &amp;ast.ident;
+    let gen = quote! {
+        impl HelloMacro for #name {
+            fn hello_macro() {
+                println!("Hello, Macro! My name is {}", stringify!(#name));
+            }
+        }
+    };
+    gen.into()
+}</code></pre>
+<p>首先使用 <code>extern crate proc_macro;</code> 将 <code>proc_macro</code> 引入 <code>crate</code> 层级，而后导入 <code>syn</code> 和 <code>quote::quote!</code></p>
+<p>我们这里写的是一个衍生宏，所以使用 <code>#[proc_macro_derive(HelloMacro)]</code> 标注，而括号里面就是我们要衍生的 <code>trait</code> 了</p>
+<p>一开始，我们使用 <code>syn::parse</code> 将传入的内容，一般就是需要衍生的 <code>struct</code> 或者 <code>enum</code> 的代码，解析为 <strong><em>AST</em></strong> 形式 <sup class="footnote-reference"><a href="#6">6</a></sup></p>
+<p>而后将解析好的内容传给 <code>impl_hello_macro</code></p>
+<p>在 <code>impl_hello_macro</code> 里，我们从 <strong>AST</strong> 中获取到标识符的名称 <code>ident</code>，在 <code>quote!</code> 里我们实现了 <code>hello_macro()</code></p>
+<p>最后将实现的内容返回，这就完成了衍生过程</p>
+<h4 id="结果"><a class="header" href="#结果">结果</a></h4>
+<p>我们将测试代码放在 <code>hello_macro</code> 包下，在 <code>hello_macro/src/main.rs</code> 里，就是我们要做到的效果了</p>
+<pre><code class="language-rust">use hello_macro::HelloMacro;
+use proc_test::HelloMacro;
+
+#[derive(HelloMacro)]
+struct Pank;
+
+fn main() {
+    Pank::hello_macro();
+}</code></pre>
+<p>我们在工作空间目录下使用 <code>cargo run -p hello_macro</code> 即可看到效果</p>
+<pre><code class="language-text">Hello, Macro! My name is Pank
+</code></pre>
+<p>可以看到，我们使用 <code>hello_macro</code> 成功输入了 stuct 的名称 <code>Pank</code></p>
+<h3 id="属性宏"><a class="header" href="#属性宏">属性宏</a></h3>
+<p>属性宏的用法一般是 <code>#[macro_name(params)]</code>，定义方式为</p>
+<pre><code class="language-rust">#[proc_macro_attribute]
+pub fn macro_name(attr: TokenStream, item: TokenStream) -&gt; TokenStream {
+    ...
+}</code></pre>
+<p>第一个 <code>attr</code> 就是我们使用宏的时候的参数 <code>params</code>，而后面的 <code>item</code> 就是我们要修饰的函数</p>
+<h3 id="函数宏"><a class="header" href="#函数宏">函数宏</a></h3>
+<p>函数宏就是类似函数的宏，例子就是 <code>format!</code> 和 <code>println!</code>，例如</p>
+<pre><code class="language-rust">let s = sql!(SELECT * FROM posts WHERE id=1);</code></pre>
+<p>而定义方式如下</p>
+<pre><code class="language-rust">#[proc_macro]
+pub fn sql(input: TokenStream) -&gt; TokenStream {
+    ...
+}</code></pre>
+<hr />
+<p>好，到这里，Rust 大致内容就算是过了一遍了，不过具体使用还是需要好好看文档，写代码</p>
+<p>写 Rust 就是和所有权做 <del>斗争</del> 朋友，后面大部分就是实例和小提示了，加油吧！</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Wikipedia.Programming Paradigm [DB/OL].
+<a href="https://en.wikipedia.org/wiki/Programming_paradigm">https://en.wikipedia.org/wiki/Programming_paradigm</a>,
+2022-10-28/2022-10-30</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>Wikipedia.Bounded Quantification [DB/OL].
+<a href="https://en.wikipedia.org/wiki/Bounded_quantification">https://en.wikipedia.org/wiki/Bounded_quantification</a>,
+2021-11-10/2022-10-30</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>Rust Reference.Type Layout [S/OL].
+<a href="https://doc.rust-lang.org/reference/type-layout.html">https://doc.rust-lang.org/reference/type-layout.html</a>,
+2022-10-30</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p>Rust Reference.Macro [S/OL].
+<a href="https://doc.rust-lang.org/reference/macros.html">https://doc.rust-lang.org/reference/macros.html</a>,
+2022-10-30</p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p>Rust Docs.proc_macro [S/OL].
+<a href="https://doc.rust-lang.org/proc_macro/">https://doc.rust-lang.org/proc_macro/</a>,
+2022-10-30</p>
+</div>
+<div class="footnote-definition" id="6"><sup class="footnote-definition-label">6</sup>
+<p>Wikipedia.Abstract Syntax Tree [DB/OL].
+<a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">https://en.wikipedia.org/wiki/Abstract_syntax_tree</a>,
+2022-8-10/2022-10-30</p>
+</div>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/rust/20220925-rust-learn-15.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/rust/20221030-rust-learn-project-02.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/rust/20220925-rust-learn-15.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/rust/20221030-rust-learn-project-02.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>

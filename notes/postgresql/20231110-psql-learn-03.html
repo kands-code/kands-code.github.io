@@ -1,0 +1,450 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>PostgreSQL 学习 03 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+        
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="../../init.html">Init</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item "><a href="../../notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/rust/20210605-rust-learn-01.html">Rust 学习 01</a></li><li class="chapter-item "><a href="../../notes/rust/20210610-rust-learn-02.html">Rust 学习 02</a></li><li class="chapter-item "><a href="../../notes/rust/20210824-rust-learn-03.html">Rust 学习 03</a></li><li class="chapter-item "><a href="../../notes/rust/20211216-rust-learn-04.html">Rust 学习 04</a></li><li class="chapter-item "><a href="../../notes/rust/20220512-rust-learn-05.html">Rust 学习 05</a></li><li class="chapter-item "><a href="../../notes/rust/20220514-rust-learn-06.html">Rust 学习 06</a></li><li class="chapter-item "><a href="../../notes/rust/20220520-rust-learn-07.html">Rust 学习 07</a></li><li class="chapter-item "><a href="../../notes/rust/20220522-rust-learn-08.html">Rust 学习 08</a></li><li class="chapter-item "><a href="../../notes/rust/20220523-rust-learn-09.html">Rust 学习 09</a></li><li class="chapter-item "><a href="../../notes/rust/20220611-rust-learn-10.html">Rust 学习 10</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-11.html">Rust 学习 11</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-project-01.html">Rust 学习 实例 01</a></li><li class="chapter-item "><a href="../../notes/rust/20220623-rust-learn-12.html">Rust 学习 12</a></li><li class="chapter-item "><a href="../../notes/rust/20220624-rust-learn-13.html">Rust 学习 13</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-14.html">Rust 学习 14</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-15.html">Rust 学习 15</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-final.html">Rust 学习 final</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-project-02.html">Rust 学习 实例 02</a></li></ol></li><li class="chapter-item expanded "><a href="../../notes/postgresql/index.html">PostgreSQL</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/postgresql/20230502-psql-learn-01.html">PostgreSQL 学习 01</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231024-psql-learn-02.html">PostgreSQL 学习 02</a></li><li class="chapter-item expanded "><a href="../../notes/postgresql/20231110-psql-learn-03.html" class="active">PostgreSQL 学习 03</a></li></ol></li><li class="chapter-item "><a href="../../notes/typechallenges/index.html">Type Challenges</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/typechallenges/20230425-type-challenges-01.html">TypeScript 类型体操 01</a></li><li class="chapter-item "><a href="../../notes/typechallenges/20230428-type-challenges-02.html">TypeScript 类型体操 02</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="../../miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="../../miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="../../miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/study/20221108-qiskit-linear-algebra.html">qiskit 线性代数</a></li><li class="chapter-item "><a href="../../miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">qiskit Deutsch-Jozsa 算法</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="../../miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="../../miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="../../miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="spacer"></li></ol></li><li class="chapter-item "><a href="../../about.html">About</a></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                                        <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/postgresql/20231110-psql-learn-03.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="postgresql-学习-03"><a class="header" href="#postgresql-学习-03">PostgreSQL 学习 03</a></h1>
+<p class="archive-time">archive time: 2023-11-10</p>
+<p class="sp-comment">闲着也是闲着，不如学一下 PostgreSQL</p>
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E6%A0%BC%E8%AE%BE%E8%AE%A1">数据库表格设计</a>
+<ul>
+<li><a href="#%E9%9C%80%E8%A6%81%E5%93%AA%E4%BA%9B%E8%A1%A8%E6%A0%BC">需要哪些表格</a></li>
+<li><a href="#%E8%A1%A8%E6%A0%BC%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB">表格间的关系</a></li>
+<li><a href="#%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%BA%8F%E5%88%97">自动生成序列</a></li>
+</ul>
+</li>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E5%85%B3%E8%81%94%E6%95%B0%E6%8D%AE">查询关联数据</a></li>
+</ul>
+<p>最近一直是休息状态，但是懒散久了总感觉有点呆不住，那就再学点 <strong><em>PostgreSQL</em></strong> 吧</p>
+<h2 id="数据库表格设计"><a class="header" href="#数据库表格设计">数据库表格设计</a></h2>
+<p>基本上，需要用到数据库的场合下，不会只有一个表格需要管理，通常是需要管理多个相互关联的表格</p>
+<p>并且需要知道，我们使用数据库的时候，表格结构一旦确定下来，出于维护方便和成本考虑，轻易不会修改</p>
+<p>这种情况下，数据之间的管理就显得尤为重要，也就需要我们对于表格有个良好的设计</p>
+<h3 id="需要哪些表格"><a class="header" href="#需要哪些表格">需要哪些表格</a></h3>
+<p>在开始设计之前，我们需要明确自己的需求，也就是我们需要处理那些数据，有哪些表格需要设计</p>
+<p>在 <strong><em>SQL and PostgreSQL The Complete Developer’s Guide</em></strong> 中，
+我们需要设计一个给 <strong><em>图片分享应用</em></strong> 的数据库，大致包括 <em>用户</em>，<em>图片</em>，<em>评论</em> 以及 <em>点赞</em> 这几个数据</p>
+<p>通常情况下，我们的数据库结构是需要根据程序的结构设计的</p>
+<p>例如用户，一个用户类型包括了 <em>用户发帖数</em>，<em>用户跟随数</em>，<em>用户粉丝数</em> 以及 <em>用户帖子</em> 大概这些内容</p>
+<p>而一个帖子，可能包含了 <em>标题</em>，<em>头图</em>，<em>图片</em> 以及 <em>图片描述</em> 等内容</p>
+<p>这些就是我们设计数据库表格和关系的依据</p>
+<h3 id="表格间的关系"><a class="header" href="#表格间的关系">表格间的关系</a></h3>
+<p>而在我们要设计的这四个表格中，我们可以知道，用户是可以发图片的，用户是可以评论和点赞别人帖子的，
+一个图片是可以被点赞和被评论的，等等，这些就是我们说的 “关系”</p>
+<p>我们常见的关系类型有:</p>
+<ul>
+<li>一对多: 一个用户可以有多个图片</li>
+<li>多对一: 多张照片属于同一个用户</li>
+<li>一对一: 一个账户对应一个用户</li>
+<li>多对多: 学生可能要上多门课，每一门课有很多学生</li>
+</ul>
+<p>这些关系还可以通过 <em>主键</em> 和 <em>外键</em> 来体现</p>
+<p>所谓主键，就是一个表格中每个记录独有的数据</p>
+<p>而外键指的就是这个表格的每个记录与其他表格中记录的关系</p>
+<p>例如，在图片表格中，每个图片都有一个独一无二的哈希值，这个可以作为图片的主键</p>
+<p>每个图片都是由某一位用户发的，所以有个 <code>user_id</code> 作为记号，这就是对应的外键</p>
+<p>但是一个用户可以发多个图片，这就意味着多个图片的 <code>user_id</code> 可以一样，但是哈希值一定是不同的</p>
+<h3 id="自动生成序列"><a class="header" href="#自动生成序列">自动生成序列</a></h3>
+<p>对于图片 ID 或者用户 ID 一类的东西，我们可以选择自己生成，然后手动插入到数据库</p>
+<p>除此之外，我们还可以让数据库自己为我们生成对应的序列，也就是 <code>serial</code> 类型</p>
+<pre><code class="language-sql">create table users (
+  id serial primary key
+  , username character varying (64)
+);
+</code></pre>
+<p>这样，我们在插入数据的时候就不需要插入 <code>id</code>，而是只需要给数据库 <code>username</code> 就好</p>
+<pre><code class="language-sql">insert into users (
+  username
+) values
+  ('Alice')
+  , ('Bob')
+  , ('Susan')
+  , ('Jack');
+</code></pre>
+<p>此时，我们的 <code>users</code> 表格数据就是:</p>
+<pre><code class="language-text">psqldev=# select * from users;
+ id | username
+----+----------
+  1 | Alice
+  2 | Bob
+  3 | Susan
+  4 | Jack
+(4 行记录)
+</code></pre>
+<p>对于图片表格，我们可以用类似的设计</p>
+<pre><code class="language-sql">create table photos (
+  id serial primary key
+  , url character varying (256)
+  , user_id integer references users(id)
+);
+</code></pre>
+<p>图片 ID 我们没有使用哈希值，因为这里只是示例，并没有真正存储图片，所以使用序列就好了</p>
+<p>其次，为了表明图片与用户的关系，我们使用了 用户 ID 作为外键</p>
+<p>外键的语法是:</p>
+<pre><code class="language-sql">&lt;name&gt; &lt;type&gt; references &lt;table name&gt;(&lt;cols&gt;)
+</code></pre>
+<p>也就是 <code>&lt;name&gt;</code> 这个名字的数据对应的是 <code>&lt;table name&gt;</code> 这个表中的 <code>&lt;cols&gt;</code> 对应数据</p>
+<p>对这个表插入数据是类似的:</p>
+<pre><code class="language-sql">insert into photos (
+  url
+  , user_id
+) values
+  ('https://img1.jpg', 4)
+  , ('https://img2.jpg', 4)
+  , ('https://img3.jpg', 2)
+  , ('https://img4.jpg', 3)
+  , ('https://img5.jpg', 3)
+  , ('https://img6.jpg', 2)
+  , ('https://img7.jpg', 1)
+  , ('https://img8.jpg', 1)
+  , ('https://img9.jpg', 1);
+</code></pre>
+<p>此时，我们的 <code>photos</code> 表格数据为:</p>
+<pre><code class="language-text">psqldev=# select * from photos;
+ id |       url        | user_id
+----+------------------+---------
+  1 | https://img1.jpg |       4
+  2 | https://img2.jpg |       4
+  3 | https://img3.jpg |       2
+  4 | https://img4.jpg |       3
+  5 | https://img5.jpg |       3
+  6 | https://img6.jpg |       2
+  7 | https://img7.jpg |       1
+  8 | https://img8.jpg |       1
+  9 | https://img9.jpg |       1
+(9 行记录)
+</code></pre>
+<h2 id="查询关联数据"><a class="header" href="#查询关联数据">查询关联数据</a></h2>
+<p>我们使用 <code>user_id</code> 将 <code>photos</code> 和 <code>users</code> 联系在了一起，那么这样做有什么用呢？</p>
+<p>例如，我们想要查看某个用户发的所有图片，这个情况下，外键就非常有用了</p>
+<pre><code class="language-sql">select * from photos
+  where user_id = 4;
+</code></pre>
+<p>我们会得到如下输出:</p>
+<pre><code class="language-text">psqldev=# select * from photos
+  where user_id = 4;
+ id |       url        | user_id
+----+------------------+---------
+  1 | https://img1.jpg |       4
+  2 | https://img2.jpg |       4
+(2 行记录)
+</code></pre>
+<p>如果要看所有照片和用户的关系呢？</p>
+<pre><code class="language-sql">select * from photos
+  join users on users.id = photos.user_id;
+</code></pre>
+<p>其中 <code>join</code> 是将两个表格合并在了一起，并且是依据 <code>user_id</code> 与 <code>users.id</code> 的对应关系，输出如下:</p>
+<pre><code class="language-text">psqldev=# select * from photos
+  join users on users.id = photos.user_id;
+ id |       url        | user_id | id | username
+----+------------------+---------+----+----------
+  9 | https://img9.jpg |       1 |  1 | Alice
+  8 | https://img8.jpg |       1 |  1 | Alice
+  7 | https://img7.jpg |       1 |  1 | Alice
+  6 | https://img6.jpg |       2 |  2 | Bob
+  3 | https://img3.jpg |       2 |  2 | Bob
+  5 | https://img5.jpg |       3 |  3 | Susan
+  4 | https://img4.jpg |       3 |  3 | Susan
+  2 | https://img2.jpg |       4 |  4 | Jack
+  1 | https://img1.jpg |       4 |  4 | Jack
+(9 行记录)
+</code></pre>
+<p>我们使用外键是为了保证 <strong><em>数据一致性</em></strong>，也就是保证我们插入的图片数据一定能与某个用户联系</p>
+<p>如果我们插入了某个不存在的用户 ID，数据库就会发现这个错误，并且提示我们:</p>
+<pre><code class="language-text">psqldev=# insert into photos (
+  url
+  , user_id
+) values
+  ('https://img16.jpg', 16);
+ERROR:  insert or update on table "photos" violates foreign key constraint "photos_user_id_fkey"
+描述:  Key (user_id)=(16) is not present in table "users".
+</code></pre>
+<p>这里，数据库直接告诉我们，我们要插入的数据中，<code>16</code> 这个 <code>user_id</code> 是不存在的</p>
+<p>不过某些情况下，我们想要插入一个图片，但是这个图片是非常特殊的，不属于任何一个用户，例如应用图标</p>
+<p>我们可以使用 <code>null</code> 这个特殊数据</p>
+<pre><code class="language-sql">insert into photos (
+  url
+  , user_id
+) values
+  ('https://app-icon.png', null);
+</code></pre>
+<p>如果我们这个时候再查看我们的 <code>photos</code> 表格数据就会发现，
+<code>https://app-icon.png</code> 对应的 <code>user_id</code> 是空白一片，也就是 <strong><em>NULL</em></strong></p>
+<pre><code class="language-text">psqldev=# select * from photos;
+ id |         url          | user_id
+----+----------------------+---------
+  1 | https://img1.jpg     |       4
+  2 | https://img2.jpg     |       4
+  3 | https://img3.jpg     |       2
+  4 | https://img4.jpg     |       3
+  5 | https://img5.jpg     |       3
+  6 | https://img6.jpg     |       2
+  7 | https://img7.jpg     |       1
+  8 | https://img8.jpg     |       1
+  9 | https://img9.jpg     |       1
+ 11 | https://app-icon.png |
+(10 行记录)
+</code></pre>
+<hr />
+<p>好，今天就暂时学到这里吧，后面的删除什么的就之后再看了</p>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/postgresql/20231024-psql-learn-02.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/typechallenges/index.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/postgresql/20231024-psql-learn-02.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/typechallenges/index.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>

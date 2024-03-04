@@ -1,0 +1,486 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>TypeScript 类型体操 01 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+        
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="../../init.html">Init</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item "><a href="../../notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/rust/20210605-rust-learn-01.html">Rust 学习 01</a></li><li class="chapter-item "><a href="../../notes/rust/20210610-rust-learn-02.html">Rust 学习 02</a></li><li class="chapter-item "><a href="../../notes/rust/20210824-rust-learn-03.html">Rust 学习 03</a></li><li class="chapter-item "><a href="../../notes/rust/20211216-rust-learn-04.html">Rust 学习 04</a></li><li class="chapter-item "><a href="../../notes/rust/20220512-rust-learn-05.html">Rust 学习 05</a></li><li class="chapter-item "><a href="../../notes/rust/20220514-rust-learn-06.html">Rust 学习 06</a></li><li class="chapter-item "><a href="../../notes/rust/20220520-rust-learn-07.html">Rust 学习 07</a></li><li class="chapter-item "><a href="../../notes/rust/20220522-rust-learn-08.html">Rust 学习 08</a></li><li class="chapter-item "><a href="../../notes/rust/20220523-rust-learn-09.html">Rust 学习 09</a></li><li class="chapter-item "><a href="../../notes/rust/20220611-rust-learn-10.html">Rust 学习 10</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-11.html">Rust 学习 11</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-project-01.html">Rust 学习 实例 01</a></li><li class="chapter-item "><a href="../../notes/rust/20220623-rust-learn-12.html">Rust 学习 12</a></li><li class="chapter-item "><a href="../../notes/rust/20220624-rust-learn-13.html">Rust 学习 13</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-14.html">Rust 学习 14</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-15.html">Rust 学习 15</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-final.html">Rust 学习 final</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-project-02.html">Rust 学习 实例 02</a></li></ol></li><li class="chapter-item "><a href="../../notes/postgresql/index.html">PostgreSQL</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/postgresql/20230502-psql-learn-01.html">PostgreSQL 学习 01</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231024-psql-learn-02.html">PostgreSQL 学习 02</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231110-psql-learn-03.html">PostgreSQL 学习 03</a></li></ol></li><li class="chapter-item expanded "><a href="../../notes/typechallenges/index.html">Type Challenges</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../notes/typechallenges/20230425-type-challenges-01.html" class="active">TypeScript 类型体操 01</a></li><li class="chapter-item "><a href="../../notes/typechallenges/20230428-type-challenges-02.html">TypeScript 类型体操 02</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="../../miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="../../miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="../../miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/study/20221108-qiskit-linear-algebra.html">qiskit 线性代数</a></li><li class="chapter-item "><a href="../../miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">qiskit Deutsch-Jozsa 算法</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="../../miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="../../miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="../../miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="spacer"></li></ol></li><li class="chapter-item "><a href="../../about.html">About</a></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                                        <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/typechallenges/20230425-type-challenges-01.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="typescript-类型体操-01"><a class="header" href="#typescript-类型体操-01">TypeScript 类型体操 01</a></h1>
+<p class="archive-time">archive time: 2023-04-25</p>
+<p class="sp-comment">今天开始尝试写一下 TypeScript 的类型体操</p>
+<ul>
+<li><a href="#hello-world-13">Hello World (13)</a>
+<ul>
+<li><a href="#question">Question</a></li>
+<li><a href="#answer">Answer</a></li>
+</ul>
+</li>
+<li><a href="#pick-4">Pick (4)</a>
+<ul>
+<li><a href="#question-1">Question</a></li>
+<li><a href="#answer-1">Answer</a></li>
+</ul>
+</li>
+<li><a href="#readonly-7">Readonly (7)</a>
+<ul>
+<li><a href="#question-2">Question</a></li>
+<li><a href="#answer-2">Answer</a></li>
+</ul>
+</li>
+<li><a href="#tuple-to-object-11">Tuple to Object (11)</a>
+<ul>
+<li><a href="#question-3">Question</a></li>
+<li><a href="#answer-3">Answer</a></li>
+</ul>
+</li>
+<li><a href="#first-of-array-14">First of Array (14)</a>
+<ul>
+<li><a href="#answer-4">Answer</a></li>
+</ul>
+</li>
+<li><a href="#length-of-tuple-18">Length of Tuple (18)</a>
+<ul>
+<li><a href="#question-4">Question</a></li>
+<li><a href="#answer-5">Answer</a></li>
+</ul>
+</li>
+</ul>
+<p>闲来无事，<ruby>整<rt>删</rt>理<rt>除</rt>了</ruby> 一些老的博客，
+单纯是为了清理一些内容，打算把一些内容重新写一下，
+然后有些内容我大概是不会再写了，所以就删了，因为我不太能忍受烂尾行为</p>
+<p>至于这个类型体操，题目的链接在<a href="https://github.com/type-challenges/type-challenges">这里</a>，
+感兴趣的可以看看，嘛，就是图个好玩</p>
+<p>至于更新计划什么的，最近几天应该会比较经常的更新这个，
+由于题目数量比较多，我大概就是按照难度顺序慢慢做，做到什么程度就什么程度罢</p>
+<h2 Warm-up="">Hello World (13)</h2>
+<h3 id="question"><a class="header" href="#question">Question</a></h3>
+<blockquote>
+<p>Hello, World!</p>
+<p>In Type Challenges, we use the type system itself to do the assertion.</p>
+<p>For this challenge, you will need to change the following code
+to make the tests pass (no type check errors).</p>
+<pre><code class="language-typescript">// expected to be string
+type HelloWorld = any;
+</code></pre>
+<pre><code class="language-typescript">// you should make this work
+type test = Expect&lt;Equal&lt;HelloWorld, string&gt;&gt;;
+</code></pre>
+<p>Click the <code>Take the Challenge</code> button to start coding! Happy Hacking!</p>
+</blockquote>
+<h3 id="answer"><a class="header" href="#answer">Answer</a></h3>
+<p>这里的大意就是要让 <code>Expect&lt;Equal&lt;HelloWorld, string&gt;&gt;</code> 不报错，
+要做到这个，那就要使得 <code>HelloWorld</code> 的类型是 <code>string</code>，即:</p>
+<pre><code class="language-typescript">type HelloWorld = string;
+</code></pre>
+<p>还是非常简单的</p>
+<h2 Easy="">Pick (4)</h2>
+<h3 id="question-1"><a class="header" href="#question-1">Question</a></h3>
+<blockquote>
+<p>Implement the built-in <code>Pick&lt;T, K&gt;</code> generic without using it.</p>
+<p>Constructs a type by picking the set of properties K from T</p>
+<p>For example:</p>
+<pre><code class="language-typescript">interface Todo {
+  title: string;
+  description: string;
+  completed: boolean;
+}
+
+type TodoPreview = MyPick&lt;Todo, "title" | "completed"&gt;;
+
+const todo: TodoPreview = {
+  title: "Clean room",
+  completed: false,
+};
+</code></pre>
+</blockquote>
+<h3 id="answer-1"><a class="header" href="#answer-1">Answer</a></h3>
+<blockquote>
+<p>一开始没做出来，直接看答案</p>
+</blockquote>
+<p>这个题目就是要我们实现一个 <code>Pick&lt;T, K&gt;</code> 这样一个泛型类型，
+对应代码里就是那个 <code>MyPick</code></p>
+<pre><code class="language-typescript">type MyPick&lt;T, K extends keyof T&gt; = {
+  [k in K]: T[k];
+};
+</code></pre>
+<p>这里我们需要 <code>K</code> 可以用来索引 <code>T</code> 的每一项，
+所以 <code>K extends keyof T</code>，即 <code>K</code> 是 <code>T</code> 的所有键的子集</p>
+<blockquote>
+<p>应该是子集罢</p>
+</blockquote>
+<p>然后我们使用 <code>[k in K]</code> 来迭代 <code>K</code> 中的项，即我们所需要的键，
+然后通过这个键来索引出 <code>T</code> 中对应的项的类型，然后使用 <code>{}</code> 包裹，构成我们新的类型</p>
+<h2 Easy="">Readonly (7)</h2>
+<h3 id="question-2"><a class="header" href="#question-2">Question</a></h3>
+<blockquote>
+<p>Implement the built-in <code>Readonly&lt;T&gt;</code> generic without using it.</p>
+<p>Constructs a type with all properties of T set to readonly,
+meaning the properties of the constructed type cannot be reassigned.</p>
+<p>For example:</p>
+<pre><code class="language-typescript">interface Todo {
+  title: string;
+  description: string;
+}
+
+const todo: MyReadonly&lt;Todo&gt; = {
+  title: "Hey",
+  description: "foobar",
+};
+
+todo.title = "Hello"; // Error: cannot reassign a readonly property
+todo.description = "barFoo"; // Error: cannot reassign a readonly property
+</code></pre>
+</blockquote>
+<h3 id="answer-2"><a class="header" href="#answer-2">Answer</a></h3>
+<blockquote>
+<p>这一题也是直接看答案的</p>
+</blockquote>
+<p>这一题也是要实现 TypeScript 内置的 <code>Readonly&lt;T&gt;</code> 类型，
+这个类型的作用就是把你的类中的每一项都设置为 <code>readonly</code>，即得到一个只读的元素</p>
+<pre><code class="language-typescript">type MyReadonly&lt;T&gt; = {
+  readonly [p in keyof T]: T[p];
+};
+</code></pre>
+<p>这里我们只需要给每一项加上一个 <code>readonly</code> 属性即可</p>
+<h2 Easy="">Tuple to Object (11)</h2>
+<h3 id="question-3"><a class="header" href="#question-3">Question</a></h3>
+<blockquote>
+<p>Given an array, transform it into an object type
+and the key/value must be in the provided array.</p>
+<p>For example:</p>
+<pre><code class="language-typescript">const tuple = ["tesla", "model 3", "model X", "model Y"] as const;
+
+type result = TupleToObject&lt;typeof tuple&gt;;
+// expect {
+//   tesla: "tesla";
+//   "model 3": "model 3";
+//   "model X": "model X";
+//   "model Y": "model Y";
+// };
+</code></pre>
+</blockquote>
+<h3 id="answer-3"><a class="header" href="#answer-3">Answer</a></h3>
+<blockquote>
+<p>这个依旧是抄的</p>
+</blockquote>
+<p>这里要我们实现一个 <code>TupleToObject</code> 类型，使得元组中的每一项既是项，也是类型</p>
+<pre><code class="language-typescript">type TupleToObject&lt;T extends readonly string[]&gt; = {
+  [p in T[number]]: p;
+};
+</code></pre>
+<p>这里，主要要注意<a href="https://www.typescriptlang.org/docs/handbook/2/indexed-access-types.html">索引访问类型</a>的使用，即 <code>[p in T[number]]</code>，
+这样就可以索引出 <code>T</code> 中所有的值</p>
+<h2 Easy="">First of Array (14)</h2>
+<blockquote>
+<p>Implement a generic <code>First&lt;T&gt;</code> that takes an Array T
+and returns its first element’s type.</p>
+<p>For example:</p>
+<pre><code class="language-typescript">type arr1 = ["a", "b", "c"];
+type arr2 = [3, 2, 1];
+
+type head1 = First&lt;arr1&gt;; // expected to be 'a'
+type head2 = First&lt;arr2&gt;; // expected to be 3
+</code></pre>
+</blockquote>
+<h3 id="answer-4"><a class="header" href="#answer-4">Answer</a></h3>
+<p>在经过了 <em>Tuple to Object</em> 这道题后，这道题应该不难写了</p>
+<p>不过我的答案还是有疏漏，我原本的答案是:</p>
+<pre><code class="language-typescript">type First&lt;T extends Array&lt;number | string | symbol&gt;&gt; = T[0];
+</code></pre>
+<p>不过我小看了 TypeScript 类型的灵活，
+除了 <code>number</code>，<code>string</code> 和 <code>symbol</code> 可以作为类型使用外，
+<code>boolean</code> 之类的字面值也可以作为类型，导致我这个题解不全面，
+看了答案后得到了下面这个答案</p>
+<pre><code class="language-typescript">type First&lt;T extends any[]&gt; = T extends [] ? never : T[0];
+</code></pre>
+<p>至此，才大概完全覆盖了 TypeScript 的类型</p>
+<h2 Easy="">Length of Tuple (18)</h2>
+<h3 id="question-4"><a class="header" href="#question-4">Question</a></h3>
+<blockquote>
+<p>For given a tuple, you need create a generic Length,
+pick the length of the tuple</p>
+<p>For example:</p>
+<pre><code class="language-typescript">type tesla = ["tesla", "model 3", "model X", "model Y"];
+type spaceX = [
+  "FALCON 9",
+  "FALCON HEAVY",
+  "DRAGON",
+  "STARSHIP",
+  "HUMAN SPACEFLIGHT"
+];
+
+type teslaLength = Length&lt;tesla&gt;; // expected 4
+type spaceXLength = Length&lt;spaceX&gt;; // expected 5
+</code></pre>
+</blockquote>
+<h3 id="answer-5"><a class="header" href="#answer-5">Answer</a></h3>
+<blockquote>
+<p>还是看了答案</p>
+</blockquote>
+<p>我们可以使用 <code>Type["属性"]</code> 的语法来获取类型的属性，
+这或许就是 TypeScript 类型如此厉害的原因罢，太灵活了</p>
+<pre><code class="language-typescript">type Length&lt;T extends any[]&gt; = T extends [] ? never : T["length"];
+</code></pre>
+<p>感觉脑袋完全不够用啊</p>
+<hr />
+<p>今天的题就写到这里罢，什么都不会，全是抄答案，
+到目前为止只有一个体会，那就是 TypeScript 文档还远远不够，
+很多操作无法直接查到，或许这就是类型体操的魅力罢（大嘘</p>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/typechallenges/index.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/typechallenges/20230428-type-challenges-02.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/typechallenges/index.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/typechallenges/20230428-type-challenges-02.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>

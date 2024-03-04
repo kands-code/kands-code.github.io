@@ -1,0 +1,631 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>C 语言数学解析器 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+        
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="../../init.html">Init</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item "><a href="../../notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/rust/20210605-rust-learn-01.html">Rust 学习 01</a></li><li class="chapter-item "><a href="../../notes/rust/20210610-rust-learn-02.html">Rust 学习 02</a></li><li class="chapter-item "><a href="../../notes/rust/20210824-rust-learn-03.html">Rust 学习 03</a></li><li class="chapter-item "><a href="../../notes/rust/20211216-rust-learn-04.html">Rust 学习 04</a></li><li class="chapter-item "><a href="../../notes/rust/20220512-rust-learn-05.html">Rust 学习 05</a></li><li class="chapter-item "><a href="../../notes/rust/20220514-rust-learn-06.html">Rust 学习 06</a></li><li class="chapter-item "><a href="../../notes/rust/20220520-rust-learn-07.html">Rust 学习 07</a></li><li class="chapter-item "><a href="../../notes/rust/20220522-rust-learn-08.html">Rust 学习 08</a></li><li class="chapter-item "><a href="../../notes/rust/20220523-rust-learn-09.html">Rust 学习 09</a></li><li class="chapter-item "><a href="../../notes/rust/20220611-rust-learn-10.html">Rust 学习 10</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-11.html">Rust 学习 11</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-project-01.html">Rust 学习 实例 01</a></li><li class="chapter-item "><a href="../../notes/rust/20220623-rust-learn-12.html">Rust 学习 12</a></li><li class="chapter-item "><a href="../../notes/rust/20220624-rust-learn-13.html">Rust 学习 13</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-14.html">Rust 学习 14</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-15.html">Rust 学习 15</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-final.html">Rust 学习 final</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-project-02.html">Rust 学习 实例 02</a></li></ol></li><li class="chapter-item "><a href="../../notes/postgresql/index.html">PostgreSQL</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/postgresql/20230502-psql-learn-01.html">PostgreSQL 学习 01</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231024-psql-learn-02.html">PostgreSQL 学习 02</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231110-psql-learn-03.html">PostgreSQL 学习 03</a></li></ol></li><li class="chapter-item "><a href="../../notes/typechallenges/index.html">Type Challenges</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/typechallenges/20230425-type-challenges-01.html">TypeScript 类型体操 01</a></li><li class="chapter-item "><a href="../../notes/typechallenges/20230428-type-challenges-02.html">TypeScript 类型体操 02</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item expanded "><a href="../../miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item expanded "><a href="../../miscellany/coding/20221026-parse-math-in-c.html" class="active">C 语言数学解析器</a></li><li class="chapter-item "><a href="../../miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/study/20221108-qiskit-linear-algebra.html">qiskit 线性代数</a></li><li class="chapter-item "><a href="../../miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">qiskit Deutsch-Jozsa 算法</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="../../miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="../../miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="../../miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="spacer"></li></ol></li><li class="chapter-item "><a href="../../about.html">About</a></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                                        <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/miscellany/coding/20221026-parse-math-in-c.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="c-语言数学解析器"><a class="header" href="#c-语言数学解析器">C 语言数学解析器</a></h1>
+<p class="archive-time">archive time: 2022-10-26</p>
+<p class="sp-comment">很久没更新了, 今天我们用 C 做一个数学计算器</p>
+<ul>
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B">自定义类型</a></li>
+<li><a href="#%E5%87%BD%E6%95%B0%E5%8E%9F%E5%9E%8B">函数原型</a></li>
+<li><a href="#%E5%87%BD%E6%95%B0%E4%B8%BB%E8%A6%81%E5%AE%9E%E7%8E%B0">函数主要实现</a>
+<ul>
+<li><a href="#main">main</a></li>
+<li><a href="#number">number</a></li>
+<li><a href="#parentheses">parentheses</a></li>
+<li><a href="#function">function</a></li>
+</ul>
+</li>
+<li><a href="#%E6%B1%82%E5%80%BC">求值</a></li>
+</ul>
+<p>最近突然想尝试写一个 <em>Parser</em>，不过一直没有思路，所以不知道如何实践</p>
+<p>然后在看 <strong><em>tauri</em></strong> 相关的例子的时候突然想到可以做一个数学式的 <em>Parser</em></p>
+<p>虽然 <strong><em>tauri</em></strong> 是 <em>Rust</em> 的，但是我打算先用 <em>C</em> 写个原型</p>
+<h2 id="自定义类型"><a class="header" href="#自定义类型">自定义类型</a></h2>
+<p>我打算使用自定义类型来存储结果</p>
+<p>原式 <code>2 - (3 + sin(3.14 / 2)) / 7 + 2 ^ 2</code>，结果</p>
+<pre><code class="language-text">Add(
+  Sub(
+    Const(
+      value: 2.0000
+    )
+    Div(
+      Par(
+        Add(
+          Const(
+            value: 3.0000
+          )
+          Sin(
+            Par(
+              Div(
+                Const(
+                  value: 3.1400
+                )
+                Const(
+                  value: 2.0000
+                )
+              )
+            )
+          )
+        )
+      )
+      Const(
+        value: 7.0000
+      )
+    )
+  )
+  Pow(
+    Const(
+      value: 2.0000
+    )
+    Const(
+      value: 2.0000
+    )
+  )
+)
+</code></pre>
+<p>大概可以分解为</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:6em;vertical-align:-2.75em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.25em;"><span style="top:-5.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathrm">Expr</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">::</span></span></span><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"></span></span><span style="top:-0.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.75em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.25em;"><span style="top:-5.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathrm">Expr</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∘</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathrm">Expr</span></span></span></span><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord">∣</span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathrm">sign</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathrm">Expr</span></span><span class="mclose">)</span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord">∣</span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathrm">Expr</span></span><span class="mclose">)</span></span></span><span style="top:-0.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord">∣</span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathrm">Const</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.75em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>对应 <strong>Expr</strong> 的类型定义为</p>
+<pre><code class="language-c">typedef struct pm_Expr {
+  PM_FUNC func;
+  struct pm_Expr *e1;
+  struct pm_Expr *e2;
+  float value;
+} pm_Expr;
+</code></pre>
+<p>而这里我定义了几类函数，日后可以按需扩充</p>
+<pre><code class="language-c">typedef enum PM_FUNC {
+  ADD = 10,
+  SUB = 11,
+  MUL = 20,
+  DIV = 21,
+  NEG = 30,
+  POS = 31,
+  POW = 40,
+  SIN = 50,
+  COS = 51,
+  EXP = 52,
+  PAR = 60,
+  CONST = 61,
+} PM_FUNC;
+</code></pre>
+<p>每项的值都是 <em>优先级</em> + <em>序号</em> 的组合</p>
+<p>例如 <code>ADD</code> 的值为 <code>10</code>，则，优先级为 <strong>1</strong>，对应优先级中序号为 <em>0</em></p>
+<h2 id="函数原型"><a class="header" href="#函数原型">函数原型</a></h2>
+<p>我将解析功能拆分成了一下几个函数来完成</p>
+<pre><code class="language-c">extern pm_Expr *pm_parse(const char *orgExpr);
+extern pm_Expr *pm_number(const char *expr, size_t *bias);
+extern pm_Expr *pm_parentheses(const char *expr, size_t *bias);
+extern pm_Expr *pm_function(const char *expr, size_t *bias);
+</code></pre>
+<p>分别是</p>
+<ul>
+<li>对整个式子的解析</li>
+<li>对于单个数字的解析</li>
+<li>对于一组括号的解析</li>
+<li>对于函数调用的解析</li>
+</ul>
+<h2 id="函数主要实现"><a class="header" href="#函数主要实现">函数主要实现</a></h2>
+<p>由于一些细节比较繁琐，这里只介绍主要部分的实现，详细可以参考我的<a href="https://github.com/kands-code/c-rust-examples/tree/main/c-examples/darfts">仓库</a></p>
+<h3 id="main"><a class="header" href="#main">main</a></h3>
+<p>整个解析的部分就是不断根据当前字符来判断该用什么来解析</p>
+<pre><code class="language-c">pm_Expr *pm_parse(const char *orgExpr) {
+  // ignore all whitespace characters
+  char *expr = pm_ignoreBlank(orgExpr);
+  char *handle = expr;
+  // store the result
+  pm_Expr *parsedExpr = NULL;
+  pm_Expr *tempExpr = NULL;
+  // store the current state
+  char curChar = *expr;
+  // start to parse
+  while (*expr != '\0') {
+    // the offset
+    size_t bias = 0;
+    if (isdigit(curChar) || '.' == curChar) {
+      // parse number
+      tempExpr = pm_number(expr, &amp;bias);
+      expr += bias;
+    } else if (pm_isOperator(curChar)) {
+      // the operator
+      // ...
+    } else if ('(' == curChar) {
+      // parse parentheses
+      tempExpr = pm_parentheses(expr, &amp;bias);
+      expr += bias;
+    } else if (isalpha(curChar)) {
+      // parse function call
+      tempExpr = pm_function(expr, &amp;bias);
+      expr += bias;
+    } else {
+      fprintf(stderr, "Error: wrong math expression syntax\n");
+      exit(EXIT_FAILURE);
+    }
+  // ...
+  free(handle);
+  return parsedExpr;
+}
+</code></pre>
+<p>首先调用 <code>pm_ignoreBlank</code> 将字符串中的空白字符给去掉，同时复制一份可以操作的字符串</p>
+<p>使用 <code>handle</code> 存储首地址，在解析完毕后释放空间</p>
+<p><code>parsedExpr</code> 和 <code>tempExpr</code> 分别用于存储最终结果和临时解析结果</p>
+<p>每得到一个临时结果都需要按照优先级规律插入到最终结果中</p>
+<p>解析时，通过当前字符类型来判别调用函数</p>
+<ul>
+<li>如果是当前字符是数字，则使用 <code>pm_number</code></li>
+<li>如果是一个左括号，则调用 <code>pm_parentheses</code></li>
+<li>如果是字母，则可能是函数调用，使用 <code>pm_function</code></li>
+</ul>
+<p>如果是个符号，若符号是操作符，则需要按照规律插入到结果中</p>
+<pre><code class="language-c">bool isPrefix = false;
+if (NULL == parsedExpr) {
+  // E ::= sign(E)
+  isPrefix = true;
+}
+// insert new operator
+PM_FUNC opSym = pm_getOperatorSymbol(curChar, isPrefix);
+// E ::= E o E
+if (NULL == parsedExpr || !pm_comparePriority(opSym, parsedExpr-&gt;func)) {
+  pm_Expr *newExpr = malloc(sizeof(pm_Expr));
+  newExpr-&gt;func = opSym;
+  newExpr-&gt;e1 = parsedExpr;
+  newExpr-&gt;e2 = NULL;
+  parsedExpr = newExpr;
+} else {
+  pm_Expr *currExpr = parsedExpr;
+  pm_Expr *nextExpr = NULL;
+  while (NULL != currExpr-&gt;e1 || NULL != currExpr-&gt;e2) {
+    size_t curType = pm_getFuncType(currExpr-&gt;func);
+    if (1 == curType) {
+      nextExpr = currExpr-&gt;e1;
+    } else if (2 == curType) {
+      nextExpr = currExpr-&gt;e2;
+    } else {
+      fprintf(stderr, "Error: wrong func type!\n");
+      exit(EXIT_FAILURE);
+    }
+    if (pm_comparePriority(opSym, nextExpr-&gt;func)) {
+      currExpr = nextExpr;
+    } else {
+      pm_Expr *newExpr = malloc(sizeof(pm_Expr));
+      newExpr-&gt;func = opSym;
+      newExpr-&gt;e1 = nextExpr;
+      if (1 == curType) {
+        currExpr-&gt;e1 = newExpr;
+      } else if (2 == curType) {
+        currExpr-&gt;e2 = newExpr;
+      }
+      break;
+    }
+  }
+  // check
+  if (NULL == nextExpr) {
+    fprintf(stderr, "Error: wrong expression syntax with operator!\n");
+    exit(EXIT_FAILURE);
+  }
+}
+expr++;
+curChar = *expr;
+continue;
+</code></pre>
+<p>具体操作我就不解释了，简而言之，就是在构建一棵树</p>
+<h3 id="number"><a class="header" href="#number">number</a></h3>
+<p>解析数字，我们默认是 <code>float</code>，所以需要考虑小数的判别</p>
+<pre><code class="language-c">pm_Expr *pm_number(const char *expr, size_t *bias) {
+  if (NULL == expr) {
+    fprintf(stderr, "Error: expression cannot be null!\n");
+    exit(EXIT_FAILURE);
+  }
+  // store state
+  bool inFrac = false;
+  char curChar = *expr;
+  float fracCnt = 0;
+  float number = 0.0f;
+  // start to parse
+  while ('\0' != curChar &amp;&amp; (isdigit(curChar) || '.' == curChar)) {
+    if (inFrac) {
+      // fractional number part
+      if ('.' == curChar) {
+        fprintf(stderr, "Error: fraction do not have dot!\n");
+        exit(EXIT_FAILURE);
+      } else {
+        number += fracCnt * (curChar - '0');
+        fracCnt *= 0.1f;
+      }
+    } else {
+      // whole number part
+      if ('.' != curChar) {
+        number *= 10;
+        number += (curChar - '0');
+      } else {
+        inFrac = true;
+        fracCnt = 0.1;
+      }
+    }
+    // move on
+    expr++;
+    *bias += 1;
+    curChar = *expr;
+  }
+  // build expression
+  pm_Expr *numExpr = malloc(sizeof(pm_Expr));
+  numExpr-&gt;e1 = NULL;
+  numExpr-&gt;e2 = NULL;
+  numExpr-&gt;func = CONST;
+  numExpr-&gt;value = number;
+  // return expression
+  return numExpr;
+}
+</code></pre>
+<p>由于一开始我们就将空格滤掉了，所以我们就无须考虑空格之类的问题</p>
+<p>数字解析整体过程比较粗暴，不过真的好用</p>
+<h3 id="parentheses"><a class="header" href="#parentheses">parentheses</a></h3>
+<p>括号的解析关键在于找到对应的括号</p>
+<pre><code class="language-c">pm_Expr *pm_parentheses(const char *expr, size_t *bias) {
+  if (NULL == expr) {
+    fprintf(stderr, "Error: expression cannot be null!\n");
+    exit(EXIT_FAILURE);
+  }
+  // store state
+  int pCnt = 0;
+  size_t insideCnt = 0;
+  char curChar = *expr;
+  // match all content inside parentheses
+  do {
+    if ('(' == curChar) {
+      pCnt++;
+    } else if (')' == curChar) {
+      pCnt--;
+    }
+    insideCnt++;
+    curChar = *(expr + insideCnt);
+    *bias += 1;
+  } while ('\0' != curChar &amp;&amp; pCnt != 0);
+  if (pCnt != 0) {
+    fprintf(stderr, "Error: cannot match all parentheses!\n");
+    exit(EXIT_FAILURE);
+  }
+  // get the inside content
+  char *insideContent = calloc(insideCnt - 1, sizeof(char));
+  insideContent = strncpy(insideContent, expr + 1, insideCnt - 2);
+  // get the inside expression
+  pm_Expr *insideExpr = pm_parse(insideContent);
+  free(insideContent);
+  pm_Expr *wrapExpr = malloc(sizeof(pm_Expr));
+  wrapExpr-&gt;func = PAR;
+  wrapExpr-&gt;e1 = insideExpr;
+  return wrapExpr;
+}
+</code></pre>
+<p>匹配出括号中的内容后可以直接使用 <code>pm_parse</code> 函数解析内容，而后使用 <code>PAR</code> 包裹</p>
+<h3 id="function"><a class="header" href="#function">function</a></h3>
+<p>函数部分依赖括号的解析，总之，就是将参数部分当成括号解析，而后使用相应函数包裹</p>
+<pre><code class="language-c">pm_Expr *pm_function(const char *expr, size_t *bias) {
+  size_t funNameLen = 0;
+  while (isalpha(*(expr + funNameLen))) {
+    funNameLen++;
+  }
+  char *funName = calloc(funNameLen + 1, sizeof(char));
+  for (size_t i = 0; i &lt; funNameLen; ++i) {
+    funName[i] = expr[i];
+  }
+  expr += funNameLen;
+  pm_Expr *paramExpr = NULL;
+  size_t paramBias = 0;
+  if ('(' == *expr) {
+    paramExpr = pm_parentheses(expr, &amp;paramBias);
+  } else {
+    fprintf(stderr, "Error: wrong function call syntax!\n");
+    exit(EXIT_FAILURE);
+  }
+  *bias += funNameLen + paramBias;
+  pm_Expr *funExpr = malloc(sizeof(pm_Expr));
+  funExpr-&gt;func = pm_getFuncSym(funName);
+  funExpr-&gt;e1 = paramExpr;
+  funExpr-&gt;e2 = NULL;
+
+  return funExpr;
+}
+</code></pre>
+<h2 id="求值"><a class="header" href="#求值">求值</a></h2>
+<p>求值的时候可以通过 <code>pm_Expr</code> 的 <code>func</code> 字段判断使用何种方式计算</p>
+<pre><code class="language-c">float pm_evaluation(const pm_Expr *expr) {
+  if (ADD == expr-&gt;func) {
+    return pm_evaluation(expr-&gt;e1) + pm_evaluation(expr-&gt;e2);
+  } else if (SUB == expr-&gt;func) {
+    return pm_evaluation(expr-&gt;e1) - pm_evaluation(expr-&gt;e2);
+  } else if (MUL == expr-&gt;func) {
+    return pm_evaluation(expr-&gt;e1) * pm_evaluation(expr-&gt;e2);
+  } else if (DIV == expr-&gt;func) {
+    float d = pm_evaluation(expr-&gt;e2);
+    if (fabsf(d) &lt; 1e-4) {
+      fprintf(stderr, "Error: cannot divide zero!\n");
+      exit(EXIT_FAILURE);
+    }
+    return pm_evaluation(expr-&gt;e1) / d;
+  } else if (NEG == expr-&gt;func) {
+    return -pm_evaluation(expr-&gt;e1);
+  } else if (POW == expr-&gt;func) {
+    return powf(pm_evaluation(expr-&gt;e1), pm_evaluation(expr-&gt;e2));
+  } else if (SIN == expr-&gt;func) {
+    return sinf(pm_evaluation(expr-&gt;e1));
+  } else if (COS == expr-&gt;func) {
+    return cosf(pm_evaluation(expr-&gt;e1));
+  } else if (EXP == expr-&gt;func) {
+    return expf(pm_evaluation(expr-&gt;e1));
+  } else if (PAR == expr-&gt;func) {
+    return pm_evaluation(expr-&gt;e1);
+  } else if (CONST == expr-&gt;func) {
+    return expr-&gt;value;
+  } else {
+    fprintf(stderr, "Error: wrong expression when evaluation!\n");
+    exit(EXIT_FAILURE);
+  }
+  return 0.0f;
+}
+</code></pre>
+<p>不断递归调用，最后求得最后结果</p>
+<hr />
+<p>以上就是我这个解析器的实现大概，通过这次实践，大概算是知道如何写 <em>Parser</em> 了，多少还算有些收获吧</p>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../miscellany/coding/20210604-scope-of-if-statement.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../miscellany/coding/20231107-clash-system-agent.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../miscellany/coding/20210604-scope-of-if-statement.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../miscellany/coding/20231107-clash-system-agent.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>

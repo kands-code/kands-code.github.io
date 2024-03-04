@@ -1,0 +1,646 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>Rust 学习 13 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+        
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="../../init.html">Init</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item expanded "><a href="../../notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/rust/20210605-rust-learn-01.html">Rust 学习 01</a></li><li class="chapter-item "><a href="../../notes/rust/20210610-rust-learn-02.html">Rust 学习 02</a></li><li class="chapter-item "><a href="../../notes/rust/20210824-rust-learn-03.html">Rust 学习 03</a></li><li class="chapter-item "><a href="../../notes/rust/20211216-rust-learn-04.html">Rust 学习 04</a></li><li class="chapter-item "><a href="../../notes/rust/20220512-rust-learn-05.html">Rust 学习 05</a></li><li class="chapter-item "><a href="../../notes/rust/20220514-rust-learn-06.html">Rust 学习 06</a></li><li class="chapter-item "><a href="../../notes/rust/20220520-rust-learn-07.html">Rust 学习 07</a></li><li class="chapter-item "><a href="../../notes/rust/20220522-rust-learn-08.html">Rust 学习 08</a></li><li class="chapter-item "><a href="../../notes/rust/20220523-rust-learn-09.html">Rust 学习 09</a></li><li class="chapter-item "><a href="../../notes/rust/20220611-rust-learn-10.html">Rust 学习 10</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-11.html">Rust 学习 11</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-project-01.html">Rust 学习 实例 01</a></li><li class="chapter-item "><a href="../../notes/rust/20220623-rust-learn-12.html">Rust 学习 12</a></li><li class="chapter-item expanded "><a href="../../notes/rust/20220624-rust-learn-13.html" class="active">Rust 学习 13</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-14.html">Rust 学习 14</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-15.html">Rust 学习 15</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-final.html">Rust 学习 final</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-project-02.html">Rust 学习 实例 02</a></li></ol></li><li class="chapter-item "><a href="../../notes/postgresql/index.html">PostgreSQL</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/postgresql/20230502-psql-learn-01.html">PostgreSQL 学习 01</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231024-psql-learn-02.html">PostgreSQL 学习 02</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231110-psql-learn-03.html">PostgreSQL 学习 03</a></li></ol></li><li class="chapter-item "><a href="../../notes/typechallenges/index.html">Type Challenges</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/typechallenges/20230425-type-challenges-01.html">TypeScript 类型体操 01</a></li><li class="chapter-item "><a href="../../notes/typechallenges/20230428-type-challenges-02.html">TypeScript 类型体操 02</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="../../miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="../../miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="../../miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/study/20221108-qiskit-linear-algebra.html">qiskit 线性代数</a></li><li class="chapter-item "><a href="../../miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">qiskit Deutsch-Jozsa 算法</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="../../miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="../../miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="../../miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="spacer"></li></ol></li><li class="chapter-item "><a href="../../about.html">About</a></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                                        <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20220624-rust-learn-13.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="rust-学习-13"><a class="header" href="#rust-学习-13">Rust 学习 13</a></h1>
+<p class="archive-time">archive time: 2022-06-24</p>
+<p class="sp-comment">今天来看看智能指针</p>
+<ul>
+<li><a href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88">智能指针</a>
+<ul>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88">实现智能指针</a></li>
+<li><a href="#boxt"><code>Box&lt;T&gt;</code></a></li>
+<li><a href="#deref-trait"><code>Deref</code> trait</a>
+<ul>
+<li><a href="#deref-coercion">Deref Coercion</a></li>
+</ul>
+</li>
+<li><a href="#drop-trait"><code>Drop</code> trait</a></li>
+<li><a href="#rct"><code>Rc&lt;T&gt;</code></a></li>
+<li><a href="#refcell">RefCell</a></li>
+<li><a href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E5%92%8C%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F">循环引用和内存泄漏</a>
+<ul>
+<li><a href="#weakt"><code>Weak&lt;T&gt;</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>指针就是存放地址的一个变量, 而 Rust 里最常用的指针就是 <strong>引用(ref)</strong></p>
+<h2 id="智能指针"><a class="header" href="#智能指针">智能指针</a></h2>
+<p>智能指针行为和指针类似, 除此之外还有一些额外元数据和功能</p>
+<p>引用计数智能指针类型可以通过记录所有者数量, 使一份数据能够被多个所有者 <strong>同时</strong> 持有</p>
+<p>如果没有所有者, 那么数据将会自动清零</p>
+<p>相较于引用只是 借用(borrow) 数据, 智能指针多数都 <em>拥有</em> 所指向的数据</p>
+<p><code>String</code> 和 <code>Vec&lt;T&gt;</code> 是典型的智能指针</p>
+<p>不仅有一片内存可以让用户操作, 还拥有元数据, 如容量, 和保障, 如 <code>String</code> 保证是合法的 <strong>UTF-8</strong> 编码</p>
+<h3 id="实现智能指针"><a class="header" href="#实现智能指针">实现智能指针</a></h3>
+<p>智能指针通常使用 <code>struct</code> 实现, 实现了 <code>Deref</code> 和 <code>Drop</code> 这两个 trait</p>
+<p>Deref 使得智能指针可以像引用一样使用</p>
+<p>Drop 允许自定义智能指针离开作用域后的行为</p>
+<h3 id="boxt"><a class="header" href="#boxt"><code>Box&lt;T&gt;</code></a></h3>
+<p>在之前闭包的时候我们就见过 <code>Box&lt;T&gt;</code> 这个类型了</p>
+<p>如果我们要返回一个闭包, 我们需要使用 <code>Box&lt;T&gt;</code> 来包裹</p>
+<p>Box 的作用就是把内容放到 Heap 上存储, Box 指向了 Heap 上的数据</p>
+<p>通常我们使用 Box 都是因为我们需要一个知道确切大小的内容, 但是实际大小无法确定</p>
+<p>这时候我们就可以使用 Box 包裹, Box 的大小是确定的</p>
+<p>或者我们要转移 <em>所有权</em> 同时确保操作数据时数据不被复制</p>
+<p>此外就是在泛型, 我们只关心实现了某一特定 trait, 但是不知道具体类型, 可以使用 Box</p>
+<p>这是使用 Box 的例子, 使用 <code>Box::new()</code></p>
+<pre><code class="language-rust">fn main() {
+    let b = Box::new(6);
+    println!("b = {}", b);
+}</code></pre>
+<p>我们还可以使用 Box 来实现类似 Lisp 的链表类型, 即递归类型</p>
+<pre><code class="language-rust">enum List&lt;T&gt; {
+    Cons(T, Box&lt;List&lt;T&gt;&gt;),
+    Nil,
+}</code></pre>
+<h3 id="deref-trait"><a class="header" href="#deref-trait"><code>Deref</code> trait</a></h3>
+<p><code>Deref</code> 这个 trait 是一个 <strong>操作符</strong>, 对应的是解引用操作符 <code>*</code></p>
+<p>实现这个 trait, 我们就可以像引用一样来处理我们的类型</p>
+<p>所以, 如果需要从 Box 中取出值, 可以使用 <code>*</code> 来实现</p>
+<pre><code class="language-rust">fn main() {
+    let b = Box::new(6);
+    assert_eq!(6, *b);
+}</code></pre>
+<p>仔细看的话, 会发现 Box 实际上就是个 tuple struct</p>
+<pre><code class="language-rust">
+pub struct Box&lt;
+    T: ?Sized,
+    #[unstable(feature = "allocator_api", issue = "32838")] A: Allocator = Global,
+&gt;(Unique&lt;T&gt;, A);</code></pre>
+<p>在解引用时, 对于 <code>*b</code> 这个操作, 在 Box 类型上会变成 <code>*(b.deref())</code></p>
+<p>因为 <code>deref</code> 操作只会返回值的引用, 所以还需要一个普通的解引用才能完成解引用操作</p>
+<h4 id="deref-coercion"><a class="header" href="#deref-coercion">Deref Coercion</a></h4>
+<p>如果 T 实现了 Deref, Deref Coercion 会把 <strong>T 的引用</strong> 转变为 T 经过 Deref 操作后生成的引用</p>
+<pre><code class="language-rust">fn main() {
+    let p = Box::new(String::from("Kands"));
+    hello(&amp;p);
+}
+
+fn hello(name: &amp;str) {
+    println!("{}, hello!", name);
+}
+
+// &amp;p : &amp;Box&lt;String&gt;
+//    =deref=&gt; &amp;String
+//    =deref=&gt; &amp;str</code></pre>
+<p>这个操作是在编译时自动执行的, 运行时没有什么开销</p>
+<ul>
+<li>当 <code>T: Deref&lt;Target=U&gt;</code>, 允许 <code>&amp;T =&gt; &amp;U</code></li>
+<li>当 <code>T: DerefMut&lt;Target=U&gt;</code>, 允许 <code>&amp;mut T =&gt; &amp;mut U</code></li>
+<li>当 <code>T: Deref&lt;Target=U&gt;</code>, 允许 <code>&amp;mut T =&gt; &amp;U</code></li>
+</ul>
+<p>对于可变引用, 还有 <code>DerefMut</code> 这样一个 trait, 是类似的</p>
+<h3 id="drop-trait"><a class="header" href="#drop-trait"><code>Drop</code> trait</a></h3>
+<p>Drop trait 可以让我们自定义离开作用域时的动作, 如资源的释放</p>
+<p>要实现这个 trait, 只需要实现 <code>drop(&amp;mut self)</code> 方法</p>
+<p>Drop trait 在 Prelude 里, 类似 Cpp 里的析构函数</p>
+<p>一般, drop 方法不允许我们手动调用, 但是我们可以调用 <code>std::mem::drop</code> 方法来提前释放值</p>
+<h3 id="rct"><a class="header" href="#rct"><code>Rc&lt;T&gt;</code></a></h3>
+<p><code>Rc&lt;T&gt;</code> 是引用计数智能指针</p>
+<p>有时一个值会有多个所有者, 如 图里面的某个节点同时属于多个边</p>
+<p>如果需要在 Heap 上分配数据, 并且这个数据将被程序的多个部分读取(只读), 但是不知道哪部分会先用完数据, 则可以使用 <code>Rc&lt;T&gt;</code></p>
+<p>但是要注意, <code>Rc&lt;T&gt;</code> 是 <strong>仅适用于单线程的</strong></p>
+<ul>
+<li><code>Rc::clone(&amp;a)</code> 增加引用计数</li>
+<li><code>Rc::strong_count(&amp;a)</code> 获得引用计数
+<ul>
+<li>还有 <code>Rc::weak_count()</code></li>
+</ul>
+</li>
+</ul>
+<p>使用例子:</p>
+<pre><code class="language-rust">use std::rc::Rc;
+
+enum List&lt;T&gt; {
+    Cons(T, Rc&lt;List&lt;T&gt;&gt;),
+    Nil,
+}
+
+use List::*;
+
+fn main() {
+    // Rc(5 -&gt; 10 -&gt; nil)
+    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+    println!("{}", Rc::strong_count(&amp;a));
+    // =&gt; 1
+
+    // 3 -&gt; a |=&gt; 3 -&gt; 5 -&gt; 10 -&gt; nil
+    let b = Cons(3, Rc::clone(&amp;a));
+    println!("{}", Rc::strong_count(&amp;a));
+    // =&gt; 2
+
+    // 4 -&gt; a |=&gt; 4 -&gt; 5 -&gt; 10 -&gt; nil
+    let c = Cons(4, Rc::clone(&amp;a));
+    println!("{}", Rc::strong_count(&amp;a));
+    // =&gt; 3
+}</code></pre>
+<p><code>Rc::clone</code> 相较于 <code>clone()</code>, 不会执行数据的深度拷贝操作, 只会增加引用计数, 相对较快</p>
+<p><code>Rc&lt;T&gt;</code> 实际上是使用不可变引用使得数据可以共享</p>
+<h3 id="refcell"><a class="header" href="#refcell">RefCell</a></h3>
+<p><code>Rc&lt;T&gt;</code> 使用的是不可变引用, 如果我们需要对共享的数据进行修改</p>
+<p>RefCell 代表了其持有数据的唯一所有权, 而且只能在单线程使用</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center"></th><th style="text-align: center"><code>Box&lt;T&gt;</code></th><th style="text-align: center"><code>Rc&lt;T&gt;</code></th><th style="text-align: center"><code>RefCell&lt;T&gt;</code></th></tr></thead><tbody>
+<tr><td style="text-align: center">同一数据的所有者</td><td style="text-align: center">一个</td><td style="text-align: center">多个</td><td style="text-align: center">一个</td></tr>
+<tr><td style="text-align: center">可变性, 借用检查</td><td style="text-align: center">可变, 不可变借用 (编译时检查)</td><td style="text-align: center">不可变借用 (编译时检查)</td><td style="text-align: center">可变, 不可变借用 (运行时检查)</td></tr>
+</tbody></table>
+</div>
+<p>例子如下</p>
+<pre><code class="language-rust">pub trait Messager {
+    fn send(&amp;self, msg: &amp;str);
+}
+
+pub struct LimitTracker&lt;'a, T: 'a + Messager&gt; {
+    messager: &amp;'a T,
+    value: usize,
+    max: usize,
+}
+
+impl&lt;'a, T&gt; LimitTracker&lt;'a, T&gt;
+where
+    T: Messager,
+{
+    pub fn new(messager: &amp;T, max: usize) -&gt; LimitTracker&lt;T&gt; {
+        LimitTracker {
+            messager,
+            value: 0,
+            max,
+        }
+    }
+
+    pub fn set_value(&amp;mut self, value: usize) {
+        self.value = value;
+
+        let percentage_of_max = self.value as f64 / self.max as f64;
+        if percentage_of_max &gt;= 1.0 {
+            self.messager.send("Error: You're over your quota!");
+        } else if percentage_of_max &gt;= 0.9 {
+            self.messager
+                .send("Urgent warning: You've used up over 90% of your quota!");
+        } else if percentage_of_max &gt;= 0.75 {
+            self.messager
+                .send("Warning: You've used up over 75% of your quota!");
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::cell::RefCell;
+
+    struct MockMessager {
+        sent_messages: RefCell&lt;Vec&lt;String&gt;&gt;,
+    }
+
+    impl MockMessager {
+        fn new() -&gt; MockMessager {
+            MockMessager {
+                sent_messages: RefCell::new(vec![]),
+            }
+        }
+    }
+
+    impl Messager for MockMessager {
+        fn send(&amp;self, msg: &amp;str) {
+            self.sent_messages.borrow_mut().push(String::from(msg));
+        }
+    }
+
+    #[test]
+    fn it_sends_an_over_75_persent_warning_message() {
+        let mock_messager = MockMessager::new();
+        let mut limit_tracker = LimitTracker::new(&amp;mock_messager, 100);
+
+        limit_tracker.set_value(100);
+        assert_eq!(mock_messager.sent_messages.borrow().len(), 1);
+    }
+}</code></pre>
+<p>RefCell 会记录存在多少个活跃的 <code>Ref&lt;T&gt;</code> 和 <code>RefMut&lt;T&gt;</code> 智能指针, 这样就保证了借用规则</p>
+<p>我们还可以将 RefCell 和 Rc 结合起来使用</p>
+<pre><code class="language-rust">use std::{cell::RefCell, rc::Rc};
+
+#[derive(Debug)]
+enum List&lt;T&gt; {
+    Cons(Rc&lt;RefCell&lt;T&gt;&gt;, Rc&lt;List&lt;T&gt;&gt;),
+    Nil,
+}
+
+use List::*;
+
+fn main() {
+    // * -&gt; 5 -&gt; *
+    let value = Rc::new(RefCell::new(5));
+    // 5 -&gt; nil
+    let a = Rc::new(Cons(Rc::clone(&amp;value), Rc::new(Nil)));
+    // 6 -&gt; a |=&gt; 6 -&gt; 5 -&gt; nil
+    let b = Cons(Rc::new(RefCell::new(6)), Rc::clone(&amp;a));
+    // 10 -&gt; a |=&gt; 10 -&gt; 5 -&gt; nil
+    let c = Cons(Rc::new(RefCell::new(10)), Rc::clone(&amp;a));
+
+    println!("a = {:?}", a);
+    println!("b = {:?}", b);
+    println!("c = {:?}", c);
+    /*
+     * a = Cons(RefCell { value: 5 }, Nil)
+     * b = Cons(RefCell { value: 6 }, Cons(RefCell { value: 5 }, Nil))
+     * c = Cons(RefCell { value: 10 }, Cons(RefCell { value: 5 }, Nil))
+     */
+
+    *value.borrow_mut() += 10;
+
+    println!("a = {:?}", a);
+    println!("b = {:?}", b);
+    println!("c = {:?}", c);
+    /*
+     * a = Cons(RefCell { value: 15 }, Nil)
+     * b = Cons(RefCell { value: 6 }, Cons(RefCell { value: 15 }, Nil))
+     * c = Cons(RefCell { value: 10 }, Cons(RefCell { value: 15 }, Nil))
+     */
+}</code></pre>
+<p>除此之外, 我们还可以使用 <code>Cell&lt;T&gt;</code> 使用复制数据来访问数据, <code>Mutex&lt;T&gt;</code> 实现了跨线程下的内部可变性</p>
+<h3 id="循环引用和内存泄漏"><a class="header" href="#循环引用和内存泄漏">循环引用和内存泄漏</a></h3>
+<p>Rust 也是可以发生内存泄漏的, 即使用 Rc 和 RefCell 有可能实现循环引用, 从而导致内存泄漏</p>
+<pre><code class="language-rust">use std::{cell::RefCell, rc::Rc};
+
+#[derive(Debug)]
+enum List&lt;T&gt; {
+    Cons(T, RefCell&lt;Rc&lt;List&lt;T&gt;&gt;&gt;),
+    Nil,
+}
+
+impl&lt;T&gt; List&lt;T&gt; {
+    fn tail(&amp;self) -&gt; Option&lt;&amp;RefCell&lt;Rc&lt;List&lt;T&gt;&gt;&gt;&gt; {
+        match self {
+            Cons(_, item) =&gt; Some(item),
+            Nil =&gt; None,
+        }
+    }
+}
+
+use List::*;
+
+fn main() {
+    let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
+    println!("a init rc count = {}", Rc::strong_count(&amp;a));
+    println!("a next item = {:?}", a.tail());
+
+    let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&amp;a))));
+    println!("a rc count = {}", Rc::strong_count(&amp;a));
+    println!("b init rc count = {}", Rc::strong_count(&amp;b));
+    println!("b next item = {:?}", b.tail());
+
+    if let Some(link) = a.tail() {
+        *link.borrow_mut() = Rc::clone(&amp;b);
+    }
+
+    println!("b rc count = {}", Rc::strong_count(&amp;b));
+    println!("a rc count = {}", Rc::strong_count(&amp;a));
+    // a  -&gt; 5
+    // ^     |
+    // |     v
+    // 10 &lt;- b
+
+    // println!("a next item = {:?}", a.tail());
+    // thread 'main' has overflowed its stack
+    // error: process didn't exit successfully:
+    //   `target\debug\sp.exe` (exit code: 0xc00000fd, STATUS_STACK_OVERFLOW)
+}</code></pre>
+<p>上面的例子里, a 和 b 就形成了循环引用, 导致了内存泄漏</p>
+<h4 id="weakt"><a class="header" href="#weakt"><code>Weak&lt;T&gt;</code></a></h4>
+<p>防止循环引用可以使用 <code>Weak&lt;T&gt;</code></p>
+<p><code>Rc::clone()</code> 为 <code>Rc&lt;T&gt;</code> 实例的 <code>strong_count</code> 加一, <code>Rc&lt;T&gt;</code> 的实例只有在 <code>strong_count = 0</code> 的情况下被清理</p>
+<p><code>Rc&lt;T&gt;</code> 实例通过调用 <code>Rc::downgrade</code> 方法可以创建值的 <em>Weak Reference</em></p>
+<ul>
+<li>返回 <code>Weak&lt;T&gt;</code></li>
+<li>调用 <code>Rc::downgrade</code> 会为 <code>weak_count</code> 加一</li>
+</ul>
+<p><code>Rc&lt;T&gt;</code> 使用 <code>weak_count</code> 来追踪还有多少 <code>Weak&lt;T&gt;</code></p>
+<p>但是 <code>weak_count</code> 不影响 <code>Rc&lt;T&gt;</code> 是否被清理, 而且弱引用不持有所有权, 强引用计数为 0 时, 将自动断开</p>
+<p>在使用 <code>Weak&lt;T&gt;</code> 前需要保证指向的值存在, 使用 <code>upgrade()</code> 方法可以返回 <code>Option&lt;Rc&lt;T&gt;&gt;</code></p>
+<pre><code class="language-rust">use std::cell::RefCell;
+use std::rc::{Rc, Weak};
+
+#[derive(Debug)]
+struct Node&lt;T&gt; {
+    value: T,
+    parent: RefCell&lt;Weak&lt;Node&lt;T&gt;&gt;&gt;,
+    children: RefCell&lt;Vec&lt;Rc&lt;Node&lt;T&gt;&gt;&gt;&gt;,
+}
+
+fn main() {
+    let leaf = Rc::new(Node {
+        value: 3,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![]),
+    });
+
+    println!(
+        "leaf strong = {}, weak = {}",
+        Rc::strong_count(&amp;leaf),
+        Rc::weak_count(&amp;leaf)
+    );
+
+    {
+        let branch = Rc::new(Node {
+            value: 5,
+            parent: RefCell::new(Weak::new()),
+            children: RefCell::new(vec![Rc::clone(&amp;leaf)]),
+        });
+
+        *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
+
+        println!(
+            "branch strong = {}, weak = {}",
+            Rc::strong_count(&amp;branch),
+            Rc::weak_count(&amp;branch)
+        );
+
+        println!(
+            "leaf strong = {}, weak = {}",
+            Rc::strong_count(&amp;leaf),
+            Rc::weak_count(&amp;leaf)
+        );
+    }
+
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+
+    println!(
+        "leaf strong = {}, weak = {}",
+        Rc::strong_count(&amp;leaf),
+        Rc::weak_count(&amp;leaf)
+    );
+}
+
+/*
+leaf strong = 1, weak = 0
+branch strong = 1, weak = 1
+leaf strong = 2, weak = 0
+leaf parent = None
+leaf strong = 1, weak = 0
+*/</code></pre>
+<hr />
+<p>好, 今天到此为止, 之后几天复习期末, 就摸了！</p>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/rust/20220623-rust-learn-12.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/rust/20220925-rust-learn-14.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/rust/20220623-rust-learn-12.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/rust/20220925-rust-learn-14.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>

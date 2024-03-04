@@ -1,0 +1,448 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>Rust 学习 08 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+        
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="../../init.html">Init</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item expanded "><a href="../../notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/rust/20210605-rust-learn-01.html">Rust 学习 01</a></li><li class="chapter-item "><a href="../../notes/rust/20210610-rust-learn-02.html">Rust 学习 02</a></li><li class="chapter-item "><a href="../../notes/rust/20210824-rust-learn-03.html">Rust 学习 03</a></li><li class="chapter-item "><a href="../../notes/rust/20211216-rust-learn-04.html">Rust 学习 04</a></li><li class="chapter-item "><a href="../../notes/rust/20220512-rust-learn-05.html">Rust 学习 05</a></li><li class="chapter-item "><a href="../../notes/rust/20220514-rust-learn-06.html">Rust 学习 06</a></li><li class="chapter-item "><a href="../../notes/rust/20220520-rust-learn-07.html">Rust 学习 07</a></li><li class="chapter-item expanded "><a href="../../notes/rust/20220522-rust-learn-08.html" class="active">Rust 学习 08</a></li><li class="chapter-item "><a href="../../notes/rust/20220523-rust-learn-09.html">Rust 学习 09</a></li><li class="chapter-item "><a href="../../notes/rust/20220611-rust-learn-10.html">Rust 学习 10</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-11.html">Rust 学习 11</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-project-01.html">Rust 学习 实例 01</a></li><li class="chapter-item "><a href="../../notes/rust/20220623-rust-learn-12.html">Rust 学习 12</a></li><li class="chapter-item "><a href="../../notes/rust/20220624-rust-learn-13.html">Rust 学习 13</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-14.html">Rust 学习 14</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-15.html">Rust 学习 15</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-final.html">Rust 学习 final</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-project-02.html">Rust 学习 实例 02</a></li></ol></li><li class="chapter-item "><a href="../../notes/postgresql/index.html">PostgreSQL</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/postgresql/20230502-psql-learn-01.html">PostgreSQL 学习 01</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231024-psql-learn-02.html">PostgreSQL 学习 02</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231110-psql-learn-03.html">PostgreSQL 学习 03</a></li></ol></li><li class="chapter-item "><a href="../../notes/typechallenges/index.html">Type Challenges</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/typechallenges/20230425-type-challenges-01.html">TypeScript 类型体操 01</a></li><li class="chapter-item "><a href="../../notes/typechallenges/20230428-type-challenges-02.html">TypeScript 类型体操 02</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="../../miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="../../miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="../../miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/study/20221108-qiskit-linear-algebra.html">qiskit 线性代数</a></li><li class="chapter-item "><a href="../../miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">qiskit Deutsch-Jozsa 算法</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="../../miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="../../miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="../../miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="spacer"></li></ol></li><li class="chapter-item "><a href="../../about.html">About</a></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                                        <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20220522-rust-learn-08.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="rust-学习-08"><a class="header" href="#rust-学习-08">Rust 学习 08</a></h1>
+<p class="archive-time">archive time: 2022-05-22</p>
+<p class="sp-comment">今天看看 Rust 里的容器</p>
+<ul>
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%AE%B9%E5%99%A8">常用容器</a>
+<ul>
+<li><a href="#vector">Vector</a>
+<ul>
+<li><a href="#%E6%89%80%E6%9C%89%E6%9D%83%E5%92%8C%E5%80%9F%E7%94%A8%E8%A7%84%E5%88%99">所有权和借用规则</a></li>
+<li><a href="#%E9%81%8D%E5%8E%86%E5%85%83%E7%B4%A0">遍历元素</a></li>
+<li><a href="#example">Example</a></li>
+</ul>
+</li>
+<li><a href="#string">String</a>
+<ul>
+<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5">字符串拼接</a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8%E7%A4%BA">字符串表示</a></li>
+</ul>
+</li>
+<li><a href="#hashmapk-v"><code>HashMap&lt;K, V&gt;</code></a>
+<ul>
+<li><a href="#%E5%88%9B%E5%BB%BA">创建</a></li>
+<li><a href="#%E9%81%8D%E5%8E%86">遍历</a></li>
+<li><a href="#%E6%9B%B4%E6%96%B0">更新</a></li>
+<li><a href="#hash-%E5%87%BD%E6%95%B0">Hash 函数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="常用容器"><a class="header" href="#常用容器">常用容器</a></h2>
+<p>这些容器区别于数组的重要的一点就是, 容器的容量会动态变化</p>
+<h3 id="vector"><a class="header" href="#vector">Vector</a></h3>
+<p><code>Vec&lt;T&gt;</code> 就是 Vector 类型, 由标准库提供, 可以存储多个相同类型的值</p>
+<p>使用 <code>Vec::new()</code> 会返回一个空的 Vector, 所以需要标注类型</p>
+<pre><code class="language-rust">let v: Vec&lt;u8&gt; = Vec::new();</code></pre>
+<p>我们还可以使用初始值来创建</p>
+<pre><code class="language-rust">// int 默认 i32
+let v: Vec&lt;u8&gt; = vec![1, 2, 3, 4];</code></pre>
+<p>想要往 Vector 类型里面添加元素, 可以使用 <code>push()</code></p>
+<pre><code class="language-rust">// 会自动推断为 Vec&lt;i32&gt;
+let v = Vec::new();
+v.push(1);</code></pre>
+<p>而要读取 Vector 元素, 可以使用 <code>get()</code> 或者 索引 两种方法</p>
+<pre><code class="language-rust">let v: Vec&lt;u8&gt; = vec![1, 2, 3];
+if let Some(e) = v.get(2) {
+    println!("{}", e);
+}
+println!("{}", v[2]);</code></pre>
+<p><code>get()</code> 方法将返回 <code>Option</code> 类型, 故需要 <code>unwrap()</code> 或者其他方式来获取内部值</p>
+<h4 id="所有权和借用规则"><a class="header" href="#所有权和借用规则">所有权和借用规则</a></h4>
+<p>这点 Vector 和其他 Rust 元素是一样的, 不可以在同一作用域内同时有可变和不可变引用</p>
+<h4 id="遍历元素"><a class="header" href="#遍历元素">遍历元素</a></h4>
+<p>最常用的就是 <code>for</code> 循环</p>
+<pre><code class="language-rust">let v: Vec&lt;u8&gt; = vec![1, 2, 3];
+for i in v {
+    println!("{}", i);
+}</code></pre>
+<p>还可以在循环内改变值</p>
+<pre><code class="language-rust">let mut v: Vec&lt;u8&gt; = vec![1, 2, 3];
+for i in &amp;mut v {
+    *i += 10;
+}
+
+for i in v {
+    println!("{}", i);
+}</code></pre>
+<h4 id="example"><a class="header" href="#example">Example</a></h4>
+<p>由于 Vector 只能存放相同类型元素, 但有时候需要存放不同类型元素</p>
+<p>这时候, 我们就可讲 <code>enum</code> 和 <code>Vector</code> 结合使用</p>
+<pre><code class="language-rust">enum SpreadsheetCell {
+    Int(i32),
+    Float(f64),
+    Text(String),
+}
+
+fn main() {
+    let row = vec![
+        SpreadsheetCell::Int(3),
+        SpreadsheetCell::Text(String::from("blue")),
+        SpreadsheetCell::Float(10.12),
+    ];
+}</code></pre>
+<h3 id="string"><a class="header" href="#string">String</a></h3>
+<p>在 Rust 里, String 使用 <em>UTF-8</em>, 是 <code>byte</code> 的集合</p>
+<p>所以可以将 <code>byte</code> 解析为文本</p>
+<p>但是在核心, Rust 只有一个字符串类型, 即 <code>&amp;str</code></p>
+<p>创建 <code>String</code> 类型的时候, 可以使用 <code>String::new()</code> 函数, 也可以使用 <code>to_string</code> 方法</p>
+<p>实现了 <code>Display</code> trait 的类型都可以有这个方法</p>
+<p>对于字符串字面值还可以使用 <code>String::from()</code> 方法</p>
+<pre><code class="language-rust">// 为了之后可以存放东西 mut
+let mut s1 = String::new();
+// 添加 string 使用 `push_str()`, 添加字符使用 `push()`
+s1.push_str("OK");
+let s2 = (1.23).to_string();
+let s3 = String::from("hello");
+
+println!("s1: {}, s2: {}, s3: {}", s1, s2, s3);
+// =&gt; s1: OK, s2: 1.23, s3: hello</code></pre>
+<h4 id="字符串拼接"><a class="header" href="#字符串拼接">字符串拼接</a></h4>
+<p>字符串拼接可以使用 <code>+</code> 和 <code>format!()</code> 两种方法</p>
+<p><code>+</code> 运算符会隐式调用 <code>add(self, rhs: T) -&gt; Output</code> 方法, 会获取第一个算子的所有权</p>
+<pre><code class="language-rust">let s1 = "hello".to_string();
+let s2 = s1 + " world";
+println!("s2: {}", s2);
+// println!("s1: {}", s1); // error</code></pre>
+<p>而 <code>format!()</code> 并不会</p>
+<pre><code class="language-rust">let s1 = "hello".to_string();
+let s2 = format!("{} world", s1);
+println!("s2: {}", s2);
+println!("s1: {}", s1); // Ok</code></pre>
+<h4 id="字符串表示"><a class="header" href="#字符串表示">字符串表示</a></h4>
+<p>字符串因为使用了 <em>UTF-8</em>, 所以并不支持索引方式来获取值</p>
+<p>而且 <code>len()</code> 方法返回的是字节数, 对于一些特殊字符 (汉字等), 返回值并不等于字符数</p>
+<p>Rust 会有 <em>字节</em>, <em>标量值</em> 和 <em>字型簇</em> 三种方式来</p>
+<p>对应 <code>bytes()</code> 和 <code>chars()</code> 方法, 字形簇标准库没有提供对应方法获取</p>
+<p>切割字符串是允许的, 但是需要沿着字符边界来切割</p>
+<blockquote>
+<p>即 不允许半个字符</p>
+</blockquote>
+<pre><code class="language-rust">let s = &amp;"hello".to_string()[0..2];
+println!("{}", s);
+// =&gt; he</code></pre>
+<h3 id="hashmapk-v"><a class="header" href="#hashmapk-v"><code>HashMap&lt;K, V&gt;</code></a></h3>
+<p>用键值对来存储, 可以用 <code>K</code> 来寻找数据</p>
+<pre><code class="language-rust">use std::collections::HashMap;
+
+fn main() {
+    let mut m: HashMap&lt;String, u16&gt; = HashMap::new();
+    m.insert("John".to_string(), 73);
+    m.insert("Kevin".to_string(), 82);
+    println!("{:#?}", m);
+}
+/*
+{
+    "Kevin": 82,
+    "John": 73,
+}
+*/</code></pre>
+<p>可以使用 <code>insert()</code> 来插入数据, 而且 HashMap 存放在 heap 上</p>
+<h4 id="创建"><a class="header" href="#创建">创建</a></h4>
+<p>创建 HashMap 还可以使用 <code>collect()</code> 方法</p>
+<pre><code class="language-rust">let name = vec!["Kevin".to_string(), "John".to_string()];
+let score = vec![82, 73];
+// m 为 HashMap&lt;&amp;String, &amp;i32&gt; 类型
+let m = name.iter().zip(score.iter()).collect::&lt;HashMap&lt;_, _&gt;&gt;();</code></pre>
+<p><code>insert()</code> 默认是 Move, 如果实现了 Copy trait 则是复制值</p>
+<p>而获取值则是 <code>get(key)</code> 方法</p>
+<h4 id="遍历"><a class="header" href="#遍历">遍历</a></h4>
+<p>而遍历, 我们同样还可以使用 <code>for</code> 循环</p>
+<pre><code class="language-rust">let mut m: HashMap&lt;String, u16&gt; = HashMap::new();
+m.insert("John".to_string(), 73);
+m.insert("Kevin".to_string(), 82);
+
+// k : String, v: u16
+for (k, v) in m {
+    println!("{}: {}", k, v);
+}</code></pre>
+<h4 id="更新"><a class="header" href="#更新">更新</a></h4>
+<p>要更新一个现有键对应的值, 可以直接使用 <code>insert()</code> 方法</p>
+<pre><code class="language-rust">let mut m: HashMap&lt;String, u16&gt; = HashMap::new();
+m.insert("John".to_string(), 73);
+m.insert("Kevin".to_string(), 82);
+
+m.insert("John".to_string(), 90); // update John value</code></pre>
+<p>如果要防止更新已有键的值, 可以使用 <code>entry()</code> 配合 <code>or_insert()</code> 方法</p>
+<pre><code class="language-rust">m.entry("Peter".to_string()).or_insert(90);</code></pre>
+<p>例子, 统计词数</p>
+<pre><code class="language-rust">for word in text.split_whitespace() {
+    // 如果不存在, 则插入这个键, 默认值为 0
+    let cnt = map.entry(word).or_insert(0); // 返回值的可变引用
+    // 次数加一
+    *cnt += 1;
+}</code></pre>
+<h4 id="hash-函数"><a class="header" href="#hash-函数">Hash 函数</a></h4>
+<p>默认情况 HashMap 使用了 Hash 函数来加密, 可以抵御一定的 DoS 攻击</p>
+<p>但是默认函数不是最快的, 但是安全性更好</p>
+<p>可以使用指定不同的 hasher 来切换函数</p>
+<blockquote>
+<p>hasher 指实现了 <code>BuildHasher</code> trait 的类型</p>
+</blockquote>
+<hr />
+<p>好! 今天就学到这罢</p>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/rust/20220520-rust-learn-07.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/rust/20220523-rust-learn-09.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/rust/20220520-rust-learn-07.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/rust/20220523-rust-learn-09.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>

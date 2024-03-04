@@ -1,0 +1,436 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>Rust 学习 04 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+        
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="../../init.html">Init</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item expanded "><a href="../../notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/rust/20210605-rust-learn-01.html">Rust 学习 01</a></li><li class="chapter-item "><a href="../../notes/rust/20210610-rust-learn-02.html">Rust 学习 02</a></li><li class="chapter-item "><a href="../../notes/rust/20210824-rust-learn-03.html">Rust 学习 03</a></li><li class="chapter-item expanded "><a href="../../notes/rust/20211216-rust-learn-04.html" class="active">Rust 学习 04</a></li><li class="chapter-item "><a href="../../notes/rust/20220512-rust-learn-05.html">Rust 学习 05</a></li><li class="chapter-item "><a href="../../notes/rust/20220514-rust-learn-06.html">Rust 学习 06</a></li><li class="chapter-item "><a href="../../notes/rust/20220520-rust-learn-07.html">Rust 学习 07</a></li><li class="chapter-item "><a href="../../notes/rust/20220522-rust-learn-08.html">Rust 学习 08</a></li><li class="chapter-item "><a href="../../notes/rust/20220523-rust-learn-09.html">Rust 学习 09</a></li><li class="chapter-item "><a href="../../notes/rust/20220611-rust-learn-10.html">Rust 学习 10</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-11.html">Rust 学习 11</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-project-01.html">Rust 学习 实例 01</a></li><li class="chapter-item "><a href="../../notes/rust/20220623-rust-learn-12.html">Rust 学习 12</a></li><li class="chapter-item "><a href="../../notes/rust/20220624-rust-learn-13.html">Rust 学习 13</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-14.html">Rust 学习 14</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-15.html">Rust 学习 15</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-final.html">Rust 学习 final</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-project-02.html">Rust 学习 实例 02</a></li></ol></li><li class="chapter-item "><a href="../../notes/postgresql/index.html">PostgreSQL</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/postgresql/20230502-psql-learn-01.html">PostgreSQL 学习 01</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231024-psql-learn-02.html">PostgreSQL 学习 02</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231110-psql-learn-03.html">PostgreSQL 学习 03</a></li></ol></li><li class="chapter-item "><a href="../../notes/typechallenges/index.html">Type Challenges</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/typechallenges/20230425-type-challenges-01.html">TypeScript 类型体操 01</a></li><li class="chapter-item "><a href="../../notes/typechallenges/20230428-type-challenges-02.html">TypeScript 类型体操 02</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="../../miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="../../miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="../../miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/study/20221108-qiskit-linear-algebra.html">qiskit 线性代数</a></li><li class="chapter-item "><a href="../../miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">qiskit Deutsch-Jozsa 算法</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="../../miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="../../miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="../../miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="spacer"></li></ol></li><li class="chapter-item "><a href="../../about.html">About</a></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                                        <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20211216-rust-learn-04.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="rust-学习-04"><a class="header" href="#rust-学习-04">Rust 学习 04</a></h1>
+<p class="archive-time">archive time: 2021-12-16</p>
+<p class="sp-comment">还是决定看书, 因为进度可以自己掌控...</p>
+<ul>
+<li><a href="#%E5%91%88%E7%8E%B0%E7%BD%91%E9%A1%B5">呈现网页</a>
+<ul>
+<li><a href="#cargotoml"><code>Cargo.toml</code></a></li>
+<li><a href="#mainrs"><code>main.rs</code></a></li>
+<li><a href="#get_index"><code>get_index</code></a></li>
+</ul>
+</li>
+<li><a href="#gcd-%E9%83%A8%E5%88%86">GCD 部分</a></li>
+<li><a href="#%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA">结果展示</a></li>
+</ul>
+<h2 id="呈现网页"><a class="header" href="#呈现网页">呈现网页</a></h2>
+<p>之前刚讲完 <em>函数</em>, 现在就直接来写一个小样例吧</p>
+<p>使用 <code>cargo</code> 来新建项目</p>
+<pre><code class="language-bash">cargo new [--bin] actix-gcd
+</code></pre>
+<blockquote>
+<p>这里 方括号 <code>[]</code> 括起来的部分是可选部分, 默认创建的就是应用项目, 故不需要特别指定</p>
+</blockquote>
+<p>创建好后的目录结构是这样的</p>
+<pre><code>actix-gcd/
+├── Cargo.toml
+└── src
+    └── main.rs
+</code></pre>
+<p>由于要显示网页, 我们从头写起是不太现实的, 可以选择使用别人写好的库，但是在使用之前, 我们需要在 <code>Cargo.toml</code> 里指定好，
+这个 <code>Cargo.toml</code> 就是管理我们整个项目的 <em>配置文件</em>, 而我们的代码都组织在 <code>src</code> 文件夹下</p>
+<h3 id="cargotoml"><a class="header" href="#cargotoml"><code>Cargo.toml</code></a></h3>
+<p>刚创建好的 Rust 项目里, <code>Cargo.toml</code> 的内容大致如下</p>
+<pre><code class="language-toml">[package]
+name = "actix-gcd"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+</code></pre>
+<p>而我们要使用别人写好的库, 也就是需要<strong>依赖</strong>别人的库, 所以需要在 <code>[dependencies]</code> 这一项底下写好你需要的库 <em>以及版本</em></p>
+<p>这里, 我们会用到哦 <code>actix-web</code> 和 <code>serde</code> 这两个库, 写好后内容如下</p>
+<pre><code class="language-toml"># 上面部分不变
+[dependencies]
+actix-web = "3.3.2"
+serde = { version = "1.0", features = ["derive"] }
+</code></pre>
+<p>至于版本和库, 可以在 <a href="https://docs.rs">Docs.rs</a> 这个网站上查询到</p>
+<p>写好 <code>Cargo.toml</code> 后, 我们在项目的根目录下 (<code>actix-gcd/</code>) 使用</p>
+<pre><code class="language-bash">cargo build
+</code></pre>
+<p>这个指令, 来预先下载一下所需要的库, 这样 <em>cargo</em> 就会去 <em>crates.io</em> 这个网站去下载所需要的库以及库所需要的依赖</p>
+<h3 id="mainrs"><a class="header" href="#mainrs"><code>main.rs</code></a></h3>
+<p>处理好所需要的库之后, 我们可以开始写我们的代码了</p>
+<p>如上文所言, 我们的代码都组织在 <code>src/</code> 目录下, 而主要的文件就是 <code>main.rs</code></p>
+<pre><code class="language-rust">use actix_web::{web, App, HttpResponse, HttpServer};
+
+#[actix_web::main]
+async fn main() -&gt; std::io::Result&lt;()&gt; {
+    let server = HttpServer::new(|| App::new().route("/", web::get().to(get_index)));
+    println!("Serving on http://localhost:3000...");
+    server.bind("127.0.0.1:3000")?.run().await
+}
+
+fn get_index() -&gt; HttpResponse {
+    HttpResponse::Ok().content_type("text/html").body(
+        r#"
+            &lt;title&gt;GCD Calculator&lt;/title&gt;
+            &lt;form action="/gcd" method="post"&gt;
+            &lt;input type="text" name="n"&gt;
+            &lt;input type="text" name="m"&gt;
+            &lt;button type="submit"&gt;Compute GCD&lt;/button&gt;
+            &lt;/form&gt;
+            "#,
+    )
+}</code></pre>
+<p>处理好后, 我们在 <code>localhost:3000</code> 就可以看见这个页面</p>
+<p><img src="../../assert/img/rust-learn-04-pic01.png" alt="网页页面展示" /></p>
+<p>可以看见, 我们这个 <code>main</code> 函数有点不一样</p>
+<p>通常的 <code>main</code> 函数就是直接一个 <code>fn main() { ... }</code>, 而这个却是 <code>async fn main() -&gt; std::io::Result&lt;()&gt; { ... }</code></p>
+<p>这个返回值类型 <code>std::io::Result</code> 还是可以理解的, 就是一个枚举类, 没问题就返回值本身, 有错误就返回错误,
+而这里的 <code>&lt;()&gt;</code> 则是泛型的写法, 表示这个返回值是一个 io 操作的 <code>Result</code></p>
+<p>而且这个 <code>main</code> 函数上还有个 <code>#[actix_web::main]</code>, 这个是一种 <em>宏 (macro)</em>,
+对应的是 <em>属性宏 (Attribute-like macros)</em>, 这个宏使得我们的 <code>main</code> 函数可以是 <code>async</code> 的</p>
+<p><code>main</code> 函数里第一句 <code>let</code> 声明了一个不可变的变量, 他是 <code>HttpServer</code> 类型的, 就相当于我们用于处理响应的服务器了</p>
+<p><code>HttpServer::new()</code> 一句使用 <code>new</code> 这一个函数返回了一个 <code>HttpServer</code> 类型的对象(?不知这个说法对不对)，
+这里的 <em>new()</em> 算是约定, 并不像其他语言的 <code>new</code> 关键字, 是规定好的, 你可以选择其他名字如 <code>init()</code> 来实现这个功能</p>
+<p><code>new()</code> 里面传递了一个 <em>闭包 (Closure)</em> 作为参数</p>
+<p>闭包的基本格式是</p>
+<pre><code class="language-rust">| ... | {
+    ...
+}</code></pre>
+<p><code>||</code> 里表示被捕获的变量, 后面的 <code>{}</code> 里表示相关操作</p>
+<p>这里我们没有捕获任何变量, 直接执行 <code>{}</code> 里的内容, 即使用 <code>App::new()</code> 来生成一个 <code>actix_web::App</code> 类型的对象，
+使用 <code>App</code> 里的 <code>route</code> 函数配置路由</p>
+<p>这个函数的类型是</p>
+<pre><code class="language-rust">pub fn route(self, path: &amp;str, route: Route) -&gt; Self</code></pre>
+<p>可见需要我们传递两个参数, 第一个参数是一个字符串引用, 即对应路径, 第二个参数就是 <code>route</code>, 即需要配置的路由</p>
+<p>这里我们要把一个路由配置到网站根目录 (<code>/</code>), 而路由是由 <code>get_index</code> 函数配合 <code>web::get().to()</code> 得到</p>
+<p>之后是一段提示性质的输出, 下面, 我们使用创建好的这个 <code>HttpServer</code> 使用 <code>bind()</code> 函数来说明要绑定的 <em>套接字 (socket)</em> 地址，
+后面的 <code>?</code> 这个符号表示 <code>Error propagation</code> 即将 <code>bind</code> 返回得到的错误传递给调用的函数, 而不是在当前位置就处理，
+算是一种偷懒的方式, 这也是我们返回的 <code>Result&lt;()&gt;</code></p>
+<p>绑定好地址后就可以启动服务器了, <code>run()</code> 函数启动服务器, 返回一个 <code>Server</code> 类型的值，
+而 <code>.await</code> 说明这个 <code>Server</code> 是以 <code>await</code> 的方式执行的</p>
+<h3 id="get_index"><a class="header" href="#get_index"><code>get_index</code></a></h3>
+<p>在 <code>get_index</code> 函数里, 我们通过 <code>HttpResponse::Ok()</code> 来返回一个 <code>HttpResponse</code> 并以此来返回需要的 <code>route</code>，
+而随后的 <code>content_type()</code>等内容就是纯属 <em>HTML</em> 的内容了</p>
+<h2 id="gcd-部分"><a class="header" href="#gcd-部分">GCD 部分</a></h2>
+<p>完成上述操作只能够显示一个网页, 而我们点 <em>Compute GCD</em> 按钮是不会得到正确反应的, 我们还需要继续完善</p>
+<p>在 <code>src/main.rs</code> 文件的头部使用 <code>use serde::Deserialize;</code> 导入 <code>serde</code> 库里我们需要的部分</p>
+<p>之后, 我们需要定义我们按下按钮后返回的类型, 以便我们解析, 这里我们使用 <code>struct</code></p>
+<pre><code class="language-rust">#[derive(Deserialize)]
+struct GcdParameters {
+    n: u64,
+    m: u64,
+}</code></pre>
+<p>将 <code>#[derive(Deserialize)]</code> 属性放在类型定义上方告诉 <code>serde</code> 在编译程序时检查类型，
+并自动生成代码以从 HTML 表单用于 POST 请求的格式的数据中解析此类型的值,
+也就是会自动将返回的值表示为我们定义的这个类型的形式</p>
+<p>我们还需要定义相关响应</p>
+<pre><code class="language-rust">fn post_gcd(form: web::Form&lt;GcdParameters&gt;) -&gt; HttpResponse {
+    if form.n == 0 || form.n == 0 {
+        return HttpResponse::BadRequest()
+            .content_type("text/html")
+            .body("Computing the GCD with zero is boring!");
+    }
+    let response = format!(
+        "The greatest common divisor of the number {} and {} is &lt;b&gt;{}&lt;/b&gt;\n",
+        form.n,
+        form.m,
+        gcd(form.n, form.m)
+    );
+
+    HttpResponse::Ok().content_type("text/html").body(response)
+}</code></pre>
+<p>这里就是从表单中得到 <code>GcdParameters</code> 类型, 返回一个响应, 先对输入进行检查,
+如果输入含有 <code>0</code> 则显示 <em>Computing the GCD with zero is boring!</em> 这句话, 否则就计算 <code>gcd</code> 并返回</p>
+<p>而计算 <code>gcd</code> 的方法就是常用的辗转相除法</p>
+<pre><code class="language-rust">fn gcd(mut m: u64, mut n: u64) -&gt; u64 {
+    assert!(m != 0 &amp;&amp; n != 0);
+    while m != 0 {
+        if m &lt; n {
+            let t = m;
+            m = n;
+            n = t;
+        }
+        m = m % n;
+    }
+    n
+}</code></pre>
+<p>之后, 我们还需要修改路由的配置, 将对 <code>/gcd</code> 的响应配置好, 将原来的 <code>server</code> 定义修改为:</p>
+<pre><code class="language-rust">let server = HttpServer::new(|| {
+    App::new()
+        .route("/", web::get().to(get_index))
+        .route("/gcd", web::post().to(post_gcd))
+});</code></pre>
+<p>这样我们就可以正常使用了</p>
+<h2 id="结果展示"><a class="header" href="#结果展示">结果展示</a></h2>
+<p><code>cargo run</code> 后, 我们访问 <a href="http://localhost:3000">http://localhost:3000</a>, 就可以得到一个这样的界面</p>
+<p><img src="../../assert/img/rust-learn-04-pic02.png" alt="界面展示" /></p>
+<p>分别测试一下, 先是正常输入</p>
+<p><img src="../../assert/img/rust-learn-04-pic03.png" alt="正常输入" /></p>
+<p>然后是含有 <code>0</code> 的输入</p>
+<p><img src="../../assert/img/rust-learn-04-pic04.png" alt="含零输入" /></p>
+<p>最后是含有非整数的输入</p>
+<p><img src="../../assert/img/rust-learn-04-pic05.png" alt="错误输入" /></p>
+<p>想要结束我们的这个服务器, 直接使用 <code>Ctrl+C</code> 即可</p>
+<hr />
+<p>这个例子是比较难且比较贴近实际的例子, 值得好好看看</p>
+<p>书里的库使用的是 <code>1.x</code> 的版本, 而我使用的是 <code>3.3.2</code> 版本, 部分写法和书上不一致, 需要注意</p>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/rust/20210824-rust-learn-03.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/rust/20220512-rust-learn-05.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/rust/20210824-rust-learn-03.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/rust/20220512-rust-learn-05.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>

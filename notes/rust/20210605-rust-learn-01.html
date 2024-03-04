@@ -1,0 +1,425 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>Rust 学习 01 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+        
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="../../init.html">Init</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item expanded "><a href="../../notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../notes/rust/20210605-rust-learn-01.html" class="active">Rust 学习 01</a></li><li class="chapter-item "><a href="../../notes/rust/20210610-rust-learn-02.html">Rust 学习 02</a></li><li class="chapter-item "><a href="../../notes/rust/20210824-rust-learn-03.html">Rust 学习 03</a></li><li class="chapter-item "><a href="../../notes/rust/20211216-rust-learn-04.html">Rust 学习 04</a></li><li class="chapter-item "><a href="../../notes/rust/20220512-rust-learn-05.html">Rust 学习 05</a></li><li class="chapter-item "><a href="../../notes/rust/20220514-rust-learn-06.html">Rust 学习 06</a></li><li class="chapter-item "><a href="../../notes/rust/20220520-rust-learn-07.html">Rust 学习 07</a></li><li class="chapter-item "><a href="../../notes/rust/20220522-rust-learn-08.html">Rust 学习 08</a></li><li class="chapter-item "><a href="../../notes/rust/20220523-rust-learn-09.html">Rust 学习 09</a></li><li class="chapter-item "><a href="../../notes/rust/20220611-rust-learn-10.html">Rust 学习 10</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-11.html">Rust 学习 11</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-project-01.html">Rust 学习 实例 01</a></li><li class="chapter-item "><a href="../../notes/rust/20220623-rust-learn-12.html">Rust 学习 12</a></li><li class="chapter-item "><a href="../../notes/rust/20220624-rust-learn-13.html">Rust 学习 13</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-14.html">Rust 学习 14</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-15.html">Rust 学习 15</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-final.html">Rust 学习 final</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-project-02.html">Rust 学习 实例 02</a></li></ol></li><li class="chapter-item "><a href="../../notes/postgresql/index.html">PostgreSQL</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/postgresql/20230502-psql-learn-01.html">PostgreSQL 学习 01</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231024-psql-learn-02.html">PostgreSQL 学习 02</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231110-psql-learn-03.html">PostgreSQL 学习 03</a></li></ol></li><li class="chapter-item "><a href="../../notes/typechallenges/index.html">Type Challenges</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/typechallenges/20230425-type-challenges-01.html">TypeScript 类型体操 01</a></li><li class="chapter-item "><a href="../../notes/typechallenges/20230428-type-challenges-02.html">TypeScript 类型体操 02</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="../../miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="../../miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="../../miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/study/20221108-qiskit-linear-algebra.html">qiskit 线性代数</a></li><li class="chapter-item "><a href="../../miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">qiskit Deutsch-Jozsa 算法</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="../../miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="../../miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="../../miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="spacer"></li></ol></li><li class="chapter-item "><a href="../../about.html">About</a></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                                        <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20210605-rust-learn-01.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="rust-学习-01"><a class="header" href="#rust-学习-01">Rust 学习 01</a></h1>
+<p class="archive-time">archive time: 2021-06-05</p>
+<p class="sp-comment">今天开始在博客记录自己学习Rust的笔记</p>
+<ul>
+<li><a href="#%E7%8C%9C%E6%95%B0%E6%B8%B8%E6%88%8F">猜数游戏</a>
+<ul>
+<li><a href="#%E6%9C%80%E7%BB%88%E7%9A%84%E4%BB%A3%E7%A0%81">最终的代码</a></li>
+<li><a href="#%E5%BA%93-crate-%E4%BB%A5%E5%8F%8A-cargo">库 (crate) 以及 Cargo</a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E">变量声明</a></li>
+<li><a href="#shadow-%E4%BB%A5%E5%8F%8A-match">shadow 以及 match</a></li>
+<li><a href="#placeholder">placeholder</a></li>
+</ul>
+</li>
+<li><a href="#%E5%B0%8F%E7%BB%93">小结</a></li>
+</ul>
+<p>对于<code>Rust</code>这门语言及其特点，相信大家或多或少都听说过，比如拥有 <em>最智能的编译器</em>，<em>良好的包管理器</em> 什么的，还有 <em>函数式编程</em>，这也是其一大特色</p>
+<p>然而我为什么要学<code>Rust</code>呢？纯粹是因为我喜欢他的图标，没错，就是那只大螃蟹；其次就是他的编译器检查，真的是太智能了，能够精确定位到是哪一行代码出现了问题，并且能给出一定的修改提示</p>
+<p>我这个博客，很明显，是一个系列，我会依照<a href="https://doc.rust-lang.org/book/">The Rust Programming Language</a>来学习</p>
+<blockquote>
+<p>Rust 的安装什么的我就跳过了，太基础了</p>
+</blockquote>
+<h2 id="猜数游戏"><a class="header" href="#猜数游戏">猜数游戏</a></h2>
+<p>由于本系列的博客是类似与总结一样的存在，所以这里我不会按照书上的顺序一步一步来教，而是直接讲最后的代码，并且将要点总结一下，仅此而已</p>
+<p>所以，如果真的是一点基础也没有的话，建议还是看书来学，这样比较稳当</p>
+<h3 id="最终的代码"><a class="header" href="#最终的代码">最终的代码</a></h3>
+<p>下面展示的，就是这章过后你写出的代码</p>
+<pre><code class="language-rust">use std::io;
+use std::cmp::Ordering;
+use rand::Rng;
+
+fn main() {
+    println!("Guess the number!");
+
+    let secret_number = rand::thread_rng().gen_range(1..101);
+
+    loop {
+        println!("Please input your guess.");
+
+        let mut guess = String::new();
+
+        io::stdin().read_line(&amp;mut guess)
+            .expect("Failed to read line");
+
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) =&gt; num,
+            Err(_) =&gt; continue,
+        };
+
+        println!("You guessed: {}", guess);
+
+        match guess.cmp(&amp;secret_number) {
+            Ordering::Less =&gt; println!("Too small!"),
+            Ordering::Greater =&gt; println!("Too big!"),
+            Ordering::Equal =&gt; {
+                println!("You win!");
+                break;
+            }
+        }
+    }
+}</code></pre>
+<p>看起来还是很长的，但每个部分的功能还是很清晰的</p>
+<h3 id="库-crate-以及-cargo"><a class="header" href="#库-crate-以及-cargo">库 (crate) 以及 Cargo</a></h3>
+<p>首先是头部那一堆<code>use</code></p>
+<p>这个就是<code>Rust</code>中导包的语句，使用某个库，类比于<code>Java</code>中的<code>import</code>，和<code>C</code>或<code>Cpp</code>的<code>#include</code>还是不太一样的<sup class="footnote-reference"><a href="#1">1</a></sup>，但也可以类比</p>
+<p>导入的库分别是</p>
+<ul>
+<li><a href="https://doc.rust-lang.org/std/io/index.html">std::io</a></li>
+<li><a href="https://doc.rust-lang.org/std/cmp/index.html">std::cmp::Ordering</a></li>
+<li><a href="https://docs.rs/rand/0.8.3/rand/trait.Rng.html">rand::Rng</a></li>
+</ul>
+<p><code>std</code>，即 <strong>standard</strong>，也就是<a href="https://doc.rust-lang.org/std/">标准库</a>的意思，说明前两个使用都是导入标准库中的<code>io</code>和<code>cmp</code>，也就是输入输出模块 (Module) 及比较 (compare) 模块</p>
+<p>其中，<code>std::cmp::Ordering</code>导入的其实是<code>cmp</code>这个模块中的一个<code>Enums</code>，一个枚举类型</p>
+<p>有关类型的事情，后面的章节会详细讲解，这里就不仔细说了，大致就是有很多个选项的这样一个类型，可以类比<code>C</code>语言中的枚举类型</p>
+<p>之后，<code>rand</code>，这是一个外部库，而<code>Rng</code>则是这个库中的一个特征 (Trait)，类比其他编程语言接口</p>
+<p>在<code>Rust</code>的标准库里，没有能够生成 <strong>伪随机数</strong> 的库，所以这样需要用到<code>rand</code>这样一个库来为我们生成一个随机数，也就是我们要猜的那个数</p>
+<p>要使用<code>rand</code>这个库，我们只需要在<code>Cargo.toml</code>里写入</p>
+<pre><code class="language-toml">[dependencies]
+rand = "0.8"
+</code></pre>
+<p>就可以了，<code>cargo</code>在编译的时候会自动下载<code>0,7</code>这个版本号中最新的版本，目前最新版是<code>0.8.3</code></p>
+<p>关于<code>cargo</code>的使用，初学者只需要记住</p>
+<pre><code class="language-bash">cargo new &lt;project-name&gt;  # 创建工程
+cargo build               # 编译项目
+cargo run                 # 运行项目
+</code></pre>
+<p>这几个比较基础的命令就可以了</p>
+<p>之后，<code>fn main()</code>一句标志着程序的入口，和其他语言是一样的</p>
+<p><code>println!()</code>这里要注意了，这个并不是个函数 (method, funtuon)，而是一个宏 (Macro)，作用是输出内容到屏幕上</p>
+<p>至于宏和函数的区别，之后会提到，现在只需要记住，宏的名称后面会有一个<code>!</code>，而函数没有</p>
+<h3 id="变量声明"><a class="header" href="#变量声明">变量声明</a></h3>
+<p><code>let secret_number</code>一句，首先，<code>let</code>用来声明了一个“变量“，为什么要打引号呢？因为<code>Rust</code>中的变量 (Variable) 默认是 <code>immutable</code>的，不可变的，如果要定义一个可变变量，则需要使用<code>let mut &lt;var-name&gt;</code>的形式</p>
+<p>同时注意到这里并没有声明变量的类型，而<code>Rust</code>作为一门强类型的静态语言，每个变量都会有确定的类型</p>
+<p>这是因为<code>Rust</code>的编译器 <strong>足够智能</strong>，可以自动进行类型推断，而不需要手动声明类型，但是如果要声明类型也是可以的，可以采用下面这种方式</p>
+<pre><code class="language-rust">let a: i32;</code></pre>
+<p><code>let &lt;var-name&gt;: &lt;type&gt;</code>这样的方式就是声明类型了，具体<code>RSust</code>中有哪些<a href="https://doc.rust-lang.org/std/index.html#primitives">类型</a>可以参考<code>std</code>库中的描写</p>
+<p><code>rand::thread_rng::gen_range(1..101)</code>，这句调用了定义在<code>rand</code>库 (crate) 的函数<code>thread_rng</code>，生成了一个<code>rand::rngs::ThreadRng</code>类型，定义在这个类型上有一个从<code>rang::Rng</code>中实现的方法<code>gen_range</code>，也就是在一个范围内生成随机数，当然，这个随机数是整形的，参数格式是</p>
+<pre><code class="language-rust">gen_range(&lt;lower&gt;..&lt;upper&gt;)  // [lower, upper)
+gen_range(&lt;lower&gt;..=&lt;upper&gt;) // [lower, upper]</code></pre>
+<p>也就是一个是不包括右边界的，一个是包括右边界的，所以这行代码还可以写成</p>
+<pre><code class="language-rust">let secret_number = rand::thread_rng().gen_range(1..=100); // 在[1, 100]生成随机数</code></pre>
+<p>之后的<code>loop { ... }</code>实现了一个无限循环，在花括号内的所有代码都会无限制循环，除非使用<code>break;</code>跳出</p>
+<pre><code class="language-rust">let mut guess = String::new();
+
+io::stdin().read_line(&amp;mut guess)
+    .expect("Failed to read line");</code></pre>
+<p>这两句连在一起看，首先是定义了一个可变变量，叫<code>guess</code>，为他 <strong>绑定 (bind)</strong> 了一个值</p>
+<p>为什么强调是绑定，而不是说赋值呢？这就要涉及到<code>Rust</code>的变量机制了，之后会提到，感兴趣的可以翻阅标准库的资料<sup class="footnote-reference"><a href="#2">2</a></sup>查看</p>
+<p>绑定值的就是<code>String::new()</code>的结果，也就是<code>String</code>类型的一个对象，<code>String</code>类型在<code>Rust</code>中可以看作就是一个可变长度的字符串数组，支持<code>utf-8</code>编码</p>
+<p><code>io::stdin().read_line(&amp;mut guess)</code>，这句就是从标准输入流 (stdin) 中读取一行输入，并将读取到的内容赋给了<code>guess</code></p>
+<p>为什么要用<code>&amp;mut guess</code>呢？我们要对<code>guess</code>的值进行操作，所以应该传入一个 <strong>引用</strong>，学过<code>C++</code>的应该对引用这个比较清楚了，所以这里应该传入一个<code>&amp;guess</code></p>
+<p>但是为什么是<code>&amp;mut</code>呢？这是因为<code>Rust</code>中，引用默认也是不可变的，而我们这里就是要改变引用的值，故需要使用<code>mut</code>来修饰</p>
+<p><code>.expect()</code>一句是对<code>read_line()</code>的返回值进行的一个操作，<code>read_line()</code>的返回值是一个<code>Result</code>类型的枚举，有<code>Ok</code>和<code>Err</code>两种状态，也就是读取成功和读取失败，<code>expect</code>说明了如果读取失败返回的值，而读取成功则不会执行</p>
+<h3 id="shadow-以及-match"><a class="header" href="#shadow-以及-match">shadow 以及 match</a></h3>
+<pre><code class="language-rust">let guess: u32 = match guess.trim().parse() {
+    Ok(num) =&gt; num,
+    Err(_) =&gt; continue,
+};</code></pre>
+<p>这一句里有两个点要注意，一个是变量之间的<code>shadow</code>，另一个就是<code>match</code>语句</p>
+<p>这里可以看到，我们又一次地声明了<code>guess</code>变量，在其他静态语言里，这是不允许的，而<code>Rust</code>可以做到，这是因为<code>Rust</code>中的<code>shadow</code>机制</p>
+<p>简单来说就是，如果重复声明了一个变量，那么新的变量将会把旧的变量隐藏起来，无法使用，之后出现这个变量名都会指向新的这个变量</p>
+<p>这个机制在进行变量类型转换 (cast) 的时候是十分有用的，就比如这里，我们通过<code>parse()</code>方法将<code>guess</code>由字符串解析为整形<sup class="footnote-reference"><a href="#3">3</a></sup></p>
+<p><code>parse()</code>函数的返回值也是一个 Result 类型，在这里，我们需要对这个枚举类型进行选择，即使用<code>match</code>语句</p>
+<p><code>match</code>语句的基本格式是</p>
+<pre><code class="language-rust">match &lt;var&gt; {
+    arm1 =&gt; doSome1(),
+    arm2 =&gt; doSome2(),
+    ...
+}</code></pre>
+<p>前面是要 <strong>匹配</strong> 的 <strong>模板</strong>，而<code>=&gt;</code>指向的就是如果模板与我们的变量匹配成功后要进行的操作，这样的一个 <em>模式匹配</em> 的功能还是很强大的，之后的章节会详细讲到</p>
+<p>这里我们对<code>Result</code>类型进行匹配，我们之前说过，<code>Result</code>类型是一个枚举类型，枚举对象有<code>Ok</code>，<code>Err</code>，所以这里我们使用这两个对象来进行匹配，如果解析成功的话，也就是<code>Ok</code>，那么，我们就将解析到的值保存到一个叫 num 的变量里，之后返回出来，如果失败，那么这次循环就直接<code>continue</code>跳过了，进行下次循环，再次要求用户输入，直到解析成功，我们才会进行下一步操作</p>
+<h3 id="placeholder"><a class="header" href="#placeholder">placeholder</a></h3>
+<pre><code class="language-rust">println!("You guessed: {}", guess);
+
+match guess.cmp(&amp;secret_number) {
+    Ordering::Less =&gt; println!("Too small!"),
+    Ordering::Greater =&gt; println!("Too big!"),
+    Ordering::Equal =&gt; {
+        println!("You win!");
+        break;
+    }
+}</code></pre>
+<p>这里介绍了<code>Rust</code>里简单输出变量值的方法，即使用 Placeholder <code>{}</code>，一对花括号对应一个值，这就有点像<code>Python</code>的<code>format string</code>了，但差别还是有的</p>
+<p>之后是使用了<code>std::cmp</code>模块的<code>cmp()</code>函数，对比两个值，由于要传入值，所以使用了引用的方式，但我们不需要改变值，所以我们没有加上<code>mut</code></p>
+<p><code>cmp()</code>的返回值是一个<code>Ordering</code>类型，一个枚举类型，有<code>Less</code>，<code>Greater</code>，<code>Equal</code>三种结果，这里就是用<code>match</code>依次比较，如果是<code>Equal</code>的话，就输出“You win1“，同时跳出循环，至此，程序结束</p>
+<h2 id="小结"><a class="header" href="#小结">小结</a></h2>
+<p>这个例子是一个十分基础且经典的例子，可以很好的从一个大的方面来看看<code>Rust</code>的一些特性和基本使用方法，还提到了<code>Cargo</code>这个优秀的包管理器</p>
+<p>这个例子的重点，我认为应该是<code>match</code>语句的使用以及<code>cargo</code>的用法还有变量，需要注意</p>
+<hr />
+<p>本次<code>Rust</code>学习笔记到此就结束了，谢谢大家的阅读，希望大家能从中有所收获</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>C 语言和 C++中的<code>#include</code>是一个预处理命令，
+所做的事情通俗地说就是把你要用的那部分代码直接复制到你那句<code>#include</code>的位置，而<code>Java</code>和<code>Rust</code>却不是这样</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>找了一下菜鸟教程的<a href="https://www.runoob.com/rust/rust-basic-syntax.html">一篇教学</a>，
+如果不想啃英文的话可以稍微参考一下</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>我们自己声明<code>guess</code>为<code>u32</code>类型，即无符号 32 位整形</p>
+</div>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/rust/index.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/rust/20210610-rust-learn-02.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/rust/index.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/rust/20210610-rust-learn-02.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>

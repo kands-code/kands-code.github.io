@@ -1,0 +1,600 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>Rust 学习 实例 01 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+        
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="../../init.html">Init</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item expanded "><a href="../../notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/rust/20210605-rust-learn-01.html">Rust 学习 01</a></li><li class="chapter-item "><a href="../../notes/rust/20210610-rust-learn-02.html">Rust 学习 02</a></li><li class="chapter-item "><a href="../../notes/rust/20210824-rust-learn-03.html">Rust 学习 03</a></li><li class="chapter-item "><a href="../../notes/rust/20211216-rust-learn-04.html">Rust 学习 04</a></li><li class="chapter-item "><a href="../../notes/rust/20220512-rust-learn-05.html">Rust 学习 05</a></li><li class="chapter-item "><a href="../../notes/rust/20220514-rust-learn-06.html">Rust 学习 06</a></li><li class="chapter-item "><a href="../../notes/rust/20220520-rust-learn-07.html">Rust 学习 07</a></li><li class="chapter-item "><a href="../../notes/rust/20220522-rust-learn-08.html">Rust 学习 08</a></li><li class="chapter-item "><a href="../../notes/rust/20220523-rust-learn-09.html">Rust 学习 09</a></li><li class="chapter-item "><a href="../../notes/rust/20220611-rust-learn-10.html">Rust 学习 10</a></li><li class="chapter-item "><a href="../../notes/rust/20220619-rust-learn-11.html">Rust 学习 11</a></li><li class="chapter-item expanded "><a href="../../notes/rust/20220619-rust-learn-project-01.html" class="active">Rust 学习 实例 01</a></li><li class="chapter-item "><a href="../../notes/rust/20220623-rust-learn-12.html">Rust 学习 12</a></li><li class="chapter-item "><a href="../../notes/rust/20220624-rust-learn-13.html">Rust 学习 13</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-14.html">Rust 学习 14</a></li><li class="chapter-item "><a href="../../notes/rust/20220925-rust-learn-15.html">Rust 学习 15</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-final.html">Rust 学习 final</a></li><li class="chapter-item "><a href="../../notes/rust/20221030-rust-learn-project-02.html">Rust 学习 实例 02</a></li></ol></li><li class="chapter-item "><a href="../../notes/postgresql/index.html">PostgreSQL</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/postgresql/20230502-psql-learn-01.html">PostgreSQL 学习 01</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231024-psql-learn-02.html">PostgreSQL 学习 02</a></li><li class="chapter-item "><a href="../../notes/postgresql/20231110-psql-learn-03.html">PostgreSQL 学习 03</a></li></ol></li><li class="chapter-item "><a href="../../notes/typechallenges/index.html">Type Challenges</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/typechallenges/20230425-type-challenges-01.html">TypeScript 类型体操 01</a></li><li class="chapter-item "><a href="../../notes/typechallenges/20230428-type-challenges-02.html">TypeScript 类型体操 02</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="../../miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="../../miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="../../miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/study/20221108-qiskit-linear-algebra.html">qiskit 线性代数</a></li><li class="chapter-item "><a href="../../miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">qiskit Deutsch-Jozsa 算法</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="../../miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="../../miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="../../miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="spacer"></li></ol></li><li class="chapter-item "><a href="../../about.html">About</a></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                                        <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20220619-rust-learn-project-01.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="rust-学习-实例-01"><a class="header" href="#rust-学习-实例-01">Rust 学习 实例 01</a></h1>
+<p class="archive-time">archive time: 2022-06-19</p>
+<p class="sp-comment">这是一个实战的例子, 可以帮助掌握之前的内容</p>
+<ul>
+<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81">代码</a></li>
+<li><a href="#%E8%A7%A3%E9%87%8A">解释</a>
+<ul>
+<li><a href="#%E4%BD%BF%E7%94%A8-feature">使用 feature</a></li>
+<li><a href="#%E5%AF%BC%E5%85%A5%E9%9C%80%E8%A6%81%E7%9A%84%E5%BA%93">导入需要的库</a></li>
+<li><a href="#%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B">定义类型</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95">实现方法</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E5%87%BD%E6%95%B0">实现函数</a></li>
+<li><a href="#%E5%B0%81%E8%A3%85%E9%80%BB%E8%BE%91">封装逻辑</a></li>
+<li><a href="#%E8%B0%83%E7%94%A8">调用</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="介绍"><a class="header" href="#介绍">介绍</a></h2>
+<p>这个实例里面, 我们要写一个类似 <code>grep</code> 功能的小程序, 即从文本或文件中找到对应文本的行</p>
+<p>不过我们这个例子就不支持 <em>regex</em> 和一些高级功能了, 仅仅是查找对应内容所在的行的内容</p>
+<h2 id="代码"><a class="header" href="#代码">代码</a></h2>
+<p>实例的代码如下</p>
+<pre><code class="language-rust">/// lib.rs
+#![feature(io_error_more)]
+
+use std::env;
+use std::fs;
+use std::io::ErrorKind;
+use std::path;
+
+#[derive(Debug)]
+pub struct Config {
+    query: String,
+    filename: String,
+    conf: Vec&lt;String&gt;,
+}
+
+impl Config {
+    pub fn new() -&gt; Result&lt;Self, String&gt; {
+        let args = env::args().collect::&lt;Vec&lt;_&gt;&gt;();
+        if args.len() &lt; 3 {
+            Err(format!("no enough arguments\n{}", print_help()))
+        } else {
+            let conf = args
+                .iter()
+                .filter(|&amp;s| s.starts_with("-"))
+                .map(|s| s.clone())
+                .collect::&lt;Vec&lt;_&gt;&gt;();
+
+            let args = args
+                .iter()
+                .filter(|&amp;s| !(conf.contains(s) || s == &amp;args[0]))
+                .take(2)
+                .collect::&lt;Vec&lt;_&gt;&gt;();
+
+            Ok(Config {
+                query: args[0].clone(),
+                filename: args[1].clone(),
+                conf,
+            })
+        }
+    }
+
+    pub fn get_file(&amp;self) -&gt; &amp;String {
+        &amp;self.filename
+    }
+
+    pub fn get_query(&amp;self) -&gt; &amp;String {
+        &amp;self.query
+    }
+
+    pub fn get_conf(&amp;self) -&gt; &amp;Vec&lt;String&gt; {
+        &amp;self.conf
+    }
+}
+
+pub fn print_help() -&gt; String {
+    format!(
+        "\n{}\n{}\n{}\n{}\n{}\n",
+        "Usage: learn_rs &lt;text&gt; &lt;file&gt; [&lt;args&gt;]",
+        "available args:",
+        "  `-h` or `--help`: print this message",
+        "  `-c` or `--case`: case sensitive (default)",
+        "  `-i` or `--insensitive`: case insensitive"
+    )
+}
+
+pub fn run(config: Config) -&gt; Result&lt;(), ErrorKind&gt; {
+    let available_configs = vec!["-h", "--help", "-c", "--case", "-i", "--insensitive"];
+
+    if config
+        .get_conf()
+        .iter()
+        .filter(|&amp;s| !available_configs.contains(&amp;s.as_str()))
+        .count()
+        &gt; 0
+    {
+        // check invalid config
+        Err(ErrorKind::InvalidInput)
+    } else if config.get_conf().contains(&amp;"-h".to_string())
+        || config.get_conf().contains(&amp;"-help".to_string())
+    {
+        // get helps
+        Ok(println!("{}", print_help()))
+    } else if path::Path::new(config.get_file()).exists() {
+        // find pattern
+        let contents = fs::read_to_string(config.get_file()).unwrap();
+
+        if config.get_conf().contains(&amp;"-i".to_string())
+            || config.get_conf().contains(&amp;"--insensitive".to_string())
+        {
+            Ok(search_insensitive(config.get_query(), &amp;contents)
+                .iter()
+                .for_each(|&amp;s| println!("{}", s)))
+        } else {
+            Ok(search(config.get_query(), &amp;contents)
+                .iter()
+                .for_each(|&amp;s| println!("{}", s)))
+        }
+    } else {
+        Err(ErrorKind::InvalidFilename)
+    }
+}
+
+pub fn search&lt;'a&gt;(query: &amp;str, contents: &amp;'a str) -&gt; Vec&lt;&amp;'a str&gt; {
+    contents
+        .lines()
+        .filter(|&amp;s| s.contains(query))
+        .collect::&lt;Vec&lt;_&gt;&gt;()
+}
+
+pub fn search_insensitive&lt;'a&gt;(query: &amp;str, contents: &amp;'a str) -&gt; Vec&lt;&amp;'a str&gt; {
+    contents
+        .lines()
+        .filter(|&amp;s| s.to_lowercase().contains(&amp;query.to_lowercase()))
+        .collect::&lt;Vec&lt;_&gt;&gt;()
+}
+
+/// main.rs
+use learn_rust::{print_help, run, Config};
+use std::process;
+
+fn main() {
+    let conf = Config::new().unwrap_or_else(|err| {
+        eprintln!("\n&gt;&gt; Initializion Failed: `{}`\n", err);
+        process::exit(1);
+    });
+    if let Err(e) = run(conf) {
+        eprintln!("\n&gt;&gt; Runtime Error: `{}`\n", e);
+        println!("{}", print_help());
+        process::exit(1);
+    }
+}</code></pre>
+<h2 id="解释"><a class="header" href="#解释">解释</a></h2>
+<p>我们从头开始看代码</p>
+<h3 id="使用-feature"><a class="header" href="#使用-feature">使用 feature</a></h3>
+<p>首先是 <code>&lt;projRoot&gt;/src/lib.rs</code> 里的内容, 第一行</p>
+<pre><code class="language-rust">#![feature(io_error_more)]</code></pre>
+<p>这里是启用 <em>unstable feature</em>, 因为我使用了 <code>ErrorKind::InvalidFilename</code> 这样一个枚举,
+而这个枚举项被标记为 <code>unstable</code>, 所以需要启用这个 <em>feature</em> 才能启用</p>
+<h3 id="导入需要的库"><a class="header" href="#导入需要的库">导入需要的库</a></h3>
+<p>然后是导入需要的库, 都是标准库下就存在的</p>
+<pre><code class="language-rust">use std::env;
+use std::fs;
+use std::io::ErrorKind;
+use std::path;</code></pre>
+<p>分别是使用参数, 读取文件, 以及一些错误的定义 和 检查文件是否存在</p>
+<h3 id="定义类型"><a class="header" href="#定义类型">定义类型</a></h3>
+<p>我们从命令行收到的参数可以用一个类型来包裹, 我们称其为 <code>Config</code></p>
+<pre><code class="language-rust">#[derive(Debug)]
+pub struct Config {
+    query: String,
+    filename: String,
+    conf: Vec&lt;String&gt;,
+}</code></pre>
+<p>其中 <code>query</code> 表示要查询的内容, <code>filename</code> 表示要从哪个文件里查找, <code>conf</code> 则是一些选项</p>
+<h3 id="实现方法"><a class="header" href="#实现方法">实现方法</a></h3>
+<p>对于我们自定义的类型, 我们还需要实现一些方法来供我们使用</p>
+<pre><code class="language-rust">impl Config {
+    pub fn new() -&gt; Result&lt;Self, String&gt; {
+        let args = env::args().collect::&lt;Vec&lt;_&gt;&gt;();
+        if args.len() &lt; 3 {
+            Err(format!("no enough arguments\n{}", print_help()))
+        } else {
+            let conf = args
+                .iter()
+                .filter(|&amp;s| s.starts_with("-"))
+                .map(|s| s.clone())
+                .collect::&lt;Vec&lt;_&gt;&gt;();
+
+            let args = args
+                .iter()
+                .filter(|&amp;s| !(conf.contains(s) || s == &amp;args[0]))
+                .take(2)
+                .collect::&lt;Vec&lt;_&gt;&gt;();
+
+            Ok(Config {
+                query: args[0].clone(),
+                filename: args[1].clone(),
+                conf,
+            })
+        }
+    }
+
+    pub fn get_file(&amp;self) -&gt; &amp;String {
+        &amp;self.filename
+    }
+
+    pub fn get_query(&amp;self) -&gt; &amp;String {
+        &amp;self.query
+    }
+
+    pub fn get_conf(&amp;self) -&gt; &amp;Vec&lt;String&gt; {
+        &amp;self.conf
+    }
+}</code></pre>
+<p>首先就是 <code>new()</code> 方法, 这是个惯例, 实例化一个类型对象的方法一般被称为 <code>new()</code>, 不过这不是必须的</p>
+<p>我们的 <code>new()</code> 方法返回的是一个 <code>Result&lt;T, E&gt;</code> 类型, 这是因为有可能用户在使用时没有正确的传入对应参数</p>
+<p>所以我们需要进行一些处理, 如果没有正确传入参数就返回一个错误 <code>Err(String)</code></p>
+<p>如果有足够的参数, 那么我们要对参数进行简单分类</p>
+<p>如果参数前面有 <code>-</code>, 那么这个参数就是个 <code>conf</code></p>
+<pre><code class="language-rust">let conf = args
+    .iter()
+    .filter(|&amp;s| s.starts_with("-"))
+    .map(|s| s.clone())
+    .collect::&lt;Vec&lt;_&gt;&gt;();</code></pre>
+<p>这里我们使用了 <code>iter()</code> 方法将参数转变为迭代器</p>
+<p>然后使用 <code>filter()</code> 方法筛选出符合条件的参数, 使用 <code>collect()</code> 方法将筛选出来的的参数封装成一个 <code>Vec&lt;T&gt;</code> 类型</p>
+<p>除了这些选项, 剩余的就是给程序的参数</p>
+<pre><code class="language-rust">let args = args
+    .iter()
+    .filter(|&amp;s| !(conf.contains(s) || s == &amp;args[0]))
+    .take(2)
+    .collect::&lt;Vec&lt;_&gt;&gt;();</code></pre>
+<p>由于我们只需要两个参数, 即 需要查询的内容 和 文件地址, 我们使用 <code>take()</code> 方法来截断</p>
+<p>最后将筛选出来的内容包装成 <code>Config</code> 类型</p>
+<pre><code class="language-rust">Config {
+    query: args[0].clone(),
+    filename: args[1].clone(),
+    conf,
+}</code></pre>
+<p>由于我们不允许直接修改 <code>Config</code> 类型的字段, 所以我们需要设置 <code>getter</code> 并将字段隐藏,
+即不设置字段为 <code>pub</code>, 而是使用 <code>get_xxx()</code> 这种方法来或许字段内容</p>
+<h3 id="实现函数"><a class="header" href="#实现函数">实现函数</a></h3>
+<p>对于程序的功能我们需要使用函数来实现</p>
+<p>比如打印帮助信息</p>
+<pre><code class="language-rust">pub fn print_help() -&gt; String {
+    format!(
+        "\n{}\n{}\n{}\n{}\n{}\n",
+        "Usage: learn_rs &lt;text&gt; &lt;file&gt; [&lt;args&gt;]",
+        "available args:",
+        "  `-h` or `--help`: print this message",
+        "  `-c` or `--case`: case sensitive (default)",
+        "  `-i` or `--insensitive`: case insensitive"
+    )
+}</code></pre>
+<p>然后就是搜索, 也就是程序的主逻辑</p>
+<pre><code class="language-rust">pub fn search&lt;'a&gt;(query: &amp;str, contents: &amp;'a str) -&gt; Vec&lt;&amp;'a str&gt; {
+    contents
+        .lines()
+        .filter(|&amp;s| s.contains(query))
+        .collect::&lt;Vec&lt;_&gt;&gt;()
+}
+
+pub fn search_insensitive&lt;'a&gt;(query: &amp;str, contents: &amp;'a str) -&gt; Vec&lt;&amp;'a str&gt; {
+    contents
+        .lines()
+        .filter(|&amp;s| s.to_lowercase().contains(&amp;query.to_lowercase()))
+        .collect::&lt;Vec&lt;_&gt;&gt;()
+}</code></pre>
+<p>这里我们分成了两个函数, 也就是大小写敏感和大小写不敏感</p>
+<p>我们首先将文件内容读取为字符串, 然后使用 <code>lines()</code> 函数将字符串按行分割成一个迭代器</p>
+<p>然后使用 <code>filter()</code> 来筛选, 使用字符串中的 <code>contains()</code> 方法来查询我们要查询的内容是否在这一行</p>
+<p>然后我们将符合条件的行封装到一个 <code>Vec&lt;T&gt;</code> 里返回</p>
+<p>对于大小写不敏感, 我们只需要将查询内容和文本内容都 <code>to_lowercase()</code> 即可</p>
+<h3 id="封装逻辑"><a class="header" href="#封装逻辑">封装逻辑</a></h3>
+<p>最后, 我们需要将这些函数的逻辑封装成一个单独的函数</p>
+<pre><code class="language-rust">pub fn run(config: Config) -&gt; Result&lt;(), ErrorKind&gt; {
+    let available_configs = vec!["-h", "--help", "-c", "--case", "-i", "--insensitive"];
+
+    if config
+        .get_conf()
+        .iter()
+        .filter(|&amp;s| !available_configs.contains(&amp;s.as_str()))
+        .count()
+        &gt; 0
+    {
+        // check invalid config
+        Err(ErrorKind::InvalidInput)
+    } else if config.get_conf().contains(&amp;"-h".to_string())
+        || config.get_conf().contains(&amp;"-help".to_string())
+    {
+        // get helps
+        Ok(println!("{}", print_help()))
+    } else if path::Path::new(config.get_file()).exists() {
+        // find pattern
+        let contents = fs::read_to_string(config.get_file()).unwrap();
+
+        if config.get_conf().contains(&amp;"-i".to_string())
+            || config.get_conf().contains(&amp;"--insensitive".to_string())
+        {
+            Ok(search_insensitive(config.get_query(), &amp;contents)
+                .iter()
+                .for_each(|&amp;s| println!("{}", s)))
+        } else {
+            Ok(search(config.get_query(), &amp;contents)
+                .iter()
+                .for_each(|&amp;s| println!("{}", s)))
+        }
+    } else {
+        Err(ErrorKind::InvalidFilename)
+    }
+}</code></pre>
+<p>这里就不一一讲解了</p>
+<h3 id="调用"><a class="header" href="#调用">调用</a></h3>
+<p>我们写好了函数后就可以在 <code>&lt;projRoot&gt;/src/main.rs</code> 里调用</p>
+<pre><code class="language-rust">use learn_rust::{print_help, run, Config};
+use std::process;
+
+fn main() {
+    let conf = Config::new().unwrap_or_else(|err| {
+        eprintln!("\n&gt;&gt; Initializion Failed: `{}`\n", err);
+        process::exit(1);
+    });
+    if let Err(e) = run(conf) {
+        eprintln!("\n&gt;&gt; Runtime Error: `{}`\n", e);
+        println!("{}", print_help());
+        process::exit(1);
+    }
+}</code></pre>
+<p>这里, <code>std::process</code> 库是为在发生错误时退出程序</p>
+<p>由于我们以及封装好了程序逻辑, 所以在调用时只需要调用 <code>run(conf)</code> 即可</p>
+<hr />
+<p>以上就是一个 Rust 练手的小例子, 希望大家能有所收获</p>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/rust/20220619-rust-learn-11.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/rust/20220623-rust-learn-12.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/rust/20220619-rust-learn-11.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/rust/20220623-rust-learn-12.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>
