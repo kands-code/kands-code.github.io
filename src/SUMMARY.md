@@ -56,3 +56,4 @@
   - [暑假结束了](./miscellany/life/20230915-end-of-summer.md)
   - [新的生活](./miscellany/life/20231020-new-life.md)
   - [忙忙碌碌](./miscellany/life/20240120-busy-life.md)
+  - [颓废生活](./miscellany/life/20240404-decadent-life.md)
