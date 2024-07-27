@@ -77,7 +77,7 @@ default-theme = "rust"
 # default dark theme name
 preferred-dark-theme = "ayu"
 # convert straight quotes to curly quotes
-curly-quotes = true
+smart-punctuation = true
 # use mathjax
 mathjax-support = false
 # user difined css & js

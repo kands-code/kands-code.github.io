@@ -6,35 +6,7 @@
 # Notes
 
 - [Rust](./notes/rust/index.md)
-
-  - [Rust 学习 01](./notes/rust/20210605-rust-learn-01.md)
-  - [Rust 学习 02](./notes/rust/20210610-rust-learn-02.md)
-  - [Rust 学习 03](./notes/rust/20210824-rust-learn-03.md)
-  - [Rust 学习 04](./notes/rust/20211216-rust-learn-04.md)
-  - [Rust 学习 05](./notes/rust/20220512-rust-learn-05.md)
-  - [Rust 学习 06](./notes/rust/20220514-rust-learn-06.md)
-  - [Rust 学习 07](./notes/rust/20220520-rust-learn-07.md)
-  - [Rust 学习 08](./notes/rust/20220522-rust-learn-08.md)
-  - [Rust 学习 09](./notes/rust/20220523-rust-learn-09.md)
-  - [Rust 学习 10](./notes/rust/20220611-rust-learn-10.md)
-  - [Rust 学习 11](./notes/rust/20220619-rust-learn-11.md)
-  - [Rust 学习 实例 01](./notes/rust/20220619-rust-learn-project-01.md)
-  - [Rust 学习 12](./notes/rust/20220623-rust-learn-12.md)
-  - [Rust 学习 13](./notes/rust/20220624-rust-learn-13.md)
-  - [Rust 学习 14](./notes/rust/20220925-rust-learn-14.md)
-  - [Rust 学习 15](./notes/rust/20220925-rust-learn-15.md)
-  - [Rust 学习 final](./notes/rust/20221030-rust-learn-final.md)
-  - [Rust 学习 实例 02](./notes/rust/20221030-rust-learn-project-02.md)
-
-- [PostgreSQL](./notes/postgresql/index.md)
-
-  - [PostgreSQL 学习 01](./notes/postgresql/20230502-psql-learn-01.md)
-  - [PostgreSQL 学习 02](./notes/postgresql/20231024-psql-learn-02.md)
-  - [PostgreSQL 学习 03](./notes/postgresql/20231110-psql-learn-03.md)
-
-- [Type Challenges](./notes/typechallenges/index.md)
-  - [TypeScript 类型体操 01](./notes/typechallenges/20230425-type-challenges-01.md)
-  - [TypeScript 类型体操 02](./notes/typechallenges/20230428-type-challenges-02.md)
+  - [Rust 中的函数与闭包](./notes/rust/20240727-rust-fuction-and-clousure.md)
 
 # Miscellany
 
@@ -44,6 +16,7 @@
   - [C 语言数学解析器](./miscellany/coding/20221026-parse-math-in-c.md)
   - [C𝜆ash 系统代理](./miscellany/coding/20231107-clash-system-agent.md)
   - [在 mdBook 中使用 giscus 服务](./miscellany/coding/20240228-use-giscus-in-mdbook.md)
+  - [使用 Steam 安装 Windows 应用](./miscellany/coding/20240727-use-steam-install-windows-applications.md)
 
 - [Study](./miscellany/study/index.md)
 

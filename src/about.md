@@ -35,4 +35,4 @@
 
 我在看到消息后会尽力回复的
 
-<p class="sp-comment">在 MacOS 安家了，应该不会改了，<del>大概</del></p>
+<p class="sp-comment">在 macOS 安家了，应该不会改了，<del>大概</del></p>
