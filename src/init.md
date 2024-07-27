@@ -28,7 +28,7 @@ $$
 
 ```haskell
 main = do
-    putStrLn "Hello World."
+  putStrLn "Hello World."
 ```
 
 `Rust` 版
