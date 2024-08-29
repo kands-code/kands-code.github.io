@@ -270,16 +270,16 @@
 <li>
 <p><strong><em>切换到源码目录下</em></strong>，所有的编译过程都是在源码目录下发生的，所以要提前进入源码目录，此时你的位置（<code>$PWD</code>）应该是 <code>&lt;sage_home&gt;/sage-x.y</code>，
 然后执行以下命令来准备必要的环境变量：</p>
-<pre><code class="language-shell"># 设置 SageMath 的数据目录，最好写入 .bashrc 或者 .zshenv 长期使用
-export DOT_SAGE="&lt;你想要放的位置&gt;"
+<pre><code class="language-bash"># 设置 SageMath 的数据目录，最好写入 .bashrc 或者 .zshenv 长期使用
+export DOT_SAGE="&lt;dot_sage&gt;" # 替换 &lt;dot_sage&gt; 为具体目录地址
 # 设置编译时根目录，也就是 &lt;sage_home&gt;/sage-x.y
 export SAGE_ROOT=$PWD
 # 设置之后的 SageMath 根目录，建议写入 .bashrc 或者 .zshenv
-export SAGE_LOCAL="&lt;目标文件夹&gt;"
+export SAGE_LOCAL="&lt;sage_home&gt;" # 替换为具体目录地址
 # 对于 macOS 和 hoembrew 用户，还需要执行下面的命令
 source .homebrew-build-env
 # 还可以设置一下使用的编译器
-export CC="你想要使用的编译器"
+export CC="&lt;cc&gt;" # 替换成具体编译器，例如 gcc，clang
 # ...
 </code></pre>
 <p>具体的环境变量设置可以参考 <a href="https://doc.sagemath.org/html/en/installation/source.html#environment-variables">相关文档</a></p>
@@ -293,7 +293,7 @@ export CC="你想要使用的编译器"
 <li>with-system-meson_python：同 <code>with-system-setuptools</code>，<code>--with-system-meson_python=no</code></li>
 </ul>
 <p>总结下来，就是这样一条命令：</p>
-<pre><code class="language-shell">./configure --prefix='/home/kands/.local/sdk/sage' \
+<pre><code class="language-bash">./configure --prefix='&lt;sage_home&gt;' \
     --with-system-setuptools=no \
     --with-system-python3=no \
     --with-system-meson_python=no
@@ -301,21 +301,21 @@ export CC="你想要使用的编译器"
 </li>
 <li>
 <p>执行编译，具体参数的作用建议参考文档</p>
-<pre><code class="language-shell"> make -s V=0
+<pre><code class="language-bash"> make -s V=0
 </code></pre>
 </li>
 </ol>
 <h3 id="配置使用"><a class="header" href="#配置使用">配置使用</a></h3>
 <p>在使用之前有一些环境变量需要设置，具体可以参考 <a href="https://doc.sagemath.org/html/en/installation/launching.html#environment-variables">这个文档</a></p>
 <p>建议设置 <code>DOT_SAGE</code>、<code>SAGE_LOCAL</code> 和 <code>SAGE_STARTUP_FILE</code> 这三个变量，同时为了能够直接使用，还需要设置 <code>PATH</code></p>
-<pre><code class="language-shell">export PATH="$SAGE_LOCAL/bin":"$PATH"
+<pre><code class="language-bash">export PATH="$SAGE_LOCAL/bin":"$PATH"
 </code></pre>
 <h2 id="使用"><a class="header" href="#使用">使用</a></h2>
 <p>因为在编译过程中我们没有使用系统的 Python，而是使用与 SageMath 对应的 Python 版本，所以 SageMath 中是无法使用系统中安装的 Python 包的</p>
 <p>相关使用教程可以参考官方的 <a href="https://doc.sagemath.org/html/en/a_tour_of_sage/">教程</a>，
 同时可以在 <a href="https://www.sagemath.org/help.html">这里</a> 找到许多有用的文档</p>
 <p>至于 IDE，编辑器，我都是推荐使用 SageMath 包含的 JupyterLab，可以使用如下方式使用</p>
-<pre><code class="language-shell">sage --notebook="jupyterlab"
+<pre><code class="language-bash">sage --notebook="jupyterlab"
 </code></pre>
 <p>相关设置可以参考 <a href="https://jupyterlab.readthedocs.io/en/stable/user/index.html">JupyterLab 文档</a>，
 本地化可以参考 <a href="https://jupyterlab.readthedocs.io/en/stable/user/language.html">这个文档</a></p>
