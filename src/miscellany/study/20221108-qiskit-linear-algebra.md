@@ -31,7 +31,7 @@
 例如，考虑一个向量由 $x$ 和 $y$ 构成，例如 $\dbinom{3}{5}$，
 那么这个向量就可以可视化为一个从原点指向坐标为 $(3, 5)$ 位置的箭头
 
-![vector as arrow](../../assert/img/qiskit-linear-algebra-pic01.png)
+![vector as arrow](../../assert/qiskit-linear-algebra-pic01.png)
 
 注意，向量的尾部，也就是起点，不一定是原点，只要向量的指向是对的即可
 
@@ -43,7 +43,7 @@
 
 这个球面被称为 "态空间"，由态向量所有可以指向的点组成
 
-![state space](../../assert/img/qiskit-linear-algebra-pic02.svg)
+![state space](../../assert/qiskit-linear-algebra-pic02.svg)
 
 这个特定量子态是 $\ket{0}$ 和 $\ket{1}$ 的 _偶数态叠加_，
 $\ket{0}$ 在球面顶部，$\ket{1}$ 在球面底部
@@ -210,7 +210,7 @@ $$
 
 让我们再来看看布洛赫球面
 
-![bloch sphere](../../assert/img/qiskit-linear-algebra-pic03.svg)
+![bloch sphere](../../assert/qiskit-linear-algebra-pic03.svg)
 
 这个球面连同量子比特态向量之间的内积正是一个希尔伯特空间
 
@@ -413,7 +413,7 @@ $$
 
 最后，这里有一些常用量子逻辑门，可以参考
 
-![qubit gate](../../assert/img/qiskit-linear-algebra-pic04.png)
+![qubit gate](../../assert/qiskit-linear-algebra-pic04.png)
 
 [^1]: GitHub 地址: [https://github.com/Qiskit/qiskit](https://github.com/Qiskit/qiskit)
 [^2]:

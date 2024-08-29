@@ -4,6 +4,8 @@
 
 <p class="sp-comment">SageMath 好像火了？</p>
 
+[[toc]]
+
 ## 缘起
 
 之前在寻找合适自己的 CAS[^1] 的时候，顺手做了一期[介绍 SageMath 的视频](https://www.bilibili.com/video/BV1KY4y1j7Lj)

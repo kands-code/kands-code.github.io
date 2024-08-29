@@ -70,7 +70,7 @@ $$
 
 其中 $\oplus$ 是一个 **模 2 加法**[^4]，下图展示了实现算法的电路
 
-![circuit of algorithm](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic01.png)
+![circuit of algorithm](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic01.png)
 
 现在让我们看看算法具体是怎样实现的
 
@@ -269,7 +269,7 @@ f(1, 1) = 0
 
 我们保证我们的电路是平衡的其中一个方法是对第一个寄存器中的每个量子比特进行 CNOT，以寄存器 2 中的量子比特为目标
 
-![some example](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic02.svg)
+![some example](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic02.svg)
 
 在上图中，最上面的三个量子比特构成了输入寄存器，而最下面的量子比特是输出寄存器
 
@@ -284,7 +284,7 @@ f(1, 1) = 0
 
 我们可以在保持平衡的情况下，通过将选定的控件包裹在 X 门中来改变结果
 
-![some example](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic03.svg)
+![some example](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic03.svg)
 
 输入输出结果如下
 
@@ -335,7 +335,7 @@ if output == 1:
 const_oracle.draw(output="mpl")
 ```
 
-![output01](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic04.png)
+![output01](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic04.png)
 
 #### 平衡函数预言机
 
@@ -368,7 +368,7 @@ for qubit in range(len(b_str)):
 balanced_oracle.draw(output="mpl")
 ```
 
-![output02](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic05.png)
+![output02](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic05.png)
 
 接下来，我们来加上 CNOT 门，使用每个输入 qubit 作为控制，而输出 qubit 作为目标
 
@@ -393,7 +393,7 @@ for qubit in range(len(b_str)):
 balanced_oracle.draw(output="mpl")
 ```
 
-![output03](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic06.png)
+![output03](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic06.png)
 
 我们刚刚构建了一个平衡函数预言机，剩下的就是看 Deutsch-Jozsa 算法是否能解决它了
 
@@ -416,7 +416,7 @@ dj_circuit.h(n)
 dj_circuit.draw(output="mpl")
 ```
 
-![output04](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic07.png)
+![output04](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic07.png)
 
 接下来，让我们应用预言机
 
@@ -428,7 +428,7 @@ dj_circuit = dj_circuit.compose(balanced_oracle)
 dj_circuit.draw(output="mpl")
 ```
 
-![output05](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic08.png)
+![output05](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic08.png)
 
 最后，我们对输入的 qubit 都加上 Hadamard 门，并观测我们的输入寄存器
 
@@ -446,7 +446,7 @@ for i in range(n):
 dj_circuit.draw(output="mpl")
 ```
 
-![output06](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic09.png)
+![output06](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic09.png)
 
 我们来看看我们的输出结果
 
@@ -460,7 +460,7 @@ answer = results.get_counts()
 plot_histogram(answer)
 ```
 
-![output07](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic10.png)
+![output07](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic10.png)
 
 从上面的结果我们可以看出，我们有 $0\%$ 的机会测量 $\ket{000}$，这正确地预测了函数是平衡的
 
@@ -544,7 +544,7 @@ dj_circuit = dj_algorithm(oracle_gate, n)
 dj_circuit.draw(output="mpl")
 ```
 
-![output08](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic11.png)
+![output08](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic11.png)
 
 看看这个电路的结果
 
@@ -556,7 +556,7 @@ answer = results.get_counts()
 plot_histogram(answer)
 ```
 
-![output09](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic12.png)
+![output09](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic12.png)
 
 ### 在真实设备上实验
 
@@ -610,7 +610,7 @@ answer = results.get_counts()
 plot_histogram(answer)
 ```
 
-![output10](../../assert/img/qiskit-Deutsch-Jozsa-algorithm-pic13.png)
+![output10](../../assert/qiskit-Deutsch-Jozsa-algorithm-pic13.png)
 
 我们可以看到，最可能的结果是 $\ket{1111}$，其他结果是由于量子计算中的错误造成的
 

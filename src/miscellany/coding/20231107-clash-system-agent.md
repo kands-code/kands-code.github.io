@@ -20,19 +20,19 @@
 
 首先进入到系统设置，找到网络相关的地方，设置好 **http** 以及 **https** 代理
 
-![http 以及 https设置](../../assert/img/clash-system-agent-pic01.png)
+![http 以及 https设置](../../assert/clash-system-agent-pic01.png)
 
 **socks** 我个人感觉不太需要，不过我还是勾选上了
 
 然后就是勾选 _不包括简单主机名_，然后在下面 **_忽略这些主机与域的代理设置_** 中填入:
 
-```text
+```plaintext
 192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,127.0.0.1,localhost,*.local,timestamp.apple.com,sequoia.apple.com,seed-sequoia.siri.apple.com
 ```
 
 注意，不能换行，用逗号隔开，空格好像也不太行（？）
 
-![bypass 设置](../../assert/img/clash-system-agent-pic02.png)
+![bypass 设置](../../assert/clash-system-agent-pic02.png)
 
 然后就可以正常使用代理以及系统功能了
 

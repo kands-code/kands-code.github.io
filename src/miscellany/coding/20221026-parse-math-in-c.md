@@ -18,7 +18,7 @@
 
 原式 `2 - (3 + sin(3.14 / 2)) / 7 + 2 ^ 2`，结果
 
-```text
+```plaintext
 Add(
   Sub(
     Const(

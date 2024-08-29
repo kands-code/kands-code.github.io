@@ -9,7 +9,7 @@
 本人目前已是一名社畜，曾在大学学过物理学，不过迟早有一天会将物理忘干净，连 "民科" 都做不成
 
 <div style="text-align: center;">
-  <img src="assert/img/avatar.jpg" width="32%" alt="avatar">
+  <img src="assert/avatar.jpg" width="32%" alt="avatar">
 </div>
 
 平日里总有些稀奇古怪的想法，当往往在去实现前就先自己否决了，所以至今也没做出过什么事
@@ -27,7 +27,7 @@
 
 - QQ 邮箱
 
-  ```text
+  ```plaintext
   kands-code@qq.com
   ```
 

@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 最后不要忘记修改 `book.toml`
 
-```toml
+```ini
 [output.html]
 # ...
 additional-js = ["theme/giscus.js"]
