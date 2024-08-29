@@ -263,6 +263,7 @@
 <tr><td style="text-align: center">减法</td><td style="text-align: center"><code>5 - 2</code></td></tr>
 <tr><td style="text-align: center">乘法</td><td style="text-align: center"><code>2 * 3</code></td></tr>
 <tr><td style="text-align: center">除法</td><td style="text-align: center"><code>5 / 2</code></td></tr>
+<tr><td style="text-align: center">整除</td><td style="text-align: center"><code>5 // 2</code></td></tr>
 <tr><td style="text-align: center">乘方</td><td style="text-align: center"><code>3 ^ 2</code></td></tr>
 <tr><td style="text-align: center">乘方*</td><td style="text-align: center"><code>3 ** 2</code></td></tr>
 <tr><td style="text-align: center">求余</td><td style="text-align: center"><code>10 % 4</code></td></tr>
@@ -272,7 +273,7 @@
 <pre><code class="language-python">5 / 2
 # =&gt; 5/2
 </code></pre>
-<p>如果想要获得数值解，可以使用 <code>N</code> 或者 <code>n</code> 函数</p>
+<p>如果想要获得数值解，可以使用 <code>N()</code> 或者 <code>n()</code> 函数</p>
 <pre><code class="language-python">n(5 / 2)
 # =&gt; 2.50000000000000
 
@@ -302,9 +303,15 @@ N(5 / 2)
 有一个等价形式 <code>add([2, 3, 4])</code>，
 其中 <code>add</code> 被称为一个 <strong>函数</strong></p>
 </blockquote>
-<p>所有 SageMath 中的函数都使用小括号，并且一般是蛇形格式命名，例如 <code>find_root</code></p>
-<p>最大值和最小值分别对应函数 <code>max</code> 和 <code>min</code>，
-而在 <code>a</code> 到 <code>b</code> 之间的随即整数可以通过 <code>randint(a, b)</code> 得到</p>
+<p>所有 SageMath 中的函数都使用小括号，并且一般是蛇形格式命名，例如 <code>find_root()</code></p>
+<p>之前提到如果想要数值解，可以使用 <code>N()</code> 或者 <code>n()</code>，
+其实这两个函数都是 <code>numerical_approx()</code> 函数的 <strong>别名</strong></p>
+<pre><code class="language-python">numerical_approx(pi, digits=16)
+# =&gt; 3.141592653589793
+</code></pre>
+<p>最大值和最小值分别对应函数 <code>max()</code> 和 <code>min()</code>，
+而在 <code>a</code> 到 <code>b</code> 之间的随即整数可以通过 <code>randint(a, b)</code> 得到，
+具体的函数信息可以通过 <code>&lt;func-name&gt;?</code> 的方式来查询，例如 <code>randint?</code></p>
 <pre><code class="language-python">max([2, 7, 4])
 # =&gt; 7
 </code></pre>
@@ -314,15 +321,21 @@ N(5 / 2)
 <pre><code class="language-python">randint(0, 100)
 # =&gt; 75
 </code></pre>
+<p>除了以上介绍的函数，SageMath 还内置了许多常用的数学函数，例如 <code>exp()</code> 和 三角函数，对数函数 等</p>
+<pre><code class="language-python">simplify(log(2, sin(pi / 6)))
+# =&gt; -1
+</code></pre>
 <h3 id="知识点-1"><a class="header" href="#知识点-1">知识点</a></h3>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: center">运算</th><th style="text-align: center">例子</th><th style="text-align: center">函数格式</th></tr></thead><tbody>
 <tr><td style="text-align: center">加法</td><td style="text-align: center"><code>2 + 2</code></td><td style="text-align: center"><code>add([2, 2])</code></td></tr>
 <tr><td style="text-align: center">减法</td><td style="text-align: center"><code>5 - 2</code></td><td style="text-align: center">无</td></tr>
 <tr><td style="text-align: center">乘法</td><td style="text-align: center"><code>2 * 3</code></td><td style="text-align: center"><code>mul([2, 3])</code></td></tr>
 <tr><td style="text-align: center">除法</td><td style="text-align: center"><code>5 / 2</code></td><td style="text-align: center">无</td></tr>
+<tr><td style="text-align: center">整除</td><td style="text-align: center"><code>5 // 2</code></td><td style="text-align: center">无</td></tr>
 <tr><td style="text-align: center">乘方</td><td style="text-align: center"><code>3 ^ 2</code></td><td style="text-align: center"><code>power(3, 2)</code></td></tr>
 <tr><td style="text-align: center">乘方*</td><td style="text-align: center"><code>3 ** 2</code></td><td style="text-align: center"><code>pow(3, 2)</code></td></tr>
-<tr><td style="text-align: center">求余</td><td style="text-align: center"><code>10 % 4</code></td><td style="text-align: center"><code>mod(10, 4)</code></td></tr>
+<tr><td style="text-align: center">求余</td><td style="text-align: center"><code>10 % 4</code></td><td style="text-align: center">无</td></tr>
+<tr><td style="text-align: center">取模</td><td style="text-align: center">无</td><td style="text-align: center"><code>mod(10, 4)</code></td></tr>
 </tbody></table>
 </div>
 <p>并非所有运算都有等价函数形式，例如减法和除法</p>
@@ -336,6 +349,8 @@ N(5 / 2)
 <h2 id="后记"><a class="header" href="#后记">后记</a></h2>
 <p>SageMath 是基于 Python 的 CAS，所以在语法上基本就是 Python 语法，
 所以只要学会 Python 就可以学会 SageMath，或者说学会 SageMath 就可以学会 Python</p>
+<p>特别需要注意的一点，SageMath 和 Python 一样，是动态类型语言，所以一个变量背后的值的类型不一定不变，
+需要自己多注意，使用 <code>type()</code> 可以确认变量类型</p>
 </main>
                         <nav class="nav-wrapper" aria-label="Page navigation">
                             <a rel="prev" href="../../notes/sagemath/20240829-sagemath-install.html"
