@@ -70,17 +70,17 @@
 3. **_切换到源码目录下_**，所有的编译过程都是在源码目录下发生的，所以要提前进入源码目录，此时你的位置（`$PWD`）应该是 `<sage_home>/sage-x.y`，
    然后执行以下命令来准备必要的环境变量：
 
-   ```shell
+   ```bash
    # 设置 SageMath 的数据目录，最好写入 .bashrc 或者 .zshenv 长期使用
-   export DOT_SAGE="<你想要放的位置>"
+   export DOT_SAGE="<dot_sage>" # 替换 <dot_sage> 为具体目录地址
    # 设置编译时根目录，也就是 <sage_home>/sage-x.y
    export SAGE_ROOT=$PWD
    # 设置之后的 SageMath 根目录，建议写入 .bashrc 或者 .zshenv
-   export SAGE_LOCAL="<目标文件夹>"
+   export SAGE_LOCAL="<sage_home>" # 替换为具体目录地址
    # 对于 macOS 和 hoembrew 用户，还需要执行下面的命令
    source .homebrew-build-env
    # 还可以设置一下使用的编译器
-   export CC="你想要使用的编译器"
+   export CC="<cc>" # 替换成具体编译器，例如 gcc，clang
    # ...
    ```
 
@@ -95,8 +95,8 @@
 
    总结下来，就是这样一条命令：
 
-   ```shell
-   ./configure --prefix='/home/kands/.local/sdk/sage' \
+   ```bash
+   ./configure --prefix='<sage_home>' \
        --with-system-setuptools=no \
        --with-system-python3=no \
        --with-system-meson_python=no
@@ -104,7 +104,7 @@
 
 5. 执行编译，具体参数的作用建议参考文档
 
-   ```shell
+   ```bash
     make -s V=0
    ```
 
@@ -114,7 +114,7 @@
 
 建议设置 `DOT_SAGE`、`SAGE_LOCAL` 和 `SAGE_STARTUP_FILE` 这三个变量，同时为了能够直接使用，还需要设置 `PATH`
 
-```shell
+```bash
 export PATH="$SAGE_LOCAL/bin":"$PATH"
 ```
 
@@ -127,7 +127,7 @@ export PATH="$SAGE_LOCAL/bin":"$PATH"
 
 至于 IDE，编辑器，我都是推荐使用 SageMath 包含的 JupyterLab，可以使用如下方式使用
 
-```shell
+```bash
 sage --notebook="jupyterlab"
 ```
 
