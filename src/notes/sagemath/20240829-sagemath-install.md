@@ -1,0 +1,144 @@
+# 安装 SageMath
+
+<p class="archive-time">archive time: 2024-08-29</p>
+
+<p class="sp-comment">SageMath 好像火了？</p>
+
+## 缘起
+
+之前在寻找合适自己的 CAS[^1] 的时候，顺手做了一期[介绍 SageMath 的视频](https://www.bilibili.com/video/BV1KY4y1j7Lj)
+
+这个视频在当时没有什么人看，我也就渐渐忘记了，直到最近，突然有人通过 Bilibili 的私信来问我 SageMath 的使用方法，我才意识到 SageMath 好像火了
+
+据我估计，应该是由于某些原因，学校上课原本使用的软件不让使用了，亦或需要寻找国产或开源替代品，所以选择了 SageMath，这才让 SageMath 逐渐流行起来了
+
+综上，我也就萌生了想要好好学一下 SageMath 的想法
+
+不过学习 SageMath 的第一步就是要安装 SageMath
+
+## 安装方法
+
+具体的安装方法可以参考 [SageMath 安装教程](https://doc.sagemath.org/html/en/installation)，总结起来大概有四种方法：
+
+- 通过预编译好的二进制包或者通过 包管理器 安装
+- 通过 **_conda-forge_** 中的预编译二进制包安装
+- 通过源码安装
+- 通过 Docker 镜像安装
+
+其中对于大多数人，我的推荐是通过 Docker 安装，这样可以避免很多环境上的麻烦，使用起来也比较方便，
+而通过预编译二进制包的方式，不论是 包管理器 还是 conda-forge，我都不是很推荐，因为可能会出现各种性能和兼容性问题
+
+但是我自己还是选择了通过源码的方式安装，因为我现在不太方便使用 Docker[^2]，另外在本地编译运行可以获得比较好的性能表现
+
+## 安装步骤
+
+其他方式的安装我就不再细说，我这里主要列一下通过源码安装的步骤以及过程中需要注意的地方，
+具体的文档可以参考 [这里](https://doc.sagemath.org/html/en/installation/source.html)
+
+### 下载源码
+
+第一步就是要下载源码，如果网络比较好，可以直接到 [官网](https://www.sagemath.org/download-source.html) 下载，
+如果想要尝试一下开发版，而不是使用稳定版，可以到官网的 [这里](https://www.sagemath.org/download-latest.html) 下载，
+亦或者可以通过 `git clone` 来获取 [Github](https://github.com/sagemath/sage) 的源码
+
+### 安装必要的软件
+
+编译自然需要编译器以及一些依赖，而 [必须需要的依赖](https://doc.sagemath.org/html/en/reference/spkg/_prereq.html) 是很少的，
+因为 SageMath 已经将大多数依赖的源码包含在了项目中，如果需要，可以直接通过源码安装
+
+具体来说有以下几项：
+
+- GNU Make
+- GNU M4
+- Perl
+- ar 和 ranlib
+- tar
+- Python
+
+编译器方面，推荐使用 GCC 和 GCC-Fortran，对于不同平台的安装方式，在文档中已经详细说明了，这里就不再过多叙述
+
+### 编译步骤
+
+特别注意，对于 Windows 用户，建议使用 WSL2 来安装，如果要使用 Docker 同样也是需要使用 WSL2 的
+
+而对于 macOS 用户，如果使用 homebrew 作为包管理器，还可以在源码下发现 `.homebrew-build-env`，在编译前需要使用这个脚本改变一下环境
+
+1. **_创建目标文件夹_**，，这个目标文件夹是最后 SageMath 最后编译到的位置，例如 `~/.local/sdk/sage`，之后使用 `<sage_home>` 来表示
+2. **_将源码移动到目标文件夹下_**，因为源码在编译完成后 **仍然需要**，所以建议将源码放在目标文件下，方便管理，
+   如果源码是压缩包格式下载的，需要先解压缩，解压出来应该是 `sage-x.y` 这种格式的一个文件夹，其中 x 和 y 分别表示 SageMath 的版本，
+   然后将解压缩出来后的文件夹移动到目标文件夹下
+3. **_切换到源码目录下_**，所有的编译过程都是在源码目录下发生的，所以要提前进入源码目录，此时你的位置（`$PWD`）应该是 `<sage_home>/sage-x.y`，
+   然后执行以下命令来准备必要的环境变量：
+
+   ```shell
+   # 设置 SageMath 的数据目录，最好写入 .bashrc 或者 .zshenv 长期使用
+   export DOT_SAGE="<你想要放的位置>"
+   # 设置编译时根目录，也就是 <sage_home>/sage-x.y
+   export SAGE_ROOT=$PWD
+   # 设置之后的 SageMath 根目录，建议写入 .bashrc 或者 .zshenv
+   export SAGE_LOCAL="<目标文件夹>"
+   # 对于 macOS 和 hoembrew 用户，还需要执行下面的命令
+   source .homebrew-build-env
+   # 还可以设置一下使用的编译器
+   export CC="你想要使用的编译器"
+   # ...
+   ```
+
+   具体的环境变量设置可以参考 [相关文档](https://doc.sagemath.org/html/en/installation/source.html#environment-variables)
+
+4. **_配置编译条件_**，也就是执行目录下的 `configure` 脚本，具体可以使用的选项可以参考 `./configure --help` 这里有几个建议的选项
+
+   - prefix：设置编译好后的文件位置，设置为目标文件夹，`--prefix="<sage_home>"`
+   - with-system-setuptools：建议不要使用系统的 setuptools，因为会出现兼容问题，`--with-system-setuptools=no`
+   - with-system-python3：同上，`--with-system-python3=no`
+   - with-system-meson_python：同 `with-system-setuptools`，`--with-system-meson_python=no`
+
+   总结下来，就是这样一条命令：
+
+   ```shell
+   ./configure --prefix='/home/kands/.local/sdk/sage' \
+       --with-system-setuptools=no \
+       --with-system-python3=no \
+       --with-system-meson_python=no
+   ```
+
+5. 执行编译，具体参数的作用建议参考文档
+
+   ```shell
+    make -s V=0
+   ```
+
+### 配置使用
+
+在使用之前有一些环境变量需要设置，具体可以参考 [这个文档](https://doc.sagemath.org/html/en/installation/launching.html#environment-variables)
+
+建议设置 `DOT_SAGE`、`SAGE_LOCAL` 和 `SAGE_STARTUP_FILE` 这三个变量，同时为了能够直接使用，还需要设置 `PATH`
+
+```shell
+export PATH="$SAGE_LOCAL/bin":"$PATH"
+```
+
+## 使用
+
+因为在编译过程中我们没有使用系统的 Python，而是使用与 SageMath 对应的 Python 版本，所以 SageMath 中是无法使用系统中安装的 Python 包的
+
+相关使用教程可以参考官方的 [教程](https://doc.sagemath.org/html/en/a_tour_of_sage/)，
+同时可以在 [这里](https://www.sagemath.org/help.html) 找到许多有用的文档
+
+至于 IDE，编辑器，我都是推荐使用 SageMath 包含的 JupyterLab，可以使用如下方式使用
+
+```shell
+sage --notebook="jupyterlab"
+```
+
+相关设置可以参考 [JupyterLab 文档](https://jupyterlab.readthedocs.io/en/stable/user/index.html)，
+本地化可以参考 [这个文档](https://jupyterlab.readthedocs.io/en/stable/user/language.html)
+
+[^1]:
+    Computer Algebra System \[DB/OL\].
+    [https://en.wikipedia.org/wiki/Computer_algebra_system](https://en.wikipedia.org/wiki/Computer_algebra_system),
+    2024-07-01/2024-08-29
+
+[^2]:
+    因为我电脑性能以及系统配置不太能负担 Docker，同时考虑到我两台电脑（macOS 和 ArchLinux）间数据和配置的同步问题，
+    再加上 Docker Hub 目前在国内无法正常访问，所以不使用

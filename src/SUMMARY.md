@@ -7,6 +7,8 @@
 
 - [Rust](./notes/rust/index.md)
   - [Rust 中的函数与闭包](./notes/rust/20240727-rust-fuction-and-clousure.md)
+- [SageMath](./notes/sagemath/index.md)
+  - [安装 SageMath](./notes/sagemath/20240829-sagemath-install.md)
 
 # Miscellany
 
