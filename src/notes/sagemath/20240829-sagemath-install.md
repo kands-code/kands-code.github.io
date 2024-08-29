@@ -114,13 +114,26 @@
 
 建议设置 `DOT_SAGE`、`SAGE_LOCAL` 和 `SAGE_STARTUP_FILE` 这三个变量，同时为了能够直接使用，还需要设置 `PATH`
 
+个人建议是将 `~/.local/bin` 加入 `PATH`，
+很多遵守 **_XDG_** 的程序，例如 GHCup，也会选择将二进制文件放在 `~/.local/bin` 中，
+而我们就可以将 `sage` 链接到这里，避免 SageMath 的文件与系统文件冲突
+
 ```bash
-export PATH="$SAGE_LOCAL/bin":"$PATH"
+# 将 ~/.local/bin 加入 PATH
+export PATH="$HOME/.local/bin":"$PATH"
+# 将 sage 链接到 ~/.local/bin
+ln -s "<sage_home>/bin/sage" ~/.local/bin/sage
 ```
 
 ## 使用
 
 因为在编译过程中我们没有使用系统的 Python，而是使用与 SageMath 对应的 Python 版本，所以 SageMath 中是无法使用系统中安装的 Python 包的
+
+如果我们想要添加一些 Python 包到 SageMath 中，可以使用
+
+```bash
+sage --pip install "<package-you-want>"
+```
 
 相关使用教程可以参考官方的 [教程](https://doc.sagemath.org/html/en/a_tour_of_sage/)，
 同时可以在 [这里](https://www.sagemath.org/help.html) 找到许多有用的文档
@@ -128,7 +141,7 @@ export PATH="$SAGE_LOCAL/bin":"$PATH"
 至于 IDE，编辑器，我都是推荐使用 SageMath 包含的 JupyterLab，可以使用如下方式使用
 
 ```bash
-sage --notebook="jupyterlab"
+sage -n jupyterlab
 ```
 
 相关设置可以参考 [JupyterLab 文档](https://jupyterlab.readthedocs.io/en/stable/user/index.html)，
