@@ -267,14 +267,14 @@ another_fib_fun(10, 1, 2)
 <pre><code class="language-python">another_fib_fun(a = 1, n = 10, b = 2)
 # =&gt; 144
 </code></pre>
-<h1 id="作用域"><a class="header" href="#作用域">作用域</a></h1>
+<h2 id="作用域"><a class="header" href="#作用域">作用域</a></h2>
 <p>在 SageMath 和 Python 中，作用域是通过缩进来区分的，
 所以每个缩进的大小都应该要一致，一般是 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span> 个空格</p>
 <p>如果缩进不一致，则会出现 <strong>IndentationError</strong>：</p>
 <p><img src="../../assert/sagemath-basic-pic01.png" alt="缩进错误" /></p>
 <p>图中可能不明显，错误之处在于 <code>return v</code> 一行的缩进是 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span> 个空格，
 而其他地方使用的都是 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span> 个空格，缩进不匹配，导致解释器不知道具体的层级</p>
-<h1 id="流程控制"><a class="header" href="#流程控制">流程控制</a></h1>
+<h2 id="流程控制"><a class="header" href="#流程控制">流程控制</a></h2>
 <p>一般来说，控制流有三种，分别是 <strong>顺序执行</strong>，<strong>分支执行</strong> 和 <strong>循环执行</strong></p>
 <p>默认情况下，SageMath 和 Python 都是自上而下执行的，也就是所谓的顺序执行，
 但是我们有办法让执行顺序改变，也就是所谓的流程控制</p>
@@ -358,7 +358,7 @@ d["hi"] == "hello"
 <pre><code class="language-python">bool(d[pi] == e)
 # =&gt; True
 </code></pre>
-<h1 id="自定义可迭代对象"><a class="header" href="#自定义可迭代对象">自定义可迭代对象</a></h1>
+<h2 id="自定义可迭代对象"><a class="header" href="#自定义可迭代对象">自定义可迭代对象</a></h2>
 <p>除了自带的一些可迭代对象和类型，SageMath 和 Python 还给了我们自定义类型的能力：</p>
 <pre><code class="language-python">class Odds(list):
     def __init__(self, n):
