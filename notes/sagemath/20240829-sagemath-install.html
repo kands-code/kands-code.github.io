@@ -225,7 +225,11 @@
 <ul>
 <li><a href="#%E4%B8%8B%E8%BD%BD%E6%BA%90%E7%A0%81">下载源码</a></li>
 <li><a href="#%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84%E8%BD%AF%E4%BB%B6">安装必要的软件</a></li>
-<li><a href="#%E7%BC%96%E8%AF%91%E6%AD%A5%E9%AA%A4">编译步骤</a></li>
+<li><a href="#%E7%BC%96%E8%AF%91%E6%AD%A5%E9%AA%A4">编译步骤</a>
+<ul>
+<li><a href="#%E6%9B%B4%E6%96%B0-sagemath">更新 SageMath</a></li>
+</ul>
+</li>
 <li><a href="#%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8">配置使用</a></li>
 </ul>
 </li>
@@ -289,8 +293,8 @@ export DOT_SAGE="&lt;dot_sage&gt;" # 替换 &lt;dot_sage&gt; 为具体目录地�
 export SAGE_ROOT=$PWD
 # 设置之后的 SageMath 根目录，建议写入 .bashrc 或者 .zshenv
 export SAGE_LOCAL="&lt;sage_home&gt;" # 替换为具体目录地址
-# 对于 macOS 和 hoembrew 用户，还需要执行下面的命令
-source .homebrew-build-env
+# 对于 macOS 或 hoembrew 用户，还需要执行下面的命令
+command -v brew &gt;/dev/null 2&gt;&amp;1 &amp;&amp; source .homebrew-build-env
 # 还可以设置一下使用的编译器
 export CC="&lt;cc&gt;" # 替换成具体编译器，例如 gcc，clang
 # ...
@@ -300,13 +304,13 @@ export CC="&lt;cc&gt;" # 替换成具体编译器，例如 gcc，clang
 <li>
 <p><strong><em>配置编译条件</em></strong>，也就是执行目录下的 <code>configure</code> 脚本，具体可以使用的选项可以参考 <code>./configure --help</code> 这里有几个建议的选项</p>
 <ul>
-<li>prefix：设置编译好后的文件位置，设置为目标文件夹，<code>--prefix="&lt;sage_home&gt;"</code></li>
+<li>prefix：设置编译好后的文件位置，设置为目标文件夹，<code>--prefix="$SAGE_LOCAL"</code></li>
 <li>with-system-setuptools：建议不要使用系统的 setuptools，因为会出现兼容问题，<code>--with-system-setuptools=no</code></li>
 <li>with-system-python3：同上，<code>--with-system-python3=no</code></li>
 <li>with-system-meson_python：同 <code>with-system-setuptools</code>，<code>--with-system-meson_python=no</code></li>
 </ul>
 <p>总结下来，就是这样一条命令：</p>
-<pre><code class="language-bash">./configure --prefix='&lt;sage_home&gt;' \
+<pre><code class="language-bash">./configure --prefix="$SAGE_LOCAL" \
     --with-system-setuptools=no \
     --with-system-python3=no \
     --with-system-meson_python=no
@@ -318,6 +322,35 @@ export CC="&lt;cc&gt;" # 替换成具体编译器，例如 gcc，clang
 </code></pre>
 </li>
 </ol>
+<h4 id="更新-sagemath"><a class="header" href="#更新-sagemath">更新 SageMath</a></h4>
+<p>仔细观察会发现，下载下来的源码中是有 <code>.git</code> 文件夹的，
+也就意味着我们可以像普通的 git 仓库一样使用 <code>git pull</code> 来更新代码</p>
+<pre><code class="language-bash">[[ -d "$SAGE_ROOT/.git" ]] &amp;&amp; git pull
+</code></pre>
+<p>更新完成，我们就可以重新编译代码来更新更新 SageMath</p>
+<pre><code class="language-bash"># 编译前的准备，参考步骤 3
+# ...
+make distclean &amp;&amp; make build
+</code></pre>
+<p>当然，不是所有情况下我们都需要从头编译，更多时候我们只需要把更新的部分重新编译安装即可</p>
+<pre><code class="language-bash"># 编译前的准备，参考步骤 3
+# ...
+make -j list-broken-packages
+</code></pre>
+<p>通过上述命令可以找出有哪些包出现了问题，最后会得到类似下面的输入内容：</p>
+<pre><code class="language-plaintext"># 省略上面输出
+Uninstall broken packages by typing:
+
+   make lcalc-SAGE_LOCAL-uninstall;
+   make ratpoints-SAGE_LOCAL-uninstall;
+   make r-SAGE_LOCAL-uninstall;
+   make suitesparse-SAGE_LOCAL-uninstall;
+</code></pre>
+<p>我们只需要执行这些 <code>make</code> 命令，然后再执行：</p>
+<pre><code class="language-bash">make build
+</code></pre>
+<p>就能够完成编译更新了，
+其他更新相关内容可以参考 <a href="https://doc.sagemath.org/html/en/installation/source.html#upgrading-the-system-and-upgrading-sage">这个文档</a></p>
 <h3 id="配置使用"><a class="header" href="#配置使用">配置使用</a></h3>
 <p>在使用之前有一些环境变量需要设置，具体可以参考 <a href="https://doc.sagemath.org/html/en/installation/launching.html#environment-variables">这个文档</a></p>
 <p>建议设置 <code>DOT_SAGE</code>、<code>SAGE_LOCAL</code> 和 <code>SAGE_STARTUP_FILE</code> 这三个变量，同时为了能够直接使用，还需要设置 <code>PATH</code></p>
