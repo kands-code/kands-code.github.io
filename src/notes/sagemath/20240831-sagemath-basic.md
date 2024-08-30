@@ -4,6 +4,8 @@
 
 <p class="sp-comment">SageMath 就是 Python 的超集</p>
 
+[[toc]]
+
 ## 函数的定义与使用
 
 在 SageMath 中定义函数与 Python 中是一样的，使用 `def` 关键词，例如：
