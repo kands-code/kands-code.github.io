@@ -79,8 +79,8 @@
    export SAGE_ROOT=$PWD
    # 设置之后的 SageMath 根目录，建议写入 .bashrc 或者 .zshenv
    export SAGE_LOCAL="<sage_home>" # 替换为具体目录地址
-   # 对于 macOS 和 hoembrew 用户，还需要执行下面的命令
-   source .homebrew-build-env
+   # 对于 macOS 或 hoembrew 用户，还需要执行下面的命令
+   command -v brew >/dev/null 2>&1 && source .homebrew-build-env
    # 还可以设置一下使用的编译器
    export CC="<cc>" # 替换成具体编译器，例如 gcc，clang
    # ...
@@ -90,7 +90,7 @@
 
 4. **_配置编译条件_**，也就是执行目录下的 `configure` 脚本，具体可以使用的选项可以参考 `./configure --help` 这里有几个建议的选项
 
-   - prefix：设置编译好后的文件位置，设置为目标文件夹，`--prefix="<sage_home>"`
+   - prefix：设置编译好后的文件位置，设置为目标文件夹，`--prefix="$SAGE_LOCAL"`
    - with-system-setuptools：建议不要使用系统的 setuptools，因为会出现兼容问题，`--with-system-setuptools=no`
    - with-system-python3：同上，`--with-system-python3=no`
    - with-system-meson_python：同 `with-system-setuptools`，`--with-system-meson_python=no`
@@ -98,7 +98,7 @@
    总结下来，就是这样一条命令：
 
    ```bash
-   ./configure --prefix='<sage_home>' \
+   ./configure --prefix="$SAGE_LOCAL" \
        --with-system-setuptools=no \
        --with-system-python3=no \
        --with-system-meson_python=no
@@ -109,6 +109,52 @@
    ```bash
     make -s V=0
    ```
+
+#### 更新 SageMath
+
+仔细观察会发现，下载下来的源码中是有 `.git` 文件夹的，
+也就意味着我们可以像普通的 git 仓库一样使用 `git pull` 来更新代码
+
+```bash
+[[ -d "$SAGE_ROOT/.git" ]] && git pull
+```
+
+更新完成，我们就可以重新编译代码来更新更新 SageMath
+
+```bash
+# 编译前的准备，参考步骤 3
+# ...
+make distclean && make build
+```
+
+当然，不是所有情况下我们都需要从头编译，更多时候我们只需要把更新的部分重新编译安装即可
+
+```bash
+# 编译前的准备，参考步骤 3
+# ...
+make -j list-broken-packages
+```
+
+通过上述命令可以找出有哪些包出现了问题，最后会得到类似下面的输入内容：
+
+```plaintext
+# 省略上面输出
+Uninstall broken packages by typing:
+
+   make lcalc-SAGE_LOCAL-uninstall;
+   make ratpoints-SAGE_LOCAL-uninstall;
+   make r-SAGE_LOCAL-uninstall;
+   make suitesparse-SAGE_LOCAL-uninstall;
+```
+
+我们只需要执行这些 `make` 命令，然后再执行：
+
+```bash
+make build
+```
+
+就能够完成编译更新了，
+其他更新相关内容可以参考 [这个文档](https://doc.sagemath.org/html/en/installation/source.html#upgrading-the-system-and-upgrading-sage)
 
 ### 配置使用
 
