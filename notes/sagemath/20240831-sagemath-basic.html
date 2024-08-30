@@ -225,9 +225,9 @@
 <li><a href="#%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">可迭代对象</a>
 <ul>
 <li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1">自定义可迭代对象</a></li>
-<li><a href="#%E5%90%8E%E8%AE%B0">后记</a></li>
 </ul>
 </li>
+<li><a href="#%E5%90%8E%E8%AE%B0">后记</a></li>
 </ul>
 <h2 id="函数的定义与使用"><a class="header" href="#函数的定义与使用">函数的定义与使用</a></h2>
 <p>在 SageMath 中定义函数与 Python 中是一样的，使用 <code>def</code> 关键词，例如：</p>
@@ -335,7 +335,7 @@ else:
 # ok for 2
 </code></pre>
 <p>上述代码中，由于循环是通过 <code>break</code> 结束的，所以并不会输出 <code>finished</code></p>
-<h1 id="可迭代对象"><a class="header" href="#可迭代对象">可迭代对象</a></h1>
+<h2 id="可迭代对象"><a class="header" href="#可迭代对象">可迭代对象</a></h2>
 <p>在 <code>for ... in ...</code> 循环中，<code>in</code> 后面的对象被称为 <strong>可迭代对象（Iterable）</strong></p>
 <p>在 SageMath 和 Python 中，最常见也是最实用的可迭代对象就是 <strong>列表（List）</strong></p>
 <p>通常情况下，可以通过 <code>list()</code> 函数来将可迭代对象变成一个列表，例如：</p>
@@ -369,7 +369,7 @@ d["hi"] == "hello"
 <pre><code class="language-python">bool(d[pi] == e)
 # =&gt; True
 </code></pre>
-<h2 id="自定义可迭代对象"><a class="header" href="#自定义可迭代对象">自定义可迭代对象</a></h2>
+<h3 id="自定义可迭代对象"><a class="header" href="#自定义可迭代对象">自定义可迭代对象</a></h3>
 <p>除了自带的一些可迭代对象和类型，SageMath 和 Python 还给了我们自定义类型的能力：</p>
 <pre><code class="language-python">class Odds(list):
     def __init__(self, n):
