@@ -98,16 +98,18 @@ consume_with_relish(consume_and_return_x);
 // `consume_and_return_x` can no longer be invoked at this point
 ```
 
-总结，Rust 的函数和闭包就是两种东西，但是我认为应该是可以变成一种的，即对于函数而言，捕获的环境是空的，闭包不是，检查的时候先检查捕获环境，再逐层向上检查即可
+---
+
+Rust 的函数和闭包就是两种东西，但是我认为应该是可以变成一种的，即对于函数而言，捕获的环境是空的，闭包不是，检查的时候先检查捕获环境，再逐层向上检查即可
 
 ~~Rust 不这样设计一定有它自己的理由~~
 
+---
+
 [^1]:
-    Closure types.The Rust Reference \[DB/OL\].
-    [https://doc.rust-lang.org/reference/types/closure.html](https://doc.rust-lang.org/reference/types/closure.html),
-    2021-07-27/2024-07-27
+    Closure types.The Rust Reference \[DB/OL\].(2021-07-27)[2024-07-27].
+    [https://doc.rust-lang.org/reference/types/closure.html](https://doc.rust-lang.org/reference/types/closure.html)
 
 [^2]:
-    Function item types.The Rust Reference \[DB/OL\].
-    [https://doc.rust-lang.org/reference/types/function-item.html](https://doc.rust-lang.org/reference/types/function-item.html),
-    2019-07-16/2024-07-27
+    Function item types.The Rust Reference \[DB/OL\].(2019-07-16)[2024-07-27].
+    [https://doc.rust-lang.org/reference/types/function-item.html](https://doc.rust-lang.org/reference/types/function-item.html)

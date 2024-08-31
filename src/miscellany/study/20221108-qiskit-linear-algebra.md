@@ -411,18 +411,23 @@ $$
 
 然后，我们可以很轻松的用 **CNOT** 和 **相位/旋转 逻辑门** 来构建这个逻辑门，因为我们知道这个门在每个计算基态上的数学结果
 
-最后，这里有一些常用量子逻辑门，可以参考
+---
+
+这里有一些常用量子逻辑门，可以参考
 
 ![qubit gate](../../assert/qiskit-linear-algebra-pic04.png)
 
-[^1]: GitHub 地址: [https://github.com/Qiskit/qiskit](https://github.com/Qiskit/qiskit)
+---
+
+[^1]:
+    Qiskit: v1.2.0\[CP/OL\].(2024-08-16)\[2022-11-08].
+    [https://github.com/Qiskit/qiskit](https://github.com/Qiskit/qiskit)
+
 [^2]:
-    线性组合.Wikipedia \[DB/OL\].
-    [https://zh.m.wikipedia.org/zh-cn/线性组合](https://zh.m.wikipedia.org/zh-cn/%E7%BA%BF%E6%80%A7%E7%BB%84%E5%90%88),
-    2022-07-01/2022-11-09
+    线性组合.Wikipedia \[DB/OL\].(2022-07-01)\[2022-11-08\].
+    [https://en.wikipedia.org/wiki/Linear_combination](https://en.wikipedia.org/wiki/Linear_combination)
 
 [^3]: 默认情况下，向量都指的是列向量
 [^4]:
-    Orthonormality.Wikipedia \[DB/OL].
-    [https://en.wikipedia.org/wiki/Orthonormality](https://en.wikipedia.org/wiki/Orthonormality),
-    2022-11-06/2022-11-09
+    Orthonormality.Wikipedia \[DB/OL\].(2022-11-06)\[2022-11-08\].
+    [https://en.wikipedia.org/wiki/Orthonormality](https://en.wikipedia.org/wiki/Orthonormality)

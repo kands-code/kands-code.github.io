@@ -614,19 +614,20 @@ plot_histogram(answer)
 
 我们可以看到，最可能的结果是 $\ket{1111}$，其他结果是由于量子计算中的错误造成的
 
+---
+
 吐槽一句，**IBM** 这个 API 是真的难等，排队好慢
 
+---
+
 [^1]:
-    David, D., & Richard, J. (1992).
-    Rapid solution of problems by quantum computation.
-    Proc. R. Soc. London A - Math. Phys. Sci., 439(1907), 553–558.
-    [doi:10.1098/rspa.1992.0167](https://doi.org/10.1098/rspa.1992.0167)
+    David, D., & Richard, J.. Rapid solution of problems by quantum computation\[J/OL\]. Proc. R. Soc. London A - Math. Phys. Sci.
+    1992, 439(1907): 553–558 [2022-11-11]. [DOI:10.1098/rspa.1992.0167](https://doi.org/10.1098/rspa.1992.0167)
 
 [^2]: 也就是返回 `true` 或者 `false` 的函数，这里用比特值代替
 [^3]:
-    Wikipedia. (2022, November 08). Oracle machine.
-    Retrieved from
-    [https://en.wikipedia.org/wiki/Oracle_machine](https://en.wikipedia.org/wiki/Oracle_machine)
+    Oracle machine.Wikipedia \[DB/OL\].(2022-11-08)\[2022-11-11\].
+    https://en.wikipedia.org/wiki/Oracle_machine
 
 [^4]: 即 $1 \oplus 0 = 1$ 而 $1 \oplus 1 = 0$
 [^5]: 参见 [The Hadamard Gate](https://qiskit.org/textbook/ch-states/single-qubit-gates.html#hgate)
