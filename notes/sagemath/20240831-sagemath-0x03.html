@@ -356,7 +356,9 @@ desolve_laplace(de, [p, t])
 <p>类似的 <code>desolve_laplace()</code> 也可以通过 <code>ics</code> 来指定初始条件或者边界，
 你也可以通过 <code>laplace()</code> 和 <code>inverse_laplace()</code> 来求解</p>
 <p>而欧拉法可以通过 <code>eulers_method</code> 或者 <code>euler_method_2x2</code> 来计算</p>
-<p>基于 PARI/GP<sup class="footnote-reference"><a href="#3">3</a></sup>，GAP<sup class="footnote-reference"><a href="#4">4</a></sup>，以及 Maxima，SageMath 中有许多正交多项式以及特殊函数，例如 <strong>贝塞尔函数</strong> 等等</p>
+<p>基于 PARI/GP<sup class="footnote-reference"><a href="#3">3</a></sup>，GAP<sup class="footnote-reference"><a href="#4">4</a></sup>，以及 Maxima，
+SageMath 中有许多 <a href="https://doc.sagemath.org/html/en/reference/functions/sage/functions/orthogonal_polys.html"><strong>正交多项式</strong></a>
+以及 <a href="https://doc.sagemath.org/html/en/reference/functions/index.html"><strong>特殊函数</strong></a>，例如 <strong>贝塞尔函数</strong> 等等</p>
 <pre><code class="language-python">x = polygen(QQ, "x")
 bessel_I(1, 1).n(digits=32)
 # =&gt; 0.56515910399248502720769602760986
