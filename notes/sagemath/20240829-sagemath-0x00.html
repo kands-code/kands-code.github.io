@@ -271,6 +271,11 @@
 <li>tar</li>
 <li>Python</li>
 </ul>
+<blockquote>
+<p>对于 macOS arm64 用户，可能需要安装 <code>gengetopt</code>，
+并且 <code>e_antic</code> 以及依赖 <code>e_antic</code> 的包都不能正常编译，
+如果需要，建议使用 <code>conda-forge</code> 方法安装</p>
+</blockquote>
 <p>编译器方面，推荐使用 GCC 和 GCC-Fortran，对于不同平台的安装方式，在文档中已经详细说明了，这里就不再过多叙述</p>
 <h3 id="编译步骤"><a class="header" href="#编译步骤">编译步骤</a></h3>
 <p>特别注意，对于 Windows 用户，建议使用 WSL2 来安装，如果要使用 Docker 同样也是需要使用 WSL2 的</p>
@@ -360,7 +365,7 @@ Uninstall broken packages by typing:
 <pre><code class="language-bash"># 将 ~/.local/bin 加入 PATH
 export PATH="$HOME/.local/bin":"$PATH"
 # 将 sage 链接到 ~/.local/bin
-ln -s "&lt;sage_home&gt;/bin/sage" ~/.local/bin/sage
+ln -s $("$SAGE_ROOT/sage" -sh -c 'ls $SAGE_ROOT/venv/bin/sage') /usr/local/bin
 </code></pre>
 <h2 id="使用"><a class="header" href="#使用">使用</a></h2>
 <p>因为在编译过程中我们没有使用系统的 Python，而是使用与 SageMath 对应的 Python 版本，所以 SageMath 中是无法使用系统中安装的 Python 包的</p>
