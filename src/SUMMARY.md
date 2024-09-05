@@ -13,6 +13,7 @@
   - [SageMath 基本语法](./notes/sagemath/20240831-sagemath-0x02.md)
   - [SageMath 代数初步](./notes/sagemath/20240831-sagemath-0x03.md)
   - [SageMath 基本作图](./notes/sagemath/20240901-sagemath-0x04.md)
+  - [SageMath 基本代数](./notes/sagemath/20240905-sagemath-0x05.md)
 
 # Miscellany
 
