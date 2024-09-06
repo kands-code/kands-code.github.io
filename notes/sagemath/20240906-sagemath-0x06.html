@@ -1,0 +1,444 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>SageMath 多项式 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+        
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="../../init.html">Init</a></li><li class="chapter-item "><a href="../../about.html">About</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item "><a href="../../notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/rust/20240727-rust-fuction-and-clousure.html">Rust 中的函数与闭包</a></li></ol></li><li class="chapter-item expanded "><a href="../../notes/sagemath/index.html">SageMath</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/sagemath/20240829-sagemath-0x00.html">安装 SageMath</a></li><li class="chapter-item "><a href="../../notes/sagemath/20240830-sagemath-0x01.html">SageMath 基本运算与函数</a></li><li class="chapter-item "><a href="../../notes/sagemath/20240831-sagemath-0x02.html">SageMath 基本语法</a></li><li class="chapter-item "><a href="../../notes/sagemath/20240831-sagemath-0x03.html">SageMath 代数初步</a></li><li class="chapter-item "><a href="../../notes/sagemath/20240901-sagemath-0x04.html">SageMath 基本作图</a></li><li class="chapter-item "><a href="../../notes/sagemath/20240905-sagemath-0x05.html">SageMath 基本代数</a></li><li class="chapter-item expanded "><a href="../../notes/sagemath/20240906-sagemath-0x06.html" class="active">SageMath 多项式</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="../../miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="../../miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="../../miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240727-use-steam-install-windows-applications.html">使用 Steam 安装 Windows 应用</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/study/20221108-qiskit-linear-algebra.html">qiskit 线性代数</a></li><li class="chapter-item "><a href="../../miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">qiskit Deutsch-Jozsa 算法</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="../../miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="../../miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="../../miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="chapter-item "><a href="../../miscellany/life/20240404-decadent-life.html">颓废生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240721-home-life.html">居家生活</a></li></ol></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                                        <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/sagemath/20240906-sagemath-0x06.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="sagemath-多项式"><a class="header" href="#sagemath-多项式">SageMath 多项式</a></h1>
+<p class="archive-time">archive time: 2024-09-06</p>
+<p class="sp-comment">代数运算好难啊</p>
+<p>对于多项式，根据其中变量的个数，可以分为 <strong>单变量多项式（Univariate Polynomials）</strong> 和 <strong>多变量多项式（Multivariate Polynomials）</strong></p>
+<h2 id="单变量多项式"><a class="header" href="#单变量多项式">单变量多项式</a></h2>
+<p>我们一般可以通过 <code>PolynomialRing()</code> 函数来构造多项式环</p>
+<pre><code class="language-python">R = PolynomialRing(QQ, "t")
+R
+# =&gt; Univariate Polynomial Ring in t over Rational Field
+</code></pre>
+<h3 id="获取生成元"><a class="header" href="#获取生成元">获取生成元</a></h3>
+<p>多项式的 <strong>生成元</strong><sup class="footnote-reference"><a href="#1">1</a></sup> 是 <code>t</code>，但是要注意，这里并没有定义符号 <code>t</code>，所以是不能够直接使用的</p>
+<p>下面是一种等价写法：</p>
+<pre><code class="language-python">R = QQ["t"]
+R
+# =&gt; Univariate Polynomial Ring in t over Rational Field
+</code></pre>
+<p>如果想要在定义多项式环的同时定义在这个环上的生成元 <code>t</code>，可以使用如下的方式：</p>
+<pre><code class="language-python">R.&lt;t&gt; = QQ[]
+(R, t)
+# =&gt; (Univariate Polynomial Ring in t over Rational Field, t)
+</code></pre>
+<p>或者可以使用 <code>R.0</code> 或 <code>R.gen(0)</code> 的方式得到</p>
+<pre><code class="language-python">t1 = R.gen(0)
+assert(t == t1)
+assert(t1 in R)
+</code></pre>
+<p>还有其他的方式可以获取多项式环上的生成元，可以参考 <a href="https://doc.sagemath.org/html/en/reference/polynomial_rings/sage/rings/polynomial/polynomial_ring_constructor.html">这个文档</a></p>
+<p>除了有理数，复数域 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6889em;"></span><span class="mord mathbb">C</span></span></span></span> 也有对应生成元，即虚数单位 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord mathrm">i</span></span></span></span></p>
+<pre><code class="language-python">assert(CC.gen(0) == I)
+</code></pre>
+<h3 id="相关计算"><a class="header" href="#相关计算">相关计算</a></h3>
+<p>对于多项式环 <code>R</code> 和获取到的生成元 <code>t</code>，我们可以当成一般的符号变量来运算，例如利用 <code>t</code> 来构造一个多项式：</p>
+<pre><code class="language-python">R, t = QQ['t'].objgen()
+f = 2*t^7 + 3*t^2 - 15/19
+f^2
+# =&gt;
+# 4*t^14 + 12*t^9 - 60/19*t^7 + 9*t^4 - 90/19*t^2 + 225/361
+</code></pre>
+<p>其中 <code>objgen()</code> 会返回多项式环以及对应的生成元</p>
+<p>对于多项式环，我们还可以使用一些内置函数来构造多项式，
+例如可以使用 <code>cyclotomic_polynomial()</code> 来构造循环多项式：</p>
+<pre><code class="language-python">cyclo = R.cyclotomic_polynomial(7)
+cyclo
+# =&gt;
+# t^6 + t^5 + t^4 + t^3 + t^2 + t + 1
+</code></pre>
+<p>对于多项式本身，我们还可以进一步操作：</p>
+<pre><code class="language-python">g = 7 * cyclo * t^5 * (t^5 + 10*t + 2)
+g
+# =&gt;
+# 7*t^16 + 7*t^15 + 7*t^14 + 7*t^13 + 77*t^12 + 91*t^11
+#  + 91*t^10 + 84*t^9 + 84*t^8 + 84*t^7 + 84*t^6 + 14*t^5
+</code></pre>
+<p>对于多项式的常见操作，例如因式分解，SageMath 也是支持的：</p>
+<pre><code class="language-python">F = factor(g)
+F
+# =&gt;
+# (7) * t^5 * (t^5 + 10*t + 2) * (t^6 + t^5 + t^4 + t^3 + t^2 + t + 1)
+</code></pre>
+<p>其中分解后的常数项被称为多项式的 <code>unit</code>，对于分解的结果，我们可以通过 <code>list()</code> 转换成列表，从而获取每一项的值：</p>
+<pre><code class="language-python">(F.unit(), list(F))
+# =&gt;
+# (7, [(t, 5), (t^5 + 10*t + 2, 1), (t^6 + t^5 + t^4 + t^3 + t^2 + t + 1, 1)])
+</code></pre>
+<p>不过要注意，SageMath 很多函数实际上是其他工具暴露出来的一个计算接口，我们可以通过 <code>&lt;object-name&gt;??</code> 的方式查看实现，
+例如 <code>cyclotomic_polynomial()</code> 函数，SageMath 内部就是调用 <code>sage.rings.polynomial.cyclotomic.cyclotomic_coeffs()</code>，
+再进一步查看就会发现实际上调用的是 <strong>PARI/GP</strong> 的 <code>pari.polcyclo()</code> 函数，这也说明了 SageMath 是一个基于各个开源计算社区的工具，是集大成者</p>
+<p>对于多项式除法，默认情况下 SageMath 会把结果变成 <strong>分式域（Fractional Field）</strong><sup class="footnote-reference"><a href="#2">2</a></sup>，这样保证数学的准确和严谨性</p>
+<pre><code class="language-python">x = QQ['x'].gen(0)
+f = x^3 + 1
+g = x^2 - 17
+h = f/g
+(h, f.parent(), g.parent(), h.parent())
+# =&gt;
+# ((x^3 + 1)/(x^2 - 17),
+#  Univariate Polynomial Ring in x over Rational Field,
+#  Univariate Polynomial Ring in x over Rational Field,
+#  Fraction Field of Univariate Polynomial Ring in x over Rational Field)
+</code></pre>
+<p>所谓分式域，是指对于一个 <strong>整环（integeral domain）</strong>，最小的能够进行除法操作的一个域，
+即 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0404em;vertical-align:-0.345em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6887em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6954em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">b</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span>，
+其中 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span> 就是整环，而 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6887em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6887em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span></span></span></span></span></span></span></span> 则是 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span> 中的所有非零元素构成的集合，<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> 就是对应的分式域</p>
+<p>而整环就是一个环，并且对于非零元素 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">a</span></span></span></span> 满足对于任意两个元素 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span></span></span></span> 和 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span></span></span></span>，满足 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">ab</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.549em;vertical-align:-0.024em;"></span><span class="mord mathnormal">a</span><span class="mord mathnormal">c</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⟹</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span></span></span></span></p>
+<p>通过使用洛朗级数，我们还可以在有理数系数的多项式环 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathbb">Q</span><span class="mopen">[</span><span class="mord mathnormal">x</span><span class="mclose">]</span></span></span></span> 的分式域中计算出幂级数展开：</p>
+<pre><code class="language-python">R.&lt;x&gt; = LaurentSeriesRing(QQ)
+(R, 1 / (1 - x) + O(x^8))
+# =&gt;
+# (Laurent Series Ring in x over Rational Field,
+#  1 + x + x^2 + x^3 + x^4 + x^5 + x^6 + x^7 + O(x^8))
+</code></pre>
+<p>洛朗级数环就是表示 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2693em;vertical-align:-0.358em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9112em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mrel mtight">=</span><span class="mord mtight">−</span><span class="mord mtight">∞</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">+</span><span class="mord mtight">∞</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.358em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span></span> 这样的一个级数对应的多项式，
+具体的使用可以参考 <a href="https://doc.sagemath.org/html/en/reference/power_series/sage/rings/laurent_series_ring.html">洛朗级数环</a>
+和 <a href="https://doc.sagemath.org/html/en/reference/power_series/sage/rings/laurent_series_ring_element.html">洛朗级数</a> 这两篇文档</p>
+<p>一般函数展开都是使用泰勒展开，即 <code>taylor()</code> 或者 <code>series()</code> 函数</p>
+<p>对于单变量的多项式环，不同的环和对应生成器，都是不同的：</p>
+<pre><code class="language-python">A.&lt;x&gt; = QQ["x"]
+B.&lt;y&gt; = QQ["y"]
+assert(A != B)
+assert(x != y)
+</code></pre>
+<p>通过对应的多项式环，可以将生成元变为环所对应的生成元：</p>
+<pre><code class="language-python">(A(y), A(y^2 - 17))
+# =&gt; (x, x^2 - 17)
+</code></pre>
+<p>实际上，环的区分是通过对应生成器的名称，也就是说对于两个生成器都是 <code>x</code> 的环，那么这两个环相等：</p>
+<pre><code class="language-python">A = QQ["x"]
+B = QQ["x"]
+assert(A == B)
+assert(A is B)
+</code></pre>
+<p>类似洛朗级数环，SageMath 中还有一个专门的幂级数环，对应泰勒展开，
+与洛朗级数的不同之处在于洛朗级数的 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> 是从 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">∞</span></span></span></span> 到 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">+</span><span class="mord">∞</span></span></span></span>，
+而幂级数的 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> 是从 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> 到 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">+</span><span class="mord">∞</span></span></span></span></p>
+<pre><code class="language-python">R.&lt;t&gt; = PowerSeriesRing(GF(7))
+s = t + 3*t^2 + t^3 + O(t^4)
+(R, 1/s, (1/s).parent())
+# =&gt;
+# (Power Series Ring in t over Finite Field of size 7,
+#  t^-1 + 4 + t + O(t^2),
+#  Laurent Series Ring in t over Finite Field of size 7)
+</code></pre>
+<p>对于幂级数环，可以简单的使用两个方括号来构建：</p>
+<pre><code class="language-python">GF(7)[["T"]]
+# =&gt; Power Series Ring in T over Finite Field of size 7
+</code></pre>
+<h2 id="多变量多项式"><a class="header" href="#多变量多项式">多变量多项式</a></h2>
+<p>多变量多项式和单变量多项式最大的区别就是变量个数，
+对于多变量多项式，可以通过指定多个变量来构建：</p>
+<pre><code class="language-python">PolynomialRing(GF(5), 3, "z")
+# =&gt; Multivariate Polynomial Ring in z0, z1, z2 over Finite Field of size 5
+</code></pre>
+<p>除了直接说有多少个变量，我们也可以通过类似 <code>var()</code> 函数的方式来构建：</p>
+<pre><code class="language-python">R.&lt;z0, z1, z2&gt; = GF(5)[]
+(GF(5)["z0, z1, z2"], R)
+# =&gt;
+# (Multivariate Polynomial Ring in z0, z1, z2 over Finite Field of size 5,
+#  Multivariate Polynomial Ring in z0, z1, z2 over Finite Field of size 5)
+</code></pre>
+<p>这些生成元可以通过类似单生成元的方式，
+即使用 <code>gens()</code>，<code>objgens()</code> 以及类似 <code>R.&lt;x, y, z&gt;</code> 的方式来获得</p>
+<p>SageMath 中的多元多项式使用的是 Python 的字典以及使用了 分配表示 的方式，
+其中键一般存储为对应变量的指数，例如 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span> 就可能表示为 <code>(2, 4)</code>，
+而对应的值一般是其系数，即 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord">8</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span> 对应的就是 <code>8</code></p>
+<p>有些情况下，SageMath 会使用到 <strong>Singular</strong> 来计算，
+例如 <code>gcd()</code>：</p>
+<pre><code class="language-python">R, (x, y) = PolynomialRing(RationalField(), 2, "x, y").objgens()
+f = (x^3 + 2 * y^2 * x)^2
+g = x^2 * y^2
+f.gcd(g)
+# =&gt; x^2
+</code></pre>
+<p>SageMath 还有许多例如交换代数的相关实现，具体的还需要仔细查看文档，了解函数的使用</p>
+<h2 id="后记"><a class="header" href="#后记">后记</a></h2>
+<p>这算是最后一篇基础的 SageMath 内容笔记，
+展现了 SageMath 对于代数中非常重要的内容，即多项式，的处理方法，
+以及展现了 SageMath 在实现相关功能上的细节</p>
+<p>SageMath 确实是一个不错的 CAS，
+不过 SageMath 包含了太多工具，每个工具都是独立的开源项目，
+这就导致了 SageMath 无法很好有效的管理其依赖，包括依赖的版本，以及依赖的依赖项，
+这导致了 SageMath 中有可能会出现由于原项目版本更新修复的问题在 SageMath 中仍然存在，
+其次就是编译安装时总是会有各种问题，提示依赖错误，或者由于编译器版本导致编译不通过</p>
+<p>但是以上的问题都是小问题，基本都有对应的解决方法，
+相信 SageMath 随着社区的完善和软件的迭代，越来越完善</p>
+<hr />
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Subring.Wikipedia [DB/OL].(2024-08-22)[2024-09-06].
+<a href="https://en.wikipedia.org/wiki/Subring#Subring_generated_by_a_set">https://en.wikipedia.org/wiki/Subring#Subring_generated_by_a_set</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>Field of fractions.Wikipedia [DB/OL].(2024-04-17)[2024-09-06].
+<a href="https://en.wikipedia.org/wiki/Field_of_fractions">https://en.wikipedia.org/wiki/Field_of_fractions</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>Integral domain.Wikipedia [DB\OL].(2024-06-23)[2024-09-06].
+<a href="https://en.wikipedia.org/wiki/Integral_domain">https://en.wikipedia.org/wiki/Integral_domain</a></p>
+</div>
+<pre><code>
+</code></pre>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/sagemath/20240905-sagemath-0x05.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../miscellany/coding/index.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/sagemath/20240905-sagemath-0x05.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../miscellany/coding/index.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>
