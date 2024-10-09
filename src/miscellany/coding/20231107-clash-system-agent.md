@@ -20,7 +20,7 @@
 
 首先进入到系统设置，找到网络相关的地方，设置好 **http** 以及 **https** 代理
 
-![http 以及 https设置](../../assert/clash-system-agent-pic01.png)
+![http 以及 https设置](../../assets/clash-system-agent-pic01.png)
 
 **socks** 我个人感觉不太需要，不过我还是勾选上了
 
@@ -32,7 +32,7 @@
 
 注意，不能换行，用逗号隔开，空格好像也不太行（？）
 
-![bypass 设置](../../assert/clash-system-agent-pic02.png)
+![bypass 设置](../../assets/clash-system-agent-pic02.png)
 
 然后就可以正常使用代理以及系统功能了
 
