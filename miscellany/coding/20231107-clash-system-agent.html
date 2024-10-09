@@ -225,13 +225,13 @@
 <p>比较典型的，就是系统的 <em>翻译</em> 功能</p>
 <p>解决方法也比较简单，那就是 <code>bypass</code> + <em>tun</em></p>
 <p>首先进入到系统设置，找到网络相关的地方，设置好 <strong>http</strong> 以及 <strong>https</strong> 代理</p>
-<p><img src="../../assert/clash-system-agent-pic01.png" alt="http 以及 https设置" /></p>
+<p><img src="../../assets/clash-system-agent-pic01.png" alt="http 以及 https设置" /></p>
 <p><strong>socks</strong> 我个人感觉不太需要，不过我还是勾选上了</p>
 <p>然后就是勾选 <em>不包括简单主机名</em>，然后在下面 <strong><em>忽略这些主机与域的代理设置</em></strong> 中填入:</p>
 <pre><code class="language-plaintext">192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,127.0.0.1,localhost,*.local,timestamp.apple.com,sequoia.apple.com,seed-sequoia.siri.apple.com
 </code></pre>
 <p>注意，不能换行，用逗号隔开，空格好像也不太行（？）</p>
-<p><img src="../../assert/clash-system-agent-pic02.png" alt="bypass 设置" /></p>
+<p><img src="../../assets/clash-system-agent-pic02.png" alt="bypass 设置" /></p>
 <p>然后就可以正常使用代理以及系统功能了</p>
 <p>不过我很不解的就是，为什么我在 <code>Merge Profile</code> 里使用 <code>prepend-rules</code> 没有效果</p>
 <p><del>但是问题被解决就好</del></p>
