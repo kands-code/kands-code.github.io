@@ -1,0 +1,572 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>Haskell 99 Questions :: 0x01 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+        
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="../../init.html">Init</a></li><li class="chapter-item "><a href="../../about.html">About</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item expanded "><a href="../../notes/haskell/index.html">Haskell</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../notes/haskell/20241030-haskell-99-questions-0x01.html" class="active">Haskell 99 Questions :: 0x01</a></li></ol></li><li class="chapter-item "><a href="../../notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/rust/20240727-rust-fuction-and-clousure.html">Rust 中的函数与闭包</a></li></ol></li><li class="chapter-item "><a href="../../notes/sagemath/index.html">SageMath</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../notes/sagemath/20240829-sagemath-0x00.html">安装 SageMath</a></li><li class="chapter-item "><a href="../../notes/sagemath/20240830-sagemath-0x01.html">SageMath 基本运算与函数</a></li><li class="chapter-item "><a href="../../notes/sagemath/20240831-sagemath-0x02.html">SageMath 基本语法</a></li><li class="chapter-item "><a href="../../notes/sagemath/20240831-sagemath-0x03.html">SageMath 代数初步</a></li><li class="chapter-item "><a href="../../notes/sagemath/20240901-sagemath-0x04.html">SageMath 基本作图</a></li><li class="chapter-item "><a href="../../notes/sagemath/20240905-sagemath-0x05.html">SageMath 基本代数</a></li><li class="chapter-item "><a href="../../notes/sagemath/20240906-sagemath-0x06.html">SageMath 多项式</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="../../miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="../../miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="../../miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li><li class="chapter-item "><a href="../../miscellany/coding/20240727-use-steam-install-windows-applications.html">使用 Steam 安装 Windows 应用</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/study/20221108-qiskit-linear-algebra.html">qiskit 线性代数</a></li><li class="chapter-item "><a href="../../miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">qiskit Deutsch-Jozsa 算法</a></li></ol></li><li class="chapter-item "><a href="../../miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="../../miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="../../miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="../../miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="chapter-item "><a href="../../miscellany/life/20240404-decadent-life.html">颓废生活</a></li><li class="chapter-item "><a href="../../miscellany/life/20240721-home-life.html">居家生活</a></li></ol></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                                        <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/haskell/20241030-haskell-99-questions-0x01.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="haskell-99-questions--0x01"><a class="header" href="#haskell-99-questions--0x01">Haskell 99 Questions :: 0x01</a></h1>
+<p class="archive-time">archive time: 2024-10-30</p>
+<p class="sp-comment">闲来无事，来练习一下 Haskell</p>
+<ul>
+<li><a href="#%E7%BC%98%E8%B5%B7">缘起</a></li>
+<li><a href="#%E5%87%86%E5%A4%87">准备</a></li>
+<li><a href="#%E9%A2%98%E7%9B%AE">题目</a>
+<ul>
+<li><a href="#question-01">Question 01</a></li>
+<li><a href="#question-02">Question 02</a></li>
+<li><a href="#question-03">Question 03</a></li>
+<li><a href="#question-04">Question 04</a></li>
+<li><a href="#question-05">Question 05</a></li>
+<li><a href="#question-06">Question 06</a></li>
+<li><a href="#question-07">Question 07</a></li>
+<li><a href="#question-08">Question 08</a></li>
+<li><a href="#question-09">Question 09</a></li>
+<li><a href="#question-10">Question 10</a></li>
+</ul>
+</li>
+<li><a href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B">测试用例</a></li>
+</ul>
+<h2 id="缘起"><a class="header" href="#缘起">缘起</a></h2>
+<p>我最近不知为何突然喜欢上了 <a href="https://www.youtube.com/@TsodingDaily">Tsoding</a> 的视频，
+其中 <a href="https://www.youtube.com/watch?v=9nik-50ET3Q">有一期视频</a> 提到了 <a href="https://wiki.haskell.org/99_questions">99 questions</a>，
+那么我也就顺便来做一下吧</p>
+<h2 id="准备"><a class="header" href="#准备">准备</a></h2>
+<p>我打算使用 Haskell 来解决这些问题，
+实际上，基本所有的支持函数式编程的语言（包括 <strong><em>C 语言</em></strong>）都能解决这些问题，
+只是有些语言实现起来方便一些罢了</p>
+<p>但是如果仔细看里面的问题的话就会发现，其中还有随机数这种问题，
+虽然我们可以通过某些算法来生成一些不那么随机的伪随机数，
+但是更加方便的方案还是调用 <a href="https://hackage.haskell.org/package/random-1.2.1.2/docs/System-Random.html">random 库</a>，
+不过这就要求我们需要创建一个 Haskell 项目才行</p>
+<p>不过我们还有一种方法，那就是读取 <code>/dev/random</code> 文件，具体实现如下：</p>
+<pre><code class="language-haskell">module Qarks.Random (readRandomBytes) where
+
+import Data.Word (Word8)
+import Foreign.Marshal.Alloc (mallocBytes)
+import Foreign.Ptr (plusPtr)
+import Foreign.Storable (peek)
+import System.IO (IOMode (..), hClose, hGetBuf, openFile)
+
+readRandomBytes :: Int -&gt; IO [Word8]
+readRandomBytes n = do
+  handle &lt;- openFile "/dev/random" ReadMode
+  buf &lt;- mallocBytes n
+  _ &lt;- hGetBuf handle buf n
+  bytes &lt;- mapM (peek . plusPtr buf) [0 .. (n - 1)]
+  hClose handle
+  return bytes
+</code></pre>
+<p>使用 <code>Foreign</code> 是为了避免读取到非法字符编码出错，所以读取字节，
+最后返回的是一个 <code>Word8</code> 列表，可以通过其他方法把这些数字变成具体的想要随即的内容，例如浮点数或字符</p>
+<h2 id="题目"><a class="header" href="#题目">题目</a></h2>
+<h3 id="question-01"><a class="header" href="#question-01">Question 01</a></h3>
+<blockquote>
+<p><strong><em>Find the last element of a list.</em></strong></p>
+</blockquote>
+<p>返回列表中的最后一个元素，空列表返回 <code>Nothing</code></p>
+<pre><code class="language-haskell">qLastOne :: [a] -&gt; Maybe a
+</code></pre>
+<details>
+<summary>答案</summary>
+<pre><code class="language-haskell">qLastOne :: [a] -&gt; Maybe a
+qLastOne [] = Nothing
+qLastOne [e] = Just e
+qLastOne (_ : t) = qLastOne t
+</code></pre>
+</details>
+<h3 id="question-02"><a class="header" href="#question-02">Question 02</a></h3>
+<blockquote>
+<p><strong><em>Find the last-but-one (or second-last) element of a list.</em></strong></p>
+</blockquote>
+<p>返回列表中的倒数第二个元素，
+列表元素长度小于 <code>2</code> 返回 <code>Nothing</code></p>
+<pre><code class="language-haskell">qLastTwo :: [a] -&gt; Maybe a
+</code></pre>
+<details>
+<summary>答案</summary>
+<pre><code class="language-haskell">qLastTwo :: [a] -&gt; Maybe a
+qLastTwo [] = Nothing
+qLastTwo [_] = Nothing
+qLastTwo [e, _] = Just e
+qLastTwo (_ : t) = qLastTwo t
+</code></pre>
+</details>
+<h3 id="question-03"><a class="header" href="#question-03">Question 03</a></h3>
+<blockquote>
+<p><strong><em>Find the K-th element of a list.</em></strong></p>
+</blockquote>
+<p>返回第 <code>K</code> 位元素，
+列表长度小于 <code>K</code> 返回 <code>Nothing</code>，<code>K</code> 从 <code>1</code> 开始</p>
+<pre><code class="language-haskell">qKthElement :: [a] -&gt; Int -&gt; Maybe a
+</code></pre>
+<details>
+<summary>答案</summary>
+<pre><code class="language-haskell">qKthElement :: [a] -&gt; Int -&gt; Maybe a
+qKthElement (e : _) 1 = Just e
+qKthElement [] _ = Nothing
+qKthElement (_ : t) k
+  | k &lt; 1 = Nothing
+  | otherwise = qKthElement t (k - 1)
+</code></pre>
+</details>
+<h3 id="question-04"><a class="header" href="#question-04">Question 04</a></h3>
+<blockquote>
+<p><strong><em>Find the number of elements in a list.</em></strong></p>
+</blockquote>
+<p>返回列表长度，这个比较直接</p>
+<pre><code class="language-haskell">qLength :: [a] -&gt; Int
+</code></pre>
+<details>
+<summary>答案</summary>
+<pre><code class="language-haskell">qLength :: [a] -&gt; Int
+qLength lst = qLengthI lst 0
+  where
+    qLengthI :: [a] -&gt; Int -&gt; Int
+    qLengthI [] n = n
+    qLengthI (_ : t) n = qLengthI t (n + 1)
+</code></pre>
+</details>
+<h3 id="question-05"><a class="header" href="#question-05">Question 05</a></h3>
+<blockquote>
+<p><strong><em>Reverse a list.</em></strong></p>
+</blockquote>
+<p>翻转列表</p>
+<pre><code class="language-haskell">qReverse :: [a] -&gt; [a]
+</code></pre>
+<details>
+<summary>答案</summary>
+<pre><code class="language-haskell">qReverse :: [a] -&gt; [a]
+qReverse [] = []
+qReverse lst = qReverseI lst []
+  where
+    qReverseI :: [a] -&gt; [a] -&gt; [a]
+    qReverseI [] acc = acc
+    qReverseI (h : t) acc = qReverseI t (h : acc)
+</code></pre>
+</details>
+<h3 id="question-06"><a class="header" href="#question-06">Question 06</a></h3>
+<blockquote>
+<p><strong><em>Find out whether a list is a palindrome.</em></strong></p>
+</blockquote>
+<p>判断列表是否是回文列表</p>
+<pre><code class="language-haskell">qIsPalindrome :: (Eq a) =&gt; [a] -&gt; Bool
+</code></pre>
+<details>
+<summary>答案</summary>
+<pre><code class="language-haskell">qIsPalindrome :: (Eq a) =&gt; [a] -&gt; Bool
+qIsPalindrome lst = lst == qReverse lst
+</code></pre>
+</details>
+<h3 id="question-07"><a class="header" href="#question-07">Question 07</a></h3>
+<blockquote>
+<p><strong><em>Flatten a nested list structure.</em></strong></p>
+</blockquote>
+<p>将一个嵌套结构的列表摊平，也就是变成一维结构</p>
+<pre><code class="language-haskell">data QNestedList a = QElem a | QList [QNestedList a]
+
+qFlatten :: QNestedList a -&gt; [a]
+</code></pre>
+<details>
+<summary>答案</summary>
+<pre><code class="language-haskell">data QNestedList a = QElem a | QList [QNestedList a]
+
+qFlatten :: QNestedList a -&gt; [a]
+qFlatten (QElem e) = [e]
+qFlatten (QList nlst) = qReverse (qFlattenI nlst [])
+  where
+    qFlattenI :: [QNestedList a] -&gt; [a] -&gt; [a]
+    qFlattenI [] acc = acc
+    qFlattenI (QElem e : t) acc = qFlattenI t (e : acc)
+    qFlattenI (QList qlst : t) acc = qFlattenI t (qFlattenI qlst [] ++ acc)
+</code></pre>
+</details>
+<h3 id="question-08"><a class="header" href="#question-08">Question 08</a></h3>
+<blockquote>
+<p><strong><em>Eliminate consecutive duplicates of list elements.</em></strong></p>
+</blockquote>
+<p>将连续的重复元素合并成一个</p>
+<pre><code class="language-haskell">qCompress :: (Eq a) =&gt; [a] -&gt; [a]
+</code></pre>
+<details>
+<summary>答案</summary>
+<pre><code class="language-haskell">qCompress :: (Eq a) =&gt; [a] -&gt; [a]
+qCompress lst = qCompressI lst []
+  where
+    qCompressI :: (Eq a) =&gt; [a] -&gt; [a] -&gt; [a]
+    qCompressI [] acc = acc
+    qCompressI [e] acc = e : acc
+    qCompressI (x : y : t) acc =
+      qCompressI
+        (y : t)
+        (if x == y then acc else x : acc)
+</code></pre>
+</details>
+<h3 id="question-09"><a class="header" href="#question-09">Question 09</a></h3>
+<blockquote>
+<p><strong><em>Pack consecutive duplicates of list elements into sublists.</em></strong></p>
+</blockquote>
+<p>将重复元素合并成一个子列表</p>
+<pre><code class="language-haskell">qPack :: (Eq a) =&gt; [a] -&gt; [[a]]
+</code></pre>
+<details>
+<summary>答案</summary>
+<pre><code class="language-haskell">qPack :: (Eq a) =&gt; [a] -&gt; [[a]]
+qPack lst = qReverse (qPackI lst [] [])
+  where
+    qPackI :: (Eq a) =&gt; [a] -&gt; [a] -&gt; [[a]] -&gt; [[a]]
+    qPackI [] p acc = p : acc
+    qPackI (h : t) [] acc = qPackI t [h] acc
+    qPackI (h : t) (x : xs) acc
+      | h == x = qPackI t (h : x : xs) acc
+      | otherwise = qPackI t [h] ((x : xs) : acc)
+</code></pre>
+</details>
+<h3 id="question-10"><a class="header" href="#question-10">Question 10</a></h3>
+<blockquote>
+<p><strong><em>Run-length encoding of a list.</em></strong></p>
+</blockquote>
+<p>利用 Question 9 的结果来实现 <strong><em>Run-length</em></strong> 编码</p>
+<pre><code class="language-haskell">qRunLengthEncode :: (Eq a) =&gt; [a] -&gt; [(Int, a)]
+</code></pre>
+<details>
+<summary>答案</summary>
+<pre><code class="language-haskell">qRunLengthEncode :: (Eq a) =&gt; [a] -&gt; [(Int, a)]
+qRunLengthEncode lst = map (\p -&gt; (qLength p, head p)) (qPack lst)
+</code></pre>
+</details>
+<h2 id="测试用例"><a class="header" href="#测试用例">测试用例</a></h2>
+<p>我这里使用了 hspec 测试框架来测试结果，具体的测试代码如下：</p>
+<details>
+<summary>测试代码</summary>
+<pre><code class="language-haskell">module Main (main) where
+
+import Qarks.Nnp
+  ( QNestedList (..),
+    qCompress,
+    qFlatten,
+    qIsPalindrome,
+    qKthElement,
+    qLastOne,
+    qLastTwo,
+    qLength,
+    qPack,
+    qReverse,
+    qRunLengthEncode,
+  )
+import Test.Hspec (describe, hspec, it, shouldBe, shouldNotSatisfy, shouldSatisfy)
+
+main :: IO ()
+main = hspec $ do
+  describe "Qarks.Nnp.qLastOne" $ do
+    it "[1 .. 4]" $ do
+      qLastOne [1 .. 4] `shouldBe` Just (4 :: Int)
+    it "['a' .. 'z']" $ do
+      qLastOne ['a' .. 'z'] `shouldBe` Just 'z'
+  describe "Qarks.Nnp.qLastTwo" $ do
+    it "[1 .. 4]" $ do
+      qLastTwo [1 .. 4] `shouldBe` Just (3 :: Int)
+    it "['a' .. 'z']" $ do
+      qLastTwo ['a' .. 'z'] `shouldBe` Just 'y'
+  describe "Qarks.Nnp.qKthElement" $ do
+    it "2-nd of [1, 2, 3]" $ do
+      qKthElement [1, 2, 3] 2 `shouldBe` Just (2 :: Int)
+    it "5-th of \"haskell\"" $ do
+      qKthElement "haskell" 5 `shouldBe` Just 'e'
+  describe "Qarks.Nnp.qLength" $ do
+    it "[123, 456, 789]" $ do
+      qLength [123 :: Int, 456, 789] `shouldBe` 3
+    it "\"Hello, world!\"" $ do
+      qLength "Hello, world!" `shouldBe` 13
+  describe "Qarks.Nnp.qReverse" $ do
+    it "\"A man, a plan, a canal, panama!\"" $ do
+      qReverse "A man, a plan, a canal, panama!"
+        `shouldBe` "!amanap ,lanac a ,nalp a ,nam A"
+    it "[1 .. 4]" $ do
+      qReverse [1 .. 4] `shouldBe` [4 :: Int, 3, 2, 1]
+  describe "Qarks.Nnp.qIsPalindrome" $ do
+    it "[1, 2, 3]" $ do
+      [1 :: Int, 2, 3] `shouldNotSatisfy` qIsPalindrome
+    it "\"madamimadam\"" $ do
+      "madamimadam" `shouldSatisfy` qIsPalindrome
+    it "[1, 2, 4, 8, 16, 8, 4, 2, 1]" $ do
+      [1 :: Int, 2, 4, 8, 16, 8, 4, 2, 1] `shouldSatisfy` qIsPalindrome
+  describe "Qarks.Nnp.qFlatten" $ do
+    it "QElem 5" $ do
+      qFlatten (QElem 5) `shouldBe` [5 :: Int]
+    it "QList [QElem 1, QList [QElem 2, QList [QElem 3, QElem 4], QElem 5]]" $ do
+      qFlatten (QList [QElem 1, QList [QElem 2, QList [QElem 3, QElem 4], QElem 5]])
+        `shouldBe` [1 :: Int .. 5]
+    it "QList []" $ do
+      qFlatten (QList []) `shouldBe` ([] :: [Int])
+  describe "Qarks.Nnp.qCompress" $ do
+    it "\"aaaabccaadeeee\"" $ do
+      qCompress "aaaabccaadeeee" `shouldBe` "abcade"
+  describe "Qarks.Nnp.qPack" $ do
+    it "\"aaaabccaadeeee\"" $ do
+      qPack "aaaabccaadeeee"
+        `shouldBe` ["aaaa", "b", "cc", "aa", "d", "eeee"]
+  describe "Qarks.Nnp.qRunLengthEncode" $ do
+    it "\"aaaabccaadeeee\"" $ do
+      qRunLengthEncode "aaaabccaadeeee"
+        `shouldBe` [(4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e')]
+</code></pre>
+<details>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/haskell/index.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/rust/index.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/haskell/index.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/rust/index.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>
