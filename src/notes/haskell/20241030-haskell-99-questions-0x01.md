@@ -203,6 +203,7 @@ qIsPalindrome lst = lst == qReverse lst
 
 ```haskell
 data QNestedList a = QElem a | QList [QNestedList a]
+  deriving (Show, Eq)
 
 qFlatten :: QNestedList a -> [a]
 ```
@@ -213,6 +214,7 @@ qFlatten :: QNestedList a -> [a]
 
 ```haskell
 data QNestedList a = QElem a | QList [QNestedList a]
+  deriving (Show, Eq)
 
 qFlatten :: QNestedList a -> [a]
 qFlatten (QElem e) = [e]
@@ -287,7 +289,7 @@ qPack lst = qReverse (qPackI lst [] [])
 
 > **_Run-length encoding of a list._**
 
-利用 Question 9 的结果来实现 **_Run-length_** 编码
+利用 Question 09 的结果来实现 **_Run-length_** 编码
 
 ```haskell
 qRunLengthEncode :: (Eq a) => [a] -> [(Int, a)]
@@ -313,7 +315,7 @@ qRunLengthEncode lst = map (\p -> (qLength p, head p)) (qPack lst)
 <summary>测试代码</summary>
 
 ```haskell
-module Main (main) where
+module Part01 (part01) where
 
 import Qarks.Nnp
   ( QNestedList (..),
@@ -328,62 +330,79 @@ import Qarks.Nnp
     qReverse,
     qRunLengthEncode,
   )
-import Test.Hspec (describe, hspec, it, shouldBe, shouldNotSatisfy, shouldSatisfy)
+import Test.Hspec (context, describe, it, shouldBe, shouldNotSatisfy, shouldSatisfy)
+import Test.Hspec.Runner (SpecWith)
+
+part01 :: SpecWith ()
+part01 = describe "Part01" $
+  do
+    context "Qarks.Nnp.qLastOne" $ do
+      it "[1 .. 4]" $ do
+        qLastOne [1 .. 4] `shouldBe` Just (4 :: Int)
+      it "['a' .. 'z']" $ do
+        qLastOne ['a' .. 'z'] `shouldBe` Just 'z'
+      context "Qarks.Nnp.qLastTwo" $ do
+        it "[1 .. 4]" $ do
+          qLastTwo [1 .. 4] `shouldBe` Just (3 :: Int)
+        it "['a' .. 'z']" $ do
+          qLastTwo ['a' .. 'z'] `shouldBe` Just 'y'
+      context "Qarks.Nnp.qKthElement" $ do
+        it "2-nd of [1, 2, 3]" $ do
+          qKthElement [1, 2, 3] 2 `shouldBe` Just (2 :: Int)
+        it "5-th of \"haskell\"" $ do
+          qKthElement "haskell" 5 `shouldBe` Just 'e'
+      context "Qarks.Nnp.qLength" $ do
+        it "[123, 456, 789]" $ do
+          qLength [123 :: Int, 456, 789] `shouldBe` 3
+        it "\"Hello, world!\"" $ do
+          qLength "Hello, world!" `shouldBe` 13
+      context "Qarks.Nnp.qReverse" $ do
+        it "\"A man, a plan, a canal, panama!\"" $ do
+          qReverse "A man, a plan, a canal, panama!"
+            `shouldBe` "!amanap ,lanac a ,nalp a ,nam A"
+        it "[1 .. 4]" $ do
+          qReverse [1 .. 4] `shouldBe` [4 :: Int, 3, 2, 1]
+      context "Qarks.Nnp.qIsPalindrome" $ do
+        it "[1, 2, 3]" $ do
+          [1 :: Int, 2, 3] `shouldNotSatisfy` qIsPalindrome
+        it "\"madamimadam\"" $ do
+          "madamimadam" `shouldSatisfy` qIsPalindrome
+        it "[1, 2, 4, 8, 16, 8, 4, 2, 1]" $ do
+          [1 :: Int, 2, 4, 8, 16, 8, 4, 2, 1] `shouldSatisfy` qIsPalindrome
+      context "Qarks.Nnp.qFlatten" $ do
+        it "QElem 5" $ do
+          qFlatten (QElem 5) `shouldBe` [5 :: Int]
+        it "QList [QElem 1, QList [QElem 2, QList [QElem 3, QElem 4], QElem 5]]" $ do
+          qFlatten (QList [QElem 1, QList [QElem 2, QList [QElem 3, QElem 4], QElem 5]])
+            `shouldBe` [1 :: Int .. 5]
+        it "QList []" $ do
+          qFlatten (QList []) `shouldBe` ([] :: [Int])
+      context "Qarks.Nnp.qCompress" $ do
+        it "\"aaaabccaadeeee\"" $ do
+          qCompress "aaaabccaadeeee" `shouldBe` "abcade"
+      context "Qarks.Nnp.qPack" $ do
+        it "\"aaaabccaadeeee\"" $ do
+          qPack "aaaabccaadeeee"
+            `shouldBe` ["aaaa", "b", "cc", "aa", "d", "eeee"]
+      context "Qarks.Nnp.qRunLengthEncode" $ do
+        it "\"aaaabccaadeeee\"" $ do
+          qRunLengthEncode "aaaabccaadeeee"
+            `shouldBe` [(4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e')]
+```
+
+</details>
+
+测试主函数如下：
+
+```haskell
+module Main (main) where
+
+import Part01 (part01)
+import Test.Hspec (hspec)
 
 main :: IO ()
 main = hspec $ do
-  describe "Qarks.Nnp.qLastOne" $ do
-    it "[1 .. 4]" $ do
-      qLastOne [1 .. 4] `shouldBe` Just (4 :: Int)
-    it "['a' .. 'z']" $ do
-      qLastOne ['a' .. 'z'] `shouldBe` Just 'z'
-  describe "Qarks.Nnp.qLastTwo" $ do
-    it "[1 .. 4]" $ do
-      qLastTwo [1 .. 4] `shouldBe` Just (3 :: Int)
-    it "['a' .. 'z']" $ do
-      qLastTwo ['a' .. 'z'] `shouldBe` Just 'y'
-  describe "Qarks.Nnp.qKthElement" $ do
-    it "2-nd of [1, 2, 3]" $ do
-      qKthElement [1, 2, 3] 2 `shouldBe` Just (2 :: Int)
-    it "5-th of \"haskell\"" $ do
-      qKthElement "haskell" 5 `shouldBe` Just 'e'
-  describe "Qarks.Nnp.qLength" $ do
-    it "[123, 456, 789]" $ do
-      qLength [123 :: Int, 456, 789] `shouldBe` 3
-    it "\"Hello, world!\"" $ do
-      qLength "Hello, world!" `shouldBe` 13
-  describe "Qarks.Nnp.qReverse" $ do
-    it "\"A man, a plan, a canal, panama!\"" $ do
-      qReverse "A man, a plan, a canal, panama!"
-        `shouldBe` "!amanap ,lanac a ,nalp a ,nam A"
-    it "[1 .. 4]" $ do
-      qReverse [1 .. 4] `shouldBe` [4 :: Int, 3, 2, 1]
-  describe "Qarks.Nnp.qIsPalindrome" $ do
-    it "[1, 2, 3]" $ do
-      [1 :: Int, 2, 3] `shouldNotSatisfy` qIsPalindrome
-    it "\"madamimadam\"" $ do
-      "madamimadam" `shouldSatisfy` qIsPalindrome
-    it "[1, 2, 4, 8, 16, 8, 4, 2, 1]" $ do
-      [1 :: Int, 2, 4, 8, 16, 8, 4, 2, 1] `shouldSatisfy` qIsPalindrome
-  describe "Qarks.Nnp.qFlatten" $ do
-    it "QElem 5" $ do
-      qFlatten (QElem 5) `shouldBe` [5 :: Int]
-    it "QList [QElem 1, QList [QElem 2, QList [QElem 3, QElem 4], QElem 5]]" $ do
-      qFlatten (QList [QElem 1, QList [QElem 2, QList [QElem 3, QElem 4], QElem 5]])
-        `shouldBe` [1 :: Int .. 5]
-    it "QList []" $ do
-      qFlatten (QList []) `shouldBe` ([] :: [Int])
-  describe "Qarks.Nnp.qCompress" $ do
-    it "\"aaaabccaadeeee\"" $ do
-      qCompress "aaaabccaadeeee" `shouldBe` "abcade"
-  describe "Qarks.Nnp.qPack" $ do
-    it "\"aaaabccaadeeee\"" $ do
-      qPack "aaaabccaadeeee"
-        `shouldBe` ["aaaa", "b", "cc", "aa", "d", "eeee"]
-  describe "Qarks.Nnp.qRunLengthEncode" $ do
-    it "\"aaaabccaadeeee\"" $ do
-      qRunLengthEncode "aaaabccaadeeee"
-        `shouldBe` [(4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e')]
+  part01
 ```
 
-<details>
+之后的测试代码我就不再重复主函数部分了

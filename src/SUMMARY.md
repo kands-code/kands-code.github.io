@@ -7,6 +7,7 @@
 
 - [Haskell](./notes/haskell/index.md)
   - [Haskell 99 Questions :: 0x01](./notes/haskell/20241030-haskell-99-questions-0x01.md)
+  - [Haskell 99 Questions :: 0x02](./notes/haskell/20241031-haskell-99-questions-0x02.md)
 - [Rust](./notes/rust/index.md)
   - [Rust 中的函数与闭包](./notes/rust/20240727-rust-fuction-and-clousure.md)
 - [SageMath](./notes/sagemath/index.md)
