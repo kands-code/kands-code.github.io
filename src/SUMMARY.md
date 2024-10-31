@@ -5,6 +5,8 @@
 
 # Notes
 
+- [Haskell](./notes/haskell/index.md)
+  - [Haskell 99 Questions :: 0x01](./notes/haskell/20241030-haskell-99-questions-0x01.md)
 - [Rust](./notes/rust/index.md)
   - [Rust 中的函数与闭包](./notes/rust/20240727-rust-fuction-and-clousure.md)
 - [SageMath](./notes/sagemath/index.md)
@@ -19,18 +21,14 @@
 # Miscellany
 
 - [Coding](./miscellany/coding/index.md)
-
   - [if 语句的作用域](./miscellany/coding/20210604-scope-of-if-statement.md)
   - [C 语言数学解析器](./miscellany/coding/20221026-parse-math-in-c.md)
   - [C𝜆ash 系统代理](./miscellany/coding/20231107-clash-system-agent.md)
   - [在 mdBook 中使用 giscus 服务](./miscellany/coding/20240228-use-giscus-in-mdbook.md)
   - [使用 Steam 安装 Windows 应用](./miscellany/coding/20240727-use-steam-install-windows-applications.md)
-
 - [Study](./miscellany/study/index.md)
-
   - [qiskit 线性代数](./miscellany/study/20221108-qiskit-linear-algebra.md)
   - [qiskit Deutsch-Jozsa 算法](./miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.md)
-
 - [Life](./miscellany/life/index.md)
   - [说说以后的打算罢](./miscellany/life/20230411-about-life.md)
   - [谈谈最近的工作状态](./miscellany/life/20230715-about-job.md)
