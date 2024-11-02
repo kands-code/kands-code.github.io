@@ -189,7 +189,7 @@ $$
 
 让我们来看一个平衡函数的例子
 
-```
+```plaintext
 f(0, 0) = 0
 f(0, 1) = 1
 f(1, 0) = 1
@@ -573,7 +573,7 @@ print("least busy backend: ", backend)
 
 可以看到类似输出
 
-```
+```plaintext
 least busy backend:  ibmq_quito
 ```
 
@@ -590,13 +590,13 @@ job_monitor(job, interval=2)
 
 如果比较繁忙，可能会出现类似如下输出
 
-```
+```plaintext
 Job Status: job is queued (66)
 ```
 
 如果任务执行结束，会看到类似如下输出
 
-```
+```plaintext
 Job Status: job has successfully run
 ```
 
@@ -627,7 +627,7 @@ plot_histogram(answer)
 [^2]: 也就是返回 `true` 或者 `false` 的函数，这里用比特值代替
 [^3]:
     Oracle machine.Wikipedia \[DB/OL\].(2022-11-08)\[2022-11-11\].
-    https://en.wikipedia.org/wiki/Oracle_machine
+    <https://en.wikipedia.org/wiki/Oracle_machine>
 
 [^4]: 即 $1 \oplus 0 = 1$ 而 $1 \oplus 1 = 0$
 [^5]: 参见 [The Hadamard Gate](https://qiskit.org/textbook/ch-states/single-qubit-gates.html#hgate)

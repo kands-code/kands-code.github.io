@@ -10,6 +10,7 @@
   - [Haskell 99 Questions :: 0x02](./notes/haskell/20241031-haskell-99-questions-0x02.md)
 - [Rust](./notes/rust/index.md)
   - [Rust 中的函数与闭包](./notes/rust/20240727-rust-fuction-and-clousure.md)
+  - [SICP 笔记 - 0x01](./notes/rust/20241102-sicp-notes-0x01.md)
 - [SageMath](./notes/sagemath/index.md)
   - [安装 SageMath](./notes/sagemath/20240829-sagemath-0x00.md)
   - [SageMath 基本运算与函数](./notes/sagemath/20240830-sagemath-0x01.md)

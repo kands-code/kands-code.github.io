@@ -12,7 +12,7 @@ Rust 最出名的地方就是其一直宣传的内存安全性，各种设计，
 
 刚开始写 Rust，最主要的就是被 **_MozillaML_** 这个外号吸引了，认为 Rust 就是一种语法比较另类的 ML 语言
 
-事实也是，Rust 有许多函数式的性质，并且 `enum` 的设计以及模式匹配，无一不在加深“Rust 就是 ML 语言”的印象
+而 Rust 有许多函数式的性质，并且 `enum` 的设计以及模式匹配，无一不在加深“Rust 就是 ML 语言”的印象
 
 但是当接触到 Rust 中的闭包，一下就意识到 Rust 就是 Rust
 
@@ -108,8 +108,8 @@ Rust 的函数和闭包就是两种东西，但是我认为应该是可以变成
 
 [^1]:
     Closure types.The Rust Reference \[DB/OL\].(2021-07-27)[2024-07-27].
-    [https://doc.rust-lang.org/reference/types/closure.html](https://doc.rust-lang.org/reference/types/closure.html)
+    <https://doc.rust-lang.org/reference/types/closure.html>
 
 [^2]:
     Function item types.The Rust Reference \[DB/OL\].(2019-07-16)[2024-07-27].
-    [https://doc.rust-lang.org/reference/types/function-item.html](https://doc.rust-lang.org/reference/types/function-item.html)
+    <https://doc.rust-lang.org/reference/types/function-item.html>

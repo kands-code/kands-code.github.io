@@ -3,9 +3,7 @@
 <p class="archive-time">archive time: 2021-06-03</p>
 
 $$
-\begin{aligned}
-    \int_{-\infty}^{\infty}\delta(x) \mathrm{d}{x} = 1
-\end{aligned}
+\int_{-\infty}^{\infty}\delta(x) \mathrm{d}{x} = 1
 $$
 
 ## 关于本博客

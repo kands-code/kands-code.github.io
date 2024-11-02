@@ -421,13 +421,13 @@ $$
 
 [^1]:
     Qiskit: v1.2.0\[CP/OL\].(2024-08-16)\[2022-11-08].
-    [https://github.com/Qiskit/qiskit](https://github.com/Qiskit/qiskit)
+    <https://github.com/Qiskit/qiskit>
 
 [^2]:
     线性组合.Wikipedia \[DB/OL\].(2022-07-01)\[2022-11-08\].
-    [https://en.wikipedia.org/wiki/Linear_combination](https://en.wikipedia.org/wiki/Linear_combination)
+    <https://en.wikipedia.org/wiki/Linear_combination>
 
 [^3]: 默认情况下，向量都指的是列向量
 [^4]:
     Orthonormality.Wikipedia \[DB/OL\].(2022-11-06)\[2022-11-08\].
-    [https://en.wikipedia.org/wiki/Orthonormality](https://en.wikipedia.org/wiki/Orthonormality)
+    <https://en.wikipedia.org/wiki/Orthonormality>
