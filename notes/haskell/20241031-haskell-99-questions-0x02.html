@@ -411,7 +411,8 @@ qSlice lst start end
 </code></pre>
 <details>
 <summary>答案</summary>
-<pre><code class="language-haskell">qRotate lst k
+<pre><code class="language-haskell">qRotate :: [a] -&gt; Int -&gt; [a]
+qRotate lst k
   | abs k &gt; len = lst
   | otherwise = (\(a, b) -&gt; b ++ a) (qSplitAt lst (mod k len))
   where
