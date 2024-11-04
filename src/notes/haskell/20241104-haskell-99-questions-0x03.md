@@ -170,7 +170,7 @@ qCombination lst k
 按照所给组合来选择元素并分组
 
 ```haskell
-qRange :: Int -> Int -> [Int]
+qGroup :: [a] -> [Int] -> Maybe [[[a]]]
 ```
 
 <details>
@@ -178,8 +178,131 @@ qRange :: Int -> Int -> [Int]
 <summary>答案</summary>
 
 ```haskell
-qRange :: Int -> Int -> [Int]
-qRange a b = [a .. b]
+qGroup :: (Eq a) => [a] -> [Int] -> Maybe [[[a]]]
+qGroup lst g
+  | sum g > qLength lst || any (< 1) g = Nothing
+  | otherwise = mapM (`partList` g) (permu lst)
+  where
+    partList :: [a] -> [Int] -> Maybe [[a]]
+    partList xs p
+      | null xs
+          || null p
+          || sum p > qLength xs
+          || any (< 1) p =
+          Nothing
+      | otherwise = Just (partListI xs g [] [])
+      where
+        partListI :: [a] -> [Int] -> [a] -> [[a]] -> [[a]]
+        partListI l ps c acc = case ps of
+          [] -> qReverse acc
+          ph : pt -> case ph of
+            0 -> partListI l pt [] (qReverse c : acc)
+            _ -> case l of
+              [] -> qReverse acc
+              lh : lt ->
+                partListI lt ((ph - 1) : pt) (lh : c) acc
+    permu :: (Eq a) => [a] -> [[a]]
+    permu [] = [[]]
+    permu l = concatMap (\x -> map (x :) (permu (remove x l))) l
+      where
+        remove y = foldl (\acc z -> if y == z then acc else z : acc) []
+```
+
+</details>
+
+### Question 28
+
+> **_Sorting a list of lists according to length of sublists._**
+
+根据所给范围创建整数列表
+
+```haskell
+qListSort :: (Eq a, Ord a) => [[a]] -> [[a]]
+```
+
+<details>
+
+<summary>答案</summary>
+
+```haskell
+-- TODO
+qListSort :: (Eq a, Ord a) => [[a]] -> [[a]]
+qListSort _ = []
+```
+
+</details>
+
+## 测试用例
+
+这一部分的测试代码如下：
+
+<details>
+
+<summary>测试代码</summary>
+
+```haskell
+module Part03 (part03) where
+
+import Qarks.Nnp
+  ( qCombination,
+    qInsertAt,
+    qLotto,
+    qRandomPermutation,
+    qRandomSelect,
+    qRange,
+  )
+import Test.Hspec
+  ( context,
+    describe,
+    it,
+    shouldBe,
+    shouldSatisfy,
+  )
+import Test.Hspec.Runner (SpecWith)
+
+maybeAllElem :: (Eq a) => [a] -> Maybe [a] -> Bool
+maybeAllElem xs lst = case lst of
+  Nothing -> False
+  Just l -> all (`elem` xs) l
+
+maybeLength :: Maybe [a] -> Int
+maybeLength Nothing = 0
+maybeLength (Just lst) = length lst
+
+part03 :: SpecWith ()
+part03 = describe "Part03" $ do
+  context "Qarks.Nnp.qInsertAt" $ do
+    it "insert 'X' to \"abcd\" at 2" $ do
+      qInsertAt "abcd" 2 'X' `shouldBe` Just "aXbcd"
+  context "Qarks.Nnp.qRange" $ do
+    it "range from 4 to 9" $ do
+      qRange 4 9 `shouldBe` [4 .. 9]
+  context "Qarks.Nnp.qRandomSelect" $ do
+    it "randomly select 3 from ['a' .. 'h']" $ do
+      res <- qRandomSelect ['a' .. 'h'] 3
+      res
+        `shouldSatisfy` \lst ->
+          maybeAllElem ['a' .. 'h'] lst
+            && maybeLength lst == 3
+  context "Qarks.Nnp.qLotto" $ do
+    it "randomly select 6 from [1 .. 49]" $
+      do
+        res <- qLotto 6 49
+        res
+          `shouldSatisfy` \lst ->
+            maybeAllElem [1 .. 49] lst
+              && maybeLength lst == 6
+  context "Qarks.Nnp.qRandomPermutation" $ do
+    it "random permutation of ['a' .. 'f']" $ do
+      res <- qRandomPermutation ['a' .. 'f']
+      res
+        `shouldSatisfy` \lst ->
+          maybeAllElem ['a' .. 'f'] lst
+            && maybeLength lst == length ['a' .. 'f']
+  context "Qarks.Nnp.qCombination" $ do
+    it "combinan of [1 .. 4] with 2" $ do
+      qCombination [1 .. 4 :: Int] 2
+        `shouldBe` Just [[4, 3], [4, 2], [3, 2], [4, 1], [3, 1], [2, 1]]
 ```
 
 </details>
