@@ -254,6 +254,7 @@ qRotate :: [a] -> Int -> [a]
 <summary>答案</summary>
 
 ```haskell
+qRotate :: [a] -> Int -> [a]
 qRotate lst k
   | abs k > len = lst
   | otherwise = (\(a, b) -> b ++ a) (qSplitAt lst (mod k len))

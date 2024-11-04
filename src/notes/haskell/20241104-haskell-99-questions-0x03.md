@@ -78,10 +78,9 @@ qRandomSelect lst n = qRandomSelectI lst n []
     qRandomSelectI :: [a] -> Int -> [a] -> IO (Maybe [a])
     qRandomSelectI (h : _) 1 acc = return (Just (h : acc))
     qRandomSelectI [] _ _ = return Nothing
-    qRandomSelectI l k acc =
-      if k < 1
-        then return Nothing
-        else do
+    qRandomSelectI l k acc
+      | k < 1 = return Nothing
+      | otherwise = do
           idx <- randomRIO (1, qLength l)
           case qRemoveAt l idx of
             (Just e, rest) -> qRandomSelectI rest (k - 1) (e : acc)
@@ -178,34 +177,30 @@ qGroup :: [a] -> [Int] -> Maybe [[[a]]]
 <summary>答案</summary>
 
 ```haskell
-qGroup :: (Eq a) => [a] -> [Int] -> Maybe [[[a]]]
+qGroup :: [a] -> [Int] -> Maybe [[[a]]]
 qGroup lst g
   | sum g > qLength lst || any (< 1) g = Nothing
   | otherwise = mapM (`partList` g) (permu lst)
   where
     partList :: [a] -> [Int] -> Maybe [[a]]
     partList xs p
-      | null xs
-          || null p
-          || sum p > qLength xs
-          || any (< 1) p =
-          Nothing
+      | null xs || null p || sum p > qLength xs || any (< 1) p = Nothing
       | otherwise = Just (partListI xs g [] [])
       where
         partListI :: [a] -> [Int] -> [a] -> [[a]] -> [[a]]
-        partListI l ps c acc = case ps of
-          [] -> qReverse acc
-          ph : pt -> case ph of
-            0 -> partListI l pt [] (qReverse c : acc)
-            _ -> case l of
-              [] -> qReverse acc
-              lh : lt ->
-                partListI lt ((ph - 1) : pt) (lh : c) acc
-    permu :: (Eq a) => [a] -> [[a]]
-    permu [] = [[]]
-    permu l = concatMap (\x -> map (x :) (permu (remove x l))) l
+        partListI [] _ _ acc = qReverse acc
+        partListI _ [] _ acc = qReverse acc
+        partListI (lh : lt) (ph : pt) c acc = case ph of
+          0 -> partListI (lh : lt) pt [] (qReverse c : acc)
+          _ -> partListI lt ((ph - 1) : pt) (lh : c) acc
+    permu :: [a] -> [[a]]
+    permu xs = permuI xs [] [] []
       where
-        remove y = foldl (\acc z -> if y == z then acc else z : acc) []
+        permuI :: [a] -> [a] -> [a] -> [[a]] -> [[a]]
+        permuI [] [] select acc = select : acc
+        permuI [] _ _ acc = acc
+        permuI (h : t) cache select acc =
+          permuI t (h : cache) select (permuI (t ++ cache) [] (h : select) acc)
 ```
 
 </details>
@@ -214,10 +209,12 @@ qGroup lst g
 
 > **_Sorting a list of lists according to length of sublists._**
 
-根据所给范围创建整数列表
+分别按照列表的长度和列表长度的频率来排序，其中长度或频率相同的元素保持原列表中顺序
 
 ```haskell
-qListSort :: (Eq a, Ord a) => [[a]] -> [[a]]
+qLengthSort :: (Eq a, Ord a) => [[a]] -> [[a]]
+
+qLengthFrequencySort :: (Eq a, Ord a) => [[a]] -> [[a]]
 ```
 
 <details>
@@ -225,9 +222,55 @@ qListSort :: (Eq a, Ord a) => [[a]] -> [[a]]
 <summary>答案</summary>
 
 ```haskell
--- TODO
-qListSort :: (Eq a, Ord a) => [[a]] -> [[a]]
-qListSort _ = []
+qLengthSort :: (Ord a) => [[a]] -> [[a]]
+qLengthSort lst =
+  Data.List.foldl' (++) [] $
+    map
+      (map (\(_, _, e) -> e) . Data.List.sortBy aux3')
+      ( Data.List.groupBy (\(lenA, _, _) (lenB, _, _) -> lenA == lenB) $
+          Data.List.sortBy aux3 $
+            zipWith (\idx l -> (qLength l, idx, l)) [1 :: Int ..] lst
+      )
+  where
+    aux3 :: (Ord a) => (a, b, c) -> (a, b, c) -> Ordering
+    aux3 (a, _, _) (b, _, _)
+      | a > b = GT
+      | a < b = LT
+      | otherwise = EQ
+    aux3' :: (Ord b) => (a, b, c) -> (a, b, c) -> Ordering
+    aux3' (_, a, _) (_, b, _)
+      | a > b = GT
+      | a < b = LT
+      | otherwise = EQ
+
+qLengthFrequencySort :: [[a]] -> [[a]]
+qLengthFrequencySort lst =
+  Data.List.foldl' (++) [] $
+    map
+      (((map (\(_, _, e) -> e) . Data.List.sortBy aux3') . Data.List.foldl' (++) []) . map snd)
+      ( Data.List.groupBy (\(lenA, _) (lenB, _) -> lenA == lenB) $
+          Data.List.sortBy aux2 $
+            map (\g -> (qLength g, g)) $
+              Data.List.groupBy (\(lenA, _, _) (lenB, _, _) -> lenA == lenB) $
+                Data.List.sortBy aux3 $
+                  zipWith (\idx l -> (qLength l, idx, l)) [1 :: Int ..] lst
+      )
+  where
+    aux3 :: (Ord a) => (a, b, c) -> (a, b, c) -> Ordering
+    aux3 (a, _, _) (b, _, _)
+      | a > b = GT
+      | a < b = LT
+      | otherwise = EQ
+    aux3' :: (Ord b) => (a, b, c) -> (a, b, c) -> Ordering
+    aux3' (_, a, _) (_, b, _)
+      | a > b = GT
+      | a < b = LT
+      | otherwise = EQ
+    aux2 :: (Ord a) => (a, b) -> (a, b) -> Ordering
+    aux2 (a, _) (b, _)
+      | a > b = GT
+      | a < b = LT
+      | otherwise = EQ
 ```
 
 </details>
@@ -245,6 +288,7 @@ module Part03 (part03) where
 
 import Qarks.Nnp
   ( qCombination,
+    qGroup,
     qInsertAt,
     qLotto,
     qRandomPermutation,
@@ -300,9 +344,31 @@ part03 = describe "Part03" $ do
           maybeAllElem ['a' .. 'f'] lst
             && maybeLength lst == length ['a' .. 'f']
   context "Qarks.Nnp.qCombination" $ do
-    it "combinan of [1 .. 4] with 2" $ do
-      qCombination [1 .. 4 :: Int] 2
-        `shouldBe` Just [[4, 3], [4, 2], [3, 2], [4, 1], [3, 1], [2, 1]]
+    let res = qCombination [1 .. 4 :: Int] 2
+    it "combinan of [1 .. 4] with 2 :: length" $ do
+      length <$> res `shouldBe` Just 6
+    it "combinan of [1 .. 4] with 2 :: sublength" $ do
+      all (\l -> length l == 2) <$> res `shouldBe` Just True
+    it "combinan of [1 .. 4] with 2 :: subelem" $ do
+      all (all (\e -> e `elem` [1 .. 4])) <$> res
+        `shouldBe` Just True
+  context "Qarks.Nnp.qGroup" $ do
+    let res = qGroup [1 .. 3 :: Int] [1, 1]
+    it "group [1 .. 3] by [1, 1] :: length" $ do
+      length <$> res `shouldBe` Just 6
+    it "group [1 .. 3] by [1, 1] :: sublength" $ do
+      all (\l -> length l == 2) <$> res `shouldBe` Just True
+    it "group [1 .. 3] by [1, 1] :: subelem" $ do
+      all (all (\e -> length e == 1 && head e `elem` [1 .. 4])) <$> res
+        `shouldBe` Just True
+  context "Qarks.Nnp.qLengthSort" $ do
+    it "sort [\"abc\", \"de\", \"fgh\", \"de\", \"ijkl\", \"mn\", \"o\"] by length" $ do
+      qLengthSort ["abc", "de", "fgh", "de", "ijkl", "mn", "o"]
+        `shouldBe` ["o", "de", "de", "mn", "abc", "fgh", "ijkl"]
+  context "Qarks.Nnp.qLengthFrequencySort" $ do
+    it "sort [\"abc\", \"de\", \"fgh\", \"de\", \"ijkl\", \"mn\", \"o\"] by frequency" $ do
+      qLengthFrequencySort ["abc", "de", "fgh", "de", "ijkl", "mn", "o"]
+        `shouldBe` ["ijkl", "o", "abc", "fgh", "de", "de", "mn"]
 ```
 
 </details>
