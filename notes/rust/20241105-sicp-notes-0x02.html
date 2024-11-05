@@ -219,12 +219,282 @@
 <p class="archive-time">archive time: 2024-11-05</p>
 <p class="sp-comment">Rust 还是不够纯，但是也够用了</p>
 <ul>
-<li><a href="#lecture-2a">Lecture 2A</a></li>
+<li><a href="#lecture-2a">Lecture 2A</a>
+<ul>
+<li><a href="#%E6%B1%82%E5%92%8C%E5%87%BD%E6%95%B0">求和函数</a></li>
+<li><a href="#%E4%B8%8D%E5%8A%A8%E7%82%B9">不动点</a></li>
+<li><a href="#%E7%89%9B%E9%A1%BF%E6%B3%95">牛顿法</a></li>
+<li><a href="#%E4%B8%80%E7%AD%89%E5%85%AC%E6%B0%91">一等公民</a></li>
+</ul>
+</li>
+<li><a href="#lecture-2b">Lecture 2B</a>
+<ul>
+<li><a href="#%E6%9C%89%E7%90%86%E6%95%B0%E7%B3%BB%E7%BB%9F">有理数系统</a>
+<ul>
+<li><a href="#cons-car-cdr">CONS, CAR, CDR</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h2 id="lecture-2a"><a class="header" href="#lecture-2a">Lecture 2A</a></h2>
+<p>这一部分介绍了什么是高阶过程</p>
+<p>所谓高阶过程就是以过程为参数的某种过程，最典型的就是求和函数 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.104em;vertical-align:-0.2997em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8043em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2997em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mclose">)</span></span></span></span></span></p>
+<h3 id="求和函数"><a class="header" href="#求和函数">求和函数</a></h3>
+<p>如果比较有经验，应该可以立刻写出求和函数的实现：</p>
+<pre><code class="language-rust">fn sum&lt;A, N, F&gt;(from: A, next: N, to: A, f: F) -&gt; A
+where
+    A: std::clone::Clone + std::default::Default + std::cmp::PartialOrd + std::ops::Add&lt;Output = A&gt;,
+    N: Fn(A) -&gt; A + std::clone::Clone,
+    F: Fn(A) -&gt; A + std::clone::Clone,
+{
+    fn sum_i&lt;A, N, F&gt;(from: A, next: N, to: A, acc: A, f: F) -&gt; A
+    where
+        A: std::clone::Clone
+            + std::default::Default
+            + std::cmp::PartialOrd
+            + std::ops::Add&lt;Output = A&gt;,
+        N: Fn(A) -&gt; A + std::clone::Clone,
+        F: Fn(A) -&gt; A + std::clone::Clone,
+    {
+        if from &gt; to {
+            acc
+        } else {
+            sum_i(next(from.clone()), next, to, f(from) + acc, f)
+        }
+    }
+    sum_i(from, next, to, A::default(), f)
+}</code></pre>
 <blockquote>
-<p>TODO</p>
+<p>看起来 <code>N</code> 和 <code>F</code> 是重复的类型，但这里是为了表明 <code>next</code> 和 <code>f</code> 是不同的函数，
+因为在 Rust 中不同的闭包的类型是不同的，哪怕是实现完全相同的两个 Closure 对象也是不一样的，
+这点和 Java 的 Lambda 对象是一样的，所以对于不同的函数，哪怕函数签名一致，也需要标注不同的类型名</p>
 </blockquote>
+<p>使用方法如下：</p>
+<pre><code class="language-rust">fn main() {
+    let res = sum(1, |x| x + 1, 10, |x: i64| x.pow(2));
+    println!("sum of i^2 from 1 to 10 is {}", res);
+}</code></pre>
+<p>我们为什么会需要高阶过程呢？</p>
+<p>高阶过程显然不是必须的，但是这给了我们一种解耦的能力，
+我们只需要知道 <code>sum</code> 需要 <code>next</code> 和 <code>f</code>，而我们也只需要实现 <code>next</code> 和 <code>f</code>，
+至于 <code>sum</code> 的实现就不是我们关心的问题了</p>
+<h3 id="不动点"><a class="header" href="#不动点">不动点</a></h3>
+<p>之前提到过，对于求根问题，我们大部分情况下都可以转为求不动点问题，那么是什么不动点呢？</p>
+<p>不动点就是对于一个函数 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span> 和参数 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> 使得 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span>，那么 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> 就是 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span> 的不动点</p>
+<p>对于简单函数，不动点可以通过求 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span> 与 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> 解得，
+但是通常情况下，这个 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span> 是不显然的，此时就需要我们使用迭代的方式求解不动点</p>
+<pre><code class="language-rust">fn fix&lt;F, P&gt;(f: F, init: f64, is_equal: P) -&gt; f64
+where
+    F: Fn(f64) -&gt; f64 + std::clone::Clone,
+    P: Fn(f64, f64) -&gt; bool + std::clone::Clone,
+{
+    fn fix_i&lt;F, P&gt;(current: f64, next: f64, f: F, is_equal: P) -&gt; f64
+    where
+        F: Fn(f64) -&gt; f64 + std::clone::Clone,
+        P: Fn(f64, f64) -&gt; bool + std::clone::Clone,
+    {
+        if is_equal(current, next) {
+            next
+        } else {
+            fix_i(next, f(next), f, is_equal)
+        }
+    }
+    fix_i(init, f(init), f, is_equal)
+}</code></pre>
+<p>使用方法如下：</p>
+<pre><code class="language-rust">fn main() {
+    let is_equal = |x: f64, y: f64| (x - y).abs() &lt; std::f64::EPSILON.sqrt();
+    let fix_cos = fix(|x| x.cos(), 1.0, is_equal);
+    println!("fix point of cos is {}", fix_cos);
+}</code></pre>
+<p>我们可以通过这个 <code>fix</code> 方法来实现之前的求平方根的过程：</p>
+<pre><code class="language-rust">let sqrtf = |y: f64| fix(|x| (y / x + x) / 2.0, y / 2.0, is_equal);
+println!(
+    "sqrtf(5) = {}, 5.0f64.sqrt() = {}",
+    sqrtf(5.0),
+    5.0f64.sqrt()
+);</code></pre>
+<h3 id="牛顿法"><a class="header" href="#牛顿法">牛顿法</a></h3>
+<p>有了 <code>fix</code> 函数后，我们可以非常方便的求解一个函数的不动点，
+但是不动点的概念还是有些复杂了，但是求根就非常容易理解</p>
+<p>类似的，我们可以将求根问题变成求不动点问题，
+我们同样可以将求不动点问题变成求根问题，
+所以我们可以实现一个高阶的牛顿法来求根</p>
+<p>但是实现牛顿法有一个难点，那就是怎么求函数的导函数</p>
+<p>在这里，我们并不需要关心这个求导过程的实现，
+我们可以先假设已经实现来一个求导函数，然后在这个基础上实现牛顿法，
+这种思考方式也被称为 “wishful thinking”，或者说 自顶向下<sup class="footnote-reference"><a href="#1">1</a></sup>，
+这就是高阶过程的意义，可以从一个更高层次的抽象来解决问题</p>
+<pre><code class="language-rust">fn newton&lt;F, P&gt;(f: F, init: f64, is_equal: P) -&gt; f64
+where
+    F: Fn(f64) -&gt; f64 + std::clone::Clone,
+    P: Fn(f64, f64) -&gt; bool + std::clone::Clone,
+{
+    let df = derivative(f.clone());
+    fix(|x| x - f(x) / df(x), init, is_equal)
+}</code></pre>
+<p>然后我们再来具体看怎么求导，导数的定义是：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.113em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">d</span><span class="mord mathnormal">x</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">d</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.1791em;vertical-align:-0.7521em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-2.3479em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">h</span><span class="mrel mtight">→</span><span class="mord mtight">0</span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop">lim</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7521em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">h</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal">h</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></span></p>
+<p>我们大可以模仿这个定义写出如下函数：</p>
+<pre><code class="language-rust">fn derivative&lt;F&gt;(f: F) -&gt; impl Fn(f64) -&gt; f64 + std::clone::Clone
+where
+    F: Fn(f64) -&gt; f64 + std::clone::Clone,
+{
+    let h = std::f64::EPSILON.sqrt();
+    move |x: f64| (f(x + h) - f(x)) / h
+}</code></pre>
+<p>使用方法：</p>
+<pre><code class="language-rust">let root1 = newton(|x| (x - 3.0) * (x + 6.0), 1.0, is_equal);
+let root2 = newton(|x| (x - 3.0) * (x + 6.0), -4.0, is_equal);
+println!("root is {} and {}", root1, root2);
+// =&gt; root is 3 and -6</code></pre>
+<h3 id="一等公民"><a class="header" href="#一等公民">一等公民</a></h3>
+<p>函数式编程中总能听到这样一个概念：“函数是一等公民”，那么什么是一等公民呢？</p>
+<p>一等公民（first-class citizen）<sup class="footnote-reference"><a href="#2">2</a></sup> 是一种对象，这个对象可以：</p>
+<ul>
+<li>使用变量命名</li>
+<li>可以作为参数传给某个过程</li>
+<li>可以作为过程的返回值</li>
+<li>可以作为数据结构的一部分</li>
+</ul>
+<p>现在大部分语言都已经将函数作为一等公民了，包括 C 语言，
+不过 C 语言的函数使用的是函数指针，本质上是一个指针对象，这点和其他语言是不太一样的</p>
+<h2 id="lecture-2b"><a class="header" href="#lecture-2b">Lecture 2B</a></h2>
+<p>这一部分主要介绍复合类型，也被称为 <strong>和类型（sum type）</strong></p>
+<p>复合类型在其他语言中常以结构体或者数据类的方式出现，不过在 LISP 中，复合类型通常使用元组来表示</p>
+<h3 id="有理数系统"><a class="header" href="#有理数系统">有理数系统</a></h3>
+<p>一个非常典型的复合类型就是二维向量类型，不过在这里介绍的则是有理数系统</p>
+<p>有理数定义为两个 互质<sup class="footnote-reference"><a href="#3">3</a></sup> 整数的除法，<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.7936em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1076em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">m</span><span class="mord">⊥</span><span class="mord mathnormal">n</span></span></span></span>，
+若 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>，<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span></span></span></span> 就是整数，<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span></p>
+<pre><code class="language-scheme">(define (make-rat n d) (cons n d))
+(define (num q) (car q))
+(define (den q) (cdr q))
+</code></pre>
+<p>对应 Rust 中的实现如下：</p>
+<pre><code class="language-rust">type Rational = (i64, i64);
+
+fn make_rat(n: i64, d: i64) -&gt; Rational {
+    (n, d)
+}
+
+fn numer(q: &amp;Rational) -&gt; i64 {
+    q.0
+}
+
+fn denom(q: &amp;Rational) -&gt; i64 {
+    q.1
+}</code></pre>
+<p>这是面向对象中的封装思想，但是在非面向对象编程中也有非常多的应用，
+通过这种封装，我们赋予了基本的元组类型一个意义，这种特殊的元组被称为有理数</p>
+<p>并且我们可以将类型的具体实现抽象出来，
+也就是对外提供 <code>make_rat</code> 构造器<sup class="footnote-reference"><a href="#4">4</a></sup>，以及 <code>numer</code> 和 <code>denom</code> 访问方法<sup class="footnote-reference"><a href="#5">5</a></sup>，
+对于外部调用者，不用管 <code>Rational</code> 是怎么实现的，
+即便我将元组改成了 <code>struct</code>，例如：</p>
+<pre><code class="language-rust">struct Rational {
+    pub numer: i64,
+    pub denom: i64,
+}
+
+fn make_rat(numer: i64, denom: i64) -&gt; Rational {
+    Rational { numer, denom }
+}
+
+fn numer(q: &amp;Rational) -&gt; i64 {
+    q.numer
+}
+
+fn denom(q: &amp;Rational) -&gt; i64 {
+    q.denom
+}</code></pre>
+<p>通过这三个函数，我们也可以正常去使用 <code>Rational</code> 类型：</p>
+<pre><code class="language-rust">fn rat_add(a: Rational, b: Rational) -&gt; Rational {
+    let na = numer(&amp;a);
+    let da = denom(&amp;a);
+    let nb = numer(&amp;b);
+    let db = denom(&amp;b);
+    make_rat(na * db + nb * da, da * db)
+}
+
+fn main() {
+    let res = rat_add(make_rat(1, 2), make_rat(1, 4));
+    println!("{}", numer(&amp;res));
+    // =&gt; 6
+    println!("{}", denom(&amp;res));
+    // =&gt; 8
+}</code></pre>
+<h4 id="cons-car-cdr"><a class="header" href="#cons-car-cdr">CONS, CAR, CDR</a></h4>
+<p>这个是作为补充部分，看看 scheme 的 <code>cons</code> 是怎么实现的，
+作为理论，<code>cons</code> 实际上是在 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>-演算<sup class="footnote-reference"><a href="#6">6</a></sup> 中提到的</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:9em;vertical-align:-4.25em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.75em;"><span style="top:-6.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord textrm">CONS</span></span></span></span><span style="top:-5.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord textrm">CAR</span></span></span></span><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord textrm">CDR</span></span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord textrm">NIL</span></span></span></span><span style="top:-0.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord textrm">TRUE</span></span></span></span><span style="top:0.59em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord textrm">FALSE</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.25em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.75em;"><span style="top:-6.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal">x</span></span><span class="mord">.</span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span><span class="mord">.</span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal">p</span></span><span class="mord">.</span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span><span style="top:-5.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal">p</span></span><span class="mord">.</span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord textrm">TRUE</span></span></span></span><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal">p</span></span><span class="mord">.</span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord textrm">FALSE</span></span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal">x</span></span><span class="mord">.</span><span class="mord text"><span class="mord textrm">TRUE</span></span></span></span><span style="top:-0.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal">x</span></span><span class="mord">.</span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span><span class="mord">.</span><span class="mord mathnormal">x</span></span></span><span style="top:0.59em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal">x</span></span><span class="mord">.</span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.25em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<blockquote>
+<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord textrm">NIL</span></span></span></span></span> 也可以定义为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord textrm">NIL</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal">x</span></span><span class="mord">.</span><span class="mord text"><span class="mord textrm">FALSE</span></span></span></span></span></p>
+</blockquote>
+<p>在 scheme 中，可以表示为：</p>
+<pre><code class="language-scheme">(define (cons' a b) (lambda (p) (if p a b)))
+(define (car' x) (x #t))
+(define (cdr' x) (x #f))
+</code></pre>
+<p>在 Rust 中，这些可以表示为：</p>
+<pre><code class="language-rust">enum Pair&lt;A, B&gt; {
+    Left(A),
+    Right(B),
+}
+
+fn cons&lt;A: std::clone::Clone, B: std::clone::Clone&gt;(
+    x: A,
+    y: B,
+) -&gt; impl Fn(bool) -&gt; Pair&lt;A, B&gt; + std::clone::Clone {
+    move |p: bool| {
+        if p {
+            Pair::Left(x.clone())
+        } else {
+            Pair::Right(y.clone())
+        }
+    }
+}
+
+fn car&lt;A: std::clone::Clone, B: std::clone::Clone&gt;(p: impl Fn(bool) -&gt; Pair&lt;A, B&gt;) -&gt; A {
+    match p(true) {
+        Pair::Left(a) =&gt; a,
+        Pair::Right(_) =&gt; unreachable!(),
+    }
+}
+
+fn cdr&lt;A: std::clone::Clone, B: std::clone::Clone&gt;(p: impl Fn(bool) -&gt; Pair&lt;A, B&gt;) -&gt; B {
+    match p(false) {
+        Pair::Left(_) =&gt; unreachable!(),
+        Pair::Right(b) =&gt; b,
+    }
+}</code></pre>
+<hr />
+<p>这两节课主要建立了“函数是第一公民”的印象，并且引入了 <code>cons</code>，这样就可以建立更加复杂的结构，
+之后的课程会从语言本身的性质转为研究一些复杂性的处理</p>
+<hr />
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>自顶向下.Wikipedia [DB/OL].(2024-10-28)[2024-11-05].
+<a href="https://en.wikipedia.org/wiki/Bottom-up_and_top-down_design">https://en.wikipedia.org/wiki/Bottom-up_and_top-down_design</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>一等公民.Wikipedia [DB/OL].(2024-06-25)[2024-11-05].
+<a href="https://en.wikipedia.org/wiki/First-class_citizen">https://en.wikipedia.org/wiki/First-class_citizen</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>互质.Wikipedia [DB/OL].(2024-10-22)[2024-11-05].
+<a href="https://en.wikipedia.org/wiki/Coprime_integers">https://en.wikipedia.org/wiki/Coprime_integers</a></p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p>构造器.Wikipedia [DB/OL].(2024-08-09)[2024-11-05].
+<a href="https://en.wikipedia.org/wiki/Constructor_(object-oriented_programming)">https://en.wikipedia.org/wiki/Constructor_(object-oriented_programming)</a></p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p>访问方法.Wikipedia [DB/OL].(2024-10-06)[2024-11-05].
+<a href="https://en.wikipedia.org/wiki/Mutator_method">https://en.wikipedia.org/wiki/Mutator_method</a></p>
+</div>
+<div class="footnote-definition" id="6"><sup class="footnote-definition-label">6</sup>
+<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>-演算.Wikipedia [DB/OL].(2024-10-25)[2024-11-05].
+<a href="https://en.wikipedia.org/wiki/Lambda_calculus#Pairs">https://en.wikipedia.org/wiki/Lambda_calculus#Pairs</a></p>
+</div>
 </main>
                         <nav class="nav-wrapper" aria-label="Page navigation">
                             <a rel="prev" href="../../notes/rust/20241102-sicp-notes-0x01.html"
