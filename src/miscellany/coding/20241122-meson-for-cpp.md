@@ -16,7 +16,7 @@ Meson 的定位是 CMake，底下使用的是 Ninja，对应 GNU Make
 那么我为什么要放着好好的 CMake 不用，而来用 Meson 呢？
 
 因为 Meson 足够简单，比起冗长的 `CMakeLists.txt`，`meson.build` 要更加易读，
-而且许多的 Linux 项目都是使用 meson，特别是 Gnome 和 GTK 的项目
+而且许多的 Linux 项目都是使用 Meson，特别是 Gnome 和 GTK 的项目
 
 ## 入门
 
