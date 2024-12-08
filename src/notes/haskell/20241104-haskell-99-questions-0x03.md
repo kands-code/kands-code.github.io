@@ -290,6 +290,8 @@ import Qarks.Nnp
   ( qCombination,
     qGroup,
     qInsertAt,
+    qLengthFrequencySort,
+    qLengthSort,
     qLotto,
     qRandomPermutation,
     qRandomSelect,

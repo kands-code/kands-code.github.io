@@ -330,64 +330,70 @@ import Qarks.Nnp
     qReverse,
     qRunLengthEncode,
   )
-import Test.Hspec (context, describe, it, shouldBe, shouldNotSatisfy, shouldSatisfy)
+import Test.Hspec
+  ( context,
+    describe,
+    it,
+    shouldBe,
+    shouldNotSatisfy,
+    shouldSatisfy,
+  )
 import Test.Hspec.Runner (SpecWith)
 
 part01 :: SpecWith ()
-part01 = describe "Part01" $
-  do
-    context "Qarks.Nnp.qLastOne" $ do
-      it "[1 .. 4]" $ do
-        qLastOne [1 .. 4] `shouldBe` Just (4 :: Int)
-      it "['a' .. 'z']" $ do
-        qLastOne ['a' .. 'z'] `shouldBe` Just 'z'
-      context "Qarks.Nnp.qLastTwo" $ do
-        it "[1 .. 4]" $ do
-          qLastTwo [1 .. 4] `shouldBe` Just (3 :: Int)
-        it "['a' .. 'z']" $ do
-          qLastTwo ['a' .. 'z'] `shouldBe` Just 'y'
-      context "Qarks.Nnp.qKthElement" $ do
-        it "2-nd of [1, 2, 3]" $ do
-          qKthElement [1, 2, 3] 2 `shouldBe` Just (2 :: Int)
-        it "5-th of \"haskell\"" $ do
-          qKthElement "haskell" 5 `shouldBe` Just 'e'
-      context "Qarks.Nnp.qLength" $ do
-        it "[123, 456, 789]" $ do
-          qLength [123 :: Int, 456, 789] `shouldBe` 3
-        it "\"Hello, world!\"" $ do
-          qLength "Hello, world!" `shouldBe` 13
-      context "Qarks.Nnp.qReverse" $ do
-        it "\"A man, a plan, a canal, panama!\"" $ do
-          qReverse "A man, a plan, a canal, panama!"
-            `shouldBe` "!amanap ,lanac a ,nalp a ,nam A"
-        it "[1 .. 4]" $ do
-          qReverse [1 .. 4] `shouldBe` [4 :: Int, 3, 2, 1]
-      context "Qarks.Nnp.qIsPalindrome" $ do
-        it "[1, 2, 3]" $ do
-          [1 :: Int, 2, 3] `shouldNotSatisfy` qIsPalindrome
-        it "\"madamimadam\"" $ do
-          "madamimadam" `shouldSatisfy` qIsPalindrome
-        it "[1, 2, 4, 8, 16, 8, 4, 2, 1]" $ do
-          [1 :: Int, 2, 4, 8, 16, 8, 4, 2, 1] `shouldSatisfy` qIsPalindrome
-      context "Qarks.Nnp.qFlatten" $ do
-        it "QElem 5" $ do
-          qFlatten (QElem 5) `shouldBe` [5 :: Int]
-        it "QList [QElem 1, QList [QElem 2, QList [QElem 3, QElem 4], QElem 5]]" $ do
-          qFlatten (QList [QElem 1, QList [QElem 2, QList [QElem 3, QElem 4], QElem 5]])
-            `shouldBe` [1 :: Int .. 5]
-        it "QList []" $ do
-          qFlatten (QList []) `shouldBe` ([] :: [Int])
-      context "Qarks.Nnp.qCompress" $ do
-        it "\"aaaabccaadeeee\"" $ do
-          qCompress "aaaabccaadeeee" `shouldBe` "abcade"
-      context "Qarks.Nnp.qPack" $ do
-        it "\"aaaabccaadeeee\"" $ do
-          qPack "aaaabccaadeeee"
-            `shouldBe` ["aaaa", "b", "cc", "aa", "d", "eeee"]
-      context "Qarks.Nnp.qRunLengthEncode" $ do
-        it "\"aaaabccaadeeee\"" $ do
-          qRunLengthEncode "aaaabccaadeeee"
-            `shouldBe` [(4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e')]
+part01 = describe "Part01" $ do
+  context "Qarks.Nnp.qLastOne" $ do
+    it "[1 .. 4]" $ do
+      qLastOne [1 .. 4] `shouldBe` Just (4 :: Int)
+    it "['a' .. 'z']" $ do
+      qLastOne ['a' .. 'z'] `shouldBe` Just 'z'
+  context "Qarks.Nnp.qLastTwo" $ do
+    it "[1 .. 4]" $ do
+      qLastTwo [1 .. 4] `shouldBe` Just (3 :: Int)
+    it "['a' .. 'z']" $ do
+      qLastTwo ['a' .. 'z'] `shouldBe` Just 'y'
+  context "Qarks.Nnp.qKthElement" $ do
+    it "2-nd of [1, 2, 3]" $ do
+      qKthElement [1, 2, 3] 2 `shouldBe` Just (2 :: Int)
+    it "5-th of \"haskell\"" $ do
+      qKthElement "haskell" 5 `shouldBe` Just 'e'
+  context "Qarks.Nnp.qLength" $ do
+    it "[123, 456, 789]" $ do
+      qLength [123 :: Int, 456, 789] `shouldBe` 3
+    it "\"Hello, world!\"" $ do
+      qLength "Hello, world!" `shouldBe` 13
+  context "Qarks.Nnp.qReverse" $ do
+    it "\"A man, a plan, a canal, panama!\"" $ do
+      qReverse "A man, a plan, a canal, panama!"
+        `shouldBe` "!amanap ,lanac a ,nalp a ,nam A"
+    it "[1 .. 4]" $ do
+      qReverse [1 .. 4] `shouldBe` [4 :: Int, 3, 2, 1]
+  context "Qarks.Nnp.qIsPalindrome" $ do
+    it "[1, 2, 3]" $ do
+      [1 :: Int, 2, 3] `shouldNotSatisfy` qIsPalindrome
+    it "\"madamimadam\"" $ do
+      "madamimadam" `shouldSatisfy` qIsPalindrome
+    it "[1, 2, 4, 8, 16, 8, 4, 2, 1]" $ do
+      [1 :: Int, 2, 4, 8, 16, 8, 4, 2, 1] `shouldSatisfy` qIsPalindrome
+  context "Qarks.Nnp.qFlatten" $ do
+    it "QElem 5" $ do
+      qFlatten (QElem 5) `shouldBe` [5 :: Int]
+    it "QList [QElem 1, QList [QElem 2, QList [QElem 3, QElem 4], QElem 5]]" $ do
+      qFlatten (QList [QElem 1, QList [QElem 2, QList [QElem 3, QElem 4], QElem 5]])
+        `shouldBe` [1 :: Int .. 5]
+    it "QList []" $ do
+      qFlatten (QList []) `shouldBe` ([] :: [Int])
+  context "Qarks.Nnp.qCompress" $ do
+    it "\"aaaabccaadeeee\"" $ do
+      qCompress "aaaabccaadeeee" `shouldBe` "abcade"
+  context "Qarks.Nnp.qPack" $ do
+    it "\"aaaabccaadeeee\"" $ do
+      qPack "aaaabccaadeeee"
+        `shouldBe` ["aaaa", "b", "cc", "aa", "d", "eeee"]
+  context "Qarks.Nnp.qRunLengthEncode" $ do
+    it "\"aaaabccaadeeee\"" $ do
+      qRunLengthEncode "aaaabccaadeeee"
+        `shouldBe` [(4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e')]
 ```
 
 </details>
