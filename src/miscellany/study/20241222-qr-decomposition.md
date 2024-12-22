@@ -79,7 +79,7 @@ $$
    $$
    P_k = \mathcal{I} - \dfrac{2}{v_k^{\dagger} \cdot v_k} v_k v_k^{\dagger}
    $$
-4. 则 $R^{(k)} = P_{k - 1} R^{(k - 1)}$，其中对于纬度为 $m \times n$ 的矩阵 $A$，$1 \le k < n$
+4. 则 $R^{(k)} = P_{k - 1} R^{(k - 1)}$，其中对于纬度为 $m \times n$ 的矩阵 $A$，$1 \le k \le \min{(m, n)}$
 5. $Q = P_1 P_2 \dots P_{k - 1}$
 
 整个计算过程相对 Gram-Schmidt 过程要复杂一点，但是通过对 $x_k$ 的处理得到 $v_k$，可以尽可能保证计算的精度，即有一定的数值稳定性
