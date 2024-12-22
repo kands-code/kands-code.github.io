@@ -1,4 +1,4 @@
-# qiskit Deutsch-Jozsa 算法
+# Qiskit Deutsch-Jozsa 算法
 
 <p class="archive-time">archive time: 2022-11-11</p>
 

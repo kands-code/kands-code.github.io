@@ -1,4 +1,4 @@
-# qiskit 线性代数
+# Qiskit 线性代数
 
 <p class="archive-time">archive time: 2022-11-08</p>
 
