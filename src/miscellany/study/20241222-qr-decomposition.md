@@ -97,6 +97,39 @@ Gram-Schmidt 过程得到的 $Q$ 是 $m \times n$ 的，而 $R$ 是 $n \times n$
 
 但是通过优化，即舍去“多余”部分，我们可以得到与 Gram-Schmidt 过程的结果维度接近的 $Q_1$ 和 $R_1$
 
+### Givens 旋转过程
+
+使用 Givens 旋转来计算 QR 分解，实际上就是利用 Givens 旋转矩阵来将特定的位置变成零，从而构造出一个上三角矩阵，
+一般这个过程是按照列来进行的，即先将 $A[m, 1]$ 变成零，然后 $A[m - 1, 1]$，直到将 $2$ 到 $m$，
+第二列也是如此，直到将第二列 $3$ 到 $m$ 行的元素变成零
+
+而这一系列的构造过程中，也就是这些 Givens 旋转矩阵的乘积就是我们的 $Q^T$，
+所以 Givens 旋转计算 QR 分解的关键就是构造 Givens 旋转矩阵
+
+假设我想要将 $m \times n$ 的矩阵 $A$ 的 $x$ 行 $y$ 列元素 $A[x, y]$ 变成零，通常做法是使用其上一行元素即 $A[x - 1, y]$ 进行消元
+
+Givens 旋转矩阵是基于单位矩阵的，所以我们可以先构造一个 $m \times m$ 的单位矩阵称为 $G$
+
+既然被称为旋转矩阵，那么自然是有“转”的部分的，令要被消元的元素为 $e_1$，辅助消元的元素为 $e_2$，
+那么对应旋转的半径就是这两个元素构成向量的模长，即 $r = \sqrt{e_1^2 + e_2^2}$，
+那么对应的 $\sin{(\theta)} = e_1 / r$，$\cos{(\theta)} = e_2 / r$
+
+那么对应例子中的 Givens 旋转矩阵只需要将 $G$ 的 $G[x, x]$ 和 $G[x - 1, x - 1]$ 元素设置为 $\cos{(\theta)}$，
+$G[x, x - 1]$ 设置为 $-\sin{(\theta)}$，而 $G[x - 1, x]$ 设置为 $\sin{(\theta)}$，
+这样，一个合适的 Givens 旋转矩阵就构造好了，即：
+
+$$
+G_{(x-1,\,x)} = \begin{bmatrix}
+    1 & 0 & \cdots & 0_{x-1} & 0_x & \cdots & 0 \\
+    0 & 1 & \cdots & 0 & 0 & \cdots & 0 \\
+    \vdots & & \ddots & \vdots & \vdots & \cdots & \vdots \\
+    0_{x - 1} &  & \cdots & \cos{(\theta)} & \sin{(\theta)} & \cdots & 0 \\
+    0_x &  & \cdots & -\sin{(\theta)} & \cos{(\theta)} & \cdots & 0 \\
+    \vdots & & & \vdots & \vdots & \ddots  & \vdots \\
+    0_n & 0 & \cdots & \cdots & \cdots & & 1
+\end{bmatrix}
+$$
+
 ## 附记：Nullspace 计算
 
 这边再来记录一下如何计算 Nullspace
