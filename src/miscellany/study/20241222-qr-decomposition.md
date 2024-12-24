@@ -48,7 +48,7 @@ Gram-Schmidt 过程计算是相对简单的，不过因此也是相对数值不�
 $$
 \begin{aligned}
     u_k^{(1)} &= a_k - (a_k \cdot e_1) e_1 \\
-    u_k^{(2)} &= u_k^{(2)} - (u_k^{(2)} \cdot e_2) e_2 \\
+    u_k^{(2)} &= u_k^{(1)} - (u_k^{(1)} \cdot e_2) e_2 \\
     &\vdots \\
 u_k^{(k - 1)} &= u_k^{(k - 2)} - (u_k^{(k - 2)} \cdot e_{k - 1}) e_{k - 1}
 \end{aligned}
