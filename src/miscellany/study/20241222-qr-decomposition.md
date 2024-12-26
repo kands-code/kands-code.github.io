@@ -111,7 +111,7 @@ Gram-Schmidt 过程得到的 $Q$ 是 $m \times n$ 的，而 $R$ 是 $n \times n$
 Givens 旋转矩阵是基于单位矩阵的，所以我们可以先构造一个 $m \times m$ 的单位矩阵称为 $G$
 
 既然被称为旋转矩阵，那么自然是有“转”的部分的，令要被消元的元素为 $e_1$，辅助消元的元素为 $e_2$，
-那么对应旋转的半径就是这两个元素构成向量的模长，即 $r = \sqrt{e_1^2 + e_2^2}$，
+那么对应旋转的半径就是这两个元素构成向量的模长，即 $r = \sqrt{|e_1|^2 + |e_2|^2}$，
 那么对应的 $\sin{(\theta)} = e_1 / r$，$\cos{(\theta)} = e_2 / r$
 
 那么对应例子中的 Givens 旋转矩阵只需要将 $G$ 的 $G_{x\,x}$ 和 $G_{x - 1\,x - 1}$ 元素设置为 $\cos{(\theta)}$，
@@ -123,7 +123,7 @@ G_{(x-1,\,x)} = \begin{bmatrix}
     1 & 0 & \cdots & 0_{x-1} & 0_x & \cdots & 0 \\
     0 & 1 & \cdots & 0 & 0 & \cdots & 0 \\
     \vdots & & \ddots & \vdots & \vdots & \cdots & \vdots \\
-    0_{x - 1} &  & \cdots & \cos{(\theta)} & \sin{(\theta)} & \cdots & 0 \\
+    0_{x - 1} &  & \cdots & \overline{\cos{(\theta)}} & \overline{\sin{(\theta)}} & \cdots & 0 \\
     0_x &  & \cdots & -\sin{(\theta)} & \cos{(\theta)} & \cdots & 0 \\
     \vdots & & & \vdots & \vdots & \ddots  & \vdots \\
     0_n & 0 & \cdots & \cdots & \cdots & & 1
