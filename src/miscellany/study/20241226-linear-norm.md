@@ -2,7 +2,7 @@
 
 <p class="archive-time">archive time: 2024-12-25</p>
 
-<p class="sp-comment">这一篇来学习模的概念</p>
+<p class="sp-comment">记录一下向量与矩阵的模的定义与计算</p>
 
 [[toc]]
 
