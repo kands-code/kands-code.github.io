@@ -574,35 +574,35 @@ fn main() {
 }</code></pre>
 <p>手动格式化后的输出如下：</p>
 <pre><code class="language-plaintext">Div(
-|	Add(
-|	|	Mul(
-|	|	|	Mul(Constant(2.0), Variable),
-|	|	|	Add(
-|	|	|	|	Pow(Variable, 3.0),
-|	|	|	|	Add(
-|	|	|	|	|	Mul(Constant(-8.0), Pow(Variable, 2.0)),
-|	|	|	|	|	Constant(3.0)
-|	|	|	|	)
-|	|	|	)
-|	|	),
-|	|	Mul(
-|	|	|	Constant(-1.0),
-|	|	|	Mul(
-|	|	|	|	Add(Pow(Variable, 2.0), Constant(3.0)),
-|	|	|	|	Mul(Constant(3.0), Pow(Variable, 2.0))
-|	|	|	)
-|	|	)
-|	),
-|	Pow(
-|	|	Add(
-|	|	|	Pow(Variable, 3.0),
-|	|	|	Add(
-|	|	|	|	Mul(Constant(-8.0), Pow(Variable, 2.0)),
-|	|	|	|	Constant(3.0)
-|	|	|	)
-|	|	),
-|	|	2.0
-|	)
+|   Add(
+|   |   Mul(
+|   |   |   Mul(Constant(2.0), Variable),
+|   |   |   Add(
+|   |   |   |   Pow(Variable, 3.0),
+|   |   |   |   Add(
+|   |   |   |   |   Mul(Constant(-8.0), Pow(Variable, 2.0)),
+|   |   |   |   |   Constant(3.0)
+|   |   |   |   )
+|   |   |   )
+|   |   ),
+|   |   Mul(
+|   |   |   Constant(-1.0),
+|   |   |   Mul(
+|   |   |   |   Add(Pow(Variable, 2.0), Constant(3.0)),
+|   |   |   |   Mul(Constant(3.0), Pow(Variable, 2.0))
+|   |   |   )
+|   |   )
+|   ),
+|   Pow(
+|   |   Add(
+|   |   |   Pow(Variable, 3.0),
+|   |   |   Add(
+|   |   |   |   Mul(Constant(-8.0), Pow(Variable, 2.0)),
+|   |   |   |   Constant(3.0)
+|   |   |   )
+|   |   ),
+|   |    2.0
+|   )
 )
 </code></pre>
 <p>即：</p>
@@ -611,7 +611,7 @@ fn main() {
 <p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.0908em;vertical-align:-0.7693em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">8</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">3</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord mathnormal">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.4271em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4911em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">8</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">3</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">3</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">3</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
 <p>可以发现这个答案就是我们想要的答案</p>
 </details>
-<p>在早期的 <strong>Maxima</strong>，符号微分的实现就是用类似的 LISP 代码来实现的，
+<p>在早期的 <strong>Maxima</strong><sup class="footnote-reference"><a href="#3">3</a></sup>，符号微分的实现就是用类似的 LISP 代码来实现的，
 这种实现引出了下一部分所要讲的内容，即 <strong>模式匹配</strong></p>
 <hr />
 <p>好久没写博客了，重新开始写一下子有些不适应，特别是一些措辞和格式上还是有些不习惯，例如要使用斜体还是粗体</p>
@@ -623,6 +623,9 @@ fn main() {
 <div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
 <p>Cask::DSL.HomeBrew [DB/OL].(2025-01-13)[2025-02-25].
 <a href="https://rubydoc.brew.sh/Cask/DSL.html">https://rubydoc.brew.sh/Cask/DSL.html</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>Maxima: v5.47 [CP/OL].(2023-05-31)[2025-02-25].<a href="https://maxima.sourceforge.io/zh/index.html">https://maxima.sourceforge.io/zh/index.html</a></p>
 </div>
 </main>
                         <nav class="nav-wrapper" aria-label="Page navigation">
