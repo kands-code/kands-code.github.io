@@ -14,6 +14,7 @@
   - [Rust 中的函数与闭包](./notes/rust/20240727-rust-fuction-and-clousure.md)
   - [SICP 笔记 - 0x01](./notes/rust/20241102-sicp-notes-0x01.md)
   - [SICP 笔记 - 0x02](./notes/rust/20241105-sicp-notes-0x02.md)
+  - [SICP 笔记 - 0x03](./notes/rust/20250225-sicp-notes-0x03.md)
 - [SageMath](./notes/sagemath/index.md)
   - [安装 SageMath](./notes/sagemath/20240829-sagemath-0x00.md)
   - [SageMath 基本运算与函数](./notes/sagemath/20240830-sagemath-0x01.md)
