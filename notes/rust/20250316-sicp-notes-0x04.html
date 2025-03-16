@@ -1,0 +1,923 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>SICP 笔记 - 0x04 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="init.html">Init</a></li><li class="chapter-item "><a href="about.html">About</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item "><a href="notes/haskell/index.html">Haskell</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="notes/haskell/20241030-haskell-99-questions-0x01.html">Haskell 99 Questions :: 0x01</a></li><li class="chapter-item "><a href="notes/haskell/20241031-haskell-99-questions-0x02.html">Haskell 99 Questions :: 0x02</a></li><li class="chapter-item "><a href="notes/haskell/20241104-haskell-99-questions-0x03.html">Haskell 99 Questions :: 0x03</a></li><li class="chapter-item "><a href="notes/haskell/20241208-haskell-99-questions-0x04.html">Haskell 99 Questions :: 0x04</a></li></ol></li><li class="chapter-item "><a href="notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="notes/rust/20240727-rust-fuction-and-clousure.html">Rust 中的函数与闭包</a></li><li class="chapter-item "><a href="notes/rust/20241102-sicp-notes-0x01.html">SICP 笔记 - 0x01</a></li><li class="chapter-item "><a href="notes/rust/20241105-sicp-notes-0x02.html">SICP 笔记 - 0x02</a></li><li class="chapter-item "><a href="notes/rust/20250225-sicp-notes-0x03.html">SICP 笔记 - 0x03</a></li><li class="chapter-item "><a href="notes/rust/20250316-sicp-notes-0x04.html">SICP 笔记 - 0x04</a></li></ol></li><li class="chapter-item "><a href="notes/sagemath/index.html">SageMath</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="notes/sagemath/20240829-sagemath-0x00.html">安装 SageMath</a></li><li class="chapter-item "><a href="notes/sagemath/20240830-sagemath-0x01.html">SageMath 基本运算与函数</a></li><li class="chapter-item "><a href="notes/sagemath/20240831-sagemath-0x02.html">SageMath 基本语法</a></li><li class="chapter-item "><a href="notes/sagemath/20240831-sagemath-0x03.html">SageMath 代数初步</a></li><li class="chapter-item "><a href="notes/sagemath/20240901-sagemath-0x04.html">SageMath 基本作图</a></li><li class="chapter-item "><a href="notes/sagemath/20240905-sagemath-0x05.html">SageMath 基本代数</a></li><li class="chapter-item "><a href="notes/sagemath/20240906-sagemath-0x06.html">SageMath 多项式</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li><li class="chapter-item "><a href="miscellany/coding/20240727-use-steam-install-windows-applications.html">使用 Steam 安装 Windows 应用</a></li><li class="chapter-item "><a href="miscellany/coding/20241122-meson-for-cpp.html">使用 Meson 构建 Cpp 项目</a></li></ol></li><li class="chapter-item "><a href="miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="miscellany/study/20221108-qiskit-linear-algebra.html">Qiskit 线性代数</a></li><li class="chapter-item "><a href="miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">Qiskit Deutsch-Jozsa 算法</a></li><li class="chapter-item "><a href="miscellany/study/20241222-qr-decomposition.html">计算 QR 分解</a></li><li class="chapter-item "><a href="miscellany/study/20241226-linear-norm.html">向量与矩阵的模</a></li></ol></li><li class="chapter-item "><a href="miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="chapter-item "><a href="miscellany/life/20240404-decadent-life.html">颓废生活</a></li><li class="chapter-item "><a href="miscellany/life/20240721-home-life.html">居家生活</a></li></ol></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                    <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20250316-sicp-notes-0x04.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="sicp-笔记---0x04"><a class="header" href="#sicp-笔记---0x04">SICP 笔记 - 0x04</a></h1>
+<p class="archive-time">archive time: 2025-03-16</p>
+<p class="sp-comment">说好的周更还是变成了月更，而且还不稳定，嘛，更新了就好</p>
+<ul>
+<li><a href="#lecture-4a">Lecture 4A</a>
+<ul>
+<li><a href="#%E6%A8%A1%E5%BC%8F">模式</a></li>
+<li><a href="#%E5%8C%B9%E9%85%8D">匹配</a></li>
+<li><a href="#%E4%BB%A3%E6%95%B0%E5%8C%96%E7%AE%80">代数化简</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82">实现细节</a></li>
+<li><a href="#%E5%8C%B9%E9%85%8D%E5%99%A8">匹配器</a></li>
+<li><a href="#%E5%AE%9E%E4%BE%8B%E5%8C%96%E5%99%A8">实例化器</a></li>
+<li><a href="#%E7%AE%80%E5%8C%96%E5%99%A8">简化器</a></li>
+</ul>
+</li>
+<li><a href="#lecture-4b">Lecture 4B</a>
+<ul>
+<li><a href="#%E5%A4%8D%E6%95%B0%E4%B8%8E%E6%9C%89%E7%90%86%E6%95%B0">复数与有理数</a></li>
+<li><a href="#%E6%A0%87%E8%AE%B0%E6%95%B0%E6%8D%AE">标记数据</a></li>
+<li><a href="#%E9%80%9A%E7%94%A8%E8%BF%90%E7%AE%97%E7%AC%A6">通用运算符</a></li>
+<li><a href="#%E5%9F%BA%E4%BA%8E%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%86%E6%B4%BE">基于类型的分派</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%90%91%E7%BC%96%E7%A8%8B">数据导向编程</a></li>
+<li><a href="#%E6%95%B0%E5%AD%97%E7%B3%BB%E7%BB%9F">数字系统</a></li>
+<li><a href="#%E5%A4%9A%E9%A1%B9%E5%BC%8F%E8%BF%90%E7%AE%97">多项式运算</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="lecture-4a"><a class="header" href="#lecture-4a">Lecture 4A</a></h2>
+<p>在上一节的 <a href="./20250225-sicp-notes-0x03.html#%E7%AC%A6%E5%8F%B7%E5%BE%AE%E5%88%86">符号微分</a>，
+我们实现了一个利用模式匹配来完成的基本的微分工具，
+那么现在让我们再来仔细看看这些模式有什么规律</p>
+<h3 id="模式"><a class="header" href="#模式">模式</a></h3>
+<p>通常的模式由两部分构成，一部分用于和要匹配的内容比较，另一部分则用于替换匹配内容</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:5.49em;vertical-align:-1.6985em;"></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.7915em;"><span style="top:-5.8344em;"><span class="pstrut" style="height:3.151em;"></span><span class="mopen">⟨</span><span class="mord text"><span class="mord textrm">Pattern</span></span><span class="mclose">⟩</span></span><span style="top:-3.9955em;"><span class="pstrut" style="height:3.151em;"></span><span class="mord cd-vert-arrow"><span class="sizing reset-size6 size3 mtight cd-label-left" style="bottom:0.8em;"><span class="mord mtight"><span class="mord text mtight"><span class="mord textrm mtight">Match</span></span></span></span><span class="mord"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.151em;"><span style="top:-1.966em;"><span class="pstrut" style="height:2.616em;"></span><span class="delimsizinginner delim-size1"><span>↓</span></span></span><span style="top:-2.558em;"><span class="pstrut" style="height:2.616em;"></span><span style="height:0.616em;width:0.6667em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.6667em' height='0.616em' style='width:0.6667em' viewBox='0 0 666.67 616' preserveAspectRatio='xMinYMin'><path d='M312 0 H355 V616 H312z M312 0 H355 V616 H312z'/></svg></span></span><span style="top:-3.166em;"><span class="pstrut" style="height:2.616em;"></span><span class="delimsizinginner delim-size1"><span>⏐</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.65em;"><span></span></span></span></span></span></span><span class="sizing reset-size6 size3 mtight cd-label-right" style="bottom:0.8em;"><span class="mord mtight"></span></span></span></span><span style="top:-2.1404em;"><span class="pstrut" style="height:3.151em;"></span><span class="mopen">⟨</span><span class="mord text"><span class="mord textrm">Source</span></span><span class="mclose">⟩</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.6985em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.25em;"></span><span class="arraycolsep" style="width:0.25em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.7915em;"><span style="top:-5.8344em;"><span class="pstrut" style="height:3.151em;"></span><span class="mrel x-arrow"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1081em;"><span style="top:-3.322em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.00773em;">R</span><span class="mord mathnormal mtight">u</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">e</span></span></span></span><span class="svg-align" style="top:-2.689em;"><span class="pstrut" style="height:2.7em;"></span><span class="hide-tail" style="height:0.522em;min-width:3em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='0.522em' viewBox='0 0 400000 522' preserveAspectRatio='xMaxYMin slice'><path d='M0 241v40h399891c-47.3 35.3-84 78-110 128 -16.7 32-27.7 63.7-33 95 0 1.3-.2 2.7-.5 4-.3 1.3-.5 2.3-.5 3 0 7.3 6.7 11 20  11 8 0 13.2-.8 15.5-2.5 2.3-1.7 4.2-5.5 5.5-11.5 2-13.3 5.7-27 11-41 14.7-44.7  39-84.5 73-119.5s73.7-60.2 119-75.5c6-2 9-5.7 9-11s-3-9-9-11c-45.3-15.3-85 -40.5-119-75.5s-58.3-74.8-73-119.5c-4.7-14-8.3-27.3-11-40-1.3-6.7-3.2-10.8-5.5 -12.5-2.3-1.7-7.5-2.5-15.5-2.5-14 0-21 3.7-21 11 0 2 2 10.3 6 25 20.7 83.3 67  151.7 139 205zm0 0v40h399900v-40z'/></svg></span></span><span style="top:-2.578em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.122em;"><span></span></span></span></span></span></span><span style="top:-3.9955em;"><span class="pstrut" style="height:3.151em;"></span></span><span style="top:-2.1404em;"><span class="pstrut" style="height:3.151em;"></span><span class="mrel x-arrow"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.622em;"><span style="top:-3.144em;"><span class="pstrut" style="height:2.522em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span><span class="svg-align" style="top:-2.511em;"><span class="pstrut" style="height:2.522em;"></span><span class="hide-tail" style="height:0.522em;min-width:3em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='0.522em' viewBox='0 0 400000 522' preserveAspectRatio='xMaxYMin slice'><path d='M0 241v40h399891c-47.3 35.3-84 78-110 128 -16.7 32-27.7 63.7-33 95 0 1.3-.2 2.7-.5 4-.3 1.3-.5 2.3-.5 3 0 7.3 6.7 11 20  11 8 0 13.2-.8 15.5-2.5 2.3-1.7 4.2-5.5 5.5-11.5 2-13.3 5.7-27 11-41 14.7-44.7  39-84.5 73-119.5s73.7-60.2 119-75.5c6-2 9-5.7 9-11s-3-9-9-11c-45.3-15.3-85 -40.5-119-75.5s-58.3-74.8-73-119.5c-4.7-14-8.3-27.3-11-40-1.3-6.7-3.2-10.8-5.5 -12.5-2.3-1.7-7.5-2.5-15.5-2.5-14 0-21 3.7-21 11 0 2 2 10.3 6 25 20.7 83.3 67  151.7 139 205zm0 0v40h399900v-40z'/></svg></span></span><span style="top:-2.4em;"><span class="pstrut" style="height:2.522em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.122em;"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.6985em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.25em;"></span><span class="arraycolsep" style="width:0.25em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.7915em;"><span style="top:-5.8344em;"><span class="pstrut" style="height:3.151em;"></span><span class="mopen">⟨</span><span class="mord text"><span class="mord textrm">Skeleton</span></span><span class="mclose">⟩</span></span><span style="top:-3.9955em;"><span class="pstrut" style="height:3.151em;"></span><span class="mord cd-vert-arrow"><span class="sizing reset-size6 size3 mtight cd-label-left" style="bottom:0.8em;"><span class="mord mtight"><span class="mord text mtight"><span class="mord textrm mtight">Instantiation</span></span></span></span><span class="mord"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.151em;"><span style="top:-1.966em;"><span class="pstrut" style="height:2.616em;"></span><span class="delimsizinginner delim-size1"><span>↓</span></span></span><span style="top:-2.558em;"><span class="pstrut" style="height:2.616em;"></span><span style="height:0.616em;width:0.6667em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.6667em' height='0.616em' style='width:0.6667em' viewBox='0 0 666.67 616' preserveAspectRatio='xMinYMin'><path d='M312 0 H355 V616 H312z M312 0 H355 V616 H312z'/></svg></span></span><span style="top:-3.166em;"><span class="pstrut" style="height:2.616em;"></span><span class="delimsizinginner delim-size1"><span>⏐</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.65em;"><span></span></span></span></span></span></span><span class="sizing reset-size6 size3 mtight cd-label-right" style="bottom:0.8em;"><span class="mord mtight"></span></span></span></span><span style="top:-2.1404em;"><span class="pstrut" style="height:3.151em;"></span><span class="mopen">⟨</span><span class="mord text"><span class="mord textrm">Target</span></span><span class="mclose">⟩</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.6985em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>通过这种 “比较<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord text"><span class="mord textrm">—</span></span></span></span></span>替换” 循环，我们可以将内容变换成我们想要的形式</p>
+<h3 id="匹配"><a class="header" href="#匹配">匹配</a></h3>
+<p>按照上一节的实现方式，我们如果想要给我们的工具添加一种新的匹配规则，例如让这个工具支持三角函数，
+那么我们就不得不修改所有模式的定义以及匹配的分支，这违反了所谓的开闭原则<sup class="footnote-reference"><a href="#1">1</a></sup></p>
+<p>那么我们要怎样做才能让我们的工具拥有拓展性呢？</p>
+<p>一个比较好的方法就是类似 <a href="./20241105-sicp-notes-0x02.html#%E6%9C%89%E7%90%86%E6%95%B0%E7%B3%BB%E7%BB%9F">有理数系统</a>，
+我们定义一些共有的开放接口，然后对于每一种模式，我们都实现对应的接口即可</p>
+<p>在这里，我们可以使用一个 <code>simplifier</code>，这个过程接受一个模式列表，
+然后可以根据这个列表来进行一系列的化简，也就是匹配过程</p>
+<pre><code class="language-scheme">(define dsimp
+  (simplifier deriv-rules))
+</code></pre>
+<p>其中这个 <code>deriv-rules</code> 就包含了我们之前定义的求导规则，
+得到的这个 <code>dsimp</code> 就可以完成我们之前的求导工具的所有工作，</p>
+<details>
+<summary>Rust 具体实现</summary>
+<p>对于求导我们实现如下：</p>
+<pre><code class="language-rust">#[derive(Clone, Debug)]
+enum ExpressionElement {
+    Constant(f64),
+    Variable(u8),
+    Neg(Box&lt;ExpressionElement&gt;),
+    Add(Box&lt;ExpressionElement&gt;, Box&lt;ExpressionElement&gt;),
+    Sub(Box&lt;ExpressionElement&gt;, Box&lt;ExpressionElement&gt;),
+    Mul(Box&lt;ExpressionElement&gt;, Box&lt;ExpressionElement&gt;),
+    Div(Box&lt;ExpressionElement&gt;, Box&lt;ExpressionElement&gt;),
+    Pow(Box&lt;ExpressionElement&gt;, f64),
+}
+
+impl ExpressionElement {
+    pub fn make_neg(e: ExpressionElement) -&gt; ExpressionElement {
+        ExpressionElement::Neg(Box::new(e))
+    }
+
+    pub fn make_add(e1: ExpressionElement, e2: ExpressionElement) -&gt; ExpressionElement {
+        ExpressionElement::Add(Box::new(e1), Box::new(e2))
+    }
+
+    pub fn make_sub(e1: ExpressionElement, e2: ExpressionElement) -&gt; ExpressionElement {
+        ExpressionElement::Sub(Box::new(e1), Box::new(e2))
+    }
+
+    pub fn make_mul(e1: ExpressionElement, e2: ExpressionElement) -&gt; ExpressionElement {
+        ExpressionElement::Mul(Box::new(e1), Box::new(e2))
+    }
+
+    pub fn make_div(e1: ExpressionElement, e2: ExpressionElement) -&gt; ExpressionElement {
+        ExpressionElement::Div(Box::new(e1), Box::new(e2))
+    }
+
+    pub fn make_pow(e: ExpressionElement, p: f64) -&gt; ExpressionElement {
+        ExpressionElement::Pow(Box::new(e), p)
+    }
+}
+
+impl std::fmt::Display for ExpressionElement {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        match self {
+            ExpressionElement::Constant(p) =&gt; write!(f, "{}", p),
+            ExpressionElement::Variable(idx) =&gt; write!(f, "x{}", idx),
+            ExpressionElement::Neg(e) =&gt; write!(f, "-({})", e),
+            ExpressionElement::Add(e1, e2) =&gt; write!(f, "({}) + ({})", e1, e2),
+            ExpressionElement::Sub(e1, e2) =&gt; write!(f, "({}) - ({})", e1, e2),
+            ExpressionElement::Mul(e1, e2) =&gt; write!(f, "({}) * ({})", e1, e2),
+            ExpressionElement::Div(e1, e2) =&gt; write!(f, "({}) / ({})", e1, e2),
+            ExpressionElement::Pow(e, p) =&gt; write!(f, "({})^{}", e, p),
+        }
+    }
+}
+
+trait Simplifier&lt;P&gt; {
+    fn simplify(e: ExpressionElement) -&gt; ExpressionElement;
+}
+
+struct DiffRules&lt;const ID: u8&gt;;
+
+impl&lt;const ID: u8&gt; Simplifier&lt;DiffRules&lt;ID&gt;&gt; for ExpressionElement {
+    fn simplify(e: ExpressionElement) -&gt; ExpressionElement {
+        let simpliler = &lt;ExpressionElement as Simplifier&lt;DiffRules&lt;ID&gt;&gt;&gt;::simplify;
+        match e {
+            ExpressionElement::Constant(_) =&gt; ExpressionElement::Constant(0.0f64),
+            ExpressionElement::Variable(p) =&gt; {
+                if p == ID {
+                    ExpressionElement::Constant(1.0f64)
+                } else {
+                    ExpressionElement::Constant(0.0f64)
+                }
+            }
+            ExpressionElement::Neg(e) =&gt; ExpressionElement::make_neg(simpliler(*e)),
+            ExpressionElement::Add(e1, e2) =&gt; {
+                ExpressionElement::make_add(simpliler(*e1), simpliler(*e2))
+            }
+            ExpressionElement::Sub(e1, e2) =&gt; {
+                ExpressionElement::make_sub(simpliler(*e1), simpliler(*e2))
+            }
+            ExpressionElement::Mul(e1, e2) =&gt; ExpressionElement::make_add(
+                ExpressionElement::make_mul(simpliler(*e1.clone()), *e2.clone()),
+                ExpressionElement::make_mul(*e1, simpliler(*e2)),
+            ),
+            ExpressionElement::Div(e1, e2) =&gt; ExpressionElement::make_div(
+                ExpressionElement::make_sub(
+                    ExpressionElement::make_mul(simpliler(*e1.clone()), *e2.clone()),
+                    ExpressionElement::make_mul(*e1, simpliler(*e2.clone())),
+                ),
+                ExpressionElement::make_pow(*e2, 2.0f64),
+            ),
+            ExpressionElement::Pow(e, p) =&gt; ExpressionElement::make_mul(
+                ExpressionElement::Constant(p),
+                ExpressionElement::make_mul(
+                    ExpressionElement::make_div(
+                        ExpressionElement::make_pow(*e.clone(), p),
+                        *e.clone(),
+                    ),
+                    simpliler(*e),
+                ),
+            ),
+        }
+    }
+}</code></pre>
+<p>其中 <code>impl&lt;const ID: u8&gt; Simplifier&lt;DiffRules&lt;ID&gt;&gt; for ExpressionElement</code> 中的实现就可以视作 <code>deriv-rules</code></p>
+</details>
+<p>例如我们想要对于多项式中的 <code>x2</code> 求导，那么可以使用如下方式获取求导函数 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathrm">d</span><span class="mord">/</span><span class="mord mathrm">d</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>：</p>
+<pre><code class="language-rust">let dfdx2 = &lt;ExpressionElement as Simplifier&lt;DiffRules&lt;2&gt;&gt;&gt;::simplify;</code></pre>
+<p>例如对于 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，我们对于 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 求导，那么可以表示为如下形式：</p>
+<pre><code class="language-rust">fn main() {
+    let exp = ExpressionElement::make_add(
+        ExpressionElement::Variable(1),
+        ExpressionElement::Variable(2),
+    );
+    println!("exp = {}", exp);
+    let dfdx2 = &lt;ExpressionElement as Simplifier&lt;DiffRules&lt;2&gt;&gt;&gt;::simplify;
+    let dexpdx2 = dfdx2(exp);
+    println!("diff = {}", dexpdx2);
+}</code></pre>
+<p>输出为：</p>
+<pre><code class="language-plaintext">exp = (x1) + (x2)
+diff = (0) + (1)
+</code></pre>
+<h3 id="代数化简"><a class="header" href="#代数化简">代数化简</a></h3>
+<p>有了上述方法，我们可以很轻易的扩展我们的化简工具，例如增加一个代数化简：</p>
+<pre><code class="language-scheme">(define asimp
+  (simplifier algebra-rules))
+</code></pre>
+<details>
+<summary>Rust 具体实现</summary>
+<pre><code class="language-rust">struct AlgebraRules;
+
+fn is_zero(x: &amp;f64) -&gt; bool {
+    x.abs() &lt;= core::f64::EPSILON.sqrt()
+}
+
+impl Simplifier&lt;AlgebraRules&gt; for ExpressionElement {
+    fn simplify(e: ExpressionElement) -&gt; ExpressionElement {
+        let simpliler = &lt;ExpressionElement as Simplifier&lt;AlgebraRules&gt;&gt;::simplify;
+        match e {
+            ExpressionElement::Neg(e) =&gt; {
+                if let ExpressionElement::Neg(inner) = *e {
+                    // -(-e) = e
+                    *inner
+                } else if let ExpressionElement::Constant(p) = *e {
+                    // -(p) = -e
+                    ExpressionElement::Constant(-p)
+                } else {
+                    // -e = -(e)
+                    ExpressionElement::make_neg(simpliler(*e))
+                }
+            }
+            ExpressionElement::Add(e1, e2) =&gt; {
+                if let ExpressionElement::Constant(p1) = *e1 {
+                    if let ExpressionElement::Constant(p2) = *e2 {
+                        // p1 + p2 = (p1 + p2)
+                        ExpressionElement::Constant(p1 + p2)
+                    } else if is_zero(&amp;p1) {
+                        // 0 + e2 = (e2)
+                        simpliler(*e2)
+                    } else {
+                        // p1 + e2 = p1 + (e2)
+                        ExpressionElement::make_add(*e1, simpliler(*e2))
+                    }
+                } else if let ExpressionElement::Constant(p2) = *e2 {
+                    if is_zero(&amp;p2) {
+                        // e1 + 0 = (e1)
+                        simpliler(*e1)
+                    } else {
+                        // e1 + p2 = p2 + (e1)
+                        ExpressionElement::make_add(*e2, simpliler(*e1))
+                    }
+                } else {
+                    // e1 + e2 = (e1) + (e2)
+                    ExpressionElement::make_add(simpliler(*e1), simpliler(*e2))
+                }
+            }
+            ExpressionElement::Sub(e1, e2) =&gt; {
+                if let ExpressionElement::Constant(p1) = *e1 {
+                    if let ExpressionElement::Constant(p2) = *e2 {
+                        // p1 - p2 = (p1 - p2)
+                        ExpressionElement::Constant(p1 - p2)
+                    } else if is_zero(&amp;p1) {
+                        // 0 - e2 = -(e2)
+                        ExpressionElement::make_neg(simpliler(*e2))
+                    } else {
+                        // p1 + e2 = p1 + (e2)
+                        ExpressionElement::make_sub(*e1, simpliler(*e2))
+                    }
+                } else if let ExpressionElement::Constant(p2) = *e2 {
+                    if is_zero(&amp;p2) {
+                        // e1 - 0 = (e1)
+                        simpliler(*e1)
+                    } else {
+                        // e1 - p2 = (e1) - p2
+                        ExpressionElement::make_sub(simpliler(*e1), *e2)
+                    }
+                } else if let ExpressionElement::Neg(inner_e2) = *e2 {
+                    // e1 - (-e2) = (e1) + (e2)
+                    ExpressionElement::make_sub(simpliler(*e1), simpliler(*inner_e2))
+                } else {
+                    // e1 - e2 = (e1) - (e2)
+                    ExpressionElement::make_sub(simpliler(*e1), simpliler(*e2))
+                }
+            }
+            ExpressionElement::Mul(e1, e2) =&gt; {
+                if let ExpressionElement::Constant(p1) = *e1 {
+                    if let ExpressionElement::Constant(p2) = *e2 {
+                        // p1 * p2 = (p1 * p2)
+                        ExpressionElement::Constant(p1 * p2)
+                    } else if is_zero(&amp;p1) {
+                        // 0 * e2 = 0
+                        ExpressionElement::Constant(0.0f64)
+                    } else if is_zero(&amp;(p1 - 1.0f64)) {
+                        // 1 * e2 = (e2)
+                        simpliler(*e2)
+                    } else {
+                        // p1 * e2 = p1 * (e2)
+                        ExpressionElement::make_mul(*e1, simpliler(*e2))
+                    }
+                } else if let ExpressionElement::Constant(p2) = *e2 {
+                    if is_zero(&amp;p2) {
+                        // e1 * 0 = 0
+                        ExpressionElement::Constant(0.0f64)
+                    } else if is_zero(&amp;(p2 - 1.0f64)) {
+                        // e1 * 1 = (e1)
+                        simpliler(*e1)
+                    } else {
+                        // e1 * p2 = p2 * (e1)
+                        ExpressionElement::make_mul(*e2, simpliler(*e1))
+                    }
+                } else {
+                    // e1 * e2 = (e1) * (e2)
+                    ExpressionElement::make_mul(simpliler(*e1), simpliler(*e2))
+                }
+            }
+            ExpressionElement::Div(e1, e2) =&gt; {
+                if let ExpressionElement::Constant(p2) = *e2 {
+                    if let ExpressionElement::Constant(p1) = *e1 {
+                        // p1 / p2 = (p1 / p2)
+                        ExpressionElement::Constant(p1 / p2)
+                    } else if is_zero(&amp;(p2 - 1.0f64)) {
+                        // e1 / 1 = (e1)
+                        simpliler(*e1)
+                    } else {
+                        // e1 / p2 = (e1) / p2
+                        ExpressionElement::make_div(simpliler(*e1), *e2)
+                    }
+                } else {
+                    if let ExpressionElement::Pow(inner_e1, p1) = *e1 {
+                        if let ExpressionElement::Pow(inner_e2, p2) = *e2 {
+                            // (e)^n / (e)^m = (e)^(n - m)
+                            let simp_e1 = simpliler(*inner_e1);
+                            let simp_e2 = simpliler(*inner_e2);
+                            if simp_e1 == simp_e2 {
+                                ExpressionElement::make_pow(simp_e1, p1 - p2)
+                            } else {
+                                // e1^n / e2^m = (e1)^n / (e2)^m
+                                ExpressionElement::make_div(
+                                    ExpressionElement::make_pow(simp_e1, p1),
+                                    ExpressionElement::make_pow(simp_e2, p2),
+                                )
+                            }
+                        } else {
+                            // e1^n / e2 = (e1)^n / (e2)
+                            ExpressionElement::make_div(
+                                ExpressionElement::make_pow(simpliler(*inner_e1), p1),
+                                simpliler(*e2),
+                            )
+                        }
+                    } else {
+                        // e1 / e2 = (e1) / (e2)
+                        ExpressionElement::make_div(simpliler(*e1), simpliler(*e2))
+                    }
+                }
+            }
+            _ =&gt; e,
+        }
+    }
+}</code></pre>
+<p>这里只是一些常见的化简策略，可以进一步化简</p>
+</details>
+<p>例如对于 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathrm">d</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord">/</span><span class="mord mathrm">d</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，我们可以得到：</p>
+<pre><code class="language-rust">fn main() {
+    let exp = ExpressionElement::make_add(
+        ExpressionElement::Variable(1),
+        ExpressionElement::Variable(2),
+    );
+    println!("exp = {}", exp);
+    let dfdx2 = &lt;ExpressionElement as Simplifier&lt;DiffRules&lt;2&gt;&gt;&gt;::simplify;
+    let dexpdx2 = dfdx2(exp);
+    // algebra simplify
+    let asimp = &lt;ExpressionElement as Simplifier&lt;AlgebraRules&gt;&gt;::simplify;
+    println!("diff = {}", asimp(dexpdx2));
+}</code></pre>
+<p>输出结果如下：</p>
+<pre><code class="language-plaintext">exp = (x1) + (x2)
+diff = 1
+</code></pre>
+<h3 id="实现细节"><a class="header" href="#实现细节">实现细节</a></h3>
+<p>这里，我们可以将每一个匹配模式认为是字典中的一个条目，
+而化简的过程就是电脑查阅我们而的模式组成的字典的过程，
+匹配到某种模式即查阅到某个单词，替换成对应模板则可以类比于将单词替换为释义，
+即：</p>
+<div style="text-align: center;">
+  <img src="../../assets/sicp-0x04-pic01.png" width="64%" alt="rules as dictionary">
+</div>
+<h3 id="匹配器"><a class="header" href="#匹配器">匹配器</a></h3>
+<p>一个模式匹配器，或者说 <strong>Matcher</strong>，其作用是将字典，表达式 以及模式作为输入，
+然后将表达式输出为新的字典的过程，而这个输出的字典就是表达式中匹配到的部分</p>
+<p>其中难点在于，匹配器需要同时处理表达式和模式两个部分，
+在表达式中寻找符合模式的部分然后添加到字典中</p>
+<pre><code class="language-scheme">(define (match pat exp dict)
+  (cond ((eq? dict 'failed) 'failed)
+        ;; other check branch
+        (else
+          (match (cdr pat)
+                 (cdr exp)
+                 (match (car pat)
+                        (car exp)
+                        dict)))))
+</code></pre>
+<p>除了特殊情况，最一般的匹配中，会匹配 <code>pat</code> 的头部与 <code>exp</code> 的头部，
+如果一致，那么就会产生新的字典作为新的匹配输入，
+否则就会返回 <code>'failed</code>，表示匹配失败</p>
+<p>在遍历和匹配的过程中，如果某个模式在字典中与遍历到的值不一致，就会匹配失败，
+例如：</p>
+<pre><code class="language-plaintext">pattern    =&gt; (+ (* (? x) (? y)) (? y))
+expression =&gt; (+ (* 3 'X) 'X)
+</code></pre>
+<p>这个例子中，<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span>，<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathrm">X</span></span></span></span>，没有例外，所以匹配成功，但是如果稍作修改：</p>
+<pre><code class="language-plaintext">pattern    =&gt; (+ (* (? x) (? y)) (? y))
+expression =&gt; (+ (* 3 'X) 4)
+</code></pre>
+<p>在这里，<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathrm">X</span></span></span></span> 且 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span>，矛盾，所以匹配失败</p>
+<blockquote>
+<p>用 Rust 可以使用类似的栈模式来类比写出匹配器，这里就不再演示</p>
+</blockquote>
+<h3 id="实例化器"><a class="header" href="#实例化器">实例化器</a></h3>
+<p>实例化器使用匹配器得到的字典以及规则中的 “骨架” 作为输入，得到新的表达式：</p>
+<pre><code class="language-scheme">(define (instantiater skeleton dict)
+  (define (loop s)
+    (cond ((atom? s) s)
+          ((skeleton-evaluation? s)
+           (evaluate (eval-exp s) dict))
+          (else (cons (loop (car s))
+                      (loop (cdr s))))))
+  (loop skeleton))
+</code></pre>
+<p>这个过程就是一个不断查表，然后替换原表达式结构的过程</p>
+<blockquote>
+<p>这部分同样没有 Rust 演示代码，因为 Rust 不需要这样实现</p>
+</blockquote>
+<h3 id="简化器"><a class="header" href="#简化器">简化器</a></h3>
+<p>简化器就是真正将我们的规则应用到表达式的过程</p>
+<pre><code class="language-scheme">(define (simplifier the-rules)
+  (define (simplify-exp exp)
+    (try-rules (if (compound? exp)
+                   (simplify-parts exp)
+                   exp)))
+  (define (simplify-parts exp)
+    (if (null? exp)
+        '()
+        (cons (simplify-exp (car exp))
+        (simplify-parts (cdr exp)))))
+  (define (try-rules exp)
+    (define (scan rules)
+      (if (null? rules)
+          exp
+          (let ((dict
+                (match (pattern (car rules))
+                       exp
+                       (empty-dictionary))))
+            (if (eq? dict 'failed)
+                (scan (cdr rules))
+                (simplify-exp
+                  (instantiater
+                    (skeleton (car rules))
+                    dict))))))
+    (scan the-rules))
+  simplify-exp)
+</code></pre>
+<p>可以看到这个 <code>simplifier</code> 就是利用 <code>the-rules</code> 然后返回一个闭包过程，即 <code>simplify-exp</code></p>
+<p>其中 <code>simplify-exp</code> 会使用 <code>simplify-parts</code> 来分析表达式中各个子部分，
+而在每个子部分中都会 <code>try-rules</code> 来尝试匹配和应用规则</p>
+<p>尽管在 LISP 中的的模式匹配细节非常复杂，但是基本架构还是很清晰的，
+即扫描模式与表达式生成字典，然后通过 “骨架” 来替换匹配部分从而生成新的表达式</p>
+<h2 id="lecture-4b"><a class="header" href="#lecture-4b">Lecture 4B</a></h2>
+<p>这一节主要研究数据抽象，即如何表示和处理各种 “形状” 的数据</p>
+<h3 id="复数与有理数"><a class="header" href="#复数与有理数">复数与有理数</a></h3>
+<p>在之前提到复合数据类型的时候，我们实现了一个有理数系统，
+当中提到了我们可以通过各种方式实现有理数系统，
+只需要保持对外接口一致，用户是基本无感知的，这点非常重要</p>
+<p>通常的数据结构的实现包含了 <code>selector</code>，<code>constructor</code> 和 <code>method</code> 三个部分，
+其中 <code>selector</code> 包含了我们能够从结构中获取的各种数据，
+<code>constructor</code> 包括了我们如何构建一个数据的方法，
+而 <code>method</code> 则是我们对于数据的各种操作，例如有理数的加减</p>
+<p>通常的复数实现有两种方式，即直角坐标和极坐标，
+直角坐标可以很轻松的获取实部和虚部，
+而极坐标可以很轻松的获取辐角和模长，但是反过来就比较麻烦了</p>
+<p>所以如果想要操作各种数据，其中的关键就是 <code>selector</code>，
+要是一个 <strong>通用运算符</strong>，即对于不同的实现，我们都可以获取到对应的数据</p>
+<h3 id="标记数据"><a class="header" href="#标记数据">标记数据</a></h3>
+<p>通常来说，在 LISP 中，数据是没有类型（标记）的，
+但是在某些场合，我们可能需要区分某些数据，
+所以我们可以通过给数据加上标签的形式来区分</p>
+<p>这个加上 类型/标签 的过程和构建一个复合数据没有区别，即加上一个部分用于表示类型</p>
+<pre><code class="language-scheme">(define (add-type type data)
+  (cons type data))
+(define (get-type typed-data)
+  (car typed-data))
+(define (get-data typed-data)
+  (cdr typed-data))
+</code></pre>
+<h3 id="通用运算符"><a class="header" href="#通用运算符">通用运算符</a></h3>
+<p>在这个前提下，要区分直角坐标和极坐标实现的复数，
+我们只需要在创建数据的时候加上类型，在使用的时候判断即可</p>
+<pre><code class="language-scheme">(define (make-im-rect real imag)
+  (add-type 'rect (cons real imag)))
+(define (make-im-polar magnitude angle)
+  (add-type 'polar (cons magnitude angle)))
+</code></pre>
+<p>而对于不同实现的操作，
+我们可以通过添加一个判断来构建一个通用运算符，来支持两种实现</p>
+<pre><code class="language-scheme">(define (real-part z)
+  (if (eq? (get-type z) 'rect)
+      (real-part-rect (get-data z))
+      (real-part-polar (get-data z))))
+</code></pre>
+<p>这也是一种模式匹配，对应到 Rust 中就是使用 <code>enum</code> 和 <code>match</code></p>
+<pre><code class="language-rust">enum Complex {
+    Rect(f64, f64),
+    Polar(f64, f64),
+}
+
+impl Complex {
+    pub fn make_rect(real: f64, imag: f64) -&gt; Complex {
+        Complex::Rect(real, imag)
+    }
+
+    pub fn make_polar(magnitude: f64, angle: f64) -&gt; Complex {
+        Complex::Polar(magnitude, angle)
+    }
+
+    pub fn real_part(&amp;self) -&gt; f64 {
+        match self {
+            Complex::Rect(real, _) =&gt; *real,
+            Complex::Polar(m, a) =&gt; m * a.cos(),
+        }
+    }
+}</code></pre>
+<h3 id="基于类型的分派"><a class="header" href="#基于类型的分派">基于类型的分派</a></h3>
+<p>这种设计模式下，整个系统会分成几个部分，而每个部分有自己独特的类型标识，
+对于不同类型的数据，我们可以通过类型将数据来分配给合适的部分进行处理</p>
+<p>但是这也有不足，即如果想要添加新的类型，我们还需要修改现有的代码，
+即扩充 <code>enum</code> 的定义以及每个通用运算符的分支处理，显得不太灵活</p>
+<h3 id="数据导向编程"><a class="header" href="#数据导向编程">数据导向编程</a></h3>
+<p>除了使用 <code>match</code> 或者 <code>if</code> 来判断类型，我们可以用另外一种类似但更加高效的方式来处理，
+那就是建立一张表格，这个表格中对应的行可以是对应的类型，
+列可以是该表格对应的整体类型，例如复数，可以进行的各种操作，
+不用我们去手动匹配，我们可以主动去表格中寻找合适的操作来处理数据，
+这种方式也被称为 <strong>数据导向编程</strong><sup class="footnote-reference"><a href="#2">2</a></sup>，而这个表格则在现在的编程语言中称为虚表<sup class="footnote-reference"><a href="#3">3</a></sup></p>
+<pre><code class="language-rust">trait Complex {
+    fn make_rect(real: f64, imag: f64) -&gt; Self;
+    fn make_polar(magnitude: f64, angle: f64) -&gt; Self;
+    fn real_part(&amp;self) -&gt; f64;
+}
+
+struct ComplexRect(f64, f64);
+
+impl Complex for ComplexRect {
+    fn make_rect(real: f64, imag: f64) -&gt; Self {
+        ComplexRect(real, imag)
+    }
+
+    fn make_polar(magnitude: f64, angle: f64) -&gt; Self {
+        ComplexRect(magnitude * angle.cos(), magnitude * angle.sin())
+    }
+
+    fn real_part(&amp;self) -&gt; f64 {
+        self.0
+    }
+}
+
+struct ComplexPolar(f64, f64);
+
+impl Complex for ComplexPolar {
+    fn make_rect(real: f64, imag: f64) -&gt; Self {
+        ComplexPolar((real.powi(2) + imag.powi(2)).sqrt(), imag.atan2(real))
+    }
+
+    fn make_polar(magnitude: f64, angle: f64) -&gt; Self {
+        ComplexPolar(magnitude, angle)
+    }
+
+    fn real_part(&amp;self) -&gt; f64 {
+        self.0 * self.1.cos()
+    }
+}
+
+fn main() {
+    let c = &lt;ComplexPolar as Complex&gt;::make_rect(2.0, 3.0);
+    let r = c.real_part();
+    println!("real part = {}", r);
+}</code></pre>
+<p>输出为：</p>
+<pre><code class="language-plaintext">real part = 2
+</code></pre>
+<p>这些数据自身就包含如何操作自己的信息，即通过查表</p>
+<h3 id="数字系统"><a class="header" href="#数字系统">数字系统</a></h3>
+<p>我们有复数，有理数，以及语言自身的整数和实数计算，
+现在可以开始构建一个数字系统</p>
+<p>数字之间的通常操作包括加减乘除，为了让各种数字类型兼容，
+我们需要像复数那样，添加上类型，然后将对应的操作添加进我们数字系统的表格中，
+即 <code>+rat</code> 放入 <code>'rational</code> 和 <code>'add</code> 这个位置，
+<code>+complex</code> 放入 <code>'complex</code> 和 <code>'add</code> 这个位置</p>
+<blockquote>
+<p>在 Rust 中，对应 <code>std::ops::Add</code></p>
+</blockquote>
+<p>通过这个表格，我们就可以统一各种数字类型的操作，不过此时复数的类型就多了一些，
+例如对于使用直角坐标系定义的复数加法，我们有如下标记：</p>
+<pre><code class="language-plaintext">('add . ('complex . ('rect . +complex)))
+</code></pre>
+<p>抽象层级越高，其基本操作上的类型就会越多</p>
+<h3 id="多项式运算"><a class="header" href="#多项式运算">多项式运算</a></h3>
+<p>有了前面的铺垫，现在可以定义多项式的运算，
+这里多项式使用 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord text"><span class="mord textrm">Var</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mopen">[(</span><span class="mord text"><span class="mord textrm">order</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">c</span><span class="mclose">)])</span></span></span></span> 来表示，
+分别对应变量名，阶数以及系数</p>
+<p>例如 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">15</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">7</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span></span></span></span>，
+可以表示为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">[</span><span class="mopen">(</span><span class="mord">15</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mopen">(</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">7</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">8</span><span class="mclose">)</span><span class="mclose delimcenter" style="top:0em;">]</span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span></p>
+<pre><code class="language-rust">use std::collections::HashMap;
+
+struct Poly(char, HashMap&lt;i32, f64&gt;);
+
+impl Poly {
+    pub fn poly_add(p1: Poly, p2: Poly) -&gt; Poly {
+        if p1.0 != p2.0 {
+            panic!("[poly_add]: var not match")
+        } else {
+            let eq = p1.1.iter().chain(p2.1.iter()).fold(
+                HashMap::with_capacity(p1.1.len().max(p2.1.len())),
+                |mut acc: HashMap&lt;i32, f64&gt;, e| {
+                    let value = acc.get(e.0).unwrap_or(&amp;0.0f64);
+                    let _ = acc.insert(*e.0, value + e.1);
+                    acc
+                },
+            );
+            Poly(p1.0, eq)
+        }
+    }
+}
+
+impl std::fmt::Display for Poly {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            self.1
+                .iter()
+                .map(|e| if e.0 == &amp;0 {
+                    format!("{}", e.1)
+                } else {
+                    format!("{} {}^{}", e.1, self.0, e.0)
+                })
+                .collect::&lt;Vec&lt;String&gt;&gt;()
+                .join(" + ")
+        )
+    }
+}
+
+impl std::ops::Add for Poly {
+    type Output = Self;
+
+    fn add(self, rhs: Self) -&gt; Self::Output {
+        Self::poly_add(self, rhs)
+    }
+}
+
+fn main() {
+    let p1 = Poly('x', HashMap::from([(15, 1.0), (4, 7.0), (0, 8.0)]));
+    let p2 = Poly(
+        'x',
+        HashMap::from([(13, 2.0), (4, -5.0), (2, 2.0), (0, 2.0)]),
+    );
+    let p = p1 + p2;
+    println!("{}", p);
+}</code></pre>
+<p>输出为：</p>
+<pre><code class="language-plaintext">2 x^2 + 2 x^4 + 1 x^15 + 10 + 2 x^13
+</code></pre>
+<p>在这里，由于多项式被定义为了系数和阶数的数对，所以实际上系数可以是任何数字类型，
+只要实现了 <code>std::ops::Add</code> 都可以，甚至多项式本身也可以，这种扩展性就是数据导向编程带给我们的</p>
+<hr />
+<p>数据导向的编程，或者说基于接口的编程使得我们可以轻易地兼容整个系统的运行，
+这也是为什么接口，或者说 API 的定义越来越重要</p>
+<p>在下一节中我们会看到更多有关函数式编程的内容，包括副作用以及状态</p>
+<hr />
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>开闭原则.Wikipedia [DB/OL].(2024-05-23)[2025-03-16].
+<a href="https://en.wikipedia.org/wiki/Open-closed_principle">https://en.wikipedia.org/wiki/Open-closed_principle</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>数据导向编程.Wikipedia [DB/OL].(2024-07-29)[2025-03-16].
+<a href="https://en.wikipedia.org/wiki/Data-driven_programming">https://en.wikipedia.org/wiki/Data-driven_programming</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>虚表.Wikipedia [DB/OL].(2024-04-23)[2025-03-16].
+<a href="https://en.wikipedia.org/wiki/Virtual_method_table">https://en.wikipedia.org/wiki/Virtual_method_table</a></p>
+</div>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/rust/20250225-sicp-notes-0x03.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/sagemath/index.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/rust/20250225-sicp-notes-0x03.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/sagemath/index.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>
