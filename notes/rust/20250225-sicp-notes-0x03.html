@@ -533,7 +533,10 @@ impl DiffElement {
             DiffElement::Constant(_) =&gt; DiffElement::Constant(0.0),
             DiffElement::Variable =&gt; DiffElement::Constant(1.0),
             DiffElement::Add(e1, e2) =&gt; DiffElement::make_add(e1.diff(), e2.diff()),
-            DiffElement::Mul(e1, e2) =&gt; DiffElement::make_mul(e1.diff(), e2.diff()),
+            DiffElement::Mul(e1, e2) =&gt; DiffElement::make_add(
+                DiffElement::make_mul(e1.diff(), e2),
+                DiffElement::make_mul(e1, e2.diff()),
+            ),
             DiffElement::Div(e1, e2) =&gt; DiffElement::make_div(
                 DiffElement::make_add(
                     DiffElement::make_mul(e1.clone().diff(), *e2.clone()),
