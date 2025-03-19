@@ -1,0 +1,808 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>SICP 笔记 - 0x05 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="init.html">Init</a></li><li class="chapter-item "><a href="about.html">About</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item "><a href="notes/haskell/index.html">Haskell</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="notes/haskell/20241030-haskell-99-questions-0x01.html">Haskell 99 Questions :: 0x01</a></li><li class="chapter-item "><a href="notes/haskell/20241031-haskell-99-questions-0x02.html">Haskell 99 Questions :: 0x02</a></li><li class="chapter-item "><a href="notes/haskell/20241104-haskell-99-questions-0x03.html">Haskell 99 Questions :: 0x03</a></li><li class="chapter-item "><a href="notes/haskell/20241208-haskell-99-questions-0x04.html">Haskell 99 Questions :: 0x04</a></li></ol></li><li class="chapter-item "><a href="notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="notes/rust/20240727-rust-fuction-and-clousure.html">Rust 中的函数与闭包</a></li><li class="chapter-item "><a href="notes/rust/20241102-sicp-notes-0x01.html">SICP 笔记 - 0x01</a></li><li class="chapter-item "><a href="notes/rust/20241105-sicp-notes-0x02.html">SICP 笔记 - 0x02</a></li><li class="chapter-item "><a href="notes/rust/20250225-sicp-notes-0x03.html">SICP 笔记 - 0x03</a></li><li class="chapter-item "><a href="notes/rust/20250316-sicp-notes-0x04.html">SICP 笔记 - 0x04</a></li><li class="chapter-item "><a href="notes/rust/20250317-sicp-notes-0x05.html">SICP 笔记 - 0x05</a></li></ol></li><li class="chapter-item "><a href="notes/sagemath/index.html">SageMath</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="notes/sagemath/20240829-sagemath-0x00.html">安装 SageMath</a></li><li class="chapter-item "><a href="notes/sagemath/20240830-sagemath-0x01.html">SageMath 基本运算与函数</a></li><li class="chapter-item "><a href="notes/sagemath/20240831-sagemath-0x02.html">SageMath 基本语法</a></li><li class="chapter-item "><a href="notes/sagemath/20240831-sagemath-0x03.html">SageMath 代数初步</a></li><li class="chapter-item "><a href="notes/sagemath/20240901-sagemath-0x04.html">SageMath 基本作图</a></li><li class="chapter-item "><a href="notes/sagemath/20240905-sagemath-0x05.html">SageMath 基本代数</a></li><li class="chapter-item "><a href="notes/sagemath/20240906-sagemath-0x06.html">SageMath 多项式</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li><li class="chapter-item "><a href="miscellany/coding/20240727-use-steam-install-windows-applications.html">使用 Steam 安装 Windows 应用</a></li><li class="chapter-item "><a href="miscellany/coding/20241122-meson-for-cpp.html">使用 Meson 构建 Cpp 项目</a></li></ol></li><li class="chapter-item "><a href="miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="miscellany/study/20221108-qiskit-linear-algebra.html">Qiskit 线性代数</a></li><li class="chapter-item "><a href="miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">Qiskit Deutsch-Jozsa 算法</a></li><li class="chapter-item "><a href="miscellany/study/20241222-qr-decomposition.html">计算 QR 分解</a></li><li class="chapter-item "><a href="miscellany/study/20241226-linear-norm.html">向量与矩阵的模</a></li></ol></li><li class="chapter-item "><a href="miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="chapter-item "><a href="miscellany/life/20240404-decadent-life.html">颓废生活</a></li><li class="chapter-item "><a href="miscellany/life/20240721-home-life.html">居家生活</a></li></ol></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                    <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20250317-sicp-notes-0x05.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="sicp-笔记---0x05"><a class="header" href="#sicp-笔记---0x05">SICP 笔记 - 0x05</a></h1>
+<p class="archive-time">archive time: 2025-03-17</p>
+<p class="sp-comment">趁热打铁，今天继续来看第五课</p>
+<ul>
+<li><a href="#lecture-5a">Lecture 5A</a>
+<ul>
+<li><a href="#%E8%B5%8B%E5%80%BC">赋值</a></li>
+<li><a href="#%E7%BB%91%E5%AE%9A">绑定</a></li>
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
+<li><a href="#%E8%B0%83%E7%94%A8%E8%A7%84%E5%88%99">调用规则</a></li>
+<li><a href="#%E8%B5%8B%E5%80%BC%E7%9A%84%E6%84%8F%E4%B9%89">赋值的意义</a>
+<ul>
+<li><a href="#%E8%A1%8C%E4%B8%BA%E4%B8%8E%E5%90%8C%E4%B8%80%E6%80%A7">行为与同一性</a></li>
+<li><a href="#%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%B3%95">蒙特卡洛法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#lecture-5b">Lecture 5B</a>
+<ul>
+<li><a href="#%E6%A8%A1%E6%8B%9F%E7%94%B5%E8%B7%AF">模拟电路</a></li>
+<li><a href="#agenda">Agenda</a></li>
+<li><a href="#%E5%8F%AF%E8%B5%8B%E5%80%BC%E7%9A%84%E6%9C%89%E5%BA%8F%E5%AF%B9">可赋值的有序对</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="lecture-5a"><a class="header" href="#lecture-5a">Lecture 5A</a></h2>
+<p>这一节开始，我们要学习更多有关函数式编程和 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>-表达式相关的内容，
+包括赋值，环境，以及副作用</p>
+<h3 id="赋值"><a class="header" href="#赋值">赋值</a></h3>
+<p>在 LISP 中，有个非常 “邪恶” 的操作，那就是 <code>set!</code>，
+这个操作可以改变某个已经定义的变量的值，也就是我们现在说的赋值</p>
+<pre><code class="language-scheme">(define (println x)
+  (display x)
+  (newline))
+
+(define x 10)
+(println x)
+(set! x 20)
+(println x)
+</code></pre>
+<p>分别输出为：</p>
+<pre><code class="language-plaintext">1&gt; 10
+2&gt; 20
+</code></pre>
+<p>为什么说这个操作非常邪恶呢？因为赋值会破坏我们函数的纯粹性，
+随着时间和运行次数的变化，我们函数的返回结果会不同，这也就是所谓的 <strong>副作用</strong></p>
+<h3 id="绑定"><a class="header" href="#绑定">绑定</a></h3>
+<p>赋值操作的引入也破坏了之前解释我们计算过程的 <a href="./20241102-sicp-notes-0x01.html#lecture-1b">替换模型</a>，
+因为在不同的时候，我们代码中的每个变量的值并非唯一确定的，而是变化的，
+为了解释现有的计算，我们需要引入新的模型，或者说为替换模型打一个补丁，即引入 <strong>环境</strong> 的概念</p>
+<p><strong>环境（environment）</strong>，又被称为 <strong>上下文（context）</strong>，我们可以在这里找到一些变量对应的值</p>
+<p>不过在正式介绍环境前，还需要区分现有的变量类型，即 “<strong>绑定变量（bound variable）</strong>” 与 “<strong>自由变量（free variable）</strong>”</p>
+<p>在当前表达式中，对于某个变量，如果替换这个变量的名称不会改变这个表达式的语义，那么这个变量就是绑定变量，
+对应于 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>-表达式 中的 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>-约归<sup class="footnote-reference"><a href="#1">1</a></sup>，反之则被称为自由变量</p>
+<blockquote>
+<p>Rust 规定使用 <code>static mut</code> 是 <code>unsafe</code> 的</p>
+</blockquote>
+<pre><code class="language-rust">static mut A: i32 = 10;
+
+fn demo(n: i32) -&gt; i32 {
+    unsafe { A += 1 };
+    n + unsafe { A }
+}
+
+fn main() {
+    println!("{}", demo(3));
+    // =&gt; 14
+    println!("{}", demo(3));
+    // =&gt; 15
+}</code></pre>
+<p>在上面这个例子中 <code>demo()</code> 函数的 <code>n</code> 变量就是绑定变量，换成其他名称也是一样的效果，
+而 <code>A</code> 就是一个自由变量</p>
+<p>而变量被定义的区域称为 <strong>作用域（scope）</strong><sup class="footnote-reference"><a href="#2">2</a></sup>，
+例如函数 <code>demo()</code> 中的 <code>n</code> 作用域就是函数内部，
+一旦出了函数范围，<code>n</code> 就不再有效，
+而 <code>A</code> 的作用域就是当前模块内部</p>
+<blockquote>
+<p>If <code>x</code> is a bound variable in <code>E</code>, then there is a <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>-expression where it is bound.</p>
+<p>如果 <code>x</code> 在 <code>E</code> 上是绑定变量，那么 <code>x</code> 一定绑定于某一个 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>-表达式</p>
+</blockquote>
+<p>在 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>-表达式中，变量的绑定发生在表达式的参数中，<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span><span class="mord mathnormal">x</span></span></span></span> 又被称为一个 <strong>binder</strong>，
+所以每一个绑定变量一定对应于某一个表达式，
+我们现在所谓的函数形参列表又被成为绑定变量列表</p>
+<h3 id="环境"><a class="header" href="#环境">环境</a></h3>
+<p>正如之前所说，在环境中，我们可以找到变量的值</p>
+<p>不同的运行情况，我们会有不同的环境，
+环境之间最接近当前作用域的环境的定义会覆盖其他环境中相同变量名称的定义，
+而最近环境中找不到的变量则会向外寻找，如果所有可以访问的环境都没有找到，
+这个变量就被称为 <strong>未定义变量</strong></p>
+<pre><code class="language-rust">fn main() {
+    let x = 10;
+    let y = 20;
+    {
+        let x = 30;
+        // use x inside
+        println!("x = {}", x);
+        // find y outside
+        println!("y = {}", y);
+        // println!("z = {}", z); // z is undefined
+    }
+}
+// =&gt;
+// 30
+// 20</code></pre>
+<p>不同层级的环境我们也可以视为一张表格，或者是一个 <strong>框架/栈帧（frame）</strong><sup class="footnote-reference"><a href="#3">3</a></sup>，
+以有序对的形式将我们的变量与其定义对应，
+所以一个大概的 <strong>过程对象（procedure object）</strong> 可以用下图表示：</p>
+<div style="text-align: center;">
+  <img src="../../assets/sicp-0x05-pic01.png" width="64%" alt="Procedure Object">
+</div>
+<h3 id="调用规则"><a class="header" href="#调用规则">调用规则</a></h3>
+<p>在引入环境后，要执行我们的过程，我们有如下两条规则：</p>
+<ol>
+<li>一个过程对象被应用到一系列参数时会在内部构建一个栈帧，
+用于存储形式参数（绑定变量）与实际参数的绑定（<code>=</code>），
+而过程运行的环境由内部栈帧与外部环境邻接而成</li>
+<li>定义一个 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>-表达式时，表达式会将表达式本身与所在环境一同捕获</li>
+</ol>
+<p>第一条规则说明了代码执行时变量的值的参考是由内而外的，
+第二条规则说明 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>-表达式 中自由变量的值与当前环境有关，例如：</p>
+<pre><code class="language-rust">fn main() {
+    let proc = |y: i32| -&gt; i32 { (|x: i32| x * y)(3) };
+    println!("{}", proc(4));
+    // =&gt; 12
+}</code></pre>
+<p>这里 <code>proc</code> 和 <code>|x: i32| x * y</code> 都是 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>-表达式，
+其中在 <code>|x: i32| x * y</code> 中 <code>y</code> 是自由变量，
+在运行的时候会捕获环境中的 <code>y</code>，即与 <code>proc</code> 的形式参数 <code>y</code> 绑定</p>
+<h3 id="赋值的意义"><a class="header" href="#赋值的意义">赋值的意义</a></h3>
+<p>既然赋值会破坏替换模型，并且还会让程序纯粹性被破坏，我们为什么还需要赋值呢？</p>
+<p>这里有一个关于计数器的例子：</p>
+<pre><code class="language-rust">fn make_counter(mut n: u8) -&gt; impl FnMut() -&gt; u8 {
+    move || {
+        n += 1;
+        n
+    }
+}
+
+fn main() {
+    let mut c0 = make_counter(0);
+    println!("{}", c0());
+    // =&gt; 1
+    println!("{}", c0());
+    // =&gt; 2
+    let mut c10 = make_counter(10);
+    println!("{}", c10());
+    // =&gt; 11
+    println!("{}", c10());
+    // =&gt; 12
+}</code></pre>
+<p>可以看到这个 <code>make_counter()</code> 是一个函数，其中这个函数会返回一个可变函数对象，
+这个可变函数对象捕获了变量 <code>n</code>，并且让 <code>n</code> 的值在每次调用时加一</p>
+<p>每次创建计数器的时候，会根据传入的参数构建不同的内部环境，其中包含不同的 <code>n</code> 的值，
+例如 <code>c0</code> 就是 <code>n = 0</code>，而 <code>c10</code> 则会创建一个环境，其中 <code>n = 10</code></p>
+<p>由于在调用的时候 <code>n</code> 并非同一个，所以即便修改 <code>c0</code> 中的 <code>n</code> 也不会影响 <code>c10</code> 的运行</p>
+<p>相互独立，互不影响，这是一个非常美好的状态，
+但是现实世界并非如此，世界上所有物体之间必有一定的联系，
+所以共享某些 <strong>状态（State）</strong> 就非常重要了，这就是我们需要赋值的原因，
+这是我们对于现实世界的一种抽象</p>
+<h4 id="行为与同一性"><a class="header" href="#行为与同一性">行为与同一性</a></h4>
+<p>有一件事在我们处理对象的时候非常重要，那就是如何判断我们处理的对象是否是同一个</p>
+<p>为此，我们需要引入一些方式来区分对象，那就是 <strong>行为（Actions）</strong></p>
+<blockquote>
+<p>一个行为 <em>A</em> 能够对对象 <em>X</em> 产生影响，如果这个 <em>A</em> 对于对象 <em>Y</em> 也产生了相同的影响，
+即某些特征发生了相同的变化，那么就可以称：对于动作 <em>A</em>，<em>X</em> 和 <em>Y</em> 是同一个对象</p>
+</blockquote>
+<h4 id="蒙特卡洛法"><a class="header" href="#蒙特卡洛法">蒙特卡洛法</a></h4>
+<p>允许修改和不同状态，这使得我们能够计算随机数，
+我们就可以使用蒙特卡洛法来模拟和计算，
+包括各种事件的概率，以及某些积分问题</p>
+<pre><code class="language-rust">fn estimate_pi(n: u64) -&gt; f64 {
+    (monte_carlo(n, cesaro) / 6.0).sqrt()
+}
+
+fn cesaro() -&gt; bool {
+    gcd(
+        rand::random_range(1..u64::MAX),
+        rand::random_range(1..u64::MAX),
+    ) == 1u64
+}
+
+fn gcd(n1: u64, n2: u64) -&gt; u64 {
+    if n2 == 0 { n1 } else { gcd(n2, n1 % n2) }
+}
+
+fn monte_carlo(trials: u64, experiment: impl Fn() -&gt; bool) -&gt; f64 {
+    (0..trials).map(|_| experiment()).filter(|&amp;p| p).count() as f64 / trials as f64
+}
+
+fn main() {
+    println!("{}", estimate_pi(1024));
+    // =&gt; 0.3140586131600278
+}</code></pre>
+<p>其中 <code>random_range</code> 内部使用了内部状态和赋值，
+如果不允许赋值，那么获取一个随机数将变得无比麻烦，
+我们可能需要显示传递一些东西来表示状态的变化</p>
+<h2 id="lecture-5b"><a class="header" href="#lecture-5b">Lecture 5B</a></h2>
+<p>我们想要用计算机程序模拟现实世界，
+由于计算机和编程语言的局限性，我们必然会对现实世界的对象抽象分类，
+这使得我们的程序具有了模块化的特征，即 <strong>面向对象编程（OOP）</strong></p>
+<h3 id="模拟电路"><a class="header" href="#模拟电路">模拟电路</a></h3>
+<p>我们现在需要设计一门 DSL，
+其中基本元素是 电线（wire），与门（and—gate），
+非门（not-gate）和 或门（or-gate），
+我们可以类似如下伪代码的形式组合对象：</p>
+<pre><code class="language-rust">let mut wire_a = make_wire();
+let mut wire_b = make_wire();
+let mut wire_c = make_wire();
+or_gate(a, b, c);
+
+fn half_adder(in_a: Wire, in_b: Wire, out_c: Wire, out_s: Wire) {
+    let d = make_wire();
+    let e = make_wire();
+    or_gate(in_a, in_b, d);
+    and_gate(in_a, in_b, out_c);
+    not_gate(out_c, e);
+    and_gate(d, e, out_s);
+}</code></pre>
+<details>
+<summary>一个大概的实现</summary>
+<pre><code class="language-rust">type RWire = std::rc::Rc&lt;std::cell::RefCell&lt;Wire&gt;&gt;;
+type Signal = std::rc::Rc&lt;std::cell::RefCell&lt;bool&gt;&gt;;
+type Action = std::rc::Rc&lt;dyn Fn() -&gt; bool&gt;;
+
+struct Wire {
+    signal: Signal,
+    actions: Vec&lt;(RWire, Action)&gt;,
+}
+
+impl std::fmt::Display for Wire {
+    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+        write!(f, "{}", if *self.get_signal().borrow() { 1 } else { 0 })
+    }
+}
+
+impl Wire {
+    pub fn make_wire() -&gt; RWire {
+        std::rc::Rc::new(std::cell::RefCell::new(Wire {
+            signal: std::rc::Rc::new(std::cell::RefCell::new(false)),
+            actions: Vec::new(),
+        }))
+    }
+
+    pub fn get_signal(&amp;self) -&gt; Signal {
+        self.signal.clone()
+    }
+    pub fn set_signal(&amp;mut self, new_signal: bool) {
+        *self.signal.borrow_mut() = new_signal;
+        self.actions
+            .iter()
+            .for_each(|(wire, action)| wire.borrow_mut().set_signal(action()));
+    }
+
+    pub fn add_action(&amp;mut self, out_wire: RWire, action: Action) {
+        self.actions.push((out_wire, action));
+    }
+}
+
+fn not_gate(delay: u64, in_wire: RWire, out_wire: RWire) {
+    let in_wire_signal = in_wire.borrow().get_signal();
+    let action = std::rc::Rc::new(move || -&gt; bool {
+        std::thread::sleep(std::time::Duration::from_millis(delay));
+        !*in_wire_signal.borrow()
+    });
+    in_wire.borrow_mut().add_action(out_wire, action);
+}
+
+fn and_gate(delay: u64, in_a: RWire, in_b: RWire, out_wire: RWire) {
+    let in_a_signal = in_a.borrow().get_signal();
+    let in_b_signal = in_b.borrow().get_signal();
+    let action = std::rc::Rc::new(move || -&gt; bool {
+        std::thread::sleep(std::time::Duration::from_millis(delay));
+        *in_a_signal.borrow() &amp;&amp; *in_b_signal.borrow()
+    });
+    in_a.borrow_mut()
+        .add_action(out_wire.clone(), action.clone());
+    in_b.borrow_mut().add_action(out_wire, action);
+}
+
+fn or_gate(delay: u64, in_a: RWire, in_b: RWire, out_wire: RWire) {
+    let in_a_signal = in_a.borrow().get_signal();
+    let in_b_signal = in_b.borrow().get_signal();
+    let action = std::rc::Rc::new(move || -&gt; bool {
+        std::thread::sleep(std::time::Duration::from_millis(delay));
+        *in_a_signal.borrow() || *in_b_signal.borrow()
+    });
+    in_a.borrow_mut()
+        .add_action(out_wire.clone(), action.clone());
+    in_b.borrow_mut().add_action(out_wire, action);
+}
+
+fn half_adder(delay: u64, in_a: RWire, in_b: RWire, out_c: RWire, out_s: RWire) {
+    let d = Wire::make_wire();
+    let e = Wire::make_wire();
+    or_gate(delay, in_a.clone(), in_b.clone(), d.clone());
+    and_gate(delay, in_a, in_b, out_c.clone());
+    not_gate(delay, out_c, e.clone());
+    and_gate(delay, d.clone(), e.clone(), out_s);
+}
+
+fn main() {
+    let wire_a = Wire::make_wire();
+    let wire_b = Wire::make_wire();
+    let wire_c = Wire::make_wire();
+    let wire_s = Wire::make_wire();
+    half_adder(
+        100,
+        wire_a.clone(),
+        wire_b.clone(),
+        wire_c.clone(),
+        wire_s.clone(),
+    );
+    wire_a.borrow_mut().set_signal(true);
+    wire_b.borrow_mut().set_signal(true);
+    println!("{}", wire_c.borrow());
+    // =&gt; 1
+    println!("{}", wire_s.borrow());
+    // =&gt; 0
+    wire_b.borrow_mut().set_signal(true);
+    println!("{}", wire_c.borrow());
+    // =&gt; 0
+    println!("{}", wire_s.borrow());
+    // =&gt; 1
+}</code></pre>
+<blockquote>
+<p>除了订阅 <code>action</code> 来实现消息传递，我们还可以使用 <code>tokio</code> 和 <code>channel</code> 来通信</p>
+</blockquote>
+<p>其中 <code>delay</code> 用于模拟现实世界元件的信号延迟，
+各个元件的信号通过导线的可变引用来传递</p>
+</details>
+<p>在这里，我们将各个元器件看成单独的对象，各个对象之间通过信号的方式来传递消息，
+前一个元件信号改变就会通知后一个元件，后一个元件会查询前一个元件的信号来调整自身信号</p>
+<p>对象内部也有消息传递，实际上我们在调用方法的时候，例如 <code>wire_a.borrow_mut().set_signal(true)</code>，
+就是在向这个对象传递一个消息，请求一个 过程/方法，在这里请求的就是 <code>set_signal</code>，
+只有合理的消息会得到响应，类似于：</p>
+<pre><code class="language-rust">struct Obj {
+    methods: Vec&lt;Box&lt;dyn Fn()&gt;&gt;,
+}
+
+impl Obj {
+    pub fn new() -&gt; Obj {
+        let print = || {
+            println!("call print");
+        };
+        let greet = || {
+            println!("call greet");
+        };
+        Obj {
+            methods: vec![Box::new(print), Box::new(greet)],
+        }
+    }
+
+    pub fn dispatch(&amp;self, msg: &amp;str) -&gt; &amp;Box&lt;dyn Fn()&gt; {
+        match msg {
+            "print" =&gt; &amp;self.methods[0],
+            "greet" =&gt; &amp;self.methods[1],
+            _ =&gt; panic!("no method {}", msg),
+        }
+    }
+}
+
+fn main() {
+    let o = Obj::new();
+    o.dispatch("print")();
+    // =&gt; call print
+    o.dispatch("greet")();
+    // =&gt; call greet
+    // o.dispatch("other")(); // panic
+}</code></pre>
+<p>不过使用 <code>thread::sleep</code> 来实现 <code>delay</code> 是一个取巧的行为，
+如果自己实现实际上是非常麻烦的，对应 LISP 的实现如下：</p>
+<pre><code class="language-scheme">(define (after-delay delay action)
+  (add-to-agenda!
+    (+ delay (current-time the-agenda))
+    action
+    the-agenda))
+</code></pre>
+<p>其中 <code>the-agenda</code> 是一个表，其中存放了时间与其对应要执行的行为，
+基于这个表格，我们可以依次记录数值从而得到对应的时序图</p>
+<h3 id="agenda"><a class="header" href="#agenda">Agenda</a></h3>
+<p>上述的系统就是一个事件驱动的模拟器，其中的事件就对应着我们的元件，
+而元件之间通过 <strong><em>Gate</em></strong> 相互联系，通过信号来传递消息，
+而这些事件发发生的顺序则被记录在 <strong><em>Agenda</em></strong> 上</p>
+<p>Agenda 是一个时间和行为队列的有序对构成的列表，类似：</p>
+<pre><code class="language-plaintext">[
+    (1, [do1, do2, do3]),
+    (2, [do4, do5]),
+    (3, [do6, do7, do8]),
+    ...
+]
+</code></pre>
+<p>每一个队列都对应着这个时间点要完成的所有行为，
+队列和 Agenda 的实现还是比较容易的，
+难点在于维护一个唯一的表，要避免冲突以及及时增减</p>
+<blockquote>
+<p>队列可以用一个元组和一个链表实现，
+其中元组的 CAR 指向对应链表的头部，而元组的 CDR 指向链表的尾部，
+Agenda 就是一个链表</p>
+</blockquote>
+<h3 id="可赋值的有序对"><a class="header" href="#可赋值的有序对">可赋值的有序对</a></h3>
+<p><a href="./20241105-sicp-notes-0x02.html#cons-car-cdr">之前</a> 定义的有序对并不太适合引入了赋值后的系统，
+所以这里需要重新定义一种 <code>cons</code>，使其有能力使用 <code>set-car!</code> 和 <code>set-cdr!</code></p>
+<p>一种实现是使用多参数 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>-表达式，即：</p>
+<pre><code class="language-scheme">(define (cons x y)
+  (lambda (m)
+    (m x
+       y
+       (lambda (n) (set! x n))
+       (lambda (n) (set! y n)))))
+
+(define (car x)
+  (x (lambda (a d sa sd) a)))
+
+(define (cdr x)
+  (x (lambda (a d sa sd) d)))
+
+(define (set-car! x n)
+  (x (lambda (a d sa sd) (sa n))))
+
+(define (set-cdr! x n)
+  (x (lambda (a d sa sd) (sd n))))
+</code></pre>
+<p>其中 <code>cons</code> 是一个 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span>-表达式，这个表达式接受一个过程，
+这个过程有四个参数，第一个参数就是 <code>car</code>，第二个参数则是 <code>cdr</code>，
+第三个参数就是对于 <code>car</code> 的赋值，第四个则是对 <code>cdr</code> 的赋值</p>
+<details>
+<summary>Rust 实现</summary>
+<pre><code class="language-rust">enum ConsReturn&lt;A, B&gt; {
+    Car(A),
+    Cdr(B),
+    Nothing,
+}
+
+type ConsApply&lt;A, B&gt; = Box&lt;
+    dyn Fn(
+        std::rc::Rc&lt;std::cell::RefCell&lt;A&gt;&gt;,
+        std::rc::Rc&lt;std::cell::RefCell&lt;B&gt;&gt;,
+        Box&lt;dyn Fn(&amp;A) -&gt; ConsReturn&lt;A, B&gt;&gt;,
+        Box&lt;dyn Fn(&amp;B) -&gt; ConsReturn&lt;A, B&gt;&gt;,
+    ) -&gt; ConsReturn&lt;A, B&gt;,
+&gt;;
+
+type Cons&lt;A, B&gt; = std::rc::Rc&lt;dyn Fn(ConsApply&lt;A, B&gt;) -&gt; ConsReturn&lt;A, B&gt;&gt;;
+
+fn cons&lt;A: Clone + 'static, B: Clone + 'static&gt;(x: A, y: B) -&gt; Cons&lt;A, B&gt; {
+    let ref_x = std::rc::Rc::new(std::cell::RefCell::new(x.clone()));
+    let ref_y = std::rc::Rc::new(std::cell::RefCell::new(y.clone()));
+    std::rc::Rc::new(move |m: ConsApply&lt;A, B&gt;| {
+        m(
+            ref_x.clone(),
+            ref_y.clone(),
+            Box::new({
+                let x = ref_x.clone();
+                move |n: &amp;A| {
+                    *x.borrow_mut() = n.clone();
+                    ConsReturn::Nothing
+                }
+            }),
+            Box::new({
+                let y = ref_y.clone();
+                move |n: &amp;B| {
+                    *y.borrow_mut() = n.clone();
+                    ConsReturn::Nothing
+                }
+            }),
+        )
+    })
+}
+
+fn car&lt;A: Clone, B&gt;(cons: Cons&lt;A, B&gt;) -&gt; A {
+    match cons(Box::new(|a, _d, _sa, _sd| {
+        ConsReturn::Car(a.borrow().clone())
+    })) {
+        ConsReturn::Car(a) =&gt; a,
+        _ =&gt; panic!("cannot access car"),
+    }
+}
+
+fn cdr&lt;A, B: Clone&gt;(cons: Cons&lt;A, B&gt;) -&gt; B {
+    match cons(Box::new(|_a, d, _sa, _sd| {
+        ConsReturn::Cdr(d.borrow().clone())
+    })) {
+        ConsReturn::Cdr(d) =&gt; d,
+        _ =&gt; panic!("cannot access cdr"),
+    }
+}
+
+fn print_cons&lt;A, B&gt;(cons: &amp;Cons&lt;A, B&gt;)
+where
+    A: Clone + std::fmt::Display + 'static,
+    B: Clone + std::fmt::Display + 'static,
+{
+    let a = car(cons.clone());
+    let d = cdr(cons.clone());
+    println!("({}. {})", a, d);
+}
+
+fn set_car&lt;A: Clone + 'static, B&gt;(cons: Cons&lt;A, B&gt;, n: &amp;A) {
+    let n_clone = n.clone();
+    match cons(Box::new(move |_a, _d, sa, _sd| sa(&amp;n_clone))) {
+        ConsReturn::Nothing =&gt; (),
+        _ =&gt; panic!("set car failed"),
+    }
+}
+
+fn set_cdr&lt;A, B: Clone + 'static&gt;(cons: Cons&lt;A, B&gt;, n: &amp;B) {
+    let n_clone = n.clone();
+    match cons(Box::new(move |_a, _d, _sa, sd| sd(&amp;n_clone))) {
+        ConsReturn::Nothing =&gt; (),
+        _ =&gt; panic!("set cdr failed"),
+    }
+}
+
+fn main() {
+    let c = cons(10, 20);
+    print_cons(&amp;c);
+    // =&gt; (10 . 20)
+    set_car(c.clone(), &amp;20);
+    print_cons(&amp;c);
+    // =&gt; (20 . 20)
+    set_cdr(c.clone(), &amp;90);
+    print_cons(&amp;c);
+    // =&gt; (20 . 90)
+}</code></pre>
+</details>
+<hr />
+<p>这节课很好的展示了副作用的使用，
+副作用虽然会引起各种错误，但也为我们提供了一种能力来模拟实现世界，
+下一节会介绍并行计算的技巧，即流操作</p>
+<hr />
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>-约归.Wikipedia [DB/OL].(2025-02-27)[2025-03-17].
+<a href="https://en.wikipedia.org/wiki/Lambda_calculus#%CE%B1-conversion">https://en.wikipedia.org/wiki/Lambda_calculus#α-conversion</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>作用域.Wikipedia [DB/OL].(2025-2-13)[2025-03-17].
+<a href="https://en.wikipedia.org/wiki/Scope_(computer_science)">https://en.wikipedia.org/wiki/Scope_(computer_science)</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>栈帧.Wikipedia [DB/OL].(2024-10-02)[2025-03-17].
+<a href="https://en.wikipedia.org/wiki/Call_stack#Stack_and_frame_pointers">https://en.wikipedia.org/wiki/Call_stack#Stack_and_frame_pointers</a></p>
+</div>
+</main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/rust/20250316-sicp-notes-0x04.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/sagemath/index.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/rust/20250316-sicp-notes-0x04.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/sagemath/index.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>
