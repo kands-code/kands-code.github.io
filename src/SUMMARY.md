@@ -16,6 +16,7 @@
   - [SICP 笔记 - 0x02](./notes/rust/20241105-sicp-notes-0x02.md)
   - [SICP 笔记 - 0x03](./notes/rust/20250225-sicp-notes-0x03.md)
   - [SICP 笔记 - 0x04](./notes/rust/20250316-sicp-notes-0x04.md)
+  - [SICP 笔记 - 0x05](./notes/rust/20250317-sicp-notes-0x05.md)
 - [SageMath](./notes/sagemath/index.md)
   - [安装 SageMath](./notes/sagemath/20240829-sagemath-0x00.md)
   - [SageMath 基本运算与函数](./notes/sagemath/20240830-sagemath-0x01.md)
