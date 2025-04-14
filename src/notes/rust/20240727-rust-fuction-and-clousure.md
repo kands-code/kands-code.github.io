@@ -104,8 +104,6 @@ Rust 的函数和闭包就是两种东西，但是我认为应该是可以变成
 
 ~~Rust 不这样设计一定有它自己的理由~~
 
----
-
 [^1]:
     Closure types.The Rust Reference \[DB/OL\].(2021-07-27)[2024-07-27].
     <https://doc.rust-lang.org/reference/types/closure.html>

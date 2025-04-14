@@ -618,8 +618,6 @@ plot_histogram(answer)
 
 吐槽一句，**IBM** 这个 API 是真的难等，排队好慢
 
----
-
 [^1]:
     David, D., & Richard, J.. Rapid solution of problems by quantum computation\[J/OL\]. Proc. R. Soc. London A - Math. Phys. Sci.
     1992, 439(1907): 553–558 [2022-11-11]. [DOI:10.1098/rspa.1992.0167](https://doi.org/10.1098/rspa.1992.0167)

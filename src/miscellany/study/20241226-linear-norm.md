@@ -158,8 +158,6 @@ $$
 
 > It works!
 
----
-
 [^1]:
     厄米矩阵.Wikipedia \[DB/OL\].(2024-11-10)\[2024-12-26\].
     <https://en.wikipedia.org/wiki/Hermitian_matrix#Spectral_properties>

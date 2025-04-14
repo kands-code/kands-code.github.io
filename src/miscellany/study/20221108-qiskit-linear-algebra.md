@@ -417,8 +417,6 @@ $$
 
 ![qubit gate](../../assets/qiskit-linear-algebra-pic04.png)
 
----
-
 [^1]:
     Qiskit: v1.2.0\[CP/OL\].(2024-08-16)\[2022-11-08].
     <https://github.com/Qiskit/qiskit>
