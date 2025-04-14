@@ -4,7 +4,7 @@
     class="rust" 
     dir="ltr"> 
     <head>
-        <title>SageMath 代数初步 - Kevin Stephen&#x27;s Blogs</title> 
+        <title>SICP 笔记 - ex01 - Kevin Stephen&#x27;s Blogs</title> 
         <meta charset="UTF-8">
         <meta name="description" content="找到属于自己的光">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -179,7 +179,7 @@
                                 <i id="git-repository-button"
                                     class="fa fa-github"></i>
                             </a>
-                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/sagemath/20240831-sagemath-0x03.md"
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20250414-sicp-notes-ex01.md"
                                 title="Suggest an edit"
                                 aria-label="Suggest an edit">
                                 <i id="git-edit-button" class="fa fa-edit"></i>
@@ -215,186 +215,135 @@
 
                     <div id="content" class="content">
                         <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="sagemath-代数初步"><a class="header" href="#sagemath-代数初步">SageMath 代数初步</a></h1>
-<p class="archive-time">archive time: 2024-08-31</p>
-<p class="sp-comment">
-因为 SageMath 结合了许多工具，
-所以计算简单代数还是非常轻松的
-</p>
-<p>在 SageMath 中，如果想使用符号变量，
-例如数学上常见的 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>，<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>，<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span>，<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span></span></span></span> 这些，
-可以使用 <code>var()</code> 函数定义</p>
-<pre><code class="language-python">x, y, z, u = var("x, y, z, u")
+<h1 id="sicp-笔记---ex01"><a class="header" href="#sicp-笔记---ex01">SICP 笔记 - ex01</a></h1>
+<p class="archive-time">archive time: 2025-04-14</p>
+<p class="sp-comment">也算是了结了自己的一个心事吧</p>
+<ul>
+<li><a href="#%E7%95%AA%E5%A4%96">番外</a></li>
+<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a>
+<ul>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E5%85%83%E7%B4%A0">基本元素</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95">基本语法</a></li>
+</ul>
+</li>
+<li><a href="#%E5%90%8E%E8%AE%B0">后记</a></li>
+</ul>
+<h2 id="番外"><a class="header" href="#番外">番外</a></h2>
+<p>这一篇博客是 Rust 写 SICP 的番外，也就是具体课程内容之外的事情</p>
+<p>那么这篇番外要说什么呢？</p>
+<p>嗯哼，那就是介绍一下自己设计<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>的语言，<a href="https://github.com/kands-code/rswk/tree/repo-src/ksl"><strong><em>KSL</em></strong></a>！</p>
+<p>KSL 这个名字，<em>L</em> 很好理解，就是 Language，而 <em>KS</em> 则是我的名字的两个部分的首字母拼接而成，嘛，并没有太多其他含义</p>
+<h2 id="介绍"><a class="header" href="#介绍">介绍</a></h2>
+<p>我们先来看一段 KSL 代码吧，下面的代码展示的是通过函数式和命令式两种方式来求 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">13</span><span class="mclose">!</span></span></span></span> 的过程：</p>
+<pre><code class="language-ksl">(* use function *)
+Set[Factorial, Fun[{n},
+  Block[
+    Set[Factorial', Fun[{n, acc},
+      If[Less[n, 0],
+        -1,
+        If[Eq[n, 0],
+          acc,
+          Factorial'[Sub[n, 1], Mul[acc, n]]]]]],
+    Factorial'[n, 1]]]];
+Print[Factorial[13]];
+
+(*
+  use vairable
+*)
+
+Set[n, 13];
+Set[r, 1];
+While[Greater[n, 1], {Set[r, Mul[r, n]], Set[n, Sub[n, 1]]}]; r
 </code></pre>
-<p>其中 <code>var()</code> 函数接受一个字符串，字符串内是你想要用的符号变量，
-可以用空格或者逗号分隔，返回一个符号变量元组，
-分别对应你要的那些变量</p>
-<p>如果想要查看已经定义了哪些变量，可以使用 <code>vars()</code> 函数</p>
-<pre><code class="language-python">vars()
-# =&gt; omit
+<p>乍一看，这不就是 Wolfram<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup> 嘛！，但是再一看就会发现：
+“嗯？怎么函数名可以使用单引号 <code>'</code>，定义匿名函数怎么是使用 <code>Fun</code>，为什么没有哪些常见的二元运算符？”</p>
+<p>KSL 和 Wolfram 像的地方除了使用方括号调用函数以及使用花括号表示列表，
+另外 KSL 的注释也是使用了 <code>(*</code> 和 <code>*)</code> 作为起始，以支持多行注释<sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup>，
+其他地方就完全不是 Wolfram 了，更像是改了括号的 LISP</p>
+<h3 id="基本元素"><a class="header" href="#基本元素">基本元素</a></h3>
+<p>KSL 目前有 11 种元素类型，分别是：</p>
+<ul>
+<li>Unit：空元素，一般是函数返回值，要自己创建，需要使用 <code>Unit[]</code> 内建函数</li>
+<li>Module：模块元素，包含了来自其他文件的环境信息，通过 <code>Load</code> 内建函数获得</li>
+<li>Identity：符号或者是标识符，用于定义变量和绑定临时量，例如 <code>x</code>，<code>Factorial'</code></li>
+<li>Atom：原子，就是各种标签，或者是字面值，例如 <code>#any_tags</code>，<code>#isn't</code></li>
+<li>String: 字符串，就是字符串，可以索引，也可以有子字符串，例如 <code>"hello?"</code></li>
+<li>Number：数字类型，默认就是 <code>f64</code>，后续可能会接入 <a href="https://github.com/kands-code/rmatrix"><strong>RMatrix</strong></a> 的数字体系</li>
+<li>Matrix：矩阵，来自 <strong>RMatrix</strong>，是 <code>Matrix&lt;Double&gt;</code> 类型，有基本矩阵操作，通过 <code>Matrix</code> 内建函数构建</li>
+<li>List：列表，这个就很常见了，可以通过 <code>{}</code> 构建，例如 <code>{1, 2, 3, 4}</code>，还可以使用 <code>Range</code> 内建函数构建</li>
+<li>Lambda：匿名函数，这个是作为一个 Lambda 对象存储的，函数除了 <em>Builtin</em> 之外都是 Lambda，可以使用 <code>Fun</code> 内建函数构建</li>
+<li>Builtin：内建函数，提供最基本功能，目前一共有 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">60</span></span></span></span> 个</li>
+<li>Apply：调用类型，即函数调用对象</li>
+</ul>
+<p>其中最有特色的就是这个矩阵类型了，因为是自家的东西嘛！</p>
+<p>其次就是字符串，因为我偷了一点懒，KSL 中的字符串是两个双引号中的 <strong>所有</strong> 字符，包括换行符号，
+但是没法输入转义字符，不过也不太需要，换行可以使用手动换行，特殊字符除了双引号都会直接使用</p>
+<h3 id="基本语法"><a class="header" href="#基本语法">基本语法</a></h3>
+<p>现在来看一下 KSL 该如何使用</p>
+<p>首先就是变量，要定义变量，可以使用 <code>Set</code> 内建函数，当然，要更新变量的值也是这个函数，例如：</p>
+<pre><code class="language-ksl">Set[n, 2];
+Print[n]; (* =&gt; 2 *)
+Set[n, 4];
+Print[n]; (* =&gt; 4 *)
 </code></pre>
-<blockquote>
-<p>注意：在 SageMath 10.4 和 10.5.beta2 版本中，
-第一次使用 <code>vars()</code> 会有 <code>DeprecationWarning</code>，
-这是正常现象</p>
-</blockquote>
-<h2 id="解方程"><a class="header" href="#解方程">解方程</a></h2>
-<h3 id="精确解"><a class="header" href="#精确解">精确解</a></h3>
-<p>如果想要获得一个方程的精确解，可以尝试使用 <code>solve()</code> 函数</p>
-<pre><code class="language-python">x = var("x")
-solve(x^2 + 3*x + 2 == 0, x)
-# =&gt; [x == -2, x == -1]
+<p>其中内建函数不能被覆盖，也就是重新定义，但是可以将内建函数绑定到其他符号上，例如：</p>
+<pre><code class="language-ksl">Set[f, Print];
+f[13]; (* =&gt; 13 *)
 </code></pre>
-<p><code>solve()</code> 函数的第一个参数是要求解的方程，也可以是一个表达式，
-默认求解表达式等于 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> 的解，即 <code>expr == 0</code></p>
-<p>后续参数分别是要求解的符号变量和一些参数，例如 <code>solution_dict</code>：</p>
-<pre><code class="language-python">x = var("x")
-solve(x^2 + 3*x + 2, x, solution_dict=True)
-# =&gt; [{x: -2}, {x: -1}]
+<p>加减乘除都是使用内建函数，对应 <code>Add</code>，<code>Sub</code>，<code>Mul</code> 和 <code>Div</code>，
+除此之外还有 <code>Ln</code> 和 <code>Exp</code> 来实现指数和对数运算，
+也有最基本的三角函数 <code>Sin</code>，<code>Cos</code> 和 <code>Tan</code></p>
+<p>对于两个元素，最基本的操作是比较是否相同，如果相同，那么将返回 <code>#t</code>，即 True，不相同则是 <code>#f</code>，即 <code>False</code>，
+特别的，对于数字类型，还可以比较大小，而对于 <code>#t</code> 和 <code>#f</code>，还可以使用基本逻辑运算内建函数 <code>And</code>，<code>Or</code>，<code>Not</code> 和 <code>Xor</code></p>
+<p>对于函数定义，可以将 <code>Set</code> 和 <code>Fun</code> 联合使用，
+其中 <code>Fun</code> 第一个参数是一个形参列表，表示这个函数将会接受的参数，而后则是一个函数调用</p>
+<p>在定义过程中，函数并不会被求值，这就意味着函数是可递归的，在上面的例子中也展现了这一点</p>
+<p>要执行多条语句，除了可以使用 <code>Block</code> 内建函数来联合表达式，还可以使用列表</p>
+<p>对于列表和 <code>Block</code>，都会按照顺序从前往后执行求值，区别就在于 <code>Block</code> 不会修改当前的环境，而列表不保证</p>
+<pre><code class="language-ksl">Block[Set[x, 4], Add[x, 1]]; (* =&gt; 5 *)
+Has[x]; (* =&gt; #f *)
+
+{Set[x, 4], Add[x, 1]}; (* =&gt; 5 *)
+Has[x]; (* =&gt; #t *)
 </code></pre>
-<p>得到的解可以是符号表达式：</p>
-<pre><code class="language-python">x, a, b, c = var("x, a, b, c")
-solve(a*x^2 + b*x + c == 0, x)
-# =&gt;
-# [x == -1/2*(b + sqrt(b^2 - 4*a*c))/a,
-#  x == -1/2*(b - sqrt(b^2 - 4*a*c))/a]
+<p>在这里 <code>Has</code> 是一个用于判断某个符号是否已经绑定有值了， <code>Block</code> 不会泄漏 <code>x</code>，但是列表会</p>
+<p>最基本的控制流有三个，<code>If</code>，<code>Do</code> 和 <code>While</code>，使用例子如下：</p>
+<pre><code class="language-ksl">If[#t, 2, 1]; (* =&gt; 2 *)
+Set[x, 0];
+Do[Set[x, Add[x, n]], n, Range[0, 2, 10]];
+Print[x]; (* =&gt; 30 *)
+While[Greater[x, 10], {Print[x], Set[x, Sub[x, 5]]}];
+(* =&gt;
+  30
+  25
+  20
+  15
+*)
 </code></pre>
-<p>方程组也可以求解：</p>
-<pre><code class="language-python">x, y, p, q = var("x, y, p, q")
-eq1 = p + q == 9
-eq2 = p * x + q * y == -6
-eq3 = p * x^2 + q*y^2 == 24
-solve([eq1, eq2, eq3, p == 1], p, q, x, y, solution_dict=True)
-# =&gt;
-# [{p: 1, q: 8, x: -4/3*sqrt(10) - 2/3, y: 1/6*sqrt(10) - 2/3},
-#  {p: 1, q: 8, x: 4/3*sqrt(10) - 2/3, y: -1/6*sqrt(10) - 2/3}]
-</code></pre>
-<p>如果想要数值解，可以使用 列表推导式<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup> 来转换：</p>
-<pre><code class="language-python">x, y, p, q = var("x, y, p, q")
-eq1 = p + q == 9
-eq2 = p * x + q * y == -6
-eq3 = p * x^2 + q*y^2 == 24
-solns = solve([eq1, eq2, eq3, p == 1], p, q, x, y, solution_dict=True)
-[(
-    s[p].n(digits=8),
-    s[q].n(digits=8),
-    s[x].n(digits=8),
-    s[y].n(digits=8)
-) for s in solns]
-# =&gt;
-# [(1.0000000, 8.0000000, -4.8830369, -0.13962039),
-#  (1.0000000, 8.0000000, 3.5497035, -1.1937129)]
-</code></pre>
-<h3 id="数值解"><a class="header" href="#数值解">数值解</a></h3>
-<p>在实际情况下，很多方程实际上是很难求得精确解的，甚至没有精确解，
-这个情况下我们就需要考虑求解方程的数值解，例如：</p>
-<pre><code class="language-python">t = var("t")
-solve(cos(t) == sin(t), t)
-# =&gt; [sin(t) == cos(t)]
-</code></pre>
-<p>上面这个例子中，<code>t</code> 的精确解就无法很好的求出来，
-我们可以看看函数的图像：</p>
-<pre><code class="language-python">plot(cos(t) - sin(t), (t, -pi, pi))
-</code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x03-pic01.png" width="64%" alt="函数图像-01">
-</div>
-<p>我们发现在 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span> 和 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">−</span><span class="mord">2</span><span class="mclose">)</span></span></span></span> 这两个区间内是有解的，
-所以我们就可以尝试使用 <code>find_root()</code> 函数来求解</p>
-<pre><code class="language-python">t = var("t")
-(find_root(cos(t) == sin(t), -3, -1),
- find_root(cos(t) == sin(t), 0, 1))
-# =&gt; (-2.356194490192345, 0.7853981633974483)
-</code></pre>
-<p>只不过要注意，<code>find_root()</code> 只能用于求解一元方程，并且只会返回一个解，
-参数分别是 <strong>方程</strong>，<strong>下界</strong>，<strong>上界</strong> 以及其他参数，例如 <code>full_output</code></p>
-<h2 id="微积分"><a class="header" href="#微积分">微积分</a></h2>
-<p>对于函数的微分和积分，SageMath 自然也是不在话下的</p>
-<p>一般可以通过 <code>diff()</code> 函数求解函数微分</p>
-<pre><code class="language-python">f(x, y) = x^2 + 17*y^2
-(diff(f, x), f.diff(y))
-# =&gt; ((x, y) |--&gt; 2*x, (x, y) |--&gt; 34*y)
-</code></pre>
-<p><code>diff()</code> 函数的参数分别是函数本身，要对哪个变量求微分，以及求多少阶微分</p>
-<pre><code class="language-python">t = var("t")
-f = cos(t)
-diff(f, t, 2)
-# =&gt; -cos(t)
-</code></pre>
-<p>而积分和定积分都是可以通过 <code>integral()</code> 函数求解：</p>
-<pre><code class="language-python">(integral(x * sin(x^2), x),
- integral(x / (x^2 + 1), x, 0, 1))
-# =&gt; (-1/2*cos(x^2), 1/2*log(2))
-</code></pre>
-<p>对于常见的函数拆分，可以使用 <code>partial_fraction()</code> 函数完成：</p>
-<pre><code class="language-python">(1 / (x^2 - 1)).partial_fraction(x)
-# =&gt; -1/2/(x + 1) + 1/2/(x - 1)
-</code></pre>
-<h2 id="求解微分方程"><a class="header" href="#求解微分方程">求解微分方程</a></h2>
-<p>微分方程是在实际科学问题中经常需要求解的问题，
-但是往往又很难直接求解，所以就出现了很多求解微分方程的方法，
-例如 拉普拉斯变换 和 欧拉法求数值解</p>
-<p>在 SageMath 中，对于简单的微分方程，可以通过 <code>desolve()</code> 函数求解</p>
-<pre><code class="language-python">t = var("t")
-p = function("p")(t)
-de = diff(p, t) == (2.35 / 100) * p
-desolve(de, [p, t])
-# =&gt; _C*e^(47/2000*t)
-</code></pre>
-<p>因为 <code>desolve()</code> 默认情况下是 SageMath 调用 Maxima<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup> 来求解的，
-可以求解一阶和二阶常微分方程，包括对 <strong>初始值问题</strong> 和 <strong>边界问题</strong> 两种方程的求解，
-所以输出格式和通常的 SageMath 输出不太一样，一般通过 <code>_C</code> 表示任意常量</p>
-<p>对于 初始值 和 边界，可以通过 <code>ics</code> 参数指定，
-其中参数的值分别为 <code>[x0, f(x0)]</code>，<code>[x0, f(x0), f'(x0)]</code> 以及 <code>[x0, f(x0), x1, f(x1)]</code> 这三种</p>
-<p>我们还可以尝试使用 <code>desolve_laplace()</code> 来使用 拉普拉斯变换 求解：</p>
-<pre><code class="language-python">t = var("t")
-p = function("p")(t)
-de = diff(p, t) == (2.35 / 100) * p
-desolve_laplace(de, [p, t])
-# =&gt; e^(47/2000*t)*p(0)
-</code></pre>
-<p>类似的 <code>desolve_laplace()</code> 也可以通过 <code>ics</code> 来指定初始条件或者边界，
-你也可以通过 <code>laplace()</code> 和 <code>inverse_laplace()</code> 来求解</p>
-<p>而欧拉法可以通过 <code>eulers_method</code> 或者 <code>euler_method_2x2</code> 来计算</p>
-<p>基于 PARI/GP<sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup>，GAP<sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">4</a></sup>，以及 Maxima，
-SageMath 中有许多 <a href="https://doc.sagemath.org/html/en/reference/functions/sage/functions/orthogonal_polys.html"><strong>正交多项式</strong></a>
-以及 <a href="https://doc.sagemath.org/html/en/reference/functions/index.html"><strong>特殊函数</strong></a>，例如 <strong>贝塞尔函数</strong> 等等</p>
-<pre><code class="language-python">x = polygen(QQ, "x")
-bessel_I(1, 1).n(digits=32)
-# =&gt; 0.56515910399248502720769602760986
-</code></pre>
-<p>但是 SageMath 目前只是包装了这些特殊函数的数值计算接口，
-对于符号计算，仍然需要直接调用对应的接口，例如 Maxima：</p>
-<pre><code class="language-python">(maxima.eval("f:bessel_y(v, w)"),
- maxima.eval("diff(f, w)"))
-# =&gt;
-# ('bessel_y(v,w)',
-#  '(bessel_y(v-1,w)-bessel_y(v+1,w))/2')
-</code></pre>
-<p>上述代码展示了通过 <code>maxima</code> 调用 Maxima，先定义了一个函数 <code>f</code> 是 <code>bessel_y(v, w)</code>，
-然后在这个函数 <code>f</code> 上对 <code>w</code> 求一阶偏导</p>
-<p>有关向量微积分可以参考 <a href="https://doc.sagemath.org/html/en/thematic_tutorials/vector_calculus.html">这个教程</a></p>
+<p>注意，<code>Do</code> 和 <code>While</code> 都会返回求值部分最后的结果，
+即 <code>Do[Set[x, Add[x, n]], n, Range[0, 2, 10]]</code> 会返回 <code>()</code>，
+而 <code>While[Greater[x, 10], {Print[x], Set[x, Sub[x, 5]]}]</code> 会返回 <code>{(), ()}</code></p>
+<p>一个脚本文件中执行多条指令可以使用分号分隔，这点在 Wolfram 也是如此，
+但是 KSL 的分号需要且仅能用于分隔每一条表达式，而在 Wolfram 中分号还有更多其他用处</p>
+<p>大概的语法就就是如此，非常简单，大部分功能都是通过内建函数来直接提供的，这算是作弊了，但是本来就是解释型语言，嘛</p>
 <h2 id="后记"><a class="header" href="#后记">后记</a></h2>
-<p>SageMath 作为一个 CAS，有着很好的符号计算和数值计算能力，
-同时配合 Jupyter Notebook 和 Jupyter Lab 有了不错的交互界面，
-但是在细节方面，以及可用性上，还是有待打磨</p>
+<p>这门语言实际上是我在大概两年半前就已经在构思了，但是中间总是有各种事情干扰，要么没有时间做，要么就忘记有这回事了</p>
+<p>也就最近闲下来了，突然想到我还要做一门语言，再加上 SICP 课程内容中也提及了解释器该如何写，我这个 KSL 算是课后实践吧</p>
+<p>不管怎样，KSL 目前还属于原型状态，代码没有很好注释，有一些功能还待添加，后续应该会变得更加正式一些</p>
 <hr>
 <ol class="footnote-definition"><li id="footnote-1">
-<p>列表推导式.Python Docs [DB/OL].(2024-08-29)[2024-08-31].
-<a href="https://docs.python.org/zh-cn/3/tutorial/datastructures.html#list-comprehensions">https://docs.python.org/zh-cn/3/tutorial/datastructures.html#list-comprehensions</a> <a href="#fr-1-1">↩</a></p>
+<p>基本语法并非完全自己设计，有参考 Wolfram 和 LISP，但是其他部分都是自己独立实现的 <a href="#fr-1-1">↩</a></p>
 </li>
 <li id="footnote-2">
-<p>Maxima: v5.47 [CP/OL].(2023-05-31)[2024-08-31].<a href="https://maxima.sourceforge.io/zh/index.html">https://maxima.sourceforge.io/zh/index.html</a> <a href="#fr-2-1">↩</a></p>
+<p>Wolfram Language.Wikipedia [DB/OL].(2025-04-11)[2025-04-14].
+<a href="https://en.wikipedia.org/wiki/Wolfram_Language">https://en.wikipedia.org/wiki/Wolfram_Language</a> <a href="#fr-2-1">↩</a></p>
 </li>
 <li id="footnote-3">
-<p>Pari/GP: v2.15.5 [CP/OL].(2024-02-11)[2024-08-31].<a href="https://pari.math.u-bordeaux.fr">https://pari.math.u-bordeaux.fr</a> <a href="#fr-3-1">↩</a></p>
-</li>
-<li id="footnote-4">
-<p>GAP: v4.13.1 [CP/OL].(2024-06-11)[2024-08-31].<a href="https://www.gap-system.org">https://www.gap-system.org</a> <a href="#fr-4-1">↩</a></p>
+<p>多行注释目前在 REPL 中不能使用，在脚本中可以正常使用 <a href="#fr-3-1">↩</a></p>
 </li>
 </ol></main>
                         <nav class="nav-wrapper" aria-label="Page navigation">
-                            <a rel="prev" href="../../notes/sagemath/20240831-sagemath-0x02.html"
+                            <a rel="prev" href="../../notes/rust/20250321-sicp-notes-0x07.html"
                                 class="mobile-nav-chapters previous"
                                 title="Previous chapter"
                                 aria-label="Previous chapter"
@@ -402,7 +351,7 @@ bessel_I(1, 1).n(digits=32)
                                 <i class="fa fa-angle-left"></i>
                             </a>
                             <a rel="next prefetch"
-                                href="../../notes/sagemath/20240901-sagemath-0x04.html"
+                                href="../../notes/sagemath/index.html"
                                 class="mobile-nav-chapters next"
                                 title="Next chapter" aria-label="Next chapter"
                                 aria-keyshortcuts="Right">
@@ -415,12 +364,12 @@ bessel_I(1, 1).n(digits=32)
                 <div class="giscus-comment">
                 </div>
                 <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../notes/sagemath/20240831-sagemath-0x02.html"
+                    <a rel="prev" href="../../notes/rust/20250321-sicp-notes-0x07.html"
                         class="nav-chapters previous" title="Previous chapter"
                         aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next prefetch" href="../../notes/sagemath/20240901-sagemath-0x04.html"
+                    <a rel="next prefetch" href="../../notes/sagemath/index.html"
                         class="nav-chapters next" title="Next chapter"
                         aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
