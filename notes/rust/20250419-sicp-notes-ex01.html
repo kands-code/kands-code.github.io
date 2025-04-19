@@ -1,0 +1,684 @@
+<!DOCTYPE HTML>
+<html
+    lang="zh-Hans" 
+    class="rust" 
+    dir="ltr"> 
+    <head>
+        <title>SICP 笔记 - ex01 - Kevin Stephen&#x27;s Blogs</title> 
+        <meta charset="UTF-8">
+        <meta name="description" content="找到属于自己的光">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+         
+        <link rel="icon" href="../../favicon.svg">
+         
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+
+        <link rel="stylesheet"
+            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <link rel="stylesheet" href="../../theme/utils.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+        <div id="body-container">
+            <script>
+                // 获取 root 路径
+                var path_to_root = "../../";
+                // 获取默认主题
+                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "ayu"
+                    : "rust";
+            </script>
+            <script>
+                try {
+                    var theme = localStorage.getItem("mdbook-theme");
+                    var sidebar = localStorage.getItem("mdbook-sidebar");
+
+                    if (theme.startsWith('"') && theme.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-theme",
+                            theme.slice(1, theme.length - 1).trim()
+                        );
+                    }
+
+                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                        localStorage.setItem(
+                            "mdbook-sidebar",
+                            sidebar.slice(1, sidebar.length - 1).trim()
+                        );
+                    }
+                } catch (e) {}
+            </script>
+            <script>
+                var theme;
+                try {
+                    theme = localStorage.getItem("mdbook-theme");
+                } catch (e) {}
+                if (theme === null || theme === undefined) {
+                    theme = default_theme;
+                }
+                var html = document.querySelector("html");
+                html.classList.remove("rust");
+                html.classList.add(theme);
+                var body = document.querySelector("body");
+                body.classList.remove("no-js");
+                body.classList.add("js");
+            </script>
+
+            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+            <script>
+                var body = document.querySelector("body");
+                var sidebar = null;
+                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+                if (document.body.clientWidth >= 1080) {
+                try {
+                    sidebar = localStorage.getItem("mdbook-sidebar");
+                } catch (e) {}
+                    sidebar = sidebar || "visible";
+                } else {
+                    sidebar = "hidden";
+                }
+                sidebar_toggle.checked = sidebar === "visible";
+                body.classList.remove("sidebar-visible");
+                body.classList.add("sidebar-" + sidebar);
+            </script>
+
+            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+                <div class="sidebar-scrollbox">
+                    <ol class="chapter"><li class="chapter-item "><a href="init.html">Init</a></li><li class="chapter-item "><a href="about.html">About</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item "><a href="notes/haskell/index.html">Haskell</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="notes/haskell/20241030-haskell-99-questions-0x01.html">Haskell 99 Questions :: 0x01</a></li><li class="chapter-item "><a href="notes/haskell/20241031-haskell-99-questions-0x02.html">Haskell 99 Questions :: 0x02</a></li><li class="chapter-item "><a href="notes/haskell/20241104-haskell-99-questions-0x03.html">Haskell 99 Questions :: 0x03</a></li><li class="chapter-item "><a href="notes/haskell/20241208-haskell-99-questions-0x04.html">Haskell 99 Questions :: 0x04</a></li></ol></li><li class="chapter-item "><a href="notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="notes/rust/20240727-rust-fuction-and-clousure.html">Rust 中的函数与闭包</a></li><li class="chapter-item "><a href="notes/rust/20241102-sicp-notes-0x01.html">SICP 笔记 - 0x01</a></li><li class="chapter-item "><a href="notes/rust/20241105-sicp-notes-0x02.html">SICP 笔记 - 0x02</a></li><li class="chapter-item "><a href="notes/rust/20250225-sicp-notes-0x03.html">SICP 笔记 - 0x03</a></li><li class="chapter-item "><a href="notes/rust/20250316-sicp-notes-0x04.html">SICP 笔记 - 0x04</a></li><li class="chapter-item "><a href="notes/rust/20250317-sicp-notes-0x05.html">SICP 笔记 - 0x05</a></li><li class="chapter-item "><a href="notes/rust/20250319-sicp-notes-0x06.html">SICP 笔记 - 0x06</a></li><li class="chapter-item "><a href="notes/rust/20250321-sicp-notes-0x07.html">SICP 笔记 - 0x07</a></li><li class="chapter-item "><a href="notes/rust/20250419-sicp-notes-ex01.html">SICP 笔记 - ex01</a></li></ol></li><li class="chapter-item "><a href="notes/sagemath/index.html">SageMath</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="notes/sagemath/20240829-sagemath-0x00.html">安装 SageMath</a></li><li class="chapter-item "><a href="notes/sagemath/20240830-sagemath-0x01.html">SageMath 基本运算与函数</a></li><li class="chapter-item "><a href="notes/sagemath/20240831-sagemath-0x02.html">SageMath 基本语法</a></li><li class="chapter-item "><a href="notes/sagemath/20240831-sagemath-0x03.html">SageMath 代数初步</a></li><li class="chapter-item "><a href="notes/sagemath/20240901-sagemath-0x04.html">SageMath 基本作图</a></li><li class="chapter-item "><a href="notes/sagemath/20240905-sagemath-0x05.html">SageMath 基本代数</a></li><li class="chapter-item "><a href="notes/sagemath/20240906-sagemath-0x06.html">SageMath 多项式</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li><li class="chapter-item "><a href="miscellany/coding/20240727-use-steam-install-windows-applications.html">使用 Steam 安装 Windows 应用</a></li><li class="chapter-item "><a href="miscellany/coding/20241122-meson-for-cpp.html">使用 Meson 构建 Cpp 项目</a></li></ol></li><li class="chapter-item "><a href="miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="miscellany/study/20221108-qiskit-linear-algebra.html">Qiskit 线性代数</a></li><li class="chapter-item "><a href="miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">Qiskit Deutsch-Jozsa 算法</a></li><li class="chapter-item "><a href="miscellany/study/20241222-qr-decomposition.html">计算 QR 分解</a></li><li class="chapter-item "><a href="miscellany/study/20241226-linear-norm.html">向量与矩阵的模</a></li></ol></li><li class="chapter-item "><a href="miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="chapter-item "><a href="miscellany/life/20240404-decadent-life.html">颓废生活</a></li><li class="chapter-item "><a href="miscellany/life/20240721-home-life.html">居家生活</a></li></ol></li></ol>
+                </div>
+                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                    <div class="sidebar-resize-indicator"></div>
+                </div>
+            </nav>
+
+            <script>
+                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
+                sidebarScrollbox.addEventListener(
+                    "click",
+                    function (e) {
+                        if (e.target.tagName === "A") {
+                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
+                        }
+                    },
+                    { passive: true }
+                );
+                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
+                sessionStorage.removeItem("sidebar-scroll");
+                if (sidebarScrollTop) {
+                    // preserve sidebar scroll position when navigating via links within sidebar
+                    sidebarScrollbox.scrollTop = sidebarScrollTop;
+                } else {
+                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                    var activeSection = document.querySelector("#sidebar .active");
+                    if (activeSection) {
+                        activeSection.scrollIntoView({ block: "center" });
+                    }
+                }
+            </script>
+
+            <div id="page-wrapper" class="page-wrapper">
+                <div class="page">
+                    <div id="menu-bar-hover-placeholder"></div>
+                    <div id="menu-bar" class="menu-bar sticky">
+                        <div class="left-buttons">
+                            <label id="sidebar-toggle" class="icon-button"
+                                for="sidebar-toggle-anchor"
+                                title="Toggle Table of Contents"
+                                aria-label="Toggle Table of Contents"
+                                aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </label>
+                            <button id="theme-toggle" class="icon-button"
+                                type="button" title="Change theme"
+                                aria-label="Change theme" aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup"
+                                aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="light">Light</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme"
+                                        id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem"
+                                        class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            <button id="search-toggle" class="icon-button"
+                                type="button" title="Search. (Shortkey: s)"
+                                aria-label="Toggle Searchbar"
+                                aria-expanded="false" aria-keyshortcuts="S"
+                                aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                        <div class="right-buttons">
+                            <a href="https://github.com/kands-code/kands-code.github.io"
+                                title="Git repository"
+                                aria-label="Git repository">
+                                <i id="git-repository-button"
+                                    class="fa fa-github"></i>
+                            </a>
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20250419-sicp-notes-ex01.md"
+                                title="Suggest an edit"
+                                aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="search-wrapper" class="hidden">
+                        <form id="searchbar-outer" class="searchbar-outer">
+                            <input type="search" id="searchbar" name="searchbar"
+                                placeholder="searching..."
+                                aria-controls="searchresults-outer"
+                                aria-describedby="searchresults-header">
+                        </form>
+                        <div id="searchresults-outer"
+                            class="searchresults-outer hidden">
+                            <div id="searchresults-header"
+                                class="searchresults-header"></div>
+                            <ul id="searchresults">
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                        document
+                            .getElementById("sidebar-toggle")
+                            .setAttribute("aria-expanded", sidebar === "visible");
+                        document
+                            .getElementById("sidebar")
+                            .setAttribute("aria-hidden", sidebar !== "visible");
+                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+                        });
+                    </script>
+
+                    <div id="content" class="content">
+                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="sicp-笔记---ex01"><a class="header" href="#sicp-笔记---ex01">SICP 笔记 - ex01</a></h1>
+<p class="archive-time">archive time: 2025-04-19</p>
+<p class="sp-comment">也算是了结了自己的一个心事吧</p>
+<ul>
+<li><a href="#%E7%95%AA%E5%A4%96">番外</a></li>
+<li><a href="#ksl-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97">KSL 使用指南</a>
+<ul>
+<li><a href="#%E8%AF%AD%E6%B3%95%E7%89%B9%E7%82%B9">语法特点</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E5%85%83%E7%B4%A0">基本元素</a></li>
+<li><a href="#%E6%8E%A7%E5%88%B6%E6%B5%81">控制流</a></li>
+<li><a href="#%E5%87%BD%E6%95%B0%E5%AE%9A%E4%B9%89">函数定义</a></li>
+<li><a href="#%E4%BD%9C%E7%94%A8%E5%9F%9F">作用域</a></li>
+<li><a href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86">错误处理</a></li>
+<li><a href="#%E8%AF%AD%E8%A8%80%E6%8F%92%E4%BB%B6">语言插件</a></li>
+</ul>
+</li>
+<li><a href="#%E5%90%8E%E8%AE%B0">后记</a></li>
+</ul>
+<h2 id="番外"><a class="header" href="#番外">番外</a></h2>
+<p>这一篇博客是 Rust 写 SICP 的番外，也就是具体课程内容之外的事情</p>
+<p>那么这篇番外要说什么呢？</p>
+<p>嗯哼，那就是介绍一下自己设计<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>的语言，<a href="https://github.com/kands-code/rswk/tree/repo-src/ksl"><strong><em>KSL</em></strong></a>！</p>
+<p>KSL 这个名字，<em>L</em> 很好理解，就是 Language，而 <em>KS</em> 则是我的名字的两个部分的首字母拼接而成，非常直白</p>
+<h2 id="ksl-使用指南"><a class="header" href="#ksl-使用指南">KSL 使用指南</a></h2>
+<h3 id="语法特点"><a class="header" href="#语法特点">语法特点</a></h3>
+<p>我们先来看一段 KSL 代码吧，
+下面的代码展示的是分别通过递归函数和循环两种方式来求 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">13</span></span></span></span> 的阶乘的过程：</p>
+<pre><code class="language-ksl">(** 使用递归函数 *)
+Let[Factorial, Fun[{n},
+  Block[
+    Let[Factorial', Fun[{n, acc},
+      If[Less[n, 0],
+        #err,
+        If[Eq[n, 0],
+          acc,
+          Factorial'[Sub[n, 1], Mul[acc, n]]]]]],
+    Factorial'[n, 1]]]];
+Print[Factorial[13]]; (* 打印 6227020800 *)
+
+(** 使用循环 *)
+Print[
+  Block[
+    Let[fac, 1],
+    Do[Let[fac, Mul[fac, n]], n, Range[13, -1, 2]]
+    fac]]; (* 打印 6227020800 *)
+</code></pre>
+<p>如果熟悉 Mathematica 就会发现，这和 Wolfram<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup> 十分相像，但是细看又会发现许多不同</p>
+<p>最重要的一点，那就是 KSL <strong>不支持</strong> 中缀运算符，
+也就是说，哪怕加减乘除这种也要显式使用函数调用，
+所以我对于 KSL 的语法定位是介于 Wolfram 和 LISP 之间 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord text"><span class="mord textrm">—</span></span></span></span></span>
+注释，列表 以及 函数调用 类似 Wolfram，但是使用体验类似 LISP</p>
+<blockquote>
+<p>多行注释目前在 REPL 中不能使用，在脚本中可以正常使用</p>
+</blockquote>
+<h3 id="基本元素"><a class="header" href="#基本元素">基本元素</a></h3>
+<p>KSL 支持的元素类型 <strong>目前</strong> 定义如下：</p>
+<pre><code class="language-rust">pub enum Value {
+    Unit,
+    Module(String, Environment),
+    Identity(String),
+    Atom(String),
+    String(String),
+    Number(f64),
+    List(Vec&lt;Value&gt;),
+    Lambda(Vec&lt;String&gt;, Box&lt;Value&gt;, Environment),
+    Builtin(&amp;'static str),
+    Plugin(String, String),
+    Object(String, Environment),
+    Apply(Vec&lt;Value&gt;, Box&lt;Value&gt;),
+}</code></pre>
+<p>分别对应于：</p>
+<ul>
+<li>
+<p><strong>Unit</strong>: 空类型，一般作为 <code>Print</code> 这种不实际返回值的函数的返回值，显示为 <code>()</code></p>
+</li>
+<li>
+<p><strong>Module</strong>: 模块对象，无法更改，每个模块只能加载一次，<strong>不能重复加载</strong></p>
+<ul>
+<li>模块可以通过 <code>Load</code> 函数加载，例如 <code>Load[ss, "std/string"]</code>，
+这样 <code>ss</code> 就是一个模块对象，对应 <code>"std/string"</code> 模块</li>
+<li>要访问模块中的元素，可以使用 <code>Use</code> 函数，例如 <code>Let[f, Use[ss, StringSplit]]</code>，
+这样 <code>f</code> 与 <code>ss</code> 中的 <code>StringSplit</code> 符号对应的值绑定起来了</li>
+</ul>
+</li>
+<li>
+<p><strong>Identity</strong>: 符号，也就是各种名称，支持数字，英文字母，下划线以及单引号，但是需要字母开头</p>
+</li>
+<li>
+<p><strong>Atom</strong>: 原子，也就是标签或者说字面值，一般用于标记结果的类型，例如 <code>#err</code> 和 <code>#ok</code></p>
+<ul>
+<li>boolean 也是原子，其中 True 对应 <code>#t</code>，而 False 对应 <code>#f</code></li>
+</ul>
+</li>
+<li>
+<p><strong>String</strong>: 字符串，使用双引号标记，字符串默认支持多行，但 <strong>不支持转义字符</strong></p>
+<ul>
+<li>如果需要转义字符，可以使用 <code>#&lt;ascii&gt;</code> 的方式输入，然后通过 <code>Concat</code> 函数拼接，
+例如 要在 <code>"hello, world"</code> 的 <code>,</code> 后插入换行符，可以使用 <code>Concat["hello," #10, "world"]</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Number</strong>: 数字，数字默认使用 <code>f64</code>，如果要判断是否是整数，可以使用 <code>IsInteger</code> 函数</p>
+</li>
+<li>
+<p><strong>List</strong>: 列表，内部使用 <code>Vec&lt;Value&gt;</code> 来存储，使用 <code>{ }</code> 输入，例如 <code>{1, 2}</code></p>
+</li>
+<li>
+<p><strong>Lambda</strong>: 函数对象，除了内置函数和插件函数，所有的函数都是函数对象</p>
+<ul>
+<li>
+<p>获得函数对象可以使用 <code>Fun</code> 函数，例如 <code>Fun[{x}, Add[x, 1]]</code></p>
+</li>
+<li>
+<p>函数对象不能直接调用，例如 <code>Fun[{x}, Add[x, 1]][2]</code> 就是无效的，
+如果需要调用函数对象，可以先将函数对象绑定到某个符号上，
+或者使用 <code>Apply</code> 函数调用，<code>Apply</code> 函数是一个支持变长参数，
+基本语法为 <code>Apply[&lt;function&gt;, ...&lt;args&gt;]</code>，
+例如对于：</p>
+<pre><code>Fun[{x, y}, Mul[Add[x, y], x]]
+</code></pre>
+<p>可以使用：</p>
+<pre><code>Apply[Fun[{x, y}, Mul[Add[x, y], x]], 2, 3]
+</code></pre>
+<p>得到结果 <code>10</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Builtin</strong>: 内置函数，KSL 内部提供的函数</p>
+</li>
+<li>
+<p><strong>Plugin</strong>: 插件函数，通过插件方式加载的函数</p>
+</li>
+<li>
+<p><strong>Object</strong>: 数据对象类型，包含对象类型名称和一个字典</p>
+</li>
+<li>
+<p><strong>Apply</strong>: 函数调用产生的对象</p>
+</li>
+</ul>
+<p>在 KSL 中，值的绑定和更新都是使用 <code>Let</code> 函数，
+例如 <code>Let[a, 1]</code>，那么 <code>a</code> 这个符号就和 <code>1</code> 绑定上了，
+但是如果我再使用 <code>Let[a, "2"]</code>，这时 <code>a</code> 的值就更新为了 <code>"2"</code></p>
+<p>如果想要自己构建类型，简单的可以使用列表，例如 <code>{#ok, 12}</code>，
+复杂的可以使用 <code>Object</code> 函数，然后自己往对象中填充数据，例如：</p>
+<pre><code class="language-ksl">Let[obj, Object[A]];
+
+Let[obj, Set[obj, "key1", 1]];
+Let[obj, Set[obj, "key2", 2]];
+Let[obj, Set[obj, "key3", 3]];
+
+Print[obj]; (* 打印 #(A){key1, key2, key3} *)
+Print[GetType[obj]]; (* 打印 A *)
+Print[{Has[obj, "key1"], Get[obj, "key1"]}]; (* 打印 {#t, 1} *)
+Print[Get[obj, "key2"]]; (* 打印 2 *)
+Print[Get[obj, "key3"]]; (* 打印 3 *)
+</code></pre>
+<h3 id="控制流"><a class="header" href="#控制流">控制流</a></h3>
+<p>在 KSL 中，基本控制流有三种，分别是 <code>If</code>，<code>Do</code> 以及 <code>While</code></p>
+<p><code>If</code> 接受三个参数，第一个参数是一个 boolean，
+第二个参数对应结果是 <code>#t</code> 的情况，
+第三个参数则对应结果是 <code>#f</code> 的情况，例如：</p>
+<pre><code class="language-ksl">Print[If[#t, 2, 3]]; (* 打印 2 *)
+</code></pre>
+<p><code>Do</code> 用于迭代一个列表，一共有三个参数，要执行的表达式，绑定的符号以及列表，例如：</p>
+<pre><code class="language-ksl">Let[x, 0];
+Do[Let[x, Add[x, n]], n, Range[1, 1, 4]];
+Print[x]; (* 输出 10 *)
+</code></pre>
+<p>等价于 Rust 中的：</p>
+<pre><code class="language-rust">let mut x = 0;
+for n in (1..=4).step_by(1) {
+    x = x + n;
+}
+println!("{}", x);</code></pre>
+<p><code>While</code> 接受两个参数，第一个参数是一个 boolean，第二个参数推荐使用列表，但是可以是任意表达式，例如：</p>
+<pre><code class="language-ksl">Let[i, 0];
+While[Less[i, 5], {Print[i], Let[i, Add[i, 1]]}];
+</code></pre>
+<p>等价于 Rust 中的：</p>
+<pre><code class="language-rust">let mut i = 0;
+while i &lt; 5 {
+    println!("{}", i);
+    i = i + 1;
+}</code></pre>
+<p>注意，<code>Do</code> 和 <code>While</code> 都有返回值，返回值是最后一次执行表达式得到的结果</p>
+<h3 id="函数定义"><a class="header" href="#函数定义">函数定义</a></h3>
+<p>在 <a href="#%E5%9F%BA%E6%9C%AC%E5%85%83%E7%B4%A0">基本元素</a> 中提到了，函数除了 Builtin 和 Plugin，其他的都是 Lambda</p>
+<p>Builtin 是语言内提供的，至于 Plugin，在 <a href="#%E8%AF%AD%E8%A8%80%E6%8F%92%E4%BB%B6">语言插件</a> 部分会详细说明如何使用</p>
+<p>Lambda 的定义使用 <code>Fun</code> 函数，下面是一个编写和使用斐波那契函数的示例：</p>
+<pre><code class="language-ksl">Let[Fib, Fun[{n},
+  If[And[IsInteger[n], Greater[n, 0]],
+    Block[
+      Let[Fib', Fun[{n, a, b},
+        If[Eq[n, 0], a,
+          If[Eq[n, 1], b,
+            Fib'[Sub[n, 1], b, Add[a, b]]]]]],
+      Fib'[n, 0, 1]
+  ], #err]]];
+
+Print[Fib[24]];
+</code></pre>
+<p>当然，除了绑定到符号上，还可以作为参数使用，例如：</p>
+<pre><code class="language-ksl">Let[Map, Fun[{f, lst},
+  If[And[IsList[lst],
+    Or[IsLambda[f],
+      Or[IsBuiltin[f], IsPlugin[f]]]],
+    Block[
+      Let[mapped, {}],
+      Do[Let[mapped,
+          Append[mapped, f[element]]],
+        element, lst],
+      mapped
+    ],
+    #err]]];
+
+Print[Map[Fun[{x}, Add[x, 2]], {1, 2, 3}]]; (* 打印 {3, 4, 5} *)
+</code></pre>
+<h3 id="作用域"><a class="header" href="#作用域">作用域</a></h3>
+<p>通过上述代码示例，大家估计发现了，如果想要执行多条语句，可以使用 <code>Block</code> 或者 列表</p>
+<p>但是这两种方式有个非常大的区别，那就是作用域，
+在 Block 中的修改是不会影响到外面环境的，
+但是在 列表 中的修改是会影响的，
+也就是说，<code>Block</code> 开辟了一个新的作用域，但是列表没有</p>
+<p>事实上，只有使用 <code>Block</code> 和 加载模块 以及 构建函数 的时候会开辟新的作用域，
+其他情况下，对于环境的修改都会影响到外部</p>
+<pre><code class="language-ksl">Let[x, 1];
+
+Print[Block[Let[x, 2], x]]; (* 打印 2 *)
+Print[x]; (* 打印 1 *)
+
+Print[{Let[x, 3], x}]; (* 打印 {(), 3} *)
+Print[x]; (* 打印 3 *)
+
+If[Eq[x, 3], Let[x, 4], Let[x, 5]];
+Print[x]; (* 打印 4 *)
+
+Let[addOneToX, Fun[{}, Let[x, Add[x, 1]]]];
+Print[x]; (* 打印 4 *)
+addOneToX[];
+Print[x]; (* 打印 5 *)
+addOneToX[];
+Print[x]; (* 打印 4 *)
+</code></pre>
+<h3 id="错误处理"><a class="header" href="#错误处理">错误处理</a></h3>
+<p>KSL 没有内置的错误处理相关函数，但是提供了 原子，除了可以用作 枚举 外，
+还可以用来展示状态，例如我们可以 <strong>规定</strong> 函数返回的样式是 <code>{#ok, &lt;return&gt;}</code> 或 <code>{#err, &lt;message&gt;}</code>，
+或者如果不想要错误信息，也可以只返回 <code>#err</code></p>
+<p>这样一来，我们可以通过查看返回值是否是列表，
+以及如果是列表，第一个元素是 <code>#ok</code> 还是 <code>#err</code>，
+来判断函数是否正常执行，也算是变相拥有了错误处理的能力</p>
+<h3 id="语言插件"><a class="header" href="#语言插件">语言插件</a></h3>
+<p>作为可用性的最重要的部分，也就是能否调用其他语言已经有的库</p>
+<p>而在这里，由于类型限制，KSL 仅支持调用 Rust 编写的库</p>
+<p>这里作为示例，来展示一下如何调用，我们可以先创建一个 Rust 项目：</p>
+<pre><code class="language-bash">cargo new &lt;lib_name&gt; --lib
+</code></pre>
+<p>其中 <code>&lt;lib_name&gt;</code> 可以替换为任何你想要使用的名称，然后修改项目的 <code>Cargo.toml</code> 添加必要依赖：</p>
+<pre><code class="language-toml">[package]
+name = "example"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "example"
+crate-type = ["lib", "dylib"]
+
+[dependencies]
+ksl = "^0.1.5"
+</code></pre>
+<p>在这里，我创建了一个 <code>example</code> 库，这个库会编译成一个 Rust 动态库，这个库依赖 <code>ksl</code></p>
+<p>然后在 <code>lib.rs</code> 中，编写插件函数：</p>
+<pre><code class="language-rust">use ksl::{Environment, eval::apply::eval_apply, value::Value};
+
+#[unsafe(no_mangle)]
+pub fn hello(args: &amp;[Value], env: &amp;Environment) -&gt; Option&lt;(Value, Environment)&gt; {
+    if let [name] = &amp;args[..] {
+        match eval_apply(name, env) {
+            Some((Value::String(name_string), _)) =&gt; {
+                println!("hello from plugin example, {}!", name_string);
+                Some((Value::Unit, Environment::new()))
+            }
+            Some((e, _)) =&gt; {
+                eprintln!(
+                    concat!(
+                        "Error[example::hello]: ",
+                        "Expected an object, but got `{:?}`."
+                    ),
+                    e
+                );
+                None
+            }
+            None =&gt; {
+                eprintln!(
+                    concat!(
+                        "Error[example::hello]: ",
+                        "Cannot evaluate expression {:?}."
+                    ),
+                    name
+                );
+                None
+            }
+        }
+    } else {
+        eprintln!(
+            concat!(
+                "Error[example::hello]: ",
+                "Only accepts 1 argument, ",
+                "but {} were passed."
+            ),
+            args.len()
+        );
+        None
+    }
+}</code></pre>
+<p>注意，插件函数的类型一定是 <code>fn(&amp;[Value], &amp;Environment) -&gt; Option&lt;(Value, Environment)&gt;</code>，
+并且需要使用 <code>#[unsafe(no_mangle)]</code> 标记，让 KSL 能够找到这个函数</p>
+<p>返回值中，第一个就是这个函数执行的结果，一般如果这个函数不返回任何值，那么就使用 <code>Value::Unit</code>，
+<code>Environment</code> 部分是这个函数修改的环境，比如这个函数会往环境中添加一些绑定，或者会修改现有绑定的内容</p>
+<p>编写好后，使用 <code>cargo build</code>，我们可以得到一个动态库，一般是 <code>&lt;project-root&gt;/target/debug/lib&lt;lib_name&gt;.so</code>，
+其中这个动态库的尾缀会根据操作系统不同而不同，macOS 是 <code>dylib</code>，而 Windows 是 <code>dll</code></p>
+<p>为了让 KSL 能够找到这个动态库，我们可以将这个动态库移动到 <code>&lt;project-root&gt;/lib/</code> 下，然后编写包裹模块：</p>
+<pre><code class="language-ksl">Module["example"];
+
+Plugin[Hello, "example/hello"];
+</code></pre>
+<p>其中 <code>Module</code> 定义了这个 KSL 文件内容是一个模块，模块名是 <code>example</code>，
+其次 <code>Plugin</code> 定义了一个插件函数，函数名称是自定义的，这里叫做 <code>Hello</code>，后面是这个插件对应的“路径”</p>
+<p><code>example/hello</code> 会被拆分为 <code>example</code> 和 <code>hello</code> 两个部分，
+前者是这个动态库的名称，即去掉 <code>lib</code> 前缀和尾缀后的名字，
+后者是这个动态库中函数的名称，这里就是我们 <code>lib.rs</code> 中的 <code>hello</code> 这个函数</p>
+<p>现在我们来尝试使用一下这个模块吧！</p>
+<pre><code class="language-ksl">Load[m_e, "example"];
+
+Apply[Use[m_e, Hello], "Kevin"];
+</code></pre>
+<p>执行后输出如下：</p>
+<pre><code class="language-plaintext">&gt; ksl use_example.ksl
+
+hello from plugin example, Kevin!
+()
+</code></pre>
+<p>可以看到，这个函数被正确调用了！到目前为止这个示例项目的代码结构（去掉 <code>target/</code>)如下：</p>
+<pre><code class="language-plaintext">.
+├── Cargo.lock
+├── Cargo.toml
+├── example.ksl
+├── lib
+│   └── libexample.so
+├── src
+│   └── lib.rs
+└── use_example.ksl
+</code></pre>
+<p>如果你需要加载的插件函数很多，可以分文件编写，例如我想要有一个 <code>test</code> 函数，
+这个函数不接收参数，只打印一个 <code>test</code>，那么可以有：</p>
+<pre><code class="language-rust">use ksl::{Environment, value::Value};
+
+pub(crate) fn test_func_impl(args: &amp;[Value], _env: &amp;Environment) -&gt; Option&lt;(Value, Environment)&gt; {
+    if args.is_empty() {
+        println!("test");
+        Some((Value::Unit, Environment::new()))
+    } else {
+        eprintln!(
+            concat!(
+                "Error[example::test_func]: ",
+                "Only accepts 0 arguments, ",
+                "but {} were passed."
+            ),
+            args.len()
+        );
+        None
+    }
+}</code></pre>
+<p>然后修改 <code>lib.rs</code> 和 <code>example.ksl</code> 将这个函数暴露出来：</p>
+<pre><code class="language-diff">+ mod another;
++ #[unsafe(no_mangle)]
++ pub fn test_func_wrap(args: &amp;[Value], env: &amp;Environment) -&gt; Option&lt;(Value, Environment)&gt; {
++     another::test_func_impl(args, env)
++ }
+</code></pre>
+<pre><code class="language-diff">+ Plugin[Test, "example/test_func_wrap"];
+</code></pre>
+<p>此时，项目结构如下：</p>
+<pre><code class="language-plaintext">.
+├── Cargo.lock
+├── Cargo.toml
+├── example.ksl
+├── lib
+│   └── libexample.so
+├── src
+│   ├── another.rs
+│   └── lib.rs
+└── use_example.ksl
+</code></pre>
+<p>然后编译项目，再在 <code>use_example.ksl</code> 中调用函数：</p>
+<pre><code class="language-ksl">Load[m_e, "example"];
+
+Apply[Use[m_e, Hello], "Kevin"];
+Apply[Use[m_e, Test]];
+</code></pre>
+<p>输出如下：</p>
+<pre><code class="language-plaintext">&gt; ksl use_example.ksl
+
+hello from plugin example, Kevin!
+test
+()
+</code></pre>
+<h2 id="后记"><a class="header" href="#后记">后记</a></h2>
+<p>这门语言实际上是我在大概两年半前就已经在构思了，但是中间总是有各种事情干扰，要么没有时间做，要么就忘记有这回事了</p>
+<p>也就最近闲下来了，突然想到我还要做一门语言，再加上 SICP 课程内容中也提及了解释器该如何写，我这个 KSL 算是课后实践吧</p>
+<p>不管怎样，KSL 目前还属于半可用状态，核心库代码也没有很好注释，后续有时间了会补上</p>
+<hr>
+<ol class="footnote-definition"><li id="footnote-1">
+<p>基本语法并非完全自己设计，有参考 Wolfram 和 LISP，但是其他部分都是自己独立实现的 <a href="#fr-1-1">↩</a></p>
+</li>
+<li id="footnote-2">
+<p>Wolfram Language.Wikipedia [DB/OL].(2025-04-11)[2025-04-14].
+<a href="https://en.wikipedia.org/wiki/Wolfram_Language">https://en.wikipedia.org/wiki/Wolfram_Language</a> <a href="#fr-2-1">↩</a></p>
+</li>
+</ol></main>
+                        <nav class="nav-wrapper" aria-label="Page navigation">
+                            <a rel="prev" href="../../notes/rust/20250321-sicp-notes-0x07.html"
+                                class="mobile-nav-chapters previous"
+                                title="Previous chapter"
+                                aria-label="Previous chapter"
+                                aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next prefetch"
+                                href="../../notes/sagemath/index.html"
+                                class="mobile-nav-chapters next"
+                                title="Next chapter" aria-label="Next chapter"
+                                aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                            <div style="clear: both"></div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="giscus-comment">
+                </div>
+                <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../notes/rust/20250321-sicp-notes-0x07.html"
+                        class="nav-chapters previous" title="Previous chapter"
+                        aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next prefetch" href="../../notes/sagemath/index.html"
+                        class="nav-chapters next" title="Next chapter"
+                        aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </nav>
+            </div>
+            <script>
+                window.playground_copyable = true;
+            </script>
+            <script src="../../elasticlunr.min.js"></script>
+            <script src="../../mark.min.js"></script>
+            <script src="../../searcher.js"></script>
+            <script src="../../clipboard.min.js"></script>
+            <script src="../../highlight.js"></script>
+            <script src="../../book.js"></script>
+            <script src="../../theme/giscus.js"></script>
+        </div>
+    </body>
+</html>
