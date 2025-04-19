@@ -569,13 +569,23 @@ hello from plugin example, Kevin!
 └── use_example.ksl
 </code></pre>
 <p>如果你需要加载的插件函数很多，可以分文件编写，例如我想要有一个 <code>test</code> 函数，
-这个函数不接收参数，只打印一个 <code>test</code>，那么可以有：</p>
+这个函数不接收参数，只打印一个 <code>test</code>，并且往环境中添加一执行这个函数的次数，那么可以有：</p>
 <pre><code class="language-rust">use ksl::{Environment, value::Value};
 
-pub(crate) fn test_func_impl(args: &amp;[Value], _env: &amp;Environment) -&gt; Option&lt;(Value, Environment)&gt; {
+#[unsafe(no_mangle)]
+pub fn test_func(args: &amp;[Value], env: &amp;Environment) -&gt; Option&lt;(Value, Environment)&gt; {
     if args.is_empty() {
         println!("test");
-        Some((Value::Unit, Environment::new()))
+        let mut local_env = Environment::new();
+        let count = match env.get("EXAMPLE_TEST_FUNC_COUNT") {
+            Some(Value::Number(n)) =&gt; n + 1.0,
+            _ =&gt; 1.0,
+        };
+        let _ = local_env.insert(
+            String::from("EXAMPLE_TEST_FUNC_COUNT"),
+            Value::Number(count),
+        );
+        Some((Value::Unit, local_env))
     } else {
         eprintln!(
             concat!(
@@ -590,12 +600,9 @@ pub(crate) fn test_func_impl(args: &amp;[Value], _env: &amp;Environment) -&gt; O
 }</code></pre>
 <p>然后修改 <code>lib.rs</code> 和 <code>example.ksl</code> 将这个函数暴露出来：</p>
 <pre><code class="language-diff">+ mod another;
-+ #[unsafe(no_mangle)]
-+ pub fn test_func_wrap(args: &amp;[Value], env: &amp;Environment) -&gt; Option&lt;(Value, Environment)&gt; {
-+     another::test_func_impl(args, env)
-+ }
++ pub use another::test_func;
 </code></pre>
-<pre><code class="language-diff">+ Plugin[Test, "example/test_func_wrap"];
+<pre><code class="language-diff">+ Plugin[Test, "example/test_func"];
 </code></pre>
 <p>此时，项目结构如下：</p>
 <pre><code class="language-plaintext">.
@@ -614,13 +621,18 @@ pub(crate) fn test_func_impl(args: &amp;[Value], _env: &amp;Environment) -&gt; O
 
 Apply[Use[m_e, Hello], "Kevin"];
 Apply[Use[m_e, Test]];
+Print[Has[EXAMPLE_TEST_FUNC_COUNT]];
+Apply[Use[m_e, Test]];
+Print[EXAMPLE_TEST_FUNC_COUNT];
 </code></pre>
 <p>输出如下：</p>
 <pre><code class="language-plaintext">&gt; ksl use_example.ksl
 
 hello from plugin example, Kevin!
 test
-()
+#t
+test
+2
 </code></pre>
 <h2 id="后记"><a class="header" href="#后记">后记</a></h2>
 <p>这门语言实际上是我在大概两年半前就已经在构思了，但是中间总是有各种事情干扰，要么没有时间做，要么就忘记有这回事了</p>
