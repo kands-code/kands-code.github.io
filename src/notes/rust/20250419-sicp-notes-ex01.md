@@ -403,15 +403,25 @@ hello from plugin example, Kevin!
 ```
 
 如果你需要加载的插件函数很多，可以分文件编写，例如我想要有一个 `test` 函数，
-这个函数不接收参数，只打印一个 `test`，那么可以有：
+这个函数不接收参数，只打印一个 `test`，并且往环境中添加一执行这个函数的次数，那么可以有：
 
 ```rust
 use ksl::{Environment, value::Value};
 
-pub(crate) fn test_func_impl(args: &[Value], _env: &Environment) -> Option<(Value, Environment)> {
+#[unsafe(no_mangle)]
+pub fn test_func(args: &[Value], env: &Environment) -> Option<(Value, Environment)> {
     if args.is_empty() {
         println!("test");
-        Some((Value::Unit, Environment::new()))
+        let mut local_env = Environment::new();
+        let count = match env.get("EXAMPLE_TEST_FUNC_COUNT") {
+            Some(Value::Number(n)) => n + 1.0,
+            _ => 1.0,
+        };
+        let _ = local_env.insert(
+            String::from("EXAMPLE_TEST_FUNC_COUNT"),
+            Value::Number(count),
+        );
+        Some((Value::Unit, local_env))
     } else {
         eprintln!(
             concat!(
@@ -430,14 +440,11 @@ pub(crate) fn test_func_impl(args: &[Value], _env: &Environment) -> Option<(Valu
 
 ```diff
 + mod another;
-+ #[unsafe(no_mangle)]
-+ pub fn test_func_wrap(args: &[Value], env: &Environment) -> Option<(Value, Environment)> {
-+     another::test_func_impl(args, env)
-+ }
++ pub use another::test_func;
 ```
 
 ```diff
-+ Plugin[Test, "example/test_func_wrap"];
++ Plugin[Test, "example/test_func"];
 ```
 
 此时，项目结构如下：
@@ -462,6 +469,9 @@ Load[m_e, "example"];
 
 Apply[Use[m_e, Hello], "Kevin"];
 Apply[Use[m_e, Test]];
+Print[Has[EXAMPLE_TEST_FUNC_COUNT]];
+Apply[Use[m_e, Test]];
+Print[EXAMPLE_TEST_FUNC_COUNT];
 ```
 
 输出如下：
@@ -471,7 +481,9 @@ Apply[Use[m_e, Test]];
 
 hello from plugin example, Kevin!
 test
-()
+#t
+test
+2
 ```
 
 ## 后记
