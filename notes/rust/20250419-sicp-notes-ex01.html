@@ -258,7 +258,7 @@ Print[Factorial[13]]; (* 打印 6227020800 *)
 Print[
   Block[
     Let[fac, 1],
-    Do[Let[fac, Mul[fac, n]], n, Range[13, -1, 2]]
+    Do[Let[fac, Mul[fac, n]], n, Range[13, -1, 2]],
     fac]]; (* 打印 6227020800 *)
 </code></pre>
 <p>如果熟悉 Mathematica 就会发现，这和 Wolfram<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup> 十分相像，但是细看又会发现许多不同</p>
@@ -483,7 +483,7 @@ name = "example"
 crate-type = ["lib", "dylib"]
 
 [dependencies]
-ksl = "^0.1.5"
+ksl = "^0.1.7"
 </code></pre>
 <p>在这里，我创建了一个 <code>example</code> 库，这个库会编译成一个 Rust 动态库，这个库依赖 <code>ksl</code></p>
 <p>然后在 <code>lib.rs</code> 中，编写插件函数：</p>
