@@ -40,7 +40,7 @@ Print[Factorial[13]]; (* 打印 6227020800 *)
 Print[
   Block[
     Let[fac, 1],
-    Do[Let[fac, Mul[fac, n]], n, Range[13, -1, 2]]
+    Do[Let[fac, Mul[fac, n]], n, Range[13, -1, 2]],
     fac]]; (* 打印 6227020800 *)
 ```
 
@@ -294,7 +294,7 @@ name = "example"
 crate-type = ["lib", "dylib"]
 
 [dependencies]
-ksl = "^0.1.5"
+ksl = "^0.1.7"
 ```
 
 在这里，我创建了一个 `example` 库，这个库会编译成一个 Rust 动态库，这个库依赖 `ksl`
