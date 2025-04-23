@@ -4,7 +4,7 @@
     class="rust" 
     dir="ltr"> 
     <head>
-        <title>Haskell 99 Questions :: 0x04 - Kevin Stephen&#x27;s Blogs</title> 
+        <title>在 macOS 上使用 Rust 链接静态库 - Kevin Stephen&#x27;s Blogs</title> 
         <meta charset="UTF-8">
         <meta name="description" content="找到属于自己的光">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -179,7 +179,7 @@
                                 <i id="git-repository-button"
                                     class="fa fa-github"></i>
                             </a>
-                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/haskell/20241208-haskell-99-questions-0x04.md"
+                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/miscellany/coding/20250423-rust-link-static-library-on-macos.md"
                                 title="Suggest an edit"
                                 aria-label="Suggest an edit">
                                 <i id="git-edit-button" class="fa fa-edit"></i>
@@ -215,330 +215,140 @@
 
                     <div id="content" class="content">
                         <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="haskell-99-questions--0x04"><a class="header" href="#haskell-99-questions--0x04">Haskell 99 Questions :: 0x04</a></h1>
-<p class="archive-time">archive time: 2024-12-08</p>
-<p class="sp-comment">突然想起来这里还有个坑没有填，那我就继续写几道题目吧</p>
+<h1 id="在-macos-上使用-rust-链接静态库"><a class="header" href="#在-macos-上使用-rust-链接静态库">在 macOS 上使用 Rust 链接静态库</a></h1>
+<p class="archive-time">archive time: 2024-11-22</p>
+<p class="sp-comment">macOS 是这样的，看似开发者友好，但是全都是坑</p>
 <ul>
-<li><a href="#%E9%A2%98%E7%9B%AE">题目</a>
-<ul>
-<li><a href="#question-31">Question 31</a></li>
-<li><a href="#question-32">Question 32</a></li>
-<li><a href="#question-33">Question 33</a></li>
-<li><a href="#question-34">Question 34</a></li>
-<li><a href="#question-35">Question 35</a></li>
-<li><a href="#question-36">Question 36</a></li>
-<li><a href="#question-37">Question 37</a></li>
-<li><a href="#question-39">Question 39</a></li>
-<li><a href="#question-40">Question 40</a></li>
-<li><a href="#question-41">Question 41</a></li>
+<li><a href="#%E7%BC%98%E8%B5%B7">缘起</a></li>
+<li><a href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90">问题分析</a></li>
+<li><a href="#%E7%9C%9F%E6%AD%A3%E7%9A%84%E5%8E%9F%E5%9B%A0">真正的原因</a></li>
+<li><a href="#%E5%90%8E%E8%AE%B0">后记</a></li>
 </ul>
+<h2 id="缘起"><a class="header" href="#缘起">缘起</a></h2>
+<p>使用 Rust 链接静态库，这个在大部分情况下还是比较简单的，
+只需要在使用的地方使用 <code>#[link]</code> 特性修饰符<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup> 说明库的名称 <code>name</code> 以及库的类型 <code>kind</code>，
+再配合 <code>extern</code> 代码块说明要使用的符号就好了，例如：</p>
+<pre><code class="language-rust">#[link(name = "raylib", kind = "static")]
+unsafe extern "C" {
+    #[link_name = "InitWindow"]
+    fn rl_init_window(width: c_int, height: c_int, title: *const c_char) -&gt; c_void;
+    // ...
+}</code></pre>
+<p>在编译的时候还需要指定链接库的位置和链接库的名称，这部分一般使用 <strong>编译脚本</strong><sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup> 来实现，例如：</p>
+<pre><code class="language-rust">fn main() {
+    // get the absolute path of the project
+    let Ok(pkg_root) = std::env::var("CARGO_MANIFEST_DIR").map(|e| std::path::PathBuf::from(e)) else {
+        unreachable!()
+    };
+    // add library path to link search path
+    println!(
+        "cargo::rustc-link-search={}/extern/raylib-5.5_{}/lib",
+        pkg_root.display(),
+        if cfg!(target_os = "windows") {
+            "win64_mingw-w64"
+        } else if cfg!(target_os = "macos") {
+            "macos"
+        } else {
+            "linux_amd64"
+        }
+    );
+    //? link static library
+    println!("cargo:rustc-link-lib=static=raylib");
+    // other dependencies for library
+    if cfg!(target_os = "windows") {
+        println!("cargo:rustc-link-lib=dylib=winmm");
+        println!("cargo:rustc-link-lib=dylib=gdi32");
+        println!("cargo:rustc-link-lib=dylib=user32");
+        println!("cargo:rustc-link-lib=dylib=shell32");
+    } else if cfg!(target_os = "macos") {
+        println!("cargo:rustc-link-search=native=/usr/local/lib");
+        println!("cargo:rustc-link-lib=framework=OpenGL");
+        println!("cargo:rustc-link-lib=framework=Cocoa");
+        println!("cargo:rustc-link-lib=framework=IOKit");
+        println!("cargo:rustc-link-lib=framework=CoreFoundation");
+        println!("cargo:rustc-link-lib=framework=CoreVideo");
+    } else {
+        println!("cargo:rustc-link-search=/usr/local/lib");
+        println!("cargo:rustc-link-lib=wayland-client");
+        println!("cargo:rustc-link-lib=glfw");
+    }
+}</code></pre>
+<p>别看内容多，但是每一步都非常明确，所以写起来还算方便</p>
+<p>上面这个做法在 Windows 和 Linux 上都没有什么问题，
+但是一旦来到 macOS，问题就来了</p>
+<p>因为 <strong>Raylib</strong><sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup> 的分发版下载下来后，<code>lib</code> 目录下是既包含动态库，也包含静态库的，
+在 Windows 和 Linux 上，Rust 会根据 <code>#[link]</code> 中的 <code>kind</code>
+或者在 编译脚本中指定的类型 来决定要链接动态库还是静态库，所以不会有问题，
+但是在 macOS 上，Rust 似乎并不会查看要链接的库的类型是静态还是动态，
+而是会根据你提供的库的路径中是否包含静态库决定的</p>
+<p>也就是说，在 macOS 上，如果你要链接静态库，
+而提供的路径中也只有一个静态库版本，那么很好，Rust 会正确的链接你要的库，
+但是如果路径中还有动态库版本，那么 Rust 会 <strong>优先链接动态库</strong> 而忽视静态库</p>
+<h2 id="问题分析"><a class="header" href="#问题分析">问题分析</a></h2>
+<p>这个问题是我在 macOS 上试图运行 <strong>ksl_raylib</strong><sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">4</a></sup> 的示例代码时发现的，
+编译的过程中没有任何报错或警告，看似一切正常，但是当我运行程序，却出现了一个报错：</p>
+<pre><code class="language-log">dlopen(/Users/kevinstephen/.local/share/ksl/lib/libksl_raylib.dylib, 0x0005): Library not loaded: @rpath/libraylib.550.dylib
+  Referenced from: &lt;822DA870-8970-38FA-9772-20A658BA7C43&gt; /Users/kevinstephen/projects/rswk/target/debug/libksl_raylib.dylib
+  Reason: no LC_RPATH's found
+</code></pre>
+<p>嗯？我不是指定了只链接静态库吗，为什么会要求动态库？</p>
+<p>然后在尝试修改 <code>build.rs</code> 和 cargo 配置都没有正确链接后，
+我在 Rust 论坛上 <a href="https://users.rust-lang.org/t/static-library-not-being-linked-correctly-in-rust-dylib-on-macos-arm/128689">发帖求助</a></p>
+<p>不过好在，很快就有人回帖开始帮忙分析问题</p>
+<p>最开始，回帖人以为我是没有正确指明要链接的库，
+在我说明清楚问题的背景后，回帖人开始怀疑起链接参数是否正确，
+我以为回帖人是没有仔细看我的问题背景描述，
+不过我还是按照他的要求使用 <code>RUSTFLAGS='--print link-args'</code> 打印了实际链接参数</p>
+<pre><code class="language-log"># ...
+"-lraylib" "-framework" "OpenGL" "-framework" "Cocoa" "-framework" "IOKit" "-framework" "CoreFoundation" "-framework" "CoreVideo"
+# ...
+</code></pre>
+<p>在看到我给出的实际参数后，回帖人发现了问题所在，链接过程中 <strong>没有</strong> <code>-Bstatic</code> 或者 <code>-Bdynamic</code> 参数！</p>
+<p>在看到他的分析后，我想到了一个解决方法，
+<strong>那就是把多余的动态库删掉，只保留静态库</strong>，
+然后，程序终于可以正常运行了！</p>
+<h2 id="真正的原因"><a class="header" href="#真正的原因">真正的原因</a></h2>
+<p>那么这个问题真正的原因是什么呢？</p>
+<p>在回帖人的帮忙下，找到了引起这个问题的 <a href="https://github.com/rust-lang/rust/blob/645d0ad2a4f145ae576e442ec5c73c0f8eed829b/compiler/rustc_codegen_ssa/src/back/linker.rs#L367-L377">代码</a></p>
+<blockquote>
+<p>Really this function only returns true if the underlying linker
+configured for a compiler is binutils <code>ld.bfd</code> and <code>ld.gold</code>. We
+don’t really have a foolproof way to detect that, so rule out some
+platforms where currently this is guaranteed to <em>not</em> be the case:</p>
+<ul>
+<li>On OSX they have their own linker, not binutils’</li>
+<li>For WebAssembly the only functional linker is LLD, which doesn’t
+support hint flags</li>
+</ul>
+</blockquote>
+<p>也就是说由于平台差异，对于 macOS，Rust 不会指明要使用动态库还是静态库，
+所以 <code>kind</code> 参数在 macOS 上就是无效的，
+由于没有指明需要哪种库，在有动态库的情况下，链接器优先链接动态库，这才导致了这个问题</p>
+<h2 id="后记"><a class="header" href="#后记">后记</a></h2>
+<p>只能说跨平台还是任重道远，
+C 和 C++ 最大的问题就是没有一个规范的编译器和相关组件实现，
+导致各个平台都有自己的实现，自己的扩展，代码就失去了跨平台能力</p>
+<p><del>如果都改用 Rust 就没有这个问题了</del></p>
+<hr>
+<ol class="footnote-definition"><li id="footnote-1">
+<p>the link attribute.The Rust Reference [S/OL].(2025-04-14)[2025-04-23].
+<a href="https://doc.rust-lang.org/stable/reference/items/external-blocks.html#the-link-attribute">https://doc.rust-lang.org/stable/reference/items/external-blocks.html#the-link-attribute</a> <a href="#fr-1-1">↩</a></p>
 </li>
-<li><a href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B">测试用例</a></li>
-</ul>
-<p>有段时间没写了，所以今天我们继续写 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">31</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∼</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">41</span></span></span></span> 题</p>
-<h2 id="题目"><a class="header" href="#题目">题目</a></h2>
-<h3 id="question-31"><a class="header" href="#question-31">Question 31</a></h3>
-<blockquote>
-<p><strong><em>Determine whether a given integer number is prime.</em></strong></p>
-</blockquote>
-<p>判断所给的数是否是素数，这个的难点在于效率，不过好在我们有很多方法可以减少判断的次数</p>
-<pre><code class="language-haskell">qIsPrime :: Word -&gt; Bool
-</code></pre>
-<details>
-<summary>答案</summary>
-<pre><code class="language-haskell">qIsPrime :: Word -&gt; Bool
-qIsPrime n
-  | n &lt; 2 = False
-  | n == 2 = True
-  | even n = False
-  | otherwise = case n of
-      2 -&gt; True
-      3 -&gt; True
-      _ -&gt; not (any (\k -&gt; n `mod` k == 0) [3, 5 .. ub])
-  where
-    ub :: Word
-    ub = round (sqrt (fromIntegral n) :: Double)
-</code></pre>
-</details>
-<h3 id="question-32"><a class="header" href="#question-32">Question 32</a></h3>
-<blockquote>
-<p><strong><em>Determine the greatest common divisor of two positive integer numbers.</em></strong></p>
-</blockquote>
-<p>计算两个数的最大公因数，这个在 Haskell 中实际上有内置函数，但是我们也可以用辗转相除法计算得到</p>
-<pre><code class="language-haskell">qGcd :: Int -&gt; Int -&gt; Int
-</code></pre>
-<details>
-<summary>答案</summary>
-<pre><code class="language-haskell">qGcd :: Int -&gt; Int -&gt; Int
-qGcd 0 m = m
-qGcd n 0 = n
-qGcd n m
-  | n &lt; 0 = qGcd (abs n) m
-  | m &lt; 0 = qGcd n (abs m)
-  | otherwise =
-      let r = (n `mod` m)
-          d = m - r
-       in qGcd r d
-</code></pre>
-<p>要注意这里 <code>r</code> 和 <code>d</code> 不能使用 <code>where</code> 方式定义，而是要使用 <code>let .. in</code> 形式，
-因为 <code>where</code> 的计算会比判断要先一步，所以可能会没有取绝对值就进行计算，使用 <code>let .. in</code> 就没有这种问题</p>
-</details>
-<h3 id="question-33"><a class="header" href="#question-33">Question 33</a></h3>
-<blockquote>
-<p><strong><em>Determine whether two positive integer numbers are coprime.</em></strong></p>
-</blockquote>
-<p>判断所给的两个正整数是否是互质的</p>
-<pre><code class="language-haskell">qCoPrime :: Word -&gt; Word -&gt; Bool
-</code></pre>
-<details>
-<summary>答案</summary>
-<pre><code class="language-haskell">qCoPrime :: Word -&gt; Word -&gt; Bool
-qCoPrime 0 _ = False
-qCoPrime _ 0 = False
-qCoPrime n m =
-  qGcd (fromIntegral n) (fromIntegral m)
-    == 1
-</code></pre>
-</details>
-<h3 id="question-34"><a class="header" href="#question-34">Question 34</a></h3>
-<blockquote>
-<p><strong><em>Calculate Euler’s totient function phi(m).</em></strong></p>
-</blockquote>
-<p>计算欧拉函数 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ϕ</span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span>，其中该函数定义为在 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span> 中与 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> 互质的元素的个数</p>
-<pre><code class="language-haskell">qEulerPhi :: Word -&gt; Word
-</code></pre>
-<details>
-<summary>答案</summary>
-<pre><code class="language-haskell">qEulerPhi :: Word -&gt; Word
-qEulerPhi 0 = 0
-qEulerPhi 1 = 1
-qEulerPhi m =
-  fromIntegral
-    (qLength [r | r &lt;- [1 .. m], qCoPrime m r])
-</code></pre>
-</details>
-<h3 id="question-35"><a class="header" href="#question-35">Question 35</a></h3>
-<blockquote>
-<p><strong><em>Determine the prime factors of a given positive integer.</em></strong></p>
-</blockquote>
-<p>将所给正整数分解质因数</p>
-<pre><code class="language-haskell">qFactor :: Word -&gt; [Word]
-</code></pre>
-<details>
-<summary>答案</summary>
-<pre><code class="language-haskell">qFactor :: Word -&gt; [Word]
-qFactor 0 = [0]
-qFactor 1 = [1]
-qFactor 2 = [2]
-qFactor 3 = [3]
-qFactor n = qReverse (qFactorI n 2 [])
-  where
-    qFactorI :: Word -&gt; Word -&gt; [Word] -&gt; [Word]
-    qFactorI k m acc
-      | m &gt; k = acc
-      | otherwise =
-          if (qIsPrime m)
-            then
-              if (k `mod` m == 0)
-                then qFactorI (k `div` m) m (m : acc)
-                else
-                  if m == 2
-                    then qFactorI k (m + 1) acc
-                    else qFactorI k (m + 2) acc
-            else qFactorI k (m + 2) acc
-</code></pre>
-<p>但是这里还可以优化一下，也就是提前生成小于等于 <code>sqrt n</code> 的所有素数序列，这样可以跳过很多非质数，
-不过生成这样一个素数列表也是需要一定的计算，所以这样就可以了</p>
-</details>
-<h3 id="question-36"><a class="header" href="#question-36">Question 36</a></h3>
-<blockquote>
-<p><strong><em>Determine the prime factors and their multiplicities of a given positive integer.</em></strong></p>
-</blockquote>
-<p>同样是分解质因数，但是要求结果形式是 <code>[(base, exp)]</code></p>
-<pre><code class="language-haskell">qMulFactor :: Word -&gt; [(Word, Word)]
-</code></pre>
-<details>
-<summary>答案</summary>
-<pre><code class="language-haskell">qMulFactor :: Word -&gt; [(Word, Word)]
-qMulFactor n =
-  map
-    (\p -&gt; (head p, fromIntegral (qLength p)))
-    (qPack (qFactor n))
-</code></pre>
-</details>
-<h3 id="question-37"><a class="header" href="#question-37">Question 37</a></h3>
-<blockquote>
-<p><strong><em>Calculate Euler’s totient function phi(m) (improved).</em></strong></p>
-</blockquote>
-<p>还是计算 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ϕ</span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span>，但是可以利用分解质因数来优化计算，即 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.138em;vertical-align:-0.25em;"></span><span class="mop op-symbol small-op" style="position:relative;top:0em;">∏</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight">e</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
-<pre><code class="language-haskell">qEulerPhiF :: Word -&gt; Word
-</code></pre>
-<details>
-<summary>答案</summary>
-<pre><code class="language-haskell">qEulerPhiF :: Word -&gt; Word
-qEulerPhiF 0 = 0
-qEulerPhiF 1 = 1
-qEulerPhiF n =
-  product
-    ( map
-        (\(p, m) -&gt; (p - 1) * p ^ (m - 1))
-        (qMulFactor n)
-    )
-</code></pre>
-</details>
-<h3 id="question-39"><a class="header" href="#question-39">Question 39</a></h3>
-<blockquote>
-<p><strong><em>A list of prime numbers in a given range.</em></strong></p>
-</blockquote>
-<p>根据所给范围创建素数列表</p>
-<pre><code class="language-haskell">qPrimesR :: Word -&gt; Word -&gt; [Word]
-</code></pre>
-<details>
-<summary>答案</summary>
-<pre><code class="language-haskell">qPrimesR :: Word -&gt; Word -&gt; [Word]
-qPrimesR n m
-  | n &gt; m = []
-  | otherwise = [p | p &lt;- [n .. m], qIsPrime p]
-</code></pre>
-</details>
-<h3 id="question-40"><a class="header" href="#question-40">Question 40</a></h3>
-<blockquote>
-<p><strong><em>Goldbach’s conjecture.</em></strong></p>
-</blockquote>
-<p>将所给正整数拆分成两个素数之和</p>
-<pre><code class="language-haskell">qGoldbach :: Word -&gt; (Word, Word)
-</code></pre>
-<details>
-<summary>答案</summary>
-<pre><code class="language-haskell">qGoldbach :: Word -&gt; (Word, Word)
-qGoldbach 0 = (0, 0)
-qGoldbach 1 = (0, 1)
-qGoldbach 2 = (0, 2)
-qGoldbach 3 = (1, 2)
-qGoldbach n = qGoldbachI (qPrimesR 2 (n `div` 2))
-  where
-    qGoldbachI :: [Word] -&gt; (Word, Word)
-    qGoldbachI [] = (0, 0)
-    qGoldbachI (h : t) =
-      if (qIsPrime (n - h))
-        then (h, n - h)
-        else qGoldbachI t
-</code></pre>
-</details>
-<h3 id="question-41"><a class="header" href="#question-41">Question 41</a></h3>
-<blockquote>
-<p><strong><em>A list of even numbers and their Goldbach compositions in a given range.</em></strong></p>
-</blockquote>
-<p>将所给范围内的偶数拆分为两个素数之和</p>
-<pre><code class="language-haskell">qGoldbachR :: Word -&gt; Word -&gt; [(Word, Word)]
-
-qGoldbachRF :: Word -&gt; Word -&gt; Word -&gt; [(Word, Word)]
-</code></pre>
-<p>其中第三个参数是指分解后的两个素数都要大于所给的值</p>
-<details>
-<summary>答案</summary>
-<pre><code class="language-haskell">qGoldbachR :: Word -&gt; Word -&gt; [(Word, Word)]
-qGoldbachR n m
-  | odd n = qGoldbachR (n + 1) m
-  | otherwise = map qGoldbach [n, n + 2 .. m]
-
-qGoldbachRF :: Word -&gt; Word -&gt; Word -&gt; [(Word, Word)]
-qGoldbachRF n m k = [p | p@(p1, p2) &lt;- (qGoldbachR n m), p1 &gt; k &amp;&amp; p2 &gt; k]
-</code></pre>
-</details>
-<h2 id="测试用例"><a class="header" href="#测试用例">测试用例</a></h2>
-<p>这一部分的测试代码如下：</p>
-<details>
-<summary>测试代码</summary>
-<pre><code class="language-haskell">module Part04 (part04) where
-
-import Qarks.Nnp
-  ( qCoPrime,
-    qEulerPhi,
-    qEulerPhiF,
-    qFactor,
-    qGcd,
-    qGoldbach,
-    qGoldbachR,
-    qGoldbachRF,
-    qIsPrime,
-    qMulFactor,
-    qPrimesR,
-  )
-import Test.Hspec
-  ( context,
-    describe,
-    it,
-    shouldBe,
-    shouldNotSatisfy,
-    shouldSatisfy,
-  )
-import Test.Hspec.Runner (SpecWith)
-
-part04 :: SpecWith ()
-part04 = describe "Part04" $ do
-  context "Qarks.Nnp.qIsPrime" $ do
-    it "7 is prime" $ do
-      7 `shouldSatisfy` qIsPrime
-    it "7919 is prime" $ do
-      7919 `shouldSatisfy` qIsPrime
-    it "7543 is not prime" $ do
-      7543 `shouldNotSatisfy` qIsPrime
-  context "Qarks.Nnp.qGcd" $ do
-    it "gcd 36 63 is 9" $ do
-      qGcd 36 63 `shouldBe` 9
-    it "gcd (-3) (-6) is 3" $ do
-      qGcd (-3) (-6) `shouldBe` 3
-    it "gcd 7919 7541 is 1" $ do
-      qGcd 7919 7541 `shouldBe` 1
-  context "Qarks.Nnp.qCoPrime" $ do
-    it "35 and 64 is coprime" $ do
-      qCoPrime 35 64 `shouldBe` True
-    it "35 and 65 is not coprime" $ do
-      qCoPrime 35 65 `shouldBe` False
-  context "Qarks.Nnp.qEulerPhi" $ do
-    it "phi(10) = 4" $ do
-      qEulerPhi 10 `shouldBe` 4
-    it "phi(1) = 1" $ do
-      qEulerPhi 1 `shouldBe` 1
-    it "phi(73) = 72" $ do
-      qEulerPhi 73 `shouldBe` 72
-  context "Qarks.Nnp.qFactor" $ do
-    it "factor 315 = [3, 3, 5, 7]" $ do
-      qFactor 315 `shouldBe` [3, 3, 5, 7]
-    it "factor 864 = [2, 2, 2, 2, 2, 3, 3, 3]" $ do
-      qFactor 864 `shouldBe` [2, 2, 2, 2, 2, 3, 3, 3]
-  context "Qarks.Nnp.qMulFactor" $ do
-    it "factor 315 = 3^2 * 5^1 * 7^1" $ do
-      qMulFactor 315 `shouldBe` [(3, 2), (5, 1), (7, 1)]
-    it "factor 864 = 2^5 * 3^3" $ do
-      qMulFactor 864 `shouldBe` [(2, 5), (3, 3)]
-  context "Qarks.Nnp.qEulerPhiF" $ do
-    it "phi(10) = 4" $ do
-      qEulerPhiF 10 `shouldBe` 4
-    it "phi(1) = 1" $ do
-      qEulerPhiF 1 `shouldBe` 1
-    it "phi(73) = 72" $ do
-      qEulerPhiF 73 `shouldBe` 72
-  context "Qarks.Nnp.qPrimesR" $ do
-    it "[10, 20]" $ do
-      qPrimesR 10 20 `shouldBe` [11, 13, 17, 19]
-  context "Qarks.Nnp.qGoldbach" $ do
-    it "28 = 5 + 23" $ do
-      qGoldbach 28 `shouldBe` (5, 23)
-    it "16 = 3 + 13" $ do
-      qGoldbach 16 `shouldBe` (3, 13)
-  context "Qarks.Nnp.qGoldbachR" $ do
-    it "evens between 9 and 20" $ do
-      qGoldbachR 9 20 `shouldBe` [(3, 7), (5, 7), (3, 11), (3, 13), (5, 13), (3, 17)]
-  context "Qarks.Nnp.qGoldbachRF" $ do
-    it "evens between 1 and 2000 greater than 50" $ do
-      qGoldbachRF 1 2000 50 `shouldBe` [(73, 919), (61, 1321), (67, 1789), (61, 1867)]
-</code></pre>
-</details>
-</main>
+<li id="footnote-2">
+<p>Build Scripts.The Cargo Book [\M/OL]. (2025-03-19)[2025-04-23].
+<a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">https://doc.rust-lang.org/cargo/reference/build-scripts.html</a> <a href="#fr-2-1">↩</a></p>
+</li>
+<li id="footnote-3">
+<p>Raylib: v5.5.0 [CP/OL].(2024-11-18)[2025-04-23].
+<a href="https://github.com/raysan5/raylib">https://github.com/raysan5/raylib</a> <a href="#fr-3-1">↩</a></p>
+</li>
+<li id="footnote-4">
+<p>ksl_raylib [CP/OL]. (2025-04-22)[2025-04-23].
+<a href="https://github.com/kands-code/rswk/tree/repo-src/ksl_raylib">https://github.com/kands-code/rswk/tree/repo-src/ksl_raylib</a> <a href="#fr-4-1">↩</a></p>
+</li>
+</ol></main>
                         <nav class="nav-wrapper" aria-label="Page navigation">
-                            <a rel="prev" href="../../notes/haskell/20241104-haskell-99-questions-0x03.html"
+                            <a rel="prev" href="../../miscellany/coding/20241122-meson-for-cpp.html"
                                 class="mobile-nav-chapters previous"
                                 title="Previous chapter"
                                 aria-label="Previous chapter"
@@ -546,7 +356,7 @@ part04 = describe "Part04" $ do
                                 <i class="fa fa-angle-left"></i>
                             </a>
                             <a rel="next prefetch"
-                                href="../../notes/rust/index.html"
+                                href="../../miscellany/study/index.html"
                                 class="mobile-nav-chapters next"
                                 title="Next chapter" aria-label="Next chapter"
                                 aria-keyshortcuts="Right">
@@ -559,12 +369,12 @@ part04 = describe "Part04" $ do
                 <div class="giscus-comment">
                 </div>
                 <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../notes/haskell/20241104-haskell-99-questions-0x03.html"
+                    <a rel="prev" href="../../miscellany/coding/20241122-meson-for-cpp.html"
                         class="nav-chapters previous" title="Previous chapter"
                         aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next prefetch" href="../../notes/rust/index.html"
+                    <a rel="next prefetch" href="../../miscellany/study/index.html"
                         class="nav-chapters next" title="Next chapter"
                         aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
