@@ -320,7 +320,10 @@ extern pm_Expr *pm_function(const char *expr, size_t *bias);
 <li>对于函数调用的解析</li>
 </ul>
 <h2 id="函数主要实现"><a class="header" href="#函数主要实现">函数主要实现</a></h2>
-<p>由于一些细节比较繁琐，这里只介绍主要部分的实现，详细可以参考我的<a href="https://github.com/kands-code/c-rust-examples/tree/main/c-examples/darfts">仓库</a></p>
+<p>由于一些细节比较繁琐，这里只介绍主要部分的实现，详细可以 <del>参考我的仓库</del></p>
+<blockquote>
+<p>仓库链接已经失效，不过代码示例足够展示解析过程了</p>
+</blockquote>
 <h3 id="main"><a class="header" href="#main">main</a></h3>
 <p>整个解析的部分就是不断根据当前字符来判断该用什么来解析</p>
 <pre><code class="language-c">pm_Expr *pm_parse(const char *orgExpr) {
