@@ -38,6 +38,7 @@
   - [在 mdBook 中使用 giscus 服务](./miscellany/coding/20240228-use-giscus-in-mdbook.md)
   - [使用 Steam 安装 Windows 应用](./miscellany/coding/20240727-use-steam-install-windows-applications.md)
   - [使用 Meson 构建 Cpp 项目](./miscellany/coding/20241122-meson-for-cpp.md)
+  - [在 macOS 上使用 Rust 链接静态库](./miscellany/coding/20250423-rust-link-static-library-on-macos.md)
 - [Study](./miscellany/study/index.md)
   - [Qiskit 线性代数](./miscellany/study/20221108-qiskit-linear-algebra.md)
   - [Qiskit Deutsch-Jozsa 算法](./miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.md)
