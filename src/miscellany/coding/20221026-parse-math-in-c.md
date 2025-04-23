@@ -125,7 +125,9 @@ extern pm_Expr *pm_function(const char *expr, size_t *bias);
 
 ## 函数主要实现
 
-由于一些细节比较繁琐，这里只介绍主要部分的实现，详细可以参考我的[仓库](https://github.com/kands-code/c-rust-examples/tree/main/c-examples/darfts)
+由于一些细节比较繁琐，这里只介绍主要部分的实现，详细可以 ~~参考我的仓库~~
+
+> 仓库链接已经失效，不过代码示例足够展示解析过程了
 
 ### main
 
