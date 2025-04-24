@@ -61,7 +61,7 @@ KSL 支持的元素类型 **目前** 定义如下：
 pub enum Value {
     Unit,
     Module(String, Environment),
-    Identity(String),
+    Symbol(String),
     Atom(String),
     String(String),
     Number(f64),
@@ -70,6 +70,7 @@ pub enum Value {
     Builtin(&'static str),
     Plugin(String, String),
     Object(String, Environment),
+    RawObject(String, *mut u8),
     Apply(Vec<Value>, Box<Value>),
 }
 ```
@@ -82,7 +83,7 @@ pub enum Value {
     这样 `ss` 就是一个模块对象，对应 `"std/string"` 模块
   - 要访问模块中的元素，可以使用 `Use` 函数，例如 `Let[f, Use[ss, StringSplit]]`，
     这样 `f` 与 `ss` 中的 `StringSplit` 符号对应的值绑定起来了
-- **Identity**: 符号，也就是各种名称，支持数字，英文字母，下划线以及单引号，但是需要字母开头
+- **Symbol**: 符号，也就是各种名称，支持数字，英文字母，下划线以及单引号，但是需要字母开头
 - **Atom**: 原子，也就是标签或者说字面值，一般用于标记结果的类型，例如 `#err` 和 `#ok`
   - boolean 也是原子，其中 True 对应 `#t`，而 False 对应 `#f`
 - **String**: 字符串，使用双引号标记，字符串默认支持多行，但 **不支持转义字符**
@@ -114,6 +115,7 @@ pub enum Value {
 - **Builtin**: 内置函数，KSL 内部提供的函数
 - **Plugin**: 插件函数，通过插件方式加载的函数
 - **Object**: 数据对象类型，包含对象类型名称和一个字典
+- **RawObject**: 原始对象类型，只能由插件函数返回和使用，使用后一定要使用对应的函数释放
 - **Apply**: 函数调用产生的对象
 
 在 KSL 中，值的绑定和更新都是使用 `Let` 函数，
@@ -294,7 +296,7 @@ name = "example"
 crate-type = ["lib", "dylib"]
 
 [dependencies]
-ksl = "^0.1.7"
+ksl = "^0.1.10"
 ```
 
 在这里，我创建了一个 `example` 库，这个库会编译成一个 Rust 动态库，这个库依赖 `ksl`
