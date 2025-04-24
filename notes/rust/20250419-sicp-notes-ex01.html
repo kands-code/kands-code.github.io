@@ -274,7 +274,7 @@ Print[
 <pre><code class="language-rust">pub enum Value {
     Unit,
     Module(String, Environment),
-    Identity(String),
+    Symbol(String),
     Atom(String),
     String(String),
     Number(f64),
@@ -283,6 +283,7 @@ Print[
     Builtin(&amp;'static str),
     Plugin(String, String),
     Object(String, Environment),
+    RawObject(String, *mut u8),
     Apply(Vec&lt;Value&gt;, Box&lt;Value&gt;),
 }</code></pre>
 <p>分别对应于：</p>
@@ -300,7 +301,7 @@ Print[
 </ul>
 </li>
 <li>
-<p><strong>Identity</strong>: 符号，也就是各种名称，支持数字，英文字母，下划线以及单引号，但是需要字母开头</p>
+<p><strong>Symbol</strong>: 符号，也就是各种名称，支持数字，英文字母，下划线以及单引号，但是需要字母开头</p>
 </li>
 <li>
 <p><strong>Atom</strong>: 原子，也就是标签或者说字面值，一般用于标记结果的类型，例如 <code>#err</code> 和 <code>#ok</code></p>
@@ -350,6 +351,9 @@ Print[
 </li>
 <li>
 <p><strong>Object</strong>: 数据对象类型，包含对象类型名称和一个字典</p>
+</li>
+<li>
+<p><strong>RawObject</strong>: 原始对象类型，只能由插件函数返回和使用，使用后一定要使用对应的函数释放</p>
 </li>
 <li>
 <p><strong>Apply</strong>: 函数调用产生的对象</p>
@@ -483,7 +487,7 @@ name = "example"
 crate-type = ["lib", "dylib"]
 
 [dependencies]
-ksl = "^0.1.7"
+ksl = "^0.1.10"
 </code></pre>
 <p>在这里，我创建了一个 <code>example</code> 库，这个库会编译成一个 Rust 动态库，这个库依赖 <code>ksl</code></p>
 <p>然后在 <code>lib.rs</code> 中，编写插件函数：</p>
