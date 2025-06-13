@@ -52,3 +52,4 @@
   - [忙忙碌碌](./miscellany/life/20240120-busy-life.md)
   - [颓废生活](./miscellany/life/20240404-decadent-life.md)
   - [居家生活](./miscellany/life/20240721-home-life.md)
+  - [工作焦虑](./miscellany/life/20250613-find-job.md)
