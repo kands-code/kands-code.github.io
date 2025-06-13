@@ -155,4 +155,4 @@ C 和 C++ 最大的问题就是没有一个规范的编译器和相关组件实�
 
 [^4]:
     ksl_raylib \[CP/OL\]. (2025-04-22)\[2025-04-23\].
-    <https://github.com/kands-code/rswk/tree/repo-src/ksl_raylib>
+    [https://github.com/kands-code/rswk/ksl_raylib](https://github.com/kands-code/rswk/tree/9136384368e3be0d2f9591d7b4c5620749cf502b/ksl_raylib)
