@@ -1,2 +1,2 @@
 # exclude theme/ from linguist
-theme/ linguist-generated=true
+theme/**/* linguist-generated=true
