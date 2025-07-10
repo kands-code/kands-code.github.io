@@ -13,12 +13,12 @@
 我是为什么想到使用 Steam 来安装 Windows 应用的呢？
 主要还是国内网络环境不好，[bottles](https://usebottles.com/) 在我这里完全没法完成初始化，
 加上网上已经有许多有关 Wine，Proton 的使用教程视频，并且也有使用 Steam 启动非 Steam 游戏的教程，
-所以很自然的，我就想到了使用 Steam 来安装非游戏应用。
+所以很自然的，我就想到了使用 Steam 来安装非游戏应用
 
 ## 可能的难点
 
 Proton 就是从 Steam 发展出去的技术，而这个技术则是基于 Wine 的，
-所以使用 Steam 安装 Windows 应用，其实就是让 Steam 来自动帮我们用 Proton 初始化一个合适的容器[^1]。
+所以使用 Steam 安装 Windows 应用，其实就是让 Steam 来自动帮我们用 Proton 初始化一个合适的容器[^1]
 
 ### 为什么不手动创建呢？
 

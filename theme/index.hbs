@@ -16,8 +16,10 @@
         <meta name="robots" content="noindex">
         {{/if}}
         {{!-- 设置基础链接 output.html.site-url --}}
-        {{#if base_url}}
+        {{#if base_url}} {{!-- 只影响 404 页面！ --}}
         <base href="{{ base_url }}">
+        {{else}}
+        <base href="/"> {{!-- 设置基本 base 页面 --}}
         {{/if}}
         {{!-- 其他 meta info 或者 head 设置 head.hbs --}}
         {{> head}}
