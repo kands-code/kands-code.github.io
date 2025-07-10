@@ -62,14 +62,18 @@ giscus 借鉴了其前辈 utterances，一个基于 GitHub 的 issues 系统的�
 </main>
 ```
 
-对于 `theme/book.js` 只需要找到 `localStorage.setItem("mdbook-theme", theme);` 即可
+对于 `theme/book.js` 只需要找到 `get_saved_theme` 即可
 
 ```javascript
-if (store) {
+function get_saved_theme() {
+  let theme = null;
   try {
-    localStorage.setItem("mdbook-theme", theme);
+    theme = localStorage.getItem("mdbook-theme");
     setGiscusTheme();
-  } catch (e) {}
+  } catch (e) {
+    // ignore error.
+  }
+  return theme;
 }
 ```
 

@@ -80,6 +80,8 @@ preferred-dark-theme = "ayu"
 smart-punctuation = true
 # use mathjax
 mathjax-support = false
+# respective font files
+copy-fonts = true
 # user difined css & js
 additional-css = ["theme/utils.css"]
 additional-js = ["theme/giscus.js"]
