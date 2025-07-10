@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html
     lang="zh-Hans" 
-    class="rust" 
+    class="rust sidebar-visible"
     dir="ltr"> 
     <head>
         <title>Haskell 99 Questions :: 0x01 - Kevin Stephen&#x27;s Blogs</title> 
@@ -18,203 +18,173 @@
         <link rel="stylesheet" href="../../css/general.css">
         <link rel="stylesheet" href="../../css/chrome.css">
 
-        <link rel="stylesheet"
-            href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
         <link rel="stylesheet" href="../../fonts/fonts.css">
 
-        <link rel="stylesheet" href="../../highlight.css">
-        <link rel="stylesheet" href="../../tomorrow-night.css">
-        <link rel="stylesheet" href="../../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
 
         <link rel="stylesheet" href="../../theme/utils.css">
 
+
+        <script>
+            // 获取 root 路径
+            const path_to_root = "../../";
+            // 获取默认亮色主题
+            const default_light_theme = "rust";
+            // 获取默认暗色主题
+            const default_dark_theme = "ayu";
+            // 启用搜索
+            window.path_to_searchindex_js = "../../searchindex.js";
+        </script>
+        <script src="../../toc.js"></script>
     </head>
-    <body class="sidebar-visible no-js">
-        <div id="body-container">
-            <script>
-                // 获取 root 路径
-                var path_to_root = "../../";
-                // 获取默认主题
-                var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-                    ? "ayu"
-                    : "rust";
-            </script>
-            <script>
-                try {
-                    var theme = localStorage.getItem("mdbook-theme");
-                    var sidebar = localStorage.getItem("mdbook-sidebar");
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">键盘快捷键</h2>
+            <div>
+                <p>使用 <kbd>←</kbd> 或 <kbd>→</kbd> 跳转章节</p>
+                <p>使用 <kbd>S</kbd> 或 <kbd>/</kbd> 在本书内搜索</p>
+                <p>使用 <kbd>?</kbd> 显示帮助页面</p>
+                <p>使用 <kbd>Esc</kbd> 隐藏帮助页面</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <script>
+            try {
+                let theme = localStorage.getItem("mdbook-theme");
+                let sidebar = localStorage.getItem("mdbook-sidebar");
 
-                    if (theme.startsWith('"') && theme.endsWith('"')) {
-                        localStorage.setItem(
-                            "mdbook-theme",
-                            theme.slice(1, theme.length - 1).trim()
-                        );
-                    }
-
-                    if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
-                        localStorage.setItem(
-                            "mdbook-sidebar",
-                            sidebar.slice(1, sidebar.length - 1).trim()
-                        );
-                    }
-                } catch (e) {}
-            </script>
-            <script>
-                var theme;
-                try {
-                    theme = localStorage.getItem("mdbook-theme");
-                } catch (e) {}
-                if (theme === null || theme === undefined) {
-                    theme = default_theme;
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem(
+                        "mdbook-theme",
+                        theme.slice(1, theme.length - 1).trim()
+                    );
                 }
-                var html = document.querySelector("html");
-                html.classList.remove("rust");
-                html.classList.add(theme);
-                var body = document.querySelector("body");
-                body.classList.remove("no-js");
-                body.classList.add("js");
-            </script>
 
-            <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
-            <script>
-                var body = document.querySelector("body");
-                var sidebar = null;
-                var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
-                if (document.body.clientWidth >= 1080) {
-                try {
-                    sidebar = localStorage.getItem("mdbook-sidebar");
-                } catch (e) {}
-                    sidebar = sidebar || "visible";
-                } else {
-                    sidebar = "hidden";
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem(
+                        "mdbook-sidebar",
+                        sidebar.slice(1, sidebar.length - 1).trim()
+                    );
                 }
-                sidebar_toggle.checked = sidebar === "visible";
-                body.classList.remove("sidebar-visible");
-                body.classList.add("sidebar-" + sidebar);
-            </script>
+            } catch (e) { }
+        </script>
+        <script>
+            // 获取默认主题
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove("rust")
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
 
-            <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-                <div class="sidebar-scrollbox">
-                    <ol class="chapter"><li class="chapter-item "><a href="init.html">Init</a></li><li class="chapter-item "><a href="about.html">About</a></li><li class="chapter-item affix "><li class="part-title">Notes</li><li class="chapter-item "><a href="notes/haskell/index.html">Haskell</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="notes/haskell/20241030-haskell-99-questions-0x01.html">Haskell 99 Questions :: 0x01</a></li><li class="chapter-item "><a href="notes/haskell/20241031-haskell-99-questions-0x02.html">Haskell 99 Questions :: 0x02</a></li><li class="chapter-item "><a href="notes/haskell/20241104-haskell-99-questions-0x03.html">Haskell 99 Questions :: 0x03</a></li><li class="chapter-item "><a href="notes/haskell/20241208-haskell-99-questions-0x04.html">Haskell 99 Questions :: 0x04</a></li></ol></li><li class="chapter-item "><a href="notes/rust/index.html">Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="notes/rust/20240727-rust-fuction-and-clousure.html">Rust 中的函数与闭包</a></li><li class="chapter-item "><a href="notes/rust/20241102-sicp-notes-0x01.html">SICP 笔记 - 0x01</a></li><li class="chapter-item "><a href="notes/rust/20241105-sicp-notes-0x02.html">SICP 笔记 - 0x02</a></li><li class="chapter-item "><a href="notes/rust/20250225-sicp-notes-0x03.html">SICP 笔记 - 0x03</a></li><li class="chapter-item "><a href="notes/rust/20250316-sicp-notes-0x04.html">SICP 笔记 - 0x04</a></li><li class="chapter-item "><a href="notes/rust/20250317-sicp-notes-0x05.html">SICP 笔记 - 0x05</a></li><li class="chapter-item "><a href="notes/rust/20250319-sicp-notes-0x06.html">SICP 笔记 - 0x06</a></li><li class="chapter-item "><a href="notes/rust/20250321-sicp-notes-0x07.html">SICP 笔记 - 0x07</a></li><li class="chapter-item "><a href="notes/rust/20250419-sicp-notes-ex01.html">SICP 笔记 - ex01</a></li><li class="chapter-item "><a href="notes/rust/20250710-phyrs-0x01.html">Phyrs - 0x01</a></li></ol></li><li class="chapter-item "><a href="notes/sagemath/index.html">SageMath</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="notes/sagemath/20240829-sagemath-0x00.html">安装 SageMath</a></li><li class="chapter-item "><a href="notes/sagemath/20240830-sagemath-0x01.html">SageMath 基本运算与函数</a></li><li class="chapter-item "><a href="notes/sagemath/20240831-sagemath-0x02.html">SageMath 基本语法</a></li><li class="chapter-item "><a href="notes/sagemath/20240831-sagemath-0x03.html">SageMath 代数初步</a></li><li class="chapter-item "><a href="notes/sagemath/20240901-sagemath-0x04.html">SageMath 基本作图</a></li><li class="chapter-item "><a href="notes/sagemath/20240905-sagemath-0x05.html">SageMath 基本代数</a></li><li class="chapter-item "><a href="notes/sagemath/20240906-sagemath-0x06.html">SageMath 多项式</a></li></ol></li><li class="chapter-item "><li class="part-title">Miscellany</li><li class="chapter-item "><a href="miscellany/coding/index.html">Coding</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="miscellany/coding/20210604-scope-of-if-statement.html">if 语句的作用域</a></li><li class="chapter-item "><a href="miscellany/coding/20221026-parse-math-in-c.html">C 语言数学解析器</a></li><li class="chapter-item "><a href="miscellany/coding/20231107-clash-system-agent.html">C𝜆ash 系统代理</a></li><li class="chapter-item "><a href="miscellany/coding/20240228-use-giscus-in-mdbook.html">在 mdBook 中使用 giscus 服务</a></li><li class="chapter-item "><a href="miscellany/coding/20240727-use-steam-install-windows-applications.html">使用 Steam 安装 Windows 应用</a></li><li class="chapter-item "><a href="miscellany/coding/20241122-meson-for-cpp.html">使用 Meson 构建 Cpp 项目</a></li><li class="chapter-item "><a href="miscellany/coding/20250423-rust-link-static-library-on-macos.html">在 macOS 上使用 Rust 链接静态库</a></li></ol></li><li class="chapter-item "><a href="miscellany/study/index.html">Study</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="miscellany/study/20221108-qiskit-linear-algebra.html">Qiskit 线性代数</a></li><li class="chapter-item "><a href="miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.html">Qiskit Deutsch-Jozsa 算法</a></li><li class="chapter-item "><a href="miscellany/study/20241222-qr-decomposition.html">计算 QR 分解</a></li><li class="chapter-item "><a href="miscellany/study/20241226-linear-norm.html">向量与矩阵的模</a></li></ol></li><li class="chapter-item "><a href="miscellany/life/index.html">Life</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="miscellany/life/20230411-about-life.html">说说以后的打算罢</a></li><li class="chapter-item "><a href="miscellany/life/20230715-about-job.html">谈谈最近的工作状态</a></li><li class="chapter-item "><a href="miscellany/life/20230915-end-of-summer.html">暑假结束了</a></li><li class="chapter-item "><a href="miscellany/life/20231020-new-life.html">新的生活</a></li><li class="chapter-item "><a href="miscellany/life/20240120-busy-life.html">忙忙碌碌</a></li><li class="chapter-item "><a href="miscellany/life/20240404-decadent-life.html">颓废生活</a></li><li class="chapter-item "><a href="miscellany/life/20240721-home-life.html">居家生活</a></li><li class="chapter-item "><a href="miscellany/life/20250613-find-job.html">工作焦虑</a></li></ol></li></ol>
-                </div>
-                <div id="sidebar-resize-handle" class="sidebar-resize-handle">
-                    <div class="sidebar-resize-indicator"></div>
-                </div>
-            </nav>
-
-            <script>
-                var sidebarScrollbox = document.querySelector("#sidebar .sidebar-scrollbox");
-                sidebarScrollbox.addEventListener(
-                    "click",
-                    function (e) {
-                        if (e.target.tagName === "A") {
-                            sessionStorage.setItem("sidebar-scroll", sidebarScrollbox.scrollTop);
-                        }
-                    },
-                    { passive: true }
-                );
-                var sidebarScrollTop = sessionStorage.getItem("sidebar-scroll");
-                sessionStorage.removeItem("sidebar-scroll");
-                if (sidebarScrollTop) {
-                    // preserve sidebar scroll position when navigating via links within sidebar
-                    sidebarScrollbox.scrollTop = sidebarScrollTop;
-                } else {
-                    // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                    var activeSection = document.querySelector("#sidebar .active");
-                    if (activeSection) {
-                        activeSection.scrollIntoView({ block: "center" });
-                    }
-                }
-            </script>
-
-            <div id="page-wrapper" class="page-wrapper">
-                <div class="page">
-                    <div id="menu-bar-hover-placeholder"></div>
-                    <div id="menu-bar" class="menu-bar sticky">
-                        <div class="left-buttons">
-                            <label id="sidebar-toggle" class="icon-button"
-                                for="sidebar-toggle-anchor"
-                                title="Toggle Table of Contents"
-                                aria-label="Toggle Table of Contents"
-                                aria-controls="sidebar">
-                                <i class="fa fa-bars"></i>
-                            </label>
-                            <button id="theme-toggle" class="icon-button"
-                                type="button" title="Change theme"
-                                aria-label="Change theme" aria-haspopup="true"
-                                aria-expanded="false"
-                                aria-controls="theme-list">
-                                <i class="fa fa-paint-brush"></i>
-                            </button>
-                            <ul id="theme-list" class="theme-popup"
-                                aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem"
-                                        class="theme"
-                                        id="light">Light</button></li>
-                                <li role="none"><button role="menuitem"
-                                        class="theme"
-                                        id="rust">Rust</button></li>
-                                <li role="none"><button role="menuitem"
-                                        class="theme"
-                                        id="coal">Coal</button></li>
-                                <li role="none"><button role="menuitem"
-                                        class="theme"
-                                        id="navy">Navy</button></li>
-                                <li role="none"><button role="menuitem"
-                                        class="theme" id="ayu">Ayu</button></li>
-                            </ul>
-                            <button id="search-toggle" class="icon-button"
-                                type="button" title="Search. (Shortkey: s)"
-                                aria-label="Toggle Searchbar"
-                                aria-expanded="false" aria-keyshortcuts="S"
-                                aria-controls="searchbar">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                        <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
-                        <div class="right-buttons">
-                            <a href="https://github.com/kands-code/kands-code.github.io"
-                                title="Git repository"
-                                aria-label="Git repository">
-                                <i id="git-repository-button"
-                                    class="fa fa-github"></i>
-                            </a>
-                            <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/haskell/20241030-haskell-99-questions-0x01.md"
-                                title="Suggest an edit"
-                                aria-label="Suggest an edit">
-                                <i id="git-edit-button" class="fa fa-edit"></i>
-                            </a>
-                        </div>
+        <div id="page-wrapper" class="page-wrapper">
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button"
+                            for="sidebar-toggle-anchor"
+                            title="Toggle Table of Contents"
+                            aria-label="Toggle Table of Contents"
+                            aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button"
+                            type="button" title="Change theme"
+                            aria-label="Change theme" aria-haspopup="true"
+                            aria-expanded="false"
+                            aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button"
+                            type="button" title="Search (`/`)"
+                            aria-label="Toggle Searchbar"
+                            aria-expanded="false" aria-keyshortcuts="/ s"
+                            aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
                     </div>
-                    <div id="search-wrapper" class="hidden">
-                        <form id="searchbar-outer" class="searchbar-outer">
+                    <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+                    <div class="right-buttons">
+                        <a href="https://github.com/kands-code/kands-code.github.io" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/haskell/20241030-haskell-99-questions-0x01.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
                             <input type="search" id="searchbar" name="searchbar"
-                                placeholder="searching..."
+                                placeholder="Search this book ..."
                                 aria-controls="searchresults-outer"
                                 aria-describedby="searchresults-header">
-                        </form>
-                        <div id="searchresults-outer"
-                            class="searchresults-outer hidden">
-                            <div id="searchresults-header"
-                                class="searchresults-header"></div>
-                            <ul id="searchresults">
-                            </ul>
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
                         </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
                     </div>
-                    <script>
-                        document
-                            .getElementById("sidebar-toggle")
-                            .setAttribute("aria-expanded", sidebar === "visible");
-                        document
-                            .getElementById("sidebar")
-                            .setAttribute("aria-hidden", sidebar !== "visible");
-                        Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
-                            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
-                        });
-                    </script>
-
-                    <div id="content" class="content">
-                        <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+                </div>
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+                <div id="content" class="content">
+                    <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="haskell-99-questions--0x01"><a class="header" href="#haskell-99-questions--0x01">Haskell 99 Questions :: 0x01</a></h1>
 <p class="archive-time">archive time: 2024-10-30</p>
 <p class="sp-comment">闲来无事，来练习一下 Haskell</p>
@@ -544,50 +514,48 @@ main = hspec $ do
 </code></pre>
 <p>之后的测试代码我就不再重复主函数部分了</p>
 </main>
-                        <nav class="nav-wrapper" aria-label="Page navigation">
-                            <a rel="prev" href="../../notes/haskell/index.html"
-                                class="mobile-nav-chapters previous"
-                                title="Previous chapter"
-                                aria-label="Previous chapter"
-                                aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
-                            <a rel="next prefetch"
-                                href="../../notes/haskell/20241031-haskell-99-questions-0x02.html"
-                                class="mobile-nav-chapters next"
-                                title="Next chapter" aria-label="Next chapter"
-                                aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                            <div style="clear: both"></div>
-                        </nav>
-                    </div>
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <a rel="prev" href="../../notes/haskell/index.html"
+                            class="mobile-nav-chapters previous"
+                            title="Previous chapter"
+                            aria-label="Previous chapter"
+                            aria-keyshortcuts="Left">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a rel="next prefetch" href="../../notes/haskell/20241031-haskell-99-questions-0x02.html"
+                            class="mobile-nav-chapters next"
+                            title="Next chapter" aria-label="Next chapter"
+                            aria-keyshortcuts="Right">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                        <div style="clear: both"></div>
+                    </nav>
                 </div>
-                <div class="giscus-comment">
-                </div>
-                <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../notes/haskell/index.html"
-                        class="nav-chapters previous" title="Previous chapter"
-                        aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-                    <a rel="next prefetch" href="../../notes/haskell/20241031-haskell-99-questions-0x02.html"
-                        class="nav-chapters next" title="Next chapter"
-                        aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-                </nav>
             </div>
-            <script>
-                window.playground_copyable = true;
-            </script>
-            <script src="../../elasticlunr.min.js"></script>
-            <script src="../../mark.min.js"></script>
-            <script src="../../searcher.js"></script>
-            <script src="../../clipboard.min.js"></script>
-            <script src="../../highlight.js"></script>
-            <script src="../../book.js"></script>
-            <script src="../../theme/giscus.js"></script>
+            <div class="giscus-comment"></div>
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                <a rel="prev" href="../../notes/haskell/index.html"
+                    class="nav-chapters previous" title="Previous chapter"
+                    aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                <a rel="next prefetch" href="../../notes/haskell/20241031-haskell-99-questions-0x02.html"
+                    class="nav-chapters next" title="Next chapter"
+                    aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </nav>
         </div>
+        <script>
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+        <script src="../../theme/giscus.js"></script>
+    </div>
     </body>
 </html>
