@@ -63,12 +63,12 @@ Add(
 大概可以分解为
 
 $$
-  \begin{align}
-    \mathrm{Expr} ::&= \mathrm{Expr} \circ \mathrm{Expr} \notag \\
-    &|\quad \mathrm{sign}(\mathrm{Expr}) \notag \\
-    &|\quad f(\mathrm{Expr}) \notag \\
-    &|\quad \mathrm{Const}(N) \notag
-  \end{align}
+  \begin{aligned}
+    \mathrm{Expr} ::&= \operatorname{Expr} \circ \operatorname{Expr} \\
+    &|\quad \operatorname{sign}(\operatorname{Expr}) \\
+    &|\quad f(\operatorname{Expr}) \\
+    &|\quad \operatorname{Const}(N)
+  \end{aligned}
 $$
 
 对应 **Expr** 的类型定义为
