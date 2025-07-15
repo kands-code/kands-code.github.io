@@ -1,5 +1,5 @@
 <html
-  lang="zh-Hans"
+  lang="zh-CN"
   class="rust sidebar-visible"
   dir="ltr"
 >
@@ -320,28 +320,28 @@
 <p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">d</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">d</span><span class="mord mathnormal">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
 <h3 id="rust-中的导数"><a class="header" href="#rust-中的导数">Rust 中的导数</a></h3>
 <p>导数在 Rust 中可以用如下方式实现：</p>
-<pre><code class="language-rust">pub fn derivative_real&lt;R: RealFloat + 'static&gt;(
-    f: Arc&lt;dyn Fn(R) -&gt; R&gt;,
+<pre><code class="language-rust">pub fn derivative_real&lt;'a, R: RealFloat + 'a&gt;(
+    f: Rc&lt;dyn Fn(R) -&gt; R&gt;,
     dx: R,
-) -&gt; Arc&lt;dyn Fn(R) -&gt; R&gt; {
-    Arc::new(move |x: R| -&gt; R {
+) -&gt; Rc&lt;dyn Fn(R) -&gt; R + 'a&gt; {
+    Rc::new(move |x: R| -&gt; R {
         let hdx = dx.clone() * R::half();
         (f(x.clone() + hdx.clone()) - f(x - hdx)) / dx.clone()
     })
 }</code></pre>
-<p>其中 <code>RealFloat</code> 来自 <strong>rmatrix_ks</strong> 库，使用 <code>Arc</code> 是为了避免闭包的所有权问题，
+<p>其中 <code>RealFloat</code> 来自 <strong>rmatrix_ks</strong> 库，使用 <code>Rc</code> 是为了避免闭包的所有权问题，
 可以参考 <a href="./20240727-rust-fuction-and-clousure.html#%E5%87%BD%E6%95%B0%E5%92%8C%E9%97%AD%E5%8C%85">函数和闭包</a></p>
 <h3 id="一维运动示例"><a class="header" href="#一维运动示例">一维运动示例</a></h3>
 <p>现在假设有一辆汽车，其位移与时间的关系为：</p>
 <p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord textrm mtight">Car</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mop">cos</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">t</span></span></span></span></span></span></p>
 <p>通过上述的 <code>derivative_real</code> 函数，我们可以找到这个汽车对应的速度与时间的关系：</p>
-<pre><code class="language-rust">let car_position = Arc::new(|t: Double| -&gt; Double { t.cosine() });
+<pre><code class="language-rust">let car_position = Rc::new(|t: Double| -&gt; Double { t.cosine() });
 let car_velocity = derivative_real(car_position.clone(), double_eps.clone());</code></pre>
 <p>理论上，汽车的速度函数应该是：</p>
 <p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord textrm mtight">Car</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">d</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">d</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord textrm mtight">Car</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7512em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">sin</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">t</span></span></span></span></span></span></p>
 <p>我们可以验证得到的速度函数与理论一致：</p>
 <pre><code class="language-rust">let test_time = Double::of(3.2);
-let car_velocity_analytic = Arc::new(|t: Double| -&gt; Double { -t.sine() });
+let car_velocity_analytic = Rc::new(|t: Double| -&gt; Double { -t.sine() });
 assert_eq!(
     car_velocity(test_time.clone()),
     car_velocity_analytic(test_time)
@@ -358,14 +358,14 @@ assert_eq!(
 <p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.511em;vertical-align:-0.9119em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.599em;"><span style="top:-1.7881em;margin-left:-0.4445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span><span style="top:-3.8129em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">b</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9119em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mord mathrm">d</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:3.2281em;vertical-align:-1.2671em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-2.3557em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mrel mtight">→</span><span class="mord mtight">∞</span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop">lim</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7443em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.961em;"><span style="top:-1.8829em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.386em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mord mtight">/2</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2671em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">[</span></span><span class="mord">2</span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mopen">(</span><span class="mord">2</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">]</span></span></span></span></span></span></span></p>
 <p>其中 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mopen">(</span><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">a</span><span class="mclose">)</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> 是间隔宽度，选取间隔中点的函数值来减小误差</p>
 <p>使用 Rust 实现，我们可以选择传入间隔宽度而不是间隔数量，即：</p>
-<pre><code class="language-rust">pub fn integral_real&lt;R: RealFloat + 'static&gt;(
-    f: Arc&lt;dyn Fn(R) -&gt; R&gt;,
+<pre><code class="language-rust">pub fn integral_real&lt;'a, R: RealFloat + 'a&gt;(
+    f: Rc&lt;dyn Fn(R) -&gt; R&gt;,
     dx: R,
-) -&gt; Arc&lt;dyn Fn(R, R) -&gt; R&gt; {
-    Arc::new(move |lb: R, ub: R| -&gt; R {
+) -&gt; Rc&lt;dyn Fn(R, R) -&gt; R + 'a&gt; {
+    Rc::new(move |lb: R, ub: R| -&gt; R {
         let hdx = dx.clone() * R::half();
         let value = dx.clone();
-        Iterate::of(Arc::new(move |x| x + value.clone()), lb + hdx.clone())
+        Iterate::of(Rc::new(move |x| x + value.clone()), lb + hdx.clone())
             .take_while(|x| x &lt;= &amp;(ub.clone() - hdx.clone()))
             .map(|x| f(x) * dx.clone())
             .fold(R::zero(), |acc, x| acc + x)
@@ -374,7 +374,7 @@ assert_eq!(
 <p>可以测试一下积分结果是否正确：</p>
 <pre><code class="language-rust">assert_eq!(
     integral_real( // 对 x^2 从 0 到 1 积分
-        Arc::new(|x: Double| x.power(Double::of(2.0))),
+        Rc::new(|x: Double| x.power(Double::of(2.0))),
         double_eps.clone()
     )(Double::zero(), Double::one()),
     Double::one() / Double::of(3.0)
@@ -382,12 +382,12 @@ assert_eq!(
 <p>要得到一个函数而不是具体积分结果，可以使用反导数，即传入初始值：</p>
 <p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord textrm mtight">init</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.3262em;vertical-align:-0.9119em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4143em;"><span style="top:-1.7881em;margin-left:-0.4445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span><span style="top:-3.8129em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9119em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mord mathrm">d</span><span class="mord mathnormal">t</span></span></span></span></span></p>
 <p>对应 Rust 代码为：</p>
-<pre><code class="language-rust">pub fn anti_derivative_real&lt;R: RealFloat + 'static&gt;(
-    f: Arc&lt;dyn Fn(R) -&gt; R&gt;,
+<pre><code class="language-rust">pub fn anti_derivative_real&lt;'a, R: RealFloat + 'a&gt;(
+    f: Rc&lt;dyn Fn(R) -&gt; R&gt;,
     dx: R,
     init: R,
-) -&gt; Arc&lt;dyn Fn(R) -&gt; R&gt; {
-    Arc::new(move |x: R| -&gt; R {
+) -&gt; Rc&lt;dyn Fn(R) -&gt; R + 'a&gt; {
+    Rc::new(move |x: R| -&gt; R {
         init.clone() + integral_real(f.clone(), dx.clone())(R::zero(), x.clone())
     })
 }</code></pre>
@@ -523,55 +523,56 @@ fn run() -&gt; Option&lt;()&gt; {
 <p>其中单位默认是 px，更具体的绘图示例可以参考 <a href="https://plotters-rs.github.io/book/">对应文档</a></p>
 <h2 id="另一种积分实现"><a class="header" href="#另一种积分实现">另一种积分实现</a></h2>
 <p>我们还可以把累加的部分提取出来，将积分的过程变成一个迭代的过程：</p>
-<pre><code class="language-rust">pub fn integral_real_iter&lt;R: RealFloat + 'static&gt;(
-    f: Arc&lt;dyn Fn(R) -&gt; R&gt;,
+<pre><code class="language-rust">pub fn integral_real_iter&lt;'a, R: RealFloat + 'a&gt;(
+    f: Rc&lt;dyn Fn(R) -&gt; R&gt;,
     dx: R,
-) -&gt; Arc&lt;dyn Fn(R, R) -&gt; R&gt; {
-    fn one_step&lt;R: RealFloat + 'static&gt;(
-        dx: R,
-        f: Arc&lt;dyn Fn(R) -&gt; R&gt;,
-        (x, state): (R, R),
-    ) -&gt; (R, R) {
-        (x.clone() + dx.clone(), state + f(x) * dx)
+) -&gt; Rc&lt;dyn Fn(R, R) -&gt; R + 'a&gt; {
+    fn one_step&lt;'a, R: RealFloat + 'a&gt;(dx: R, f: Rc&lt;dyn Fn(R) -&gt; R&gt;, (x, acc): (R, R)) -&gt; (R, R) {
+        (x.clone() + dx.clone(), acc + f(x) * dx)
     }
 
-    Arc::new(move |lb: R, ub: R| -&gt; R {
+    Rc::new(move |lb: R, ub: R| -&gt; R {
         let value = dx.clone();
         let fvalue = f.clone();
         Iterate::of(
-            Arc::new(move |state: (R, R)| -&gt; (R, R) {
+            Rc::new(move |state: (R, R)| -&gt; (R, R) {
                 one_step(value.clone(), fvalue.clone(), state)
             }),
             (lb + dx.clone(), R::zero()),
         )
         .find(|(x, _)| x &gt; &amp;ub)
-        .expect("Error[integral_real_iter]: Failed to get iterate state.")
+        .expect(concat!(
+            "Error[integral_real_iter]: ",
+            "Failed to get iterate state."
+        ))
         .1
     })
 }</code></pre>
 <p>其中 <code>one_step</code> 接受当前累加状态，返回下一次累加的状态</p>
 <p><code>Iterate</code> 是一个迭代器，将返回 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">))</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)))</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span>，
 其具体定义如下：</p>
-<pre><code class="language-rust">pub struct Iterate&lt;T&gt; {
-    f: Arc&lt;dyn Fn(T) -&gt; T&gt;,
+<pre><code class="language-rust">#[derive(Clone)]
+pub struct Iterate&lt;'a, T&gt; {
+    f: Rc&lt;dyn Fn(T) -&gt; T + 'a&gt;,
     state: T,
 }
 
-impl&lt;T&gt; Iterate&lt;T&gt; {
-    pub fn of(f: Arc&lt;dyn Fn(T) -&gt; T&gt;, init: T) -&gt; Self {
+impl&lt;'a, T&gt; Iterate&lt;'a, T&gt; {
+    pub fn of(f: Rc&lt;dyn Fn(T) -&gt; T + 'a&gt;, init: T) -&gt; Self {
         Iterate { f, state: init }
     }
 }
 
-impl&lt;T&gt; Iterator for Iterate&lt;T&gt;
+impl&lt;'a, T&gt; Iterator for Iterate&lt;'a, T&gt;
 where
     T: Clone,
 {
     type Item = T;
 
     fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        let next_state = self.state.clone();
         self.state = (self.f)(self.state.clone());
-        Some(self.state.clone())
+        Some(next_state)
     }
 }</code></pre>
 <hr />
