@@ -7,7 +7,7 @@ description = "找到属于自己的光"
 # source directory
 src = "src"
 # see: https://datatracker.ietf.org/doc/html/rfc5646#appendix-A
-language = "zh-Hans"
+language = "zh-CN"
 # possible value: "ltr" | "rtl"
 text-direction = "ltr"
 

@@ -24,6 +24,7 @@
   - [Phyrs - 0x02](./notes/rust/20250711-phyrs-0x02.md)
   - [Phyrs - 0x03](./notes/rust/20250712-phyrs-0x03.md)
   - [Phyrs - 0x04](./notes/rust/20250713-phyrs-0x04.md)
+  - [Phyrs - 0x05](./notes/rust/20250715-phyrs-0x05.md)
 - [SageMath](./notes/sagemath/index.md)
   - [安装 SageMath](./notes/sagemath/20240829-sagemath-0x00.md)
   - [SageMath 基本运算与函数](./notes/sagemath/20240830-sagemath-0x01.md)
