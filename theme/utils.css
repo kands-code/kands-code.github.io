@@ -26,3 +26,15 @@ div.giscus-comment {
 .menu-title {
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.center-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-404 {
+  font-size: 8em;
+  font-weight: bold;
+  font-style: italic;
+}

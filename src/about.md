@@ -8,7 +8,7 @@
 
 本人目前已是一名社畜，曾在大学学过物理学，不过迟早有一天会将物理忘干净，连 "民科" 都做不成
 
-<div style="text-align: center;">
+<div class="center-box">
   <img src="assets/avatar.jpg" width="32%" alt="avatar">
 </div>
 
