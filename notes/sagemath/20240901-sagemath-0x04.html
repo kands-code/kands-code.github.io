@@ -292,14 +292,16 @@
 <pre><code class="language-python">c = circle((0, 0), 1, rgbcolor=(0, 1, 0))
 c.show()
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic01.png" width="64%" alt="绿色圆形">
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic01.png"
+    width="64%" alt="绿色圆形">
 </div>
 <p>通过 <code>rgbcolor</code>，可以简单控制边缘线条以及内部填充的颜色，
 如果要控制边缘和填充颜色不同，那么可以使用 <code>edgecolor</code> 和 <code>facecolor</code> 控制</p>
 <p>下面是一个填充的例子，边缘颜色是绿色，填充红色，半透明：</p>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic02.png" width="64%" alt="边缘绿色填充红色的半透明圆形">
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic02.png"
+    width="64%" alt="边缘绿色填充红色的半透明圆形">
 </div>
 <p>默认的 <code>edgecolor</code> 和 <code>facecolor</code> 都是蓝色，更加具体的可以参考 <code>?circle</code></p>
 <p>如果想要在非 Jupyter 环境画出图像，可以使用 <code>show()</code> 函数，
@@ -308,8 +310,9 @@ c.show()
 <pre><code class="language-python">c.show(aspect_ratio=0.5)
 c.save("assets/day04-circle-example.png")
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic03.png" width="64%"
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic03.png"
+    width="64%"
     alt="长宽比为 0.5 的边缘绿色填充红色的半透明圆形">
 </div>
 <h3 id="函数作图"><a class="header" href="#函数作图">函数作图</a></h3>
@@ -317,15 +320,17 @@ c.save("assets/day04-circle-example.png")
 <pre><code class="language-python">x = var("x")
 plot(x^2, (x, -1, 1))
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic04.png" width="64%"
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic04.png"
+    width="64%"
     alt="函数作图例子-01">
 </div>
 <p>特别的，对于一元函数，<code>plot()</code> 可以不指定符号变量，并且可以避免意外求值问题<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>：</p>
 <pre><code class="language-python">plot([cos, sin], (-pi, pi), fill=True)
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic05.png" width="64%"
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic05.png"
+    width="64%"
     alt="sin 和 cos 在 -pi 到 pi 的图像">
 </div>
 <p>特别的，对于参数函数，可以使用 <code>parametric_plot()</code> 作图：</p>
@@ -333,9 +338,9 @@ plot(x^2, (x, -1, 1))
 parametric_plot((cos(x), sin(x)), (x, -pi, pi),
     color=hue(0.6))
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic06.png" width="64%"
-    alt="单位圆">
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic06.png"
+    width="64%" alt="单位圆">
 </div>
 <p>对于多个图像，可以使用 <code>+</code> 将其拼接成一个图像，并且可以通过 <code>show()</code> 或者 <code>save()</code> 等函数进行进一步操作：</p>
 <pre><code class="language-python">x = var('x')
@@ -350,9 +355,9 @@ p3 = parametric_plot(
     (x, 0, 2*pi), color=(251/255, 119/255, 60/255))
 show(p1 + p2 + p3, axes=false)
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic07.png" width="64%"
-    alt="函数作图例子-02">
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic07.png"
+    width="64%" alt="函数作图例子-02">
 </div>
 <p>如果想要画出一个特定形状的填充图形，一个比较好的方法就是使用足够多的端点来作出一个多边形，然后指定填充颜色</p>
 <p>并且如果还想要在图像上添加文字，也可以用拼接的方式完成，而文字本身可以使用 <code>text()</code> 函数画出，
@@ -372,26 +377,26 @@ t = text("Polygon Fill",
     rgbcolor=(18/255, 91/255, 154/255))
 show(p + t, axes=False)
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic08.png" width="64%"
-    alt="函数作图例子-03">
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic08.png"
+    width="64%" alt="函数作图例子-03">
 </div>
 <p>如果想要类似反函数的效果，可以尝试使用 <code>line()</code> 函数配合列表推导式来完成：</p>
 <pre><code class="language-python">v = [(sin(x), x) for x in srange(-float(pi/2), float(pi/2), 0.1)]
 show(line(v), aspect_ratio=1)
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic09.png" width="48%"
-    alt="函数作图例子-04">
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic09.png"
+    width="48%" alt="函数作图例子-04">
 </div>
 <p>有时候画出来的图比较长或者比较高，导致一些细节不能很好体现，
 可以使用 <code>show()</code> 函数的 <code>[xy]min</code> 和 <code>[xy]min</code> 这两组参数来调整作图的范围：</p>
 <pre><code class="language-python">v = [(tan(x), x) for x in srange(float(-pi), float(pi/2), 0.01)]
 show(line(v), xmin=-20, xmax=20)
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic10.png" width="64%"
-    alt="函数作图例子-05">
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic10.png"
+    width="64%" alt="函数作图例子-05">
 </div>
 <p>其他的作图可以在 <a href="https://doc.sagemath.org/html/en/reference/plotting/sage/plot/plot.html">这个文档</a> 中找到，
 下面是一个轮廓图的例子，可以通过 <code>contour_plot()</code> 函数画出，
@@ -400,9 +405,9 @@ show(line(v), xmin=-20, xmax=20)
 f(x, y) = x^2 / 2 + y^2
 contour_plot(f(x, y), (x, -4, 4), (y, -2, 2), contours=[1, 4], fill=False)
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic11.png" width="64%"
-    alt="函数作图例子-06">
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic11.png"
+    width="64%" alt="函数作图例子-06">
 </div>
 <p>在 Wolfram 文档中有这样一个例子：</p>
 <pre><code class="language-mathematica">f[n_, x_] :=
@@ -420,9 +425,9 @@ fns.append(x^2 / 2)
 
 plot(fns, (x, -4, 4), fill=[n - 1/2 for n in range(1, 9)])
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic12.png" width="64%"
-    alt="函数作图例子-07">
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic12.png"
+    width="64%" alt="函数作图例子-07">
 </div>
 <h2 id="三维作图"><a class="header" href="#三维作图">三维作图</a></h2>
 <p>上述是最常见的二维作图的例子，但是有些情况下我们还需要三维作图，怎么办呢？</p>
@@ -432,9 +437,9 @@ plot(fns, (x, -4, 4), fill=[n - 1/2 for n in range(1, 9)])
 <pre><code class="language-python">x, y = var("x, y")
 plot3d(x^2 + y^2, (x,-1, 1), (y,-1, 1), mesh=True)
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic13.png" width="96%"
-    alt="3d作图例子-01">
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic13.png"
+    width="96%" alt="3d作图例子-01">
 </div>
 <p>至于其他的比如参数作图，隐式作图也有对应的三维版本，参数可以通过 <code>?plot3d</code> 查看</p>
 <pre><code class="language-python">u, v = var("u, v")
@@ -445,9 +450,9 @@ parametric_plot3d([fx, fy, fz],
     (u, 0, 2*pi), (v, 0, 2*pi),
     frame=False, color="red")
 </code></pre>
-<div style="text-align: center;">
-  <img src="../../assets/sagemath-0x04-pic14.png" width="48%"
-    alt="3d作图例子-02">
+<div class="center-box">
+  <img src="../../assets/sagemath-0x04-pic14.png"
+    width="48%" alt="3d作图例子-02">
 </div>
 <h1 id="后记"><a class="header" href="#后记">后记</a></h1>
 <p>SageMath 的绘图功能由于 matplotlib 以及 ThreeJS 等技术的成熟发展，
