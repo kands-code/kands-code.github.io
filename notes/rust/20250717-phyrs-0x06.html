@@ -1,0 +1,515 @@
+<html
+  lang="zh-CN"
+  class="rust sidebar-visible"
+  dir="ltr"
+>
+  <head>
+    <title>Phyrs - 0x06 - Kevin Stephen&#x27;s Blogs</title>
+    <meta charset="UTF-8" />
+    <meta name="description" content="找到属于自己的光" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+
+      <link rel="icon" href="../../favicon.svg" />
+      <link rel="shortcut icon" href="../../favicon.png" />
+    <link rel="stylesheet" href="../../css/variables.css" />
+    <link rel="stylesheet" href="../../css/general.css" />
+    <link rel="stylesheet" href="../../css/chrome.css" />
+
+    <link
+      rel="stylesheet"
+      href="../../FontAwesome/css/font-awesome.css"
+    />
+      <link rel="stylesheet" href="../../fonts/fonts.css" />
+
+    <link
+      rel="stylesheet"
+      id="highlight-css"
+      href="../../highlight.css"
+    />
+    <link
+      rel="stylesheet"
+      id="tomorrow-night-css"
+      href="../../tomorrow-night.css"
+    />
+    <link
+      rel="stylesheet"
+      id="ayu-highlight-css"
+      href="../../ayu-highlight.css"
+    />
+
+      <link rel="stylesheet" href="../../theme/utils.css" />
+
+
+    <script>
+      // 获取 root 路径
+      const path_to_root = "../../";
+      // 获取默认亮色主题
+      const default_light_theme = "rust";
+      // 获取默认暗色主题
+      const default_dark_theme = "ayu";
+      // 启用搜索
+        window.path_to_searchindex_js = "../../searchindex.js";
+    </script>
+    <script src="../../toc.js"></script>
+  </head>
+  <body>
+    <div id="mdbook-help-container">
+      <div id="mdbook-help-popup">
+        <h2 class="mdbook-help-title">键盘快捷键</h2>
+        <div>
+          <p>使用 <kbd>←</kbd> 或 <kbd>→</kbd> 跳转章节</p>
+            <p>使用 <kbd>S</kbd> 或 <kbd>/</kbd> 在本书内搜索</p>
+          <p>使用 <kbd>?</kbd> 显示帮助页面</p>
+          <p>使用 <kbd>Esc</kbd> 隐藏帮助页面</p>
+        </div>
+      </div>
+    </div>
+    <div id="body-container">
+      <script>
+        try {
+          let theme = localStorage.getItem("mdbook-theme");
+          let sidebar = localStorage.getItem("mdbook-sidebar");
+          if (theme.startsWith('"') && theme.endsWith('"')) {
+            localStorage.setItem(
+              "mdbook-theme",
+              theme.slice(1, theme.length - 1).trim()
+            );
+          }
+          if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+            localStorage.setItem(
+              "mdbook-sidebar",
+              sidebar.slice(1, sidebar.length - 1).trim()
+            );
+          }
+        } catch (e) {}
+      </script>
+      <script>
+        // 获取默认主题
+        const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? default_dark_theme
+          : default_light_theme;
+        let theme;
+        try {
+          theme = localStorage.getItem("mdbook-theme");
+        } catch (e) {}
+        if (theme === null || theme === undefined) {
+          theme = default_theme;
+        }
+        const html = document.documentElement;
+        html.classList.remove("rust");
+        html.classList.add(theme);
+        html.classList.add("js");
+      </script>
+      <input type="checkbox" id="sidebar-toggle-anchor" class="hidden" />
+      <script>
+        let sidebar = null;
+        const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+        if (document.body.clientWidth >= 1080) {
+          try {
+            sidebar = localStorage.getItem("mdbook-sidebar");
+          } catch (e) {}
+          sidebar = sidebar || "visible";
+        } else {
+          sidebar = "hidden";
+          sidebar_toggle.checked = false;
+        }
+        if (sidebar === "visible") {
+          sidebar_toggle.checked = true;
+        } else {
+          html.classList.remove("sidebar-visible");
+        }
+      </script>
+      <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <mdbook-sidebar-scrollbox
+          class="sidebar-scrollbox"
+        ></mdbook-sidebar-scrollbox>
+        <noscript>
+          <iframe
+            class="sidebar-iframe-outer"
+            src="../../toc.html"
+          ></iframe>
+        </noscript>
+        <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+          <div class="sidebar-resize-indicator"></div>
+        </div>
+      </nav>
+
+      <div id="page-wrapper" class="page-wrapper">
+        <div class="page">
+          <div id="menu-bar-hover-placeholder"></div>
+          <div id="menu-bar" class="menu-bar sticky">
+            <div class="left-buttons">
+              <label
+                id="sidebar-toggle"
+                class="icon-button"
+                for="sidebar-toggle-anchor"
+                title="Toggle Table of Contents"
+                aria-label="Toggle Table of Contents"
+                aria-controls="sidebar"
+              >
+                <i class="fa fa-bars"></i>
+              </label>
+              <button
+                id="theme-toggle"
+                class="icon-button"
+                type="button"
+                title="Change theme"
+                aria-label="Change theme"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-controls="theme-list"
+              >
+                <i class="fa fa-paint-brush"></i>
+              </button>
+              <ul
+                id="theme-list"
+                class="theme-popup"
+                aria-label="Themes"
+                role="menu"
+              >
+                <li role="none"><button
+                    role="menuitem"
+                    class="theme"
+                    id="default_theme"
+                  >Auto</button></li>
+                <li role="none"><button
+                    role="menuitem"
+                    class="theme"
+                    id="light"
+                  >Light</button></li>
+                <li role="none"><button
+                    role="menuitem"
+                    class="theme"
+                    id="rust"
+                  >Rust</button></li>
+                <li role="none"><button
+                    role="menuitem"
+                    class="theme"
+                    id="coal"
+                  >Coal</button></li>
+                <li role="none"><button
+                    role="menuitem"
+                    class="theme"
+                    id="navy"
+                  >Navy</button></li>
+                <li role="none"><button
+                    role="menuitem"
+                    class="theme"
+                    id="ayu"
+                  >Ayu</button></li>
+              </ul>
+                <button
+                  id="search-toggle"
+                  class="icon-button"
+                  type="button"
+                  title="Search (`/`)"
+                  aria-label="Toggle Searchbar"
+                  aria-expanded="false"
+                  aria-keyshortcuts="/ s"
+                  aria-controls="searchbar"
+                >
+                  <i class="fa fa-search"></i>
+                </button>
+            </div>
+            <h1 class="menu-title">Kevin Stephen&#x27;s Blogs</h1>
+            <div class="right-buttons">
+                <a
+                  href="https://github.com/kands-code/kands-code.github.io"
+                  title="Git repository"
+                  aria-label="Git repository"
+                >
+                  <i
+                    id="git-repository-button"
+                    class="fa fa-github"
+                  ></i>
+                </a>
+                <a
+                  href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20250717-phyrs-0x06.md"
+                  title="Suggest an edit"
+                  aria-label="Suggest an edit"
+                  rel="edit"
+                >
+                  <i id="git-edit-button" class="fa fa-edit"></i>
+                </a>
+
+            </div>
+          </div>
+            <div id="search-wrapper" class="hidden">
+              <form id="searchbar-outer" class="searchbar-outer">
+                <div class="search-wrapper">
+                  <input
+                    type="search"
+                    id="searchbar"
+                    name="searchbar"
+                    placeholder="Search this book ..."
+                    aria-controls="searchresults-outer"
+                    aria-describedby="searchresults-header"
+                  />
+                  <div class="spinner-wrapper">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                </div>
+              </form>
+              <div id="searchresults-outer" class="searchresults-outer hidden">
+                <div
+                  id="searchresults-header"
+                  class="searchresults-header"
+                ></div>
+                <ul id="searchresults">
+                </ul>
+              </div>
+            </div>
+          <script>
+            document
+              .getElementById("sidebar-toggle")
+              .setAttribute("aria-expanded", sidebar === "visible");
+            document
+              .getElementById("sidebar")
+              .setAttribute("aria-hidden", sidebar !== "visible");
+            Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+              link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
+            });
+          </script>
+          <div id="content" class="content">
+            <main><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="phyrs---0x06"><a class="header" href="#phyrs---0x06">Phyrs - 0x06</a></h1>
+<p class="archive-time">archive time: 2025-07-17</p>
+<p class="sp-comment">唉，误差</p>
+<ul>
+<li><a href="#%E5%BC%B9%E7%B0%A7%E7%B3%BB%E7%BB%9F">弹簧系统</a></li>
+<li><a href="#%E6%9C%BA%E6%A2%B0%E8%83%BD%E5%AE%88%E6%81%92">机械能守恒</a></li>
+</ul>
+<p>我们再来看几个多体系统分析的例子</p>
+<h2 id="弹簧系统"><a class="header" href="#弹簧系统">弹簧系统</a></h2>
+<p>假设我们有两个弹簧，其中一个一端固定在天花板上，另一端有一质量为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 的小球</p>
+<p>并且 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 还接着另一个弹簧，第二个弹簧末端有一质量为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 的小球</p>
+<p>由于第一个弹簧是固定弹簧，所以其对 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 的弹力可以被视为外力，
+而 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 和 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 之间的弹力则是系统内力</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:5.7533em;vertical-align:-2.6267em;"></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.1267em;"><span style="top:-5.5513em;"><span class="pstrut" style="height:3.391em;"></span><span class="mord"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9663em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span><span style="top:-3.2523em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1522em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.5198em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord textrm mtight">ex</span></span><span class="minner mtight"><span class="mopen mtight delimcenter" style="top:0em;"><span class="mtight">[</span></span><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3173em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mclose mtight delimcenter" style="top:0em;"><span class="mtight">]</span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3552em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">−</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mopen">∥</span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1799em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">∥</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1944em;"><span class="mord">^</span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-4.0513em;"><span class="pstrut" style="height:3.391em;"></span><span class="mord"></span></span><span style="top:-2.0003em;"><span class="pstrut" style="height:3.391em;"></span><span class="mord"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9663em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span><span style="top:-3.2523em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1522em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3173em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3173em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2501em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">−</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mopen">∥</span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1799em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1799em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">∥</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.391em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">∥</span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1799em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1799em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">∥</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1799em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1799em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.6267em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>其中 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 和 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 是第 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> 个弹簧的劲度系数和平衡长度</p>
+<p>设弹簧劲度系数和平衡长度分别为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord">100</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm">kg/</span><span class="mord"><span class="mord mathrm">s</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span></span></span></span></span></span></span></span></span> 和 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.5</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">m</span></span></span></span>，
+包含重力，使用 Rust 可以表示为：</p>
+<pre><code class="language-rust">let fg = Rc::new(move |p: Particle&lt;Double, 2&gt;| -&gt; VectorC&lt;Double, 2&gt; {
+    -basis_vector(2) * Double::PI.power(Double::of(2.0)) * p.mass
+});
+let forces: Vec&lt;SystemForce&lt;Double, 2&gt;&gt; = vec![
+    SystemForce::ExternalForce(
+        0,
+        fixed_linear_spring(Double::of(100.0), Double::of(0.5), VectorC::default()),
+    ),
+    SystemForce::ExternalForce(0, fg.clone()),
+    SystemForce::ExternalForce(1, fg),
+    SystemForce::InternalForce(0, 1, linear_spring(Double::of(100.0), Double::of(0.5))),
+];</code></pre>
+<p>假设 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.01389em;">kg</span></span></span></span></span>，初始位移为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord">0.4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">−</span><span class="mord">0.3</span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span>，
+而 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.01389em;">kg</span></span></span></span></span>，初始位移为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord">0.4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">−</span><span class="mord">0.8</span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span>，初速度都为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9274em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9274em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">0</span></span><span style="top:-3.2134em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2355em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span></span></span></span>，则：</p>
+<pre><code class="language-rust">let system = ParticleSystemBuilder::&lt;Double, 2&gt;::of()
+    .add_particle(Particle::without_charge(
+        Double::of(2.0),
+        basis_vector(1) * Double::of(0.4) + basis_vector(2) * Double::of(-0.3),
+        VectorC::default(),
+        Double::zero(),
+    ))
+    .add_particle(Particle::without_charge(
+        Double::of(3.0),
+        basis_vector(1) * Double::of(0.4) + basis_vector(2) * Double::of(-0.8),
+        VectorC::default(),
+        Double::zero(),
+    ))
+    .build();</code></pre>
+<p>最后我们可以得到这么一个轨迹图：</p>
+<div class="center-box">
+  <img src="../../assets/phyrs-0x06-pic01.webp"
+    loading="lazy" decoding="async"
+    width="64%" alt="双弹簧系统轨迹">
+</div>
+<h2 id="机械能守恒"><a class="header" href="#机械能守恒">机械能守恒</a></h2>
+<p>这里，系统满足机械能守恒<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>的条件，即只有保守力<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup>做功，并且系统与外界无机械能交换</p>
+<p>我们可以尝试验证一下我们的模拟系统是否满足理论，其中机械能由势能和动能组成：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:5.8991em;vertical-align:-2.6996em;"></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.1996em;"><span style="top:-5.681em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">U</span></span></span><span style="top:-4.181em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span><span style="top:-2.1996em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.05em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">∥</span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2077em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">∥</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.6996em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>势能部分，这个系统仅包含两个小球的重力势能以及两个弹簧的弹性势能:</p>
+<pre><code class="language-rust">let p4gs = states
+    .iter()
+    .map(|s| {
+        s.particles
+            .iter()
+            .map(|p| {
+                potential_for_gravity(
+                    p.mass.clone(),
+                    Double::PI.power(Double::of(2.0)),
+                    p.position[(2, 1)].clone(),
+                )
+            })
+            .fold(Double::zero(), |acc, e| acc + e)
+    })
+    .collect::&lt;Vec&lt;Double&gt;&gt;();
+let p4ss = states
+    .iter()
+    .map(|s| {
+        let p4s = potential_for_spring(Double::of(100.0), Double::of(0.5));
+        let fixed = Particle::without_charge(
+            Double::zero(),
+            VectorC::default(),
+            VectorC::default(),
+            Double::zero(),
+        );
+
+        p4s(fixed, s.particles[0].clone()) + p4s(s.particles[0].clone(), s.particles[1].clone())
+    })
+    .collect::&lt;Vec&lt;Double&gt;&gt;();</code></pre>
+<p>其中 <code>states</code> 是我们模拟得到的数据：</p>
+<pre><code class="language-rust">let f2a = Rc::new(
+    |force: Rc&lt;dyn Fn(Particle&lt;Double, 2&gt;) -&gt; VectorC&lt;Double, 2&gt;&gt;| -&gt; Rc&lt;dyn Fn(_) -&gt; _&gt; {
+        Rc::new(move |p: Particle&lt;Double, 2&gt;| -&gt; VectorC&lt;Double, 2&gt; {
+            force(p.clone()) / p.mass
+        })
+    },
+);
+// 配置
+let rtol = Double::of(1e-6);
+let total_time = 16.0;
+let init_step = Double::of(1e-3);
+// 开始模拟
+let one_step = ParticleSystem::system_adaptive_transition(
+    forces,
+    f2a,
+    rtol,
+    Rc::new(Particle::rk45_transition),
+);
+let states = system
+    .simulate_adaptive(one_step, init_step)
+    .map(|(s, _)| s)
+    .take_while(|s| s.time &lt;= Double::of(total_time))
+    .enumerate()
+    .inspect(|(n, s)| {
+        if n.is_multiple_of(512) {
+            let used_time = timer
+                .elapsed()
+                .expect("Error[two_spring::run]: Failed to get the time elapsed.")
+                .as_secs_f64();
+            println!(
+                "{:.2} min =&gt; {} | rest: {:.2} min",
+                used_time / 60.0,
+                s.time,
+                (total_time * used_time / s.time.raw() - used_time) / 60.0
+            )
+        }
+    })
+    .map(|(_, s)| s)
+    .collect::&lt;Vec&lt;_&gt;&gt;();</code></pre>
+<p>动能和势能的计算函数定义如下：</p>
+<pre><code class="language-rust">fn kinetic_energy&lt;R: RealFloat, const E: usize&gt;(s: &amp;ParticleSystem&lt;R, E&gt;) -&gt; R {
+    s.particles
+        .iter()
+        .map(|p| (p.mass.clone(), &amp;p.velocity))
+        .map(|(m, v)| R::half() * m * euclidean_norm(v).power(R::one() + R::one()))
+        .fold(R::zero(), |acc, e| acc + e)
+}
+
+fn potential_for_gravity&lt;R: RealFloat&gt;(m: R, g: R, h: R) -&gt; R {
+    m * g * h
+}
+
+fn potential_for_spring&lt;'a, R: RealFloat + 'a, const E: usize&gt;(
+    k: R,
+    original_length: R,
+) -&gt; Rc&lt;dyn Fn(Particle&lt;R, E&gt;, Particle&lt;R, E&gt;) -&gt; R + 'a&gt; {
+    Rc::new(move |center: Particle&lt;R, E&gt;, p: Particle&lt;R, E&gt;| -&gt; R {
+        let distance = euclidean_norm(&amp;(center.position - p.position)) - original_length.clone();
+        R::half() * k.clone() * distance.absolute_value().power(R::one() + R::one())
+    })
+}</code></pre>
+<p>结合系统动能，我们可以得到模拟数据中系统的机械能：</p>
+<pre><code class="language-rust">let mes = states
+    .iter()
+    .map(|s| (s.time.raw(), kinetic_energy(s)))
+    .zip(p4gs.iter())
+    .zip(p4ss.iter())
+    .map(|(((t, k), g), s)| (t, (k + g.clone() + s.clone()).raw()))
+    .collect::&lt;Vec&lt;_&gt;&gt;();</code></pre>
+<p>通过作图，可以发现在初始步长 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathrm">d</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">3</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">s</span></span></span></span>
+并且 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord textrm">rtol</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></span> 的情况下<sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup>，机械能也不是守恒的：</p>
+<div class="center-box">
+  <img src="../../assets/phyrs-0x06-pic02.png"
+    width="64%" alt="双弹簧系统机械能">
+</div>
+<p>在 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">s</span></span></span></span> 内，误差达到了 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">0.946%</span></span></span></span>，这主要是浮点数截断误差以及数值模拟算法的误差</p>
+<hr />
+<p>为了这个弹簧系统的结果可以接受，还是使用了 <code>rk45</code> 算法，就是实现上可能还是有些问题</p>
+<hr>
+<ol class="footnote-definition"><li id="footnote-1">
+<p>Conservation of mechanical energy.Wikipedia [DB/OL].(2025-05-30)[2025-07-17].
+<a href="https://en.wikipedia.org/wiki/Mechanical_energy#Conservation_of_mechanical_energy">https://en.wikipedia.org/wiki/Mechanical_energy#Conservation_of_mechanical_energy</a> <a href="#fr-1-1">↩</a></p>
+</li>
+<li id="footnote-2">
+<p>Conservative force.Wikipedia [DB/OL].(2025-05-30)[2025-07-17].
+<a href="https://en.wikipedia.org/wiki/Conservative_force">https://en.wikipedia.org/wiki/Conservative_force</a> <a href="#fr-2-1">↩</a></p>
+</li>
+<li id="footnote-3">
+<p>在我的电脑上跑完一次大概需要 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">42</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm">min</span></span></span></span></span>，
+如果 <code>rtol</code> 降低到 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>，只需要 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm">min</span></span></span></span></span> <a href="#fr-3-1">↩</a></p>
+</li>
+</ol></main>
+            <nav class="nav-wrapper" aria-label="Page navigation">
+                <a
+                  rel="prev"
+                  href="../../notes/rust/20250715-phyrs-0x05.html"
+                  class="mobile-nav-chapters previous"
+                  title="Previous chapter"
+                  aria-label="Previous chapter"
+                  aria-keyshortcuts="Left"
+                >
+                  <i class="fa fa-angle-left"></i>
+                </a>
+                <a
+                  rel="next prefetch"
+                  href="../../notes/sagemath/index.html"
+                  class="mobile-nav-chapters next"
+                  title="Next chapter"
+                  aria-label="Next chapter"
+                  aria-keyshortcuts="Right"
+                >
+                  <i class="fa fa-angle-right"></i>
+                </a>
+              <div style="clear: both"></div>
+            </nav>
+          </div>
+        </div>
+        <div class="giscus-comment"></div>
+        <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            <a
+              rel="prev"
+              href="../../notes/rust/20250715-phyrs-0x05.html"
+              class="nav-chapters previous"
+              title="Previous chapter"
+              aria-label="Previous chapter"
+              aria-keyshortcuts="Left"
+            >
+              <i class="fa fa-angle-left"></i>
+            </a>
+            <a
+              rel="next prefetch"
+              href="../../notes/sagemath/index.html"
+              class="nav-chapters next"
+              title="Next chapter"
+              aria-label="Next chapter"
+              aria-keyshortcuts="Right"
+            >
+              <i class="fa fa-angle-right"></i>
+            </a>
+        </nav>
+      </div>
+        <script>
+          window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+      <script src="../../clipboard.min.js"></script>
+      <script src="../../highlight.js"></script>
+      <script src="../../book.js"></script>
+        <script src="../../theme/giscus.js"></script>
+    </div>
+  </body>
+</html>
