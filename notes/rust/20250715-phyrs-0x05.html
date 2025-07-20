@@ -470,8 +470,6 @@ impl&lt;R: RealFloat, const E: usize&gt; ParticleSystemBuilder&lt;R, E&gt; {
 <p>其中 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.3215em;vertical-align:-0.3552em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9663em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span><span style="top:-3.2523em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1522em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.5198em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord textrm mtight">ex</span></span><span class="minner mtight"><span class="mopen mtight delimcenter" style="top:0em;"><span class="mtight">[</span></span><span class="mord mathnormal mtight">n</span><span class="mclose mtight delimcenter" style="top:0em;"><span class="mtight">]</span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3552em;"><span></span></span></span></span></span></span></span></span></span> 表示物体 n 所受合外力，
 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1163em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9663em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span><span style="top:-3.2523em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1522em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">nm</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 表示物体 n 与物体 m 之间的内力，一般认为内力不会直接依赖于时间</p>
 <p>我们可以复用在单体系统中定义的数值方法：</p>
-<details>
-<summary>具体代码</summary>
 <pre><code class="language-rust">impl&lt;R: RealFloat + 'static, const E: usize&gt; ParticleSystem&lt;R, E&gt; {
     pub fn force_to_acceleration(
         system: &amp;Self,
@@ -556,84 +554,10 @@ impl&lt;R: RealFloat, const E: usize&gt; ParticleSystemBuilder&lt;R, E&gt; {
         )
     }
 
-    pub fn system_adaptive_transition(
-        forces: Vec&lt;SystemForce&lt;R, E&gt;&gt;,
-        f2a: Rc&lt;
-            dyn Fn(
-                Rc&lt;dyn Fn(Particle&lt;R, E&gt;) -&gt; VectorC&lt;R, E&gt;&gt;,
-            ) -&gt; Rc&lt;dyn Fn(Particle&lt;R, E&gt;) -&gt; VectorC&lt;R, E&gt;&gt;,
-        &gt;,
-        rtol: R,
-        particle_adapter_transition: Rc&lt;
-            dyn Fn(
-                Rc&lt;dyn Fn(Particle&lt;R, E&gt;) -&gt; VectorC&lt;R, E&gt;&gt;,
-                R,
-            ) -&gt; Rc&lt;dyn Fn((Particle&lt;R, E&gt;, R)) -&gt; (Particle&lt;R, E&gt;, R)&gt;,
-        &gt;,
-    ) -&gt; Rc&lt;dyn Fn((Self, R)) -&gt; (Self, R)&gt; {
-        let f2a_capture = f2a.clone();
-        Rc::new(
-            move |(system, dt): (ParticleSystem&lt;R, E&gt;, R)| -&gt; (ParticleSystem&lt;R, E&gt;, R) {
-                let states = system
-                    .particles
-                    .iter()
-                    .enumerate()
-                    .map(|(idx, p)| {
-                        let f2a_inner_capture = f2a_capture.clone();
-                        let forces_capture = forces.clone();
-                        let system_capture = system.clone();
-
-                        let acceleration = Rc::new({
-                            move |p: Particle&lt;R, E&gt;| -&gt; VectorC&lt;R, E&gt; {
-                                forces_capture
-                                    .iter()
-                                    .map(|f| {
-                                        Self::force_to_acceleration(
-                                            &amp;system_capture,
-                                            f.clone(),
-                                            f2a_inner_capture.clone(),
-                                            idx,
-                                        )
-                                    })
-                                    .map(|a_fn| a_fn(p.clone()))
-                                    .fold(VectorC::default(), |acc, a| acc + a)
-                            }
-                        });
-                        particle_adapter_transition(acceleration, rtol.clone())((
-                            p.clone(),
-                            dt.clone(),
-                        ))
-                    })
-                    .collect::&lt;Vec&lt;_&gt;&gt;();
-                (
-                    ParticleSystem {
-                        particles: states.iter().map(|(p, _)| p.clone()).collect::&lt;Vec&lt;_&gt;&gt;(),
-                        time: system.time + dt.clone(),
-                    },
-                    (states
-                        .iter()
-                        .map(|(_, dt)| dt.clone().power(R::one() + R::one()))
-                        .fold(R::zero(), |acc, e| acc + e)
-                        / from_integral(Word::of(states.len() as u32)))
-                    .square_root(),
-                )
-            },
-        )
-    }
-
     pub fn simulate&lt;'a&gt;(self, transition: Rc&lt;dyn Fn(Self) -&gt; Self + 'a&gt;) -&gt; Iterate&lt;'a, Self&gt; {
         Iterate::of(transition, self)
     }
-
-    pub fn simulate_adaptive&lt;'a&gt;(
-        self,
-        transition: Rc&lt;dyn Fn((Self, R)) -&gt; (Self, R) + 'a&gt;,
-        init_dt: R,
-    ) -&gt; Iterate&lt;'a, (Self, R)&gt; {
-        Iterate::of(transition, (self, init_dt))
-    }
 }</code></pre>
-</details>
 <p>作为验证，我们来看一个双体系统的例子：</p>
 <pre><code class="language-rust">use std::rc::Rc;
 
@@ -696,16 +620,16 @@ fn run() -&gt; Option&lt;()&gt; {
             })
         },
     );
-    let one_step = ParticleSystem::system_adaptive_transition(
+    let one_step = ParticleSystem::system_transition(
         vec![SystemForce::InternalForce(0, 1, force)],
         f2a,
         Double::of(0.001),
-        Rc::new(Particle::rk45_transition),
+        Rc::new(Particle::default_transition),
     );
+    let total_time = 64.0;
     let states = system
-        .simulate_adaptive(one_step, Double::of(0.01))
-        .map(|(s, _)| s)
-        .take_while(|s| s.time &lt; Double::of(64.0))
+        .simulate(one_step)
+        .take_while(|s| s.time &lt; Double::of(total_time))
         .map(|s| {
             (
                 s.time,
@@ -720,7 +644,10 @@ fn run() -&gt; Option&lt;()&gt; {
     let draw_area = BitMapBackend::gif("result/draw_double.gif", (768, 816), 1)
         .ok()?
         .into_drawing_area();
-    for s in states.iter().step_by(32) {
+    for s in states
+        .iter()
+        .step_by((states.len() as f64 / total_time / 10.0).floor() as usize)
+    {
         draw_area.fill(&amp;YELLOW_50).ok()?;
         let mut chart = ChartBuilder::on(&amp;draw_area)
             .margin(10)

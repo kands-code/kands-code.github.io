@@ -279,6 +279,7 @@
 <ul>
 <li><a href="#%E5%BC%B9%E7%B0%A7%E7%B3%BB%E7%BB%9F">弹簧系统</a></li>
 <li><a href="#%E6%9C%BA%E6%A2%B0%E8%83%BD%E5%AE%88%E6%81%92">机械能守恒</a></li>
+<li><a href="#%E7%A2%B0%E6%92%9E">碰撞</a></li>
 </ul>
 <p>我们再来看几个多体系统分析的例子</p>
 <h2 id="弹簧系统"><a class="header" href="#弹簧系统">弹簧系统</a></h2>
@@ -366,20 +367,18 @@ let p4ss = states
         })
     },
 );
-// 配置
-let rtol = Double::of(1e-6);
+
 let total_time = 16.0;
 let init_step = Double::of(1e-3);
-// 开始模拟
-let one_step = ParticleSystem::system_adaptive_transition(
+
+let one_step = ParticleSystem::system_transition(
     forces,
     f2a,
-    rtol,
-    Rc::new(Particle::rk45_transition),
+    init_step,
+    Rc::new(Particle::default_transition),
 );
 let states = system
-    .simulate_adaptive(one_step, init_step)
-    .map(|(s, _)| s)
+    .simulate(one_step)
     .take_while(|s| s.time &lt;= Double::of(total_time))
     .enumerate()
     .inspect(|(n, s)| {
@@ -399,15 +398,7 @@ let states = system
     .map(|(_, s)| s)
     .collect::&lt;Vec&lt;_&gt;&gt;();</code></pre>
 <p>动能和势能的计算函数定义如下：</p>
-<pre><code class="language-rust">fn kinetic_energy&lt;R: RealFloat, const E: usize&gt;(s: &amp;ParticleSystem&lt;R, E&gt;) -&gt; R {
-    s.particles
-        .iter()
-        .map(|p| (p.mass.clone(), &amp;p.velocity))
-        .map(|(m, v)| R::half() * m * euclidean_norm(v).power(R::one() + R::one()))
-        .fold(R::zero(), |acc, e| acc + e)
-}
-
-fn potential_for_gravity&lt;R: RealFloat&gt;(m: R, g: R, h: R) -&gt; R {
+<pre><code class="language-rust">fn potential_for_gravity&lt;R: RealFloat&gt;(m: R, g: R, h: R) -&gt; R {
     m * g * h
 }
 
@@ -419,6 +410,14 @@ fn potential_for_spring&lt;'a, R: RealFloat + 'a, const E: usize&gt;(
         let distance = euclidean_norm(&amp;(center.position - p.position)) - original_length.clone();
         R::half() * k.clone() * distance.absolute_value().power(R::one() + R::one())
     })
+}
+
+fn kinetic_energy&lt;R: RealFloat, const E: usize&gt;(s: &amp;ParticleSystem&lt;R, E&gt;) -&gt; R {
+    s.particles
+        .iter()
+        .map(|p| (p.mass.clone(), &amp;p.velocity))
+        .map(|(m, v)| R::half() * m * euclidean_norm(v).power(R::one() + R::one()))
+        .fold(R::zero(), |acc, e| acc + e)
 }</code></pre>
 <p>结合系统动能，我们可以得到模拟数据中系统的机械能：</p>
 <pre><code class="language-rust">let mes = states
@@ -428,15 +427,157 @@ fn potential_for_spring&lt;'a, R: RealFloat + 'a, const E: usize&gt;(
     .zip(p4ss.iter())
     .map(|(((t, k), g), s)| (t, (k + g.clone() + s.clone()).raw()))
     .collect::&lt;Vec&lt;_&gt;&gt;();</code></pre>
-<p>通过作图，可以发现在初始步长 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathrm">d</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">3</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">s</span></span></span></span>
-并且 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord textrm">rtol</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></span> 的情况下<sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup>，机械能也不是守恒的：</p>
+<p>通过作图，可以发现在初始步长 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathrm">d</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">3</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">s</span></span></span></span> 的情况下<sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup>，机械能也不是守恒的：</p>
 <div class="center-box">
   <img src="../../assets/phyrs-0x06-pic02.png"
     width="64%" alt="双弹簧系统机械能">
 </div>
-<p>在 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">s</span></span></span></span> 内，误差达到了 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">0.946%</span></span></span></span>，这主要是浮点数截断误差以及数值模拟算法的误差</p>
+<p>在 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">s</span></span></span></span> 内，相对误差约为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">0.168%</span></span></span></span>，这主要是浮点数截断误差以及数值模拟算法的误差</p>
+<h2 id="碰撞"><a class="header" href="#碰撞">碰撞</a></h2>
+<p>小球的碰撞也是多体模型中非常重要的一个例子，这里我们假设碰撞遵循弹性碰撞，并且弹力满足：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:3em;vertical-align:-1.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size4">{</span></span><span class="mord"><span class="mtable"><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.69em;"><span style="top:-3.69em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord">0</span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord">−</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mopen">∥</span><span class="mord">Δ</span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1799em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span></span><span class="mclose">∥</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">e</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">Δ</span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1944em;"><span class="mord">^</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.19em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:1em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.69em;"><span style="top:-3.69em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord text"><span class="mord textrm">if</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mopen">∥</span><span class="mord">Δ</span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1799em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span></span><span class="mclose">∥</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">e</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord text"><span class="mord textrm">otherwise</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.19em;"><span></span></span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>其中 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">e</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 是我们认为物体快要发生碰撞时两个小球中心的最小距离，
+这个模型的难点在于这个距离以及 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 要如何寻找</p>
+<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 太小或太大都有可能让系统的动能不守恒，
+而如果 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">e</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 仅设置为物体大小，那么对于小物体，可能会导致错位，
+即速度太快，在碰撞判定前就已经通过物体，导致无法正常碰撞</p>
+<p>这里就是我的设置：</p>
+<pre><code class="language-rust">let wall_force =
+    Rc::new(
+        move |p1: VectorC&lt;Double, 2&gt;,
+                p2: VectorC&lt;Double, 2&gt;|
+                -&gt; Rc&lt;
+            dyn Fn(Double) -&gt; Rc&lt;dyn Fn(Particle&lt;Double, 2&gt;) -&gt; VectorC&lt;Double, 2&gt;&gt;,
+        &gt; {
+            Rc::new(move |size: Double| -&gt; Rc&lt;_&gt; {
+                let p1 = p1.clone();
+                let p2 = p2.clone();
+                Rc::new(move |p: Particle&lt;Double, 2&gt;| -&gt; VectorC&lt;Double, 2&gt; {
+                    let p1p2 = p2.clone() - p1.clone();
+                    let p1p = p.position.clone() - p1.clone();
+                    let t = dot_product(&amp;p1p, &amp;p1p2) / dot_product(&amp;p1p2, &amp;p1p2);
+                    if t &gt; Double::one() || t &lt; Double::zero() {
+                        VectorC::default()
+                    } else {
+                        let d = p1.clone() + p1p2 * t;
+                        billiard(Double::of(k0), size.clone())(
+                            Particle::without_charge(
+                                Double::zero(),
+                                d,
+                                VectorC::default(),
+                                Double::zero(),
+                            ),
+                            p,
+                        )
+                    }
+                })
+            })
+        },
+    );
+let wall_ab = wall_force(point_a.clone(), point_b.clone());
+let wall_bc = wall_force(point_b.clone(), point_c.clone());
+let wall_cd = wall_force(point_c.clone(), point_d.clone());
+let wall_da = wall_force(point_d.clone(), point_a.clone());
+let forces: Vec&lt;SystemForce&lt;Double, 2&gt;&gt; = vec![
+    SystemForce::ExternalForce(0, wall_ab(Double::of(0.8))),
+    SystemForce::ExternalForce(0, wall_bc(Double::of(0.8))),
+    SystemForce::ExternalForce(0, wall_cd(Double::of(0.8))),
+    SystemForce::ExternalForce(0, wall_da(Double::of(0.8))),
+    SystemForce::ExternalForce(1, wall_ab(Double::of(0.8))),
+    SystemForce::ExternalForce(1, wall_bc(Double::of(0.8))),
+    SystemForce::ExternalForce(1, wall_cd(Double::of(0.8))),
+    SystemForce::ExternalForce(1, wall_da(Double::of(0.8))),
+    SystemForce::ExternalForce(2, wall_ab(Double::of(0.8))),
+    SystemForce::ExternalForce(2, wall_bc(Double::of(0.8))),
+    SystemForce::ExternalForce(2, wall_cd(Double::of(0.8))),
+    SystemForce::ExternalForce(2, wall_da(Double::of(0.8))),
+    SystemForce::InternalForce(0, 1, billiard(Double::of(k0), Double::of(0.8))),
+    SystemForce::InternalForce(0, 2, billiard(Double::of(k0), Double::of(0.8))),
+    SystemForce::InternalForce(1, 2, billiard(Double::of(k0), Double::of(0.8))),
+];</code></pre>
+<p>其中系统中有三个小球：</p>
+<pre><code class="language-rust">let system = ParticleSystemBuilder::&lt;Double, 2&gt;::of()
+    .add_particle(Particle::without_charge(
+        Double::of(1.0),
+        basis_vector(1) * Double::of(-1.0),
+        basis_vector(1) * Double::of(3.0) + basis_vector(2) * Double::of(-4.0),
+        Double::zero(),
+    ))
+    .add_particle(Particle::without_charge(
+        Double::of(1.0),
+        basis_vector(1) * Double::of(1.0),
+        basis_vector(1) * Double::of(-4.0) + basis_vector(2) * Double::of(3.0),
+        Double::zero(),
+    ))
+    .add_particle(Particle::without_charge(
+        Double::of(1.0),
+        VectorC::default(),
+        basis_vector(2) * Double::of(5.0),
+        Double::zero(),
+    ))
+    .build();</code></pre>
+<p><code>wall_ab</code> 表示碰撞墙壁可能会产生的力，其中 <code>billiard</code> 的定义为：</p>
+<pre><code class="language-rust">fn billiard&lt;'a, R: RealFloat + 'a, const E: usize&gt;(
+    k: R,
+    size: R,
+) -&gt; Rc&lt;dyn Fn(Particle&lt;R, E&gt;, Particle&lt;R, E&gt;) -&gt; VectorC&lt;R, E&gt; + 'a&gt; {
+    central_force::&lt;R, E&gt;(Rc::new(move |distance: R| -&gt; R {
+        if distance &lt; size.clone() {
+            k.clone() * (size.clone() - distance)
+        } else {
+            R::zero()
+        }
+    }))
+}</code></pre>
+<p>在这里，我的 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord">144</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm">kg/</span><span class="mord"><span class="mord mathrm">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>，而碰撞距离都设置为了 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.8</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">m</span></span></span></span>，即：</p>
+<pre><code class="language-rust">let f2a = Rc::new(
+    |force: Rc&lt;dyn Fn(Particle&lt;Double, 2&gt;) -&gt; VectorC&lt;Double, 2&gt;&gt;| -&gt; Rc&lt;dyn Fn(_) -&gt; _&gt; {
+        Rc::new(move |p: Particle&lt;Double, 2&gt;| -&gt; VectorC&lt;Double, 2&gt; {
+            force(p.clone()) / p.mass
+        })
+    },
+);
+let one_step = ParticleSystem::system_transition(
+    forces,
+    f2a,
+    init_step,
+    Rc::new(Particle::default_transition),
+);
+let states = system
+    .simulate(one_step)
+    .take_while(|s| s.time &lt;= Double::of(total_time))
+    .enumerate()
+    .inspect(|(n, s)| {
+        if n.is_multiple_of(512) {
+            let used_time = timer
+                .elapsed()
+                .expect("Error[two_spring::run]: Failed to get the time elapsed.")
+                .as_secs_f64();
+            println!(
+                "{:.2} min =&gt; {:.8} | rest: {:.2} min",
+                used_time / 60.0,
+                s.time.raw(),
+                (total_time * used_time / s.time.raw() - used_time) / 60.0,
+            )
+        }
+    })
+    .map(|(_, s)| s)
+    .collect::&lt;Vec&lt;_&gt;&gt;();</code></pre>
+<p>其中步长设置为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathrm">d</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">3</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">s</span></span></span></span>，得到的动图为：</p>
+<div class="center-box">
+  <img src="../../assets/phyrs-0x06-pic03.webp"
+    loading="lazy" decoding="async"
+    width="64%" alt="小球碰撞轨迹">
+</div>
+<p>可以看到除了部分碰撞轨迹方向以及速度有问题，大部分碰撞都可以说符合预期了</p>
+<p>我们还可以检查一下动能的变化：</p>
+<div class="center-box">
+  <img src="../../assets/phyrs-0x06-pic04.png"
+    width="64%" alt="小球碰撞轨迹">
+</div>
+<p>可以看到系统动能基本是守恒的，波动的地方发生了动能到弹性势能的变化</p>
 <hr />
-<p>为了这个弹簧系统的结果可以接受，还是使用了 <code>rk45</code> 算法，就是实现上可能还是有些问题</p>
+<p>为了这个弹簧系统的结果可以接受，但是算法的实现可能还有些问题</p>
 <hr>
 <ol class="footnote-definition"><li id="footnote-1">
 <p>Conservation of mechanical energy.Wikipedia [DB/OL].(2025-05-30)[2025-07-17].
@@ -447,8 +588,7 @@ fn potential_for_spring&lt;'a, R: RealFloat + 'a, const E: usize&gt;(
 <a href="https://en.wikipedia.org/wiki/Conservative_force">https://en.wikipedia.org/wiki/Conservative_force</a> <a href="#fr-2-1">↩</a></p>
 </li>
 <li id="footnote-3">
-<p>在我的电脑上跑完一次大概需要 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">42</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm">min</span></span></span></span></span>，
-如果 <code>rtol</code> 降低到 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>，只需要 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm">min</span></span></span></span></span> <a href="#fr-3-1">↩</a></p>
+<p>在我的电脑上跑完一次大概需要 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">32</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">s</span></span></span></span> <a href="#fr-3-1">↩</a></p>
 </li>
 </ol></main>
             <nav class="nav-wrapper" aria-label="Page navigation">

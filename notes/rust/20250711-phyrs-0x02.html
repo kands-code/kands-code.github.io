@@ -369,9 +369,9 @@ pub fn perpendicular_acceleration&lt;R: RealFloat, const E: usize&gt;(
 假设抛出速度大小为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">3.2</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm">m/s</span></span></span></span></span>，<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">9.6</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm">m/s</span></span></span></span></span>，
 设空气阻力系数 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.5</span></span></span></span>，则物体的运动轨迹图为：</p>
 <div class="center-box">
-  <img src="../../assets/phyrs-0x02-pic01.gif"
+  <img src="../../assets/phyrs-0x02-pic01.webp"
     loading="lazy" decoding="async"
-    width="80%" alt="抛物运动轨迹图">
+    width="64%" alt="抛物运动轨迹图">
 </div>
 <h2 id="牛顿定律"><a class="header" href="#牛顿定律">牛顿定律</a></h2>
 <p>牛顿定律<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup>虽然在高速宏观或微观下有缺陷，但是足以解决日常生活中的一些问题</p>
@@ -496,7 +496,7 @@ fn run() -&gt; Option&lt;()&gt; {
 <p>可以得到前 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">40</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">s</span></span></span></span> 的运动图像：</p>
 <div class="center-box">
   <img src="../../assets/phyrs-0x02-pic02.png"
-    width="80%" alt="变力时间位移图">
+    width="64%" alt="变力时间位移图">
 </div>
 <p>注意到这里并没有使用积分去获取对应的位移函数，而是使用状态的方法去记录运动变化</p>
 <p>如果通过位移函数计算，由于这里要绘制图像而不是计算某一时刻的位移，
@@ -578,7 +578,7 @@ let one_step = Rc::new(|s: State, dt: Double| {
 <p>最后得到的速率随时间变化的图像为：</p>
 <div class="center-box">
   <img src="../../assets/phyrs-0x02-pic03.png"
-    width="80%" alt="变力时间速度图">
+    width="64%" alt="变力时间速度图">
 </div>
 <hr />
 <p>可以看到，根据研究问题的不同，所要使用的方法和细节也不一样，根据需要灵活挑选合适的方法</p>

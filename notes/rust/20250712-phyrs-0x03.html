@@ -419,7 +419,7 @@ fn run() -&gt; Option&lt;()&gt; {
 <p>得到的图像为：</p>
 <div class="center-box">
   <img src="../../assets/phyrs-0x03-pic01.png"
-    width="80%" alt="阻尼谐振子">
+    width="64%" alt="阻尼谐振子">
 </div>
 <p>可以看到，由于小球的重力，系统的平衡点并不是最初的 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">m</span></span></span></span>，
 而是 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.033</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">m</span></span></span></span></p>
@@ -438,13 +438,12 @@ fn run() -&gt; Option&lt;()&gt; {
 <pre><code class="language-rust">// Self: Particle&lt;R, E&gt;
 pub fn general_rk_transition&lt;const K: usize&gt;(
     acceleration: Rc&lt;dyn Fn(Self) -&gt; VectorC&lt;R, E&gt;&gt;,
-    order: usize,
+    dt: R,
     c: VectorC&lt;R, K&gt;,
     a: Matrix&lt;R, K, K&gt;,
     b: VectorC&lt;R, K&gt;,
-    tol: Option&lt;(VectorC&lt;R, K&gt;, R)&gt;,
-) -&gt; Rc&lt;dyn Fn((Self, R)) -&gt; (Self, R) + 'a&gt; {
-    Rc::new(move |(p, dt): (Self, R)| -&gt; (Self, R) {
+) -&gt; Rc&lt;dyn Fn(Self) -&gt; Self + 'a&gt; {
+    Rc::new(move |p: Self| -&gt; Self {
         // init
         let mut k_dv_dt = vec![VectorC::default(); K + 1];
         let mut k_dr_dt = vec![VectorC::default(); K + 1];
@@ -481,40 +480,14 @@ pub fn general_rk_transition&lt;const K: usize&gt;(
                 .map(|(bi, dv_dt_i)| dv_dt_i.clone() * bi.clone())
                 .fold(VectorC::default(), |acc, e| acc + e)
                 * dt.clone();
-        // update dt
-        let k_dt = if let Some((bt, rtol)) = tol.clone() {
-            let s = from_integral::&lt;R, Int&gt;(Int::of(896)) / from_integral(Int::of(1000));
-            let err_dv_dt = euclidean_norm(
-                &amp;b.linear_iter()
-                    .zip(bt.linear_iter())
-                    .zip(k_dv_dt.iter().skip(1))
-                    .map(|((bi, bti), ki)| ki.clone() * (bi.clone() - bti.clone()))
-                    .fold(VectorC::default(), |acc, e| acc + e),
-            ) / euclidean_norm(&amp;velocity);
-            let err_dr_dt = euclidean_norm(
-                &amp;b.linear_iter()
-                    .zip(bt.linear_iter())
-                    .zip(k_dr_dt.iter().skip(1))
-                    .map(|((bi, bti), ki)| ki.clone() * (bi.clone() - bti.clone()))
-                    .fold(VectorC::default(), |acc, e| acc + e),
-            ) / euclidean_norm(&amp;position);
-            let two = R::one() + R::one();
-            let err = two.clone().square_root() * rtol
-                / (err_dr_dt.power(two.clone()) + err_dv_dt.power(two)).square_root();
-            dt.clone() * s * err.power(R::one() / from_integral(Int::of(order as i32)))
-        } else {
-            dt.clone()
-        };
-        (
-            Self {
-                mass: pk.mass,
-                charge: pk.charge,
-                position,
-                velocity,
-                time: p.time + dt,
-            },
-            k_dt,
-        )
+
+        Self {
+            mass: pk.mass,
+            charge: pk.charge,
+            position,
+            velocity,
+            time: p.time + dt.clone(),
+        }
     })
 }
 
@@ -537,11 +510,7 @@ pub fn rk4_transition(
     b[(2, 1)] = one_over_three.clone();
     b[(3, 1)] = one_over_three;
     b[(4, 1)] = one_over_six;
-    let rk4 = Self::general_rk_transition::&lt;4&gt;(acceleration, 4, c, a, b, None);
-    Rc::new(move |p: Self| -&gt; Self {
-        let (pn, _) = rk4((p, dt.clone()));
-        pn
-    })
+    Self::general_rk_transition::&lt;4&gt;(acceleration, dt, c, a, b)
 }</code></pre>
 <p>不过多数情况下，欧拉-克罗默方法的精度就已经足够了</p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: center">步长</th><th style="text-align: center">参考值</th><th style="text-align: center">欧拉-克罗默</th><th style="text-align: center">四阶龙格-库塔</th></tr></thead><tbody>
@@ -603,27 +572,27 @@ fn run() -&gt; Option&lt;()&gt; {
     // 模拟计算
     let states0 = state
         .clone()
-        .simulate(Particle::rk4_transition(
+        .simulate(Particle::rk45_transition(
             total_acc(0.0),
             Double::of(0.015625),
         ))
         .take_while(|s| s.time &lt;= Double::of(512.0));
     let states2 = state
         .clone()
-        .simulate(Particle::rk4_transition(
+        .simulate(Particle::rk45_transition(
             total_acc(2.0),
             Double::of(0.015625),
         ))
         .take_while(|s| s.time &lt;= Double::of(512.0));
     let states4 = state
         .clone()
-        .simulate(Particle::rk4_transition(
+        .simulate(Particle::rk45_transition(
             total_acc(4.0),
             Double::of(0.015625),
         ))
         .take_while(|s| s.time &lt;= Double::of(512.0));
     let states6 = state
-        .simulate(Particle::rk4_transition(
+        .simulate(Particle::rk45_transition(
             total_acc(6.0),
             Double::of(0.015625),
         ))
@@ -701,7 +670,7 @@ fn run() -&gt; Option&lt;()&gt; {
 <p>对应位置和速度的相图如下：</p>
 <div class="center-box">
   <img src="../../assets/phyrs-0x03-pic02.png"
-    width="80%" alt="范德波尔振荡器">
+    width="64%" alt="范德波尔振荡器">
 </div>
 <hr />
 <p>有了龙格-库塔方法，大部分的常微分方程都可以尝试求解了</p>

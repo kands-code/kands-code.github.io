@@ -346,11 +346,11 @@ fn run() -&gt; Option&lt;()&gt; {
             / euclidean_norm(&amp;s.position).power(Double::of(2.0))
     });
     // 模拟计算
-    let one_step = Particle::rk45_transition(total_acc, Double::of(0.0001));
+    let total_time = 78.0;
+    let one_step = Particle::default_transition(total_acc, Double::of(24.0 * 60.0 * 60.0));
     let states = state
-        .simulate_adaptive(one_step, Double::of(24.0 * 60.0 * 60.0))
-        .map(|(s, _)| s)
-        .take_while(|s| s.time &lt;= Double::of(78.0 * 365.25 * 24.0 * 60.0 * 60.0))
+        .simulate(one_step)
+        .take_while(|s| s.time &lt;= Double::of(total_time * 365.25 * 24.0 * 60.0 * 60.0))
         .map(|s| {
             (
                 s.time.raw(),
@@ -364,7 +364,10 @@ fn run() -&gt; Option&lt;()&gt; {
     let draw_area = BitMapBackend::gif("result/draw_halley.gif", (720, 320), 1)
         .ok()?
         .into_drawing_area();
-    for s in states.iter().step_by(48) {
+    for s in states
+        .iter()
+        .step_by((states.len() as f64 / total_time / 10.0).floor() as usize)
+    {
         draw_area.fill(&amp;YELLOW_50).ok()?;
         let mut chart = ChartBuilder::on(&amp;draw_area)
             .margin(10)
@@ -435,7 +438,7 @@ fn run() -&gt; Option&lt;()&gt; {
     loading="lazy" decoding="async"
     width="64%" alt="哈雷彗星轨迹图">
 </div>
-<p>其中通过状态模拟得到的哈雷彗星的周期约是 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">74.64</span></span></span></span> 年，与实际结果还是很接近的</p>
+<p>其中通过状态模拟得到的哈雷彗星的周期约是 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">76.5</span></span></span></span> 年，与实际结果还是很接近的</p>
 <h2 id="磁场中的质子"><a class="header" href="#磁场中的质子">磁场中的质子</a></h2>
 <p>磁场是高能粒子实验的常客，遵循的定律是洛伦兹定律：</p>
 <p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1163em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9663em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span><span style="top:-3.2523em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1522em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord textrm mtight">Lorentz</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.8em;vertical-align:-0.65em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size2">[</span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9663em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span></span><span style="top:-3.2523em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1522em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2077em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9663em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span><span style="top:-3.2523em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1522em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11 10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63 -1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359 c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size2">]</span></span></span></span></span></span></span></p>
@@ -474,12 +477,11 @@ fn run() -&gt; Option&lt;()&gt; {
         let m = s.mass.clone();
         lorentz_force(VectorC::default(), basis_vector(3) * Double::of(3.2e-8), s) / m
     });
-
+    let total_time = 10.0;
     let one_step = Particle::rk45_transition(total_acc, Double::of(0.001));
     let states = state
-        .simulate_adaptive(one_step, Double::of(0.05))
-        .map(|(s, _)| s)
-        .take_while(|s| s.time &lt;= Double::of(10.0));
+        .simulate(one_step)
+        .take_while(|s| s.time &lt;= Double::of(total_time));
     let draw_area = BitMapBackend::gif("result/draw_lorentz.gif", (512, 600), 1)
         .ok()?
         .into_drawing_area();
@@ -493,7 +495,10 @@ fn run() -&gt; Option&lt;()&gt; {
             )
         })
         .collect::&lt;Vec&lt;_&gt;&gt;();
-    for (t, x, y, z) in points.iter().step_by(2) {
+    for (t, x, y, z) in points
+        .iter()
+        .step_by((points.len() as f64 / total_time / 10.0).floor() as usize)
+    {
         draw_area.fill(&amp;YELLOW_50).ok()?;
         let mut chart = ChartBuilder::on(&amp;draw_area)
             .margin(64)
@@ -548,7 +553,7 @@ fn run() -&gt; Option&lt;()&gt; {
 <div class="center-box">
   <img src="../../assets/phyrs-0x04-pic02.webp"
     loading="lazy" decoding="async"
-    width="48%" alt="磁场中质子位置随时间变化图">
+    width="64%" alt="磁场中质子位置随时间变化图">
 </div>
 <p>可以发现质子确实是在做螺旋运动，原因在于洛伦兹力中有一个速度与磁场的叉乘，
 这个操作会产生一个与速度方向和磁场方向都正交的力</p>
@@ -626,11 +631,11 @@ fn run() -&gt; Option&lt;()&gt; {
     let newton_acc = Rc::new(move |p: Particle&lt;Double, 1&gt;| -&gt; VectorC&lt;Double, 1&gt; {
         const_force(p.clone()) / p.mass
     });
-    let newton_step = Particle::rk4_transition(newton_acc, one_day.clone());
+    let newton_step = Particle::default_transition(newton_acc, one_day.clone());
     let relativity_acc = Rc::new(move |p: Particle&lt;Double, 1&gt;| -&gt; VectorC&lt;Double, 1&gt; {
         relativity_acceleration(p, SPEED_OF_LIGHT, const_force_copy.clone())
     });
-    let relativity_step = Particle::rk4_transition(relativity_acc, one_day);
+    let relativity_step = Particle::default_transition(relativity_acc, one_day);
     let newton_states = state
         .clone()
         .simulate(newton_step)
@@ -738,10 +743,7 @@ use plotters::{
 };
 use rmatrix_ks::{
     matrix::vector::{VectorC, basis_vector},
-    number::{
-        instances::double::Double,
-        traits::{one::One, zero::Zero},
-    },
+    number::{instances::double::Double, traits::zero::Zero},
 };
 
 fn main() {
@@ -752,28 +754,32 @@ fn run() -&gt; Option&lt;()&gt; {
     let state = Particle::&lt;Double, 3&gt;::with_charge(
         Double::of(1.672621898e-27),
         Double::of(1.602176621e-19),
-        VectorC::default(),
-        basis_vector(2) * Double::of(0.72) * SPEED_OF_LIGHT,
+        basis_vector(2) * Double::of(6.0),
+        basis_vector(1) * Double::of(3.0f64.sqrt() / 2.0) * SPEED_OF_LIGHT,
         Double::zero(),
     );
 
-    let force = Rc::new(|p: Particle&lt;Double, 3&gt;| {
-        lorentz_force(VectorC::default(), basis_vector(3) * Double::one(), p)
-    });
+    let force =
+        Rc::new(|p: Particle&lt;Double, 3&gt;| lorentz_force(VectorC::default(), basis_vector(3), p));
     let force_copy = force.clone();
-
+    let step = Double::of(1e-9);
     let newton_acc = Rc::new(move |s: Particle&lt;Double, 3&gt;| -&gt; VectorC&lt;Double, 3&gt; {
         let m = s.mass.clone();
         force(s) / m
     });
-    let newton_step = Particle::rk4_transition(newton_acc, Double::of(1e-9));
-    let newton_states = state.clone().simulate(newton_step).take(100);
+    let newton_step = Particle::rk45_transition(newton_acc, step.clone());
+    let newton_states = state
+        .clone()
+        .simulate(newton_step)
+        .take_while(|s| s.time &lt;= Double::of(1e-7));
     let relativity_acc = Rc::new(move |s: Particle&lt;Double, 3&gt;| -&gt; VectorC&lt;Double, 3&gt; {
         relativity_acceleration(s.clone(), SPEED_OF_LIGHT, force_copy.clone())
     });
-    let relativity_step = Particle::rk4_transition(relativity_acc, Double::of(1e-9));
-    let relativity_states = state.simulate(relativity_step).take(120);
-    let draw_area = BitMapBackend::new("result/draw_rlorentz.png", (512, 600)).into_drawing_area();
+    let relativity_step = Particle::rk45_transition(relativity_acc, step);
+    let relativity_states = state
+        .simulate(relativity_step)
+        .take_while(|s| s.time &lt;= Double::of(2e-7));
+    let draw_area = BitMapBackend::new("result/draw_rlorentz.png", (512, 532)).into_drawing_area();
     draw_area.fill(&amp;YELLOW_50).ok()?;
     let mut chart = ChartBuilder::on(&amp;draw_area)
         .margin(10)
@@ -783,7 +789,7 @@ fn run() -&gt; Option&lt;()&gt; {
         )
         .x_label_area_size(48)
         .y_label_area_size(64)
-        .build_cartesian_2d(0.0..9.0, -5.0..5.0)
+        .build_cartesian_2d(-6.4..6.4, -6.4..6.4)
         .ok()?;
 
     chart
@@ -818,7 +824,7 @@ fn run() -&gt; Option&lt;()&gt; {
         .label_font(("Zhuque Fangsong (technical preview)", 16))
         .legend_area_size(48)
         .background_style(BLUEGREY_50.mix(0.8))
-        .position(SeriesLabelPosition::UpperLeft)
+        .position(SeriesLabelPosition::LowerLeft)
         .draw()
         .ok()?;
 
@@ -826,7 +832,8 @@ fn run() -&gt; Option&lt;()&gt; {
 
     Some(())
 }</code></pre>
-<p>其中，初速度为 y 轴方向 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.72</span><span class="mord mathbf">c</span></span></span></span>，磁场强度为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">T</span></span></span></span>，得到的图像为：</p>
+<p>其中，初速度为 x 轴方向 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.2702em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.5842em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">3</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702 c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14 c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54 c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10 s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429 c69,-144,104.5,-217.7,106.5,-221 l0 -0 c5.3,-9.3,12,-14,20,-14 H400000v40H845.2724 s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7 c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathbf">c</span></span></span></span>，
+磁场强度为 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathrm">T</span></span></span></span>，得到的图像为：</p>
 <div class="center-box">
   <img src="../../assets/phyrs-0x04-pic04.png"
     width="64%" alt="相对论与牛顿磁场对比">
