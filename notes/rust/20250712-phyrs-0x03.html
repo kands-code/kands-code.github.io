@@ -446,40 +446,29 @@ pub fn general_rk_transition&lt;const K: usize&gt;(
     Rc::new(move |p: Self| -&gt; Self {
         // init
         let mut k_dv_dt = vec![VectorC::default(); K + 1];
-        let mut k_dr_dt = vec![VectorC::default(); K + 1];
         let mut pk = p.clone();
         k_dv_dt[1] = acceleration(pk.clone());
-        k_dr_dt[1] = pk.velocity.clone();
         // iter
         for i in 2..=K {
             let mut ki_dv_dt = VectorC::default();
-            let mut ki_dr_dt = VectorC::default();
             for j in 1..i {
                 ki_dv_dt = ki_dv_dt + k_dv_dt[j].clone() * a[(i, j)].clone();
-                ki_dr_dt = ki_dr_dt + k_dr_dt[j].clone() * a[(i, j)].clone();
             }
             pk = Self {
-                position: p.position.clone() + ki_dr_dt * dt.clone(),
                 velocity: p.velocity.clone() + ki_dv_dt * dt.clone(),
                 time: p.time.clone() + c[(i, 1)].clone() * dt.clone(),
                 ..pk
             };
             k_dv_dt[i] = acceleration(pk.clone());
-            k_dr_dt[i] = pk.velocity.clone();
         }
-        // result
-        let position = p.position
-            + b.linear_iter()
-                .zip(k_dr_dt.iter().skip(1))
-                .map(|(bi, dr_dt_i)| dr_dt_i.clone() * bi.clone())
-                .fold(VectorC::default(), |acc, e| acc + e)
-                * dt.clone();
         let velocity = p.velocity
             + b.linear_iter()
                 .zip(k_dv_dt.iter().skip(1))
                 .map(|(bi, dv_dt_i)| dv_dt_i.clone() * bi.clone())
                 .fold(VectorC::default(), |acc, e| acc + e)
                 * dt.clone();
+        // use the same strategy of Euler–Cromer
+        let position = p.position + velocity.clone() * dt.clone();
 
         Self {
             mass: pk.mass,
