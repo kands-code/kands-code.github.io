@@ -385,9 +385,7 @@
     Rc::new(
         move |center: Particle&lt;R, E&gt;, p: Particle&lt;R, E&gt;| -&gt; VectorC&lt;R, E&gt; {
             let dr = p.position - center.position;
-            let distance = euclidean_norm(&amp;dr);
-            let direction_vector = normalize(&amp;dr);
-            direction_vector * relation(distance)
+            normalize(&amp;dr) * relation(euclidean_norm(&amp;dr))
         },
     )
 }</code></pre>
@@ -395,13 +393,13 @@
 <pre><code class="language-rust">pub fn universal_gravity&lt;'a, R: RealFloat + 'a, const E: usize&gt;(
     center: Particle&lt;R, E&gt;,
     p: Particle&lt;R, E&gt;,
+    gravity_constant: R,
 ) -&gt; VectorC&lt;R, E&gt; {
     let m1 = center.mass.clone();
     let m2 = p.mass.clone();
     // fg = -G M1 M2 / |r|^2
     let relation = Rc::new(move |distance: R| -&gt; R {
-        let gravity_constant = real_to_frac::&lt;Double, R&gt;(Double::of(6.6743e-11));
-        -gravity_constant * m1.clone() * m2.clone() / distance.power(R::one() + R::one())
+        -gravity_constant.clone() * m1.clone() * m2.clone() / distance.power(R::one() + R::one())
     });
     central_force(relation)(center, p)
 }
@@ -438,7 +436,7 @@ pub enum SystemForce&lt;R: RealFloat, const E: usize&gt; {
 <p>整个系统的状态就是由内部所有物体的状态以及作用力组成：</p>
 <pre><code class="language-rust">#[derive(Clone)]
 pub struct ParticleSystem&lt;R: RealFloat, const E: usize&gt; {
-    particles: Vec&lt;Particle&lt;R, E&gt;&gt;,
+    pub particles: Vec&lt;Particle&lt;R, E&gt;&gt;,
     pub time: R,
 }</code></pre>
 <p>这里可以使用 Builder 模式<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup>来构建系统：</p>
@@ -624,7 +622,7 @@ fn run() -&gt; Option&lt;()&gt; {
         vec![SystemForce::InternalForce(0, 1, force)],
         f2a,
         Double::of(0.001),
-        Rc::new(Particle::default_transition),
+        Rc::new(Particle::dormand_prince_transition),
     );
     let total_time = 64.0;
     let states = system
