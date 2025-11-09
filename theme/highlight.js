@@ -60055,153 +60055,50 @@ if (typeof exports === "object" && typeof module !== "undefined") {
 
     /** @type LanguageFn */
     function ksl(hljs) {
-      // Predefined system functions and keywords
-      const SYSTEM_SYMBOLS_SET = new Set([
-        "Abs",
-        "Add",
-        "All",
-        "And",
-        "Any",
-        "Append",
-        "Apply",
-        "ArcCos",
-        "ArcSin",
-        "ArcTan",
-        "ArcTan2",
-        "Block",
-        "Ceiling",
-        "Chars",
-        "Concat",
-        "Consume",
-        "Cos",
-        "Cosh",
-        "Delete",
-        "Div",
-        "Do",
-        "Eq",
-        "Exp",
-        "Filter",
-        "Find",
-        "Floor",
-        "Fun",
-        "Get",
-        "GetType",
-        "Greater",
-        "Has",
-        "Head",
-        "If",
-        "Index",
-        "Input",
-        "IsAtom",
-        "IsBuiltin",
-        "IsInteger",
-        "IsLambda",
-        "IsList",
-        "IsNumber",
-        "IsObject",
-        "IsPlugin",
-        "IsRawObject",
-        "IsString",
-        "IsThread",
-        "IsUnit",
-        "Keys",
-        "Length",
-        "Less",
-        "Let",
-        "Ln",
-        "Load",
-        "Lowercase",
-        "Map",
-        "Max",
-        "Min",
-        "Mod",
-        "Module",
-        "Mul",
-        "NDiv",
-        "Neg",
-        "Not",
-        "Object",
-        "Or",
-        "ParseNumber",
-        "Plugin",
-        "Power",
-        "Prepend",
-        "Print",
-        "Quot",
-        "Range",
-        "Read",
-        "Rem",
-        "Reverse",
-        "Round",
-        "Set",
-        "Sin",
-        "Sinh",
-        "Sleep",
-        "SplitBy",
-        "Sqrt",
-        "Sub",
-        "SubString",
-        "Tail",
-        "Tan",
-        "Tanh",
-        "Thread",
-        "ToString",
-        "Trunc",
-        "Try",
-        "Unit",
-        "Uppercase",
-        "Use",
-        "While",
-        "Write",
-      ]);
+      const SYMBOL_IDENT_RE = "\\b[\\p{L}_][\\p{L}\\p{N}_']*\\b";
+      const ATOM_IDENT_RE = "\\b\\p{L}[\\p{L}\\p{N}_']*\\b";
 
-      // Number patterns
+      const KEYWORDS = {
+        $pattern: new RegExp(SYMBOL_IDENT_RE, "u"),
+        keyword: "And Block Do Fun If Let Module Or Set Try Unit Use While",
+        built_in:
+          "Abs Add All Any Append Apply ArcCos ArcSin ArcTan ArcTan2 Ceiling Chars CloseStream Concat Consume Cos Cosh Delete Div Eq Exp Filter Find Floor FromJSON Get GetAddress GetMessage GetType Greater Has Head Index Input IsAtom IsBuiltin IsInteger IsLambda IsList IsNumber IsObject IsPlugin IsRawObject IsString IsThread IsUnit Keys Length Less Ln Load Lowercase Map Max Min Mod Mul NDiv Neg Not Object OpenStream ParseNumber Ping Plugin Power Prepend Print Quot Range Read ReCapture Reduce Rem ReMatch Reverse Round SendMessage Sin Sinh Sleep SplitBy Sqrt Sub SubString Tail Tan Tanh Thread ToJSON ToString Trim Trunc Uppercase Write",
+        literal: "t f err ok",
+      };
+
       const NUMBER = {
         className: "number",
         relevance: 0,
-        begin: /[+-]?[0-9]+(\.[0-9]*)?(e[0-9]+)?/,
+        begin: /\b[+-]?[0-9]+(\.[0-9]*)?(e[+-]?[0-9]+)?\b/,
       };
 
-      // Comments
       const COMMENT = {
         className: "comment",
         variants: [
-          {
-            begin: /\(\*\*/,
-            end: /\*\)/,
-            relevance: 10,
-            contains: ["self"],
-          },
-          {
-            begin: /\(\*/,
-            end: /\*\)/,
-            contains: ["self"],
-          },
+          { begin: /\(\*\*/, end: /\*\)/, relevance: 10, contains: ["self"] },
+          { begin: /\(\*/, end: /\*\)/, contains: ["self"] },
         ],
       };
 
-      // Atoms and literals
       const ATOM = {
-        variants: [
+        begin: /#/,
+        contains: [
           {
-            match: /#(t|f|err|ok)\b/,
+            begin: /\b(t|f|err|ok)\b/,
             className: "literal",
-            relevance: 10,
           },
           {
-            match: /#[a-zA-Z_][0-9a-zA-Z_']*/,
-            className: "meta",
-            relevance: 0,
-          },
-          {
-            match: /#[0-9]{1,7}/,
+            begin: /\b[0-9]{1,7}\b/,
             className: "char",
-            relevance: 0,
+          },
+          {
+            begin: new RegExp(ATOM_IDENT_RE, "u"),
+            className: "meta",
           },
         ],
+        className: "meta",
       };
 
-      // Strings
       const STRING = {
         className: "string",
         begin: /"/,
@@ -60209,53 +60106,39 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         contains: [hljs.BACKSLASH_ESCAPE],
       };
 
-      // Braces
       const BRACES = {
         className: "brace",
         relevance: 0,
         begin: /[[\]{}]/,
       };
 
-      // Separators
       const SEPARATOR = {
         className: "operator",
         match: /[,;]/,
         relevance: 0,
       };
 
-      // Symbols (variables)
-      const SYMBOL = {
-        variants: [
-          {
-            begin: /[a-zA-Z_][0-9a-zA-Z_']*/,
-            "on:begin": (match, response) => {
-              if (!SYSTEM_SYMBOLS_SET.has(match[0])) response.ignoreMatch();
-            },
-            scope: "operator",
-            relevance: 0,
-          },
-          {
-            className: "symbol",
-            relevance: 0,
-            begin: /[a-zA-Z_][0-9a-zA-Z_']*/,
-          },
-        ],
-      };
-
       return {
         name: "KSL",
         aliases: ["ksl"],
+        unicodeRegex: true,
+        keywords: KEYWORDS,
         classNameAliases: {
           literal: "constant",
           char: "string",
+          meta: "symbol",
           "title.function": "built_in",
         },
-        contains: [COMMENT, ATOM, STRING, NUMBER, BRACES, SEPARATOR, SYMBOL],
+        contains: [COMMENT, ATOM, STRING, NUMBER, BRACES, SEPARATOR],
       };
     }
 
     return ksl;
   })();
 
-  hljs.registerLanguage("ksl", hljsGrammar);
+  if (typeof exports !== "undefined" && typeof module !== "undefined") {
+    module.exports = hljsGrammar;
+  } else {
+    hljs.registerLanguage("ksl", hljsGrammar);
+  }
 })();

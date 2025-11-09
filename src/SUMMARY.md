@@ -20,6 +20,7 @@
   - [SICP 笔记 - 0x06](./notes/rust/20250319-sicp-notes-0x06.md)
   - [SICP 笔记 - 0x07](./notes/rust/20250321-sicp-notes-0x07.md)
   - [SICP 笔记 - ex01](./notes/rust/20250419-sicp-notes-ex01.md)
+  - [SICP 笔记 - ex02](./notes/rust/20251109-sicp-notes-ex02.md)
   - [Phyrs - 0x01](./notes/rust/20250710-phyrs-0x01.md)
   - [Phyrs - 0x02](./notes/rust/20250711-phyrs-0x02.md)
   - [Phyrs - 0x03](./notes/rust/20250712-phyrs-0x03.md)
