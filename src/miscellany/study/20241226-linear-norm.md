@@ -112,7 +112,7 @@
 
 所以我们也有 \\( \lVert A \rVert\_1 \\)，\\( \lVert A \rVert\_2 \\) 和 \\( \lVert{}A\rVert{}\_{\infty} \\)
 
-**谱半径估计**
+#### 谱半径估计
 
 对于 \\( A \in \mathbb{R}^{n \times n} \\)，对于所有的诱导矩阵模，都应该满足 \\( \rho(A) \le \lVert A \rVert \\)
 
@@ -122,7 +122,7 @@
 即 \\( \rho(A)\\,\lVert u \rVert \le \lVert A \rVert \cdot \lVert u \rVert \\)，
 由于 \\( u \ne \mathbf{0},\\,\lVert u \rVert \ne 0 \\)，可得 \\( \rho(A) \le \lVert A \rVert \\)
 
-**诱导实矩阵模**
+#### 诱导实矩阵模
 
 定义 \\( A \in \mathbb{R}^{m \times n} \\) 的 \\( L \\)-\\( 1 \\) 模为：\\( \max\_{1 \le j \le n}{\sum\_{i = 1}^m{|a\_{i\\,j}|}} \\)，
 即各个列向量元素的绝对值的和的最大值

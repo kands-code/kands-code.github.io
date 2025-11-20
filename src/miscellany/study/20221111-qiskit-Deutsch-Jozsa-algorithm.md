@@ -18,7 +18,7 @@
 Deutsch-Jozsa 问题第一次被提出是在 **_Rapid solution of problems by quantum computation_**[^1] 一书中，
 同时也是第一个量子算法表现比经典算法要好的例子，这表明量子计算机作为某些特定问题的计算工具是很有优势的
 
-**Deutsch-Jozsa 问题**
+#### Deutsch-Jozsa 问题
 
 我们有一个未知的 _布尔函数_[^2] \\( f \\)，它接受一个字符串或者一系列比特值，返回 \\( 0 \\) 或 \\( 1 \\)，也就是
 
@@ -38,7 +38,7 @@ Deutsch-Jozsa 问题第一次被提出是在 **_Rapid solution of problems by qu
 
 注意，Deutsch-Jozsa 问题是 Deutsch 问题问题的 \\( n \\) 比特拓展
 
-**经典方法**
+#### 经典方法
 
 从经典出发，最好情况下，我们只需要向 _预言机_[^3] 查询两次就可以知道我们这个函数是否是平衡函数，
 比如第一次输入得到返回值是 \\( 0 \\)，而第二次输入得到返回值是 \\( 1 \\)，我们就可以说这个函数是平衡的
@@ -59,7 +59,7 @@ Deutsch-Jozsa 问题第一次被提出是在 **_Rapid solution of problems by qu
 事实上，我们可以给我们的经典方法设置一个置信度，一但概率达到置信度，我们就可以提前得到结论，
 不过为了得到 \\( 100\% \\) 的准确度，我们仍然需要测试 \\( 2^{n-1} + 1 \\) 次输入
 
-**量子方法**
+#### 量子方法
 
 使用量子计算机，我们仅需执行 \\( f \\) 一次即可得到置信度为 \\( 100\% \\) 的结果
 
@@ -115,9 +115,9 @@ Deutsch-Jozsa 问题第一次被提出是在 **_Rapid solution of problems by qu
 
   如果结果是概率是 \\( 1 \\)，则是常函数，若概率为 \\( 0 \\)，则为平衡函数
 
-**为什么可以工作**
+#### 为什么可以工作
 
-**_常函数预言机_**
+##### 常函数预言机
 
 如果预言机是常函数，那么它对于输入是不起作用的，查询前后量子态是一样的
 
@@ -161,7 +161,7 @@ Deutsch-Jozsa 问题第一次被提出是在 **_Rapid solution of problems by qu
     \end{bmatrix}
 \\]
 
-**_平衡函数预言机_**
+##### 平衡函数预言机
 
 如果是平衡函数，那么在第 \\( 3 \\) 步，则
 
@@ -319,7 +319,7 @@ from qiskit.visualization import plot_histogram
 n = 3
 ```
 
-**常函数预言机**
+#### 常函数预言机
 
 让我们从创建常函数预言机开始
 
@@ -337,7 +337,7 @@ const_oracle.draw(output="mpl")
 
 ![output01](../../assets/qiskit-Deutsch-Jozsa-algorithm-pic04.png)
 
-**平衡函数预言机**
+#### 平衡函数预言机
 
 ```python
 balanced_oracle = QuantumCircuit(n + 1)
@@ -397,7 +397,7 @@ balanced_oracle.draw(output="mpl")
 
 我们刚刚构建了一个平衡函数预言机，剩下的就是看 Deutsch-Jozsa 算法是否能解决它了
 
-**完整算法**
+#### 完整算法
 
 现在让我们把一切都放在一起
 
@@ -464,7 +464,7 @@ plot_histogram(answer)
 
 从上面的结果我们可以看出，我们有 \\( 0\% \\) 的机会测量 \\( \ket{000} \\)，这正确地预测了函数是平衡的
 
-**通用电路**
+#### 通用电路
 
 下面，我们提供一个通用的函数，可以创建 Deutsch-Jozsa 预言机，并把它们变成量子门
 
