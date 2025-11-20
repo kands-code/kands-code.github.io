@@ -4,8 +4,6 @@
 
 <p class="sp-comment">很久没更新了, 今天我们用 C 做一个数学计算器</p>
 
-[[toc]]
-
 最近突然想尝试写一个 _Parser_，不过一直没有思路，所以不知道如何实践
 
 然后在看 **_tauri_** 相关的例子的时候突然想到可以做一个数学式的 _Parser_
@@ -62,14 +60,14 @@ Add(
 
 大概可以分解为
 
-$$
+\\[
   \begin{aligned}
-    \mathrm{Expr} ::&= \operatorname{Expr} \circ \operatorname{Expr} \\
-    &|\quad \operatorname{sign}(\operatorname{Expr}) \\
-    &|\quad f(\operatorname{Expr}) \\
-    &|\quad \operatorname{Const}(N)
+    \mathrm{Expr} &::= \operatorname{Expr} \circ \operatorname{Expr} \\\\
+      & |\quad \operatorname{sign}(\operatorname{Expr}) \\\\
+      & |\quad f(\operatorname{Expr}) \\\\
+      & |\quad \operatorname{Const}(N)
   \end{aligned}
-$$
+\\]
 
 对应 **Expr** 的类型定义为
 

@@ -4,8 +4,6 @@
 
 <p class="sp-comment">Steam 好耶，比起 bottles 可用性还要高一些</p>
 
-[[toc]]
-
 这篇博客算是我这个[视频](https://www.bilibili.com/video/BV1en4y1f7kH)的文字版本
 
 ## 起因

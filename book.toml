@@ -7,13 +7,13 @@ description = "找到属于自己的光"
 # source directory
 src = "src"
 # see: https://datatracker.ietf.org/doc/html/rfc5646#appendix-A
-language = "zh-CN"
+language = "zh-Hans"
 # possible value: "ltr" | "rtl"
 text-direction = "ltr"
 
 [rust]
-# edition of rust version: "2015" | "2018" | "2021"
-edition = "2021"
+# edition of rust version: "2015" | "2018" | "2021" | "2024"
+edition = "2024"
 
 [build]
 # build output directory
@@ -24,49 +24,6 @@ create-missing = false
 use-default-preprocessors = true
 # directories to watch for triggering builds
 extra-watch-dirs = ["src", "theme"]
-
-#! third party plugins
-#? mdbook-toc
-[preprocessor.toc]
-# command of mdbook-toc
-command = "mdbook-toc"
-# render marker
-marker = "[[toc]]"
-# max level of heading to render
-max-level = 4
-# render options
-after = ["links", "index"]
-renderer = ["html"]
-#? mdbook-katex
-[preprocessor.katex]
-# render options
-after = ["links", "index", "toc"]
-# katex render output
-output = "html"
-# left equation number
-leqno = false
-# display math flash left with 2em left margin
-fleqn = false
-# show error for unsupported or wrong command
-throw-on-error = true
-error-color = "#cc0000"
-# minimum thickness for some rule lines, -1.0 for no-limit
-min-rule-thickness = -1.0
-# max size user can use, "Infinity" for no-limit
-max-size = "Infinity"
-# max depth of macro expand, default 1000
-max-expand = 512
-# whether or not to enable some command that unsupport
-trust = false
-# whether or not to prevent from injecting katex css
-no-css = false
-# user defined macros
-macros = "theme/macros.txt"
-# inlcude math as source code
-include-src = false
-# delimiter
-block-delimiter = { left = "$$", right = "$$" }
-inline-delimiter = { left = "$", right = "$" }
 
 #! output config
 #? html option
@@ -79,9 +36,7 @@ preferred-dark-theme = "ayu"
 # convert straight quotes to curly quotes
 smart-punctuation = true
 # use mathjax
-mathjax-support = false
-# respective font files
-copy-fonts = true
+mathjax-support = true
 # user difined css & js
 additional-css = ["theme/utils.css"]
 additional-js = ["theme/giscus.js"]
@@ -89,7 +44,7 @@ additional-js = ["theme/giscus.js"]
 no-section-label = true
 # github options
 git-repository-url = "https://github.com/kands-code/kands-code.github.io"
-git-repository-icon = "fa-github"
+git-repository-icon = "fab-github"
 edit-url-template = "https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/{path}"
 # 404 pages
 input-404 = "404.md"

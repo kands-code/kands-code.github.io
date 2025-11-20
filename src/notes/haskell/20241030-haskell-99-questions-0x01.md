@@ -4,8 +4,6 @@
 
 <p class="sp-comment">闲来无事，来练习一下 Haskell</p>
 
-[[toc]]
-
 ## 缘起
 
 我最近不知为何突然喜欢上了 [Tsoding](https://www.youtube.com/@TsodingDaily) 的视频，
@@ -60,7 +58,7 @@ qLastOne :: [a] -> Maybe a
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -84,7 +82,7 @@ qLastTwo :: [a] -> Maybe a
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -109,7 +107,7 @@ qKthElement :: [a] -> Int -> Maybe a
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -134,7 +132,7 @@ qLength :: [a] -> Int
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -159,7 +157,7 @@ qReverse :: [a] -> [a]
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -185,7 +183,7 @@ qIsPalindrome :: (Eq a) => [a] -> Bool
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -209,7 +207,7 @@ qFlatten :: QNestedList a -> [a]
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -239,7 +237,7 @@ qCompress :: (Eq a) => [a] -> [a]
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -268,7 +266,7 @@ qPack :: (Eq a) => [a] -> [[a]]
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -296,7 +294,7 @@ qRunLengthEncode :: (Eq a) => [a] -> [(Int, a)]
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell

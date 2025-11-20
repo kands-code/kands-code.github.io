@@ -50,29 +50,23 @@
     {{/if}}
 
     {{! 字体设置 }}
-    <link
-      rel="stylesheet"
-      href="{{resource 'FontAwesome/css/font-awesome.css'}}"
-    />
-    {{#if copy_fonts}}
-      {{! ? 用户如要添加字体，需更改 theme/fonts/fonts.css }}
-      <link rel="stylesheet" href="{{resource 'fonts/fonts.css'}}" />
-    {{/if}}
+    {{! ? 用户如要添加字体，需更改 theme/fonts/fonts.css }}
+    <link rel="stylesheet" href="{{resource 'fonts/fonts.css'}}" />
 
     {{! 代码高亮设置 }}
     <link
       rel="stylesheet"
-      id="highlight-css"
+      id="mdbook-highlight-css"
       href="{{resource 'highlight.css'}}"
     />
     <link
       rel="stylesheet"
-      id="tomorrow-night-css"
+      id="mdbook-tomorrow-night-css"
       href="{{resource 'tomorrow-night.css'}}"
     />
     <link
       rel="stylesheet"
-      id="ayu-highlight-css"
+      id="mdbook-ayu-highlight-css"
       href="{{resource 'ayu-highlight.css'}}"
     />
 
@@ -83,10 +77,10 @@
 
     {{! 是否启用 mathjax }}
     {{#if mathjax_support}}
-      <script
+      <script id="MathJax-script"
         async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
-      ></script>
+        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
+      </script>
     {{/if}}
 
     {{! 内容设置 }}
@@ -121,7 +115,7 @@
       </div>
     </div>
     {{! 主内容 }}
-    <div id="body-container">
+    <div id="mdbook-body-container">
       {{! 尝试从 localStorage 中获取基本设置 }}
       <script>
         try {
@@ -139,7 +133,7 @@
               sidebar.slice(1, sidebar.length - 1).trim()
             );
           }
-        } catch (e) {}
+        } catch {}
       </script>
       {{! 在内容加载前设置主题 防止闪屏 }}
       <script>
@@ -150,7 +144,7 @@
         let theme;
         try {
           theme = localStorage.getItem("mdbook-theme");
-        } catch (e) {}
+        } catch { }
         if (theme === null || theme === undefined) {
           theme = default_theme;
         }
@@ -160,15 +154,15 @@
         html.classList.add("js");
       </script>
       {{! 搜索框 }}
-      <input type="checkbox" id="sidebar-toggle-anchor" class="hidden" />
+      <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden" />
       {{! ? 设置是否显示搜索框 }}
       <script>
         let sidebar = null;
-        const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+        const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
         if (document.body.clientWidth >= 1080) {
           try {
             sidebar = localStorage.getItem("mdbook-sidebar");
-          } catch (e) {}
+          } catch { }
           sidebar = sidebar || "visible";
         } else {
           sidebar = "hidden";
@@ -181,7 +175,7 @@
         }
       </script>
       {{! 侧边栏目录 }}
-      <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+      <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
         {{! 通过 JS 弹出 }}
         <mdbook-sidebar-scrollbox
           class="sidebar-scrollbox"
@@ -192,96 +186,96 @@
             src="{{path_to_root}}toc.html"
           ></iframe>
         </noscript>
-        <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+        <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
           <div class="sidebar-resize-indicator"></div>
         </div>
       </nav>
 
       {{! 页面设置 }}
-      <div id="page-wrapper" class="page-wrapper">
+      <div id="mdbook-page-wrapper" class="page-wrapper">
         <div class="page">
           {{! 自定义顶部显示 theme/header.hbs }}
           {{!-- {{> header}} --}}
-          <div id="menu-bar-hover-placeholder"></div>
-          <div id="menu-bar" class="menu-bar sticky">
+          <div id="mdbook-menu-bar-hover-placeholder"></div>
+          <div id="mdbook-menu-bar" class="menu-bar sticky">
             {{! 左边的按钮 }}
             <div class="left-buttons">
               {{! 侧边栏按钮 }}
               <label
-                id="sidebar-toggle"
+                id="mdbook-sidebar-toggle"
                 class="icon-button"
-                for="sidebar-toggle-anchor"
+                for="mdbook-sidebar-toggle-anchor"
                 title="Toggle Table of Contents"
                 aria-label="Toggle Table of Contents"
-                aria-controls="sidebar"
+                aria-controls="mdbook-sidebar"
               >
-                <i class="fa fa-bars"></i>
+                {{fa "solid" "bars"}}
               </label>
               {{! 主题按钮 }}
               <button
-                id="theme-toggle"
+                id="mdbook-theme-toggle"
                 class="icon-button"
                 type="button"
                 title="Change theme"
                 aria-label="Change theme"
                 aria-haspopup="true"
                 aria-expanded="false"
-                aria-controls="theme-list"
+                aria-controls="mdbook-theme-list"
               >
-                <i class="fa fa-paint-brush"></i>
+                {{fa "solid" "paintbrush"}}
               </button>
               {{! 主题列表 }}
               <ul
-                id="theme-list"
+                id="mdbook-theme-list"
                 class="theme-popup"
                 aria-label="Themes"
                 role="menu"
               >
-                <li role="none"><button
-                    role="menuitem"
-                    class="theme"
-                    id="default_theme"
-                  >Auto</button></li>
-                <li role="none"><button
-                    role="menuitem"
-                    class="theme"
-                    id="light"
-                  >Light</button></li>
-                <li role="none"><button
-                    role="menuitem"
-                    class="theme"
-                    id="rust"
-                  >Rust</button></li>
-                <li role="none"><button
-                    role="menuitem"
-                    class="theme"
-                    id="coal"
-                  >Coal</button></li>
-                <li role="none"><button
-                    role="menuitem"
-                    class="theme"
-                    id="navy"
-                  >Navy</button></li>
-                <li role="none"><button
-                    role="menuitem"
-                    class="theme"
-                    id="ayu"
-                  >Ayu</button></li>
+                <li role="none">
+                  <button role="menuitem" class="theme" id="mdbook-theme-default_theme">
+                    Auto
+                  </button>
+                </li>
+                <li role="none">
+                  <button role="menuitem" class="theme" id="mdbook-theme-light">
+                    Light
+                  </button>
+                </li>
+                <li role="none">
+                  <button role="menuitem" class="theme" id="mdbook-theme-rust">
+                    Rust
+                  </button>
+                </li>
+                <li role="none">
+                  <button role="menuitem" class="theme" id="mdbook-theme-coal">
+                    Coal
+                  </button>
+                </li>
+                <li role="none">
+                  <button role="menuitem" class="theme" id="mdbook-theme-navy">
+                    Navy
+                  </button>
+                </li>
+                <li role="none">
+                  <button role="menuitem" class="theme" id="mdbook-theme-ayu">
+                    Ayu
+                  </button>
+                </li>
               </ul>
               {{! 是否启用搜索功能 output.html.search.enable }}
               {{#if search_enabled}}
                 {{! 搜索按钮 }}
                 <button
-                  id="search-toggle"
+                  id="mdbook-search-toggle"
                   class="icon-button"
                   type="button"
                   title="Search (`/`)"
                   aria-label="Toggle Searchbar"
                   aria-expanded="false"
                   aria-keyshortcuts="/ s"
-                  aria-controls="searchbar"
+                  aria-controls="mdbook-searchbar"
                 >
-                  <i class="fa fa-search"></i>
+                  {{fa "solid" "magnifying-glass"}}
                 </button>
               {{/if}}
             </div>
@@ -295,7 +289,7 @@
                   title="Print this book"
                   aria-label="Print this book"
                 >
-                  <i id="print-button" class="fa fa-print"></i>
+                  {{fa "solid" "print" "print-button"}}
                 </a>
               {{/if}}
               {{#if git_repository_url}}
@@ -304,10 +298,7 @@
                   title="Git repository"
                   aria-label="Git repository"
                 >
-                  <i
-                    id="git-repository-button"
-                    class="fa {{git_repository_icon}}"
-                  ></i>
+                  {{fa git_repository_icon_class git_repository_icon}}
                 </a>
               {{/if}}
               {{#if git_repository_edit_url}}
@@ -317,7 +308,7 @@
                   aria-label="Suggest an edit"
                   rel="edit"
                 >
-                  <i id="git-edit-button" class="fa fa-edit"></i>
+                  {{fa "solid" "pencil" "git-edit-button"}}
                 </a>
               {{/if}}
 
@@ -325,28 +316,28 @@
           </div>
           {{! 搜索框内容 }}
           {{#if search_enabled}}
-            <div id="search-wrapper" class="hidden">
-              <form id="searchbar-outer" class="searchbar-outer">
+            <div id="mdbook-search-wrapper" class="hidden">
+              <form id="mdbook-searchbar-outer" class="searchbar-outer">
                 <div class="search-wrapper">
                   <input
                     type="search"
-                    id="searchbar"
+                    id="mdbook-searchbar"
                     name="searchbar"
                     placeholder="Search this book ..."
-                    aria-controls="searchresults-outer"
+                    aria-controls="mdbook-searchresults-outer"
                     aria-describedby="searchresults-header"
                   />
                   <div class="spinner-wrapper">
-                    <i class="fa fa-spinner fa-spin"></i>
+                    {{fa "solid" "spinner" "fa-spin"}}
                   </div>
                 </div>
               </form>
-              <div id="searchresults-outer" class="searchresults-outer hidden">
+              <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
                 <div
-                  id="searchresults-header"
+                  id="mdbook-searchresults-header"
                   class="searchresults-header"
                 ></div>
-                <ul id="searchresults">
+                <ul id="mdbook-searchresults">
                 </ul>
               </div>
             </div>
@@ -354,80 +345,102 @@
           {{! 对于搜索框的 ARIA 优化 }}
           <script>
             document
-              .getElementById("sidebar-toggle")
+              .getElementById("mdbook-sidebar-toggle")
               .setAttribute("aria-expanded", sidebar === "visible");
             document
-              .getElementById("sidebar")
+              .getElementById("mdbook-sidebar")
               .setAttribute("aria-hidden", sidebar !== "visible");
-            Array.from(document.querySelectorAll("#sidebar a")).forEach(function (link) {
+            Array.from(document.querySelectorAll("#mdbook-sidebar a")).forEach(function (link) {
               link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
             });
           </script>
           {{! ! 主体内容 ! }}
-          <div id="content" class="content">
+          <div id="mdbook-content" class="content">
             <main>{{{content}}}</main>
             {{! 手机翻页键 }}
             <nav class="nav-wrapper" aria-label="Page navigation">
               {{! 上一个 }}
-              {{#previous}}
+              {{#if previous}}
                 <a
                   rel="prev"
-                  href="{{path_to_root}}{{link}}"
+                  href="{{ path_to_root }}{{previous.link}}"
                   class="mobile-nav-chapters previous"
                   title="Previous chapter"
                   aria-label="Previous chapter"
                   aria-keyshortcuts="Left"
                 >
-                  <i class="fa fa-angle-left"></i>
+                  {{#if (eq ../text_direction "rtl")}}
+                    {{fa "solid" "angle-right"}}
+                  {{else}}
+                    {{fa "solid" "angle-left"}}
+                  {{/if}}
                 </a>
-              {{/previous}}
+              {{/if}}
               {{! 下一个 }}
-              {{#next}}
-                <a
-                  rel="next prefetch"
-                  href="{{path_to_root}}{{link}}"
+              {{#if next}}
+                <a rel="next prefetch"
+                  href="{{ path_to_root }}{{next.link}}"
                   class="mobile-nav-chapters next"
                   title="Next chapter"
                   aria-label="Next chapter"
                   aria-keyshortcuts="Right"
                 >
-                  <i class="fa fa-angle-right"></i>
+                  {{#if (eq ../text_direction "rtl")}}
+                    {{fa "solid" "angle-left"}}
+                  {{else}}
+                    {{fa "solid" "angle-right"}}
+                  {{/if}}
                 </a>
-              {{/next}}
+              {{/if}}
               <div style="clear: both"></div>
             </nav>
           </div>
         </div>
-        {{! ? giscus 聊天框 }}
-        <div class="giscus-comment"></div>
         {{! 电脑翻页键 }}
         <nav class="nav-wide-wrapper" aria-label="Page navigation">
-          {{#previous}}
+          {{#if previous}}
             <a
               rel="prev"
-              href="{{path_to_root}}{{link}}"
+              href="{{ path_to_root }}{{previous.link}}"
               class="nav-chapters previous"
               title="Previous chapter"
               aria-label="Previous chapter"
               aria-keyshortcuts="Left"
             >
-              <i class="fa fa-angle-left"></i>
+              {{#if (eq ../text_direction "rtl")}}
+                {{fa "solid" "angle-right"}}
+              {{else}}
+                {{fa "solid" "angle-left"}}
+              {{/if}}
             </a>
-          {{/previous}}
-          {{#next}}
+          {{/if}}
+          {{#if next}}
             <a
               rel="next prefetch"
-              href="{{path_to_root}}{{link}}"
+              href="{{ path_to_root }}{{next.link}}"
               class="nav-chapters next"
               title="Next chapter"
               aria-label="Next chapter"
               aria-keyshortcuts="Right"
             >
-              <i class="fa fa-angle-right"></i>
+              {{#if (eq text_direction "rtl")}}
+                {{fa "solid" "angle-left"}}
+              {{else}}
+                {{fa "solid" "angle-right"}}
+              {{/if}}
             </a>
-          {{/next}}
+          {{/if}}
         </nav>
+        {{! ? giscus 聊天框 }}
+        <div class="giscus-comment"></div>
       </div>
+
+      <template id=fa-eye>{{fa "solid" "eye"}}</template>
+      <template id=fa-eye-slash>{{fa "solid" "eye-slash"}}</template>
+      <template id=fa-copy>{{fa "regular" "copy"}}</template>
+      <template id=fa-play>{{fa "solid" "play"}}</template>
+      <template id=fa-clock-rotate-left>{{fa "solid" "clock-rotate-left"}}</template>
+
       {{! 热更新 }}
       {{#if live_reload_endpoint}}
         <script>
@@ -444,36 +457,6 @@
           window.onbeforeunload = function () {
             socket.close();
           };
-        </script>
-      {{/if}}
-      {{! Google 分析 }}
-      {{#if google_analytics}}
-        <script>
-          const localAddrs = ["localhost", "127.0.0.1", ""];
-          // 在本地禁止 Google 分析
-          if (localAddrs.indexOf(document.location.hostname) === -1) {
-            (function (i, s, o, g, r, a, m) {
-              i["GoogleAnalyticsObject"] = r;
-              (i[r] =
-                i[r] ||
-                function () {
-                  (i[r].q = i[r].q || []).push(arguments);
-                }),
-                (i[r].l = 1 * new Date());
-              (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-              a.async = 1;
-              a.src = g;
-              m.parentNode.insertBefore(a, m);
-            })(
-              window,
-              document,
-              "script",
-              "https://www.google-analytics.com/analytics.js",
-              "ga"
-            );
-            ga("create", "{{google_analytics}}", "auto");
-            ga("send", "pageview");
-          }
         </script>
       {{/if}}
       {{! rust playground 设置 }}

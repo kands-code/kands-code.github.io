@@ -4,9 +4,7 @@
 
 <p class="sp-comment">继续写写题目......</p>
 
-[[toc]]
-
-昨天写了前十题，今天我们继续写 $11 \sim 20$ 题
+昨天写了前十题，今天我们继续写 \\( 11 \sim 20 \\) 题
 
 ## 题目
 
@@ -54,7 +52,7 @@ qRunLengthDecode :: [QCount a] -> [a]
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -82,7 +80,7 @@ qRunLengthEncodeDirect :: (Eq a) => [a] -> [QCount a]
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -114,7 +112,7 @@ qDuplicate :: [a] -> [a]
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -139,7 +137,7 @@ qReplicate :: [a] -> Int -> [a]
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -166,7 +164,7 @@ qDropEveryNth :: [a] -> Int -> [a]
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -193,7 +191,7 @@ qSplitAt :: [a] -> Int -> ([a], [a])
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -220,7 +218,7 @@ qSlice :: [a] -> Int -> Int -> [a]
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -250,7 +248,7 @@ qRotate :: [a] -> Int -> [a]
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell
@@ -276,7 +274,7 @@ qRemoveAt :: [a] -> Int -> (a, [a])
 ```
 
 <details>
-    
+
 <summary>答案</summary>
 
 ```haskell

@@ -4,8 +4,6 @@
 
 <p class="sp-comment">这个算是刚接触 Rust 时最不适应的地方</p>
 
-[[toc]]
-
 Rust 最出名的地方就是其一直宣传的内存安全性，各种设计，包括所有权设计，都是为了内存安全服务，但是这就必然导致 Rust 在灵活性上要比其他语言要差一些
 
 ## 为什么用 Rust
@@ -105,9 +103,9 @@ Rust 的函数和闭包就是两种东西，但是我认为应该是可以变成
 ~~Rust 不这样设计一定有它自己的理由~~
 
 [^1]:
-    Closure types.The Rust Reference \[DB/OL\].(2021-07-27)[2024-07-27].
+    Closure types.The Rust Reference \[DB/OL\].(2021-07-27)\[2024-07-27\].
     <https://doc.rust-lang.org/reference/types/closure.html>
 
 [^2]:
-    Function item types.The Rust Reference \[DB/OL\].(2019-07-16)[2024-07-27].
+    Function item types.The Rust Reference \[DB/OL\].(2019-07-16)\[2024-07-27\].
     <https://doc.rust-lang.org/reference/types/function-item.html>

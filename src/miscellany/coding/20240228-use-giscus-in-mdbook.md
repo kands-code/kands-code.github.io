@@ -4,8 +4,6 @@
 
 <p class="sp-comment">把博客从 Hugo 迁移到了 mdBook</p>
 
-[[toc]]
-
 ## 缘起
 
 之前我是用 Hugo + MemE 主题作为我博客的配置，基本还算可以，要什么功能基本都有
