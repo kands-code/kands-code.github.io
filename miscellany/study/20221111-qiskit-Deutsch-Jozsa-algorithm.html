@@ -51,7 +51,7 @@
       // 启用搜索
         window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
     </script>
-    <script src="../../toc-46178d19.js"></script>
+    <script src="../../toc-9d68f5d5.js"></script>
   </head>
   <body>
     <div id="mdbook-help-container">
@@ -282,7 +282,7 @@
 <h3 id="介绍"><a class="header" href="#介绍">介绍</a></h3>
 <p>Deutsch-Jozsa 问题第一次被提出是在 <strong><em>Rapid solution of problems by quantum computation</em></strong><sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup> 一书中，
 同时也是第一个量子算法表现比经典算法要好的例子，这表明量子计算机作为某些特定问题的计算工具是很有优势的</p>
-<p><strong>Deutsch-Jozsa 问题</strong></p>
+<h4 id="deutsch-jozsa-问题"><a class="header" href="#deutsch-jozsa-问题">Deutsch-Jozsa 问题</a></h4>
 <p>我们有一个未知的 <em>布尔函数</em><sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup> \( f \)，它接受一个字符串或者一系列比特值，返回 \( 0 \) 或 \( 1 \)，也就是</p>
 <p>\[
 f\left(\lbrace x_0,\ x_1,\ \dots \rbrace \right) \to \mathbb{B}
@@ -293,7 +293,7 @@ f\left(\lbrace x_0,\ x_1,\ \dots \rbrace \right) \to \mathbb{B}
 <p>而平衡函数是指对于所有的输入，对于其中一半的输入返回 \( 0 \)，而另一半则返回 \( 1 \)</p>
 <p>我们的目标是判断这个 \( f \) 是常函数还是平衡函数</p>
 <p>注意，Deutsch-Jozsa 问题是 Deutsch 问题问题的 \( n \) 比特拓展</p>
-<p><strong>经典方法</strong></p>
+<h4 id="经典方法"><a class="header" href="#经典方法">经典方法</a></h4>
 <p>从经典出发，最好情况下，我们只需要向 <em>预言机</em><sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup> 查询两次就可以知道我们这个函数是否是平衡函数，
 比如第一次输入得到返回值是 \( 0 \)，而第二次输入得到返回值是 \( 1 \)，我们就可以说这个函数是平衡的</p>
 <p>但是在最坏的情况下，如果我们一直得到相同的输出，
@@ -307,7 +307,7 @@ P_{\mathrm{constant}}\left( k \right) = 1 - \dfrac{1}{2^{k - 1}}
 <p>其中 \( k \) 的范围是 \( 1 \lt k \le 2^{n - 1} \)</p>
 <p>事实上，我们可以给我们的经典方法设置一个置信度，一但概率达到置信度，我们就可以提前得到结论，
 不过为了得到 \( 100% \) 的准确度，我们仍然需要测试 \( 2^{n-1} + 1 \) 次输入</p>
-<p><strong>量子方法</strong></p>
+<h4 id="量子方法"><a class="header" href="#量子方法">量子方法</a></h4>
 <p>使用量子计算机，我们仅需执行 \( f \) 一次即可得到置信度为 \( 100% \) 的结果</p>
 <p>这里我们将 \( f \) 实现为一个 <em>量子预言机</em>，
 并且将 \( \ket{x}\ket{y} \) 状态映射到 \( \ket{x}\ket{y \oplus f(x)} \)</p>
@@ -352,8 +352,8 @@ P_{\mathrm{constant}}\left( k \right) = 1 - \dfrac{1}{2^{k - 1}}
 \ket{0}^{\otimes n} = \left|\dfrac{1}{2^n} \sum_{x = 0}^{2^n - 1} (-1)^{f(x)}\right|^2
 \]</p>
 <p>如果结果是概率是 \( 1 \)，则是常函数，若概率为 \( 0 \)，则为平衡函数</p>
-<p><strong>为什么可以工作</strong></p>
-<p><strong><em>常函数预言机</em></strong></p>
+<h4 id="为什么可以工作"><a class="header" href="#为什么可以工作">为什么可以工作</a></h4>
+<h5 id="常函数预言机"><a class="header" href="#常函数预言机">常函数预言机</a></h5>
 <p>如果预言机是常函数，那么它对于输入是不起作用的，查询前后量子态是一样的</p>
 <p>由于 Hadamard 门是自逆的，即 \( H H = \mathbf{I} \)</p>
 <p>则经历第 \( 2 \) 步和第 \( 4 \) 步后，如果预言机是常函数，那么最后会得到和原输入，也就是全为 \( \ket{0} \)</p>
@@ -392,7 +392,7 @@ H^{\otimes n}
 0
 \end{bmatrix}
 \]</p>
-<p><strong><em>平衡函数预言机</em></strong></p>
+<h5 id="平衡函数预言机"><a class="header" href="#平衡函数预言机">平衡函数预言机</a></h5>
 <p>如果是平衡函数，那么在第 \( 3 \) 步，则</p>
 <p>\[
 U_f \dfrac{1}{\sqrt{2^n}}
@@ -528,7 +528,7 @@ from qiskit.visualization import plot_histogram
 <pre><code class="language-python"># set the length of the n-bit input string.
 n = 3
 </code></pre>
-<p><strong>常函数预言机</strong></p>
+<h4 id="常函数预言机-1"><a class="header" href="#常函数预言机-1">常函数预言机</a></h4>
 <p>让我们从创建常函数预言机开始</p>
 <p>在这种情况下，输入对输出没有影响，所以我们只是随机地将输出 qubit 设置为 0 或 1</p>
 <pre><code class="language-python">const_oracle = QuantumCircuit(n + 1)
@@ -540,7 +540,7 @@ if output == 1:
 const_oracle.draw(output="mpl")
 </code></pre>
 <p><img src="../../assets/qiskit-Deutsch-Jozsa-algorithm-pic04.png" alt="output01"></p>
-<p><strong>平衡函数预言机</strong></p>
+<h4 id="平衡函数预言机-1"><a class="header" href="#平衡函数预言机-1">平衡函数预言机</a></h4>
 <pre><code class="language-python">balanced_oracle = QuantumCircuit(n + 1)
 </code></pre>
 <p>接下来，我们创建一个平衡函数预言机</p>
@@ -580,7 +580,7 @@ balanced_oracle.draw(output="mpl")
 </code></pre>
 <p><img src="../../assets/qiskit-Deutsch-Jozsa-algorithm-pic06.png" alt="output03"></p>
 <p>我们刚刚构建了一个平衡函数预言机，剩下的就是看 Deutsch-Jozsa 算法是否能解决它了</p>
-<p><strong>完整算法</strong></p>
+<h4 id="完整算法"><a class="header" href="#完整算法">完整算法</a></h4>
 <p>现在让我们把一切都放在一起</p>
 <p>该算法的第一步是将输入的 qubit 初始化为 \( \ket{+} \) 状态，输出 qubit 为 \( \ket{-} \) 状态</p>
 <pre><code class="language-python">dj_circuit = QuantumCircuit(n + 1, n)
@@ -627,7 +627,7 @@ plot_histogram(answer)
 </code></pre>
 <p><img src="../../assets/qiskit-Deutsch-Jozsa-algorithm-pic10.png" alt="output07"></p>
 <p>从上面的结果我们可以看出，我们有 \( 0% \) 的机会测量 \( \ket{000} \)，这正确地预测了函数是平衡的</p>
-<p><strong>通用电路</strong></p>
+<h4 id="通用电路"><a class="header" href="#通用电路">通用电路</a></h4>
 <p>下面，我们提供一个通用的函数，可以创建 Deutsch-Jozsa 预言机，并把它们变成量子门</p>
 <p>它接收参数 <code>case</code>，其中 <code>case</code> 要么是 <code>"constant"</code>，要么是 <code>"balanced"</code>，以及 <code>n</code>，即输入寄存器的大小</p>
 <pre><code class="language-python">def dj_oracle(case, n):

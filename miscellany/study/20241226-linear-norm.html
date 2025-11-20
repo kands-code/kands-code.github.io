@@ -51,7 +51,7 @@
       // 启用搜索
         window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
     </script>
-    <script src="../../toc-46178d19.js"></script>
+    <script src="../../toc-9d68f5d5.js"></script>
   </head>
   <body>
     <div id="mdbook-help-container">
@@ -355,14 +355,14 @@
 \]</p>
 <p>即对于所有的 \( x \in \mathbb{R}^n \)，\( \lVert A\,x \rVert \le \lVert A \rVert \cdot \lVert x \rVert \)</p>
 <p>所以我们也有 \( \lVert A \rVert_1 \)，\( \lVert A \rVert_2 \) 和 \( \lVert{}A\rVert{}_{\infty} \)</p>
-<p><strong>谱半径估计</strong></p>
+<h4 id="谱半径估计"><a class="header" href="#谱半径估计">谱半径估计</a></h4>
 <p>对于 \( A \in \mathbb{R}^{n \times n} \)，对于所有的诱导矩阵模，都应该满足 \( \rho(A) \le \lVert A \rVert \)</p>
 <p>令 \( \lambda \in \sigma(A) \)，其中 \( |\lambda| = \rho(A) \)，设 \( u \) 是 \( \lambda \) 对应的特征向量，
 则 \( \lVert A\,u \rVert = \lVert \lambda\,u \rVert = \rho(A)\,\lVert u \rVert \)，
 又有 \( \lVert A\,u \rVert \le \lVert A \rVert \cdot \lVert u \rVert \)，
 即 \( \rho(A)\,\lVert u \rVert \le \lVert A \rVert \cdot \lVert u \rVert \)，
 由于 \( u \ne \mathbf{0},\,\lVert u \rVert \ne 0 \)，可得 \( \rho(A) \le \lVert A \rVert \)</p>
-<p><strong>诱导实矩阵模</strong></p>
+<h4 id="诱导实矩阵模"><a class="header" href="#诱导实矩阵模">诱导实矩阵模</a></h4>
 <p>定义 \( A \in \mathbb{R}^{m \times n} \) 的 \( L \)-\( 1 \) 模为：\( \max_{1 \le j \le n}{\sum_{i = 1}^m{|a_{i\,j}|}} \)，
 即各个列向量元素的绝对值的和的最大值</p>
 <p>定义 \( A \in \mathbb{R}^{m \times n} \) 的 \( L \)-\( \infty \) 模为：\( \max_{1 \le i \le m}{\sum_{j = 1}^n{|a_{i\,j}|}} \)，

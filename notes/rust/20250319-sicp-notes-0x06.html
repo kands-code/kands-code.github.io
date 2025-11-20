@@ -51,7 +51,7 @@
       // 启用搜索
         window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
     </script>
-    <script src="../../toc-46178d19.js"></script>
+    <script src="../../toc-9d68f5d5.js"></script>
   </head>
   <body>
     <div id="mdbook-help-container">
@@ -412,7 +412,7 @@ fn first_kth_fib_odd(k: u8) -&gt; Vec&lt;u128&gt; {
 有了统一接口，我们就可以有比较标准的解决流程，并且可以自动扩展，比如 <a href="./20250316-sicp-notes-0x04.html#代数化简">化简器</a></p>
 <h3 id="流的实例"><a class="header" href="#流的实例">流的实例</a></h3>
 <p>有了流的定义，要完成一些工作就非常简单，这里有一些例子</p>
-<p><strong>flatten</strong></p>
+<h4 id="flatten"><a class="header" href="#flatten">flatten</a></h4>
 <p><code>flatten</code> 的定义非常简单，就是对于由流组成的流，可以将其拼接成一个流，
 即 <code>[[a]] -&gt; [a]</code></p>
 <pre><code class="language-rust">fn flatten&lt;A: Clone&gt;(it: &amp;Vec&lt;Vec&lt;A&gt;&gt;) -&gt; Vec&lt;A&gt; {
@@ -431,7 +431,7 @@ fn main() {
 <blockquote>
 <p>Iterator 中已经实现</p>
 </blockquote>
-<p><strong>flatmap</strong></p>
+<h4 id="flatmap"><a class="header" href="#flatmap">flatmap</a></h4>
 <p><code>flatmap</code> 就是在 <code>flatten</code> 的基础上再应用一个函数的过程：</p>
 <pre><code class="language-rust">fn flatmap&lt;A: Clone, B&gt;(it: &amp;Vec&lt;Vec&lt;A&gt;&gt;, f: impl Fn(A) -&gt; B) -&gt; Vec&lt;B&gt; {
     flatten(it).iter().map(|e| f(e.clone())).collect::&lt;Vec&lt;B&gt;&gt;()
@@ -439,7 +439,7 @@ fn main() {
 <blockquote>
 <p>Iterator 中叫做 <code>flat_map</code></p>
 </blockquote>
-<p><strong>找到 N 以内的质数拆分</strong></p>
+<h4 id="找到-n-以内的质数拆分"><a class="header" href="#找到-n-以内的质数拆分">找到 N 以内的质数拆分</a></h4>
 <p>给定一个正整数 \( N \)，找到 \( 0 \lt J \lt I \le N \)，使得 \( I + J \in \mathbb{P} \)，其中 \( \mathbb{P} \) 是所有质数的集合</p>
 <pre><code class="language-rust">fn divide_prime(n: u64) -&gt; Vec&lt;(u64, u64, u64)&gt; {
     // filter
@@ -463,7 +463,7 @@ fn main() {
     println!("{:?}", ps);
     // =&gt; [(2, 1, 3), (3, 2, 5), (4, 1, 5), (4, 3, 7), (5, 2, 7), (6, 1, 7), (6, 5, 11)]
 }</code></pre>
-<p><strong>八皇后问题</strong></p>
+<h4 id="八皇后问题"><a class="header" href="#八皇后问题">八皇后问题</a></h4>
 <p>这个是一个经典问题，通常的解法是使用回溯法，但是如果结合 wishful thinking 和流，我们可以有更好的方法求解所有可能方案：</p>
 <pre><code class="language-rust">fn queen(n: u8) -&gt; Vec&lt;Vec&lt;u8&gt;&gt; {
     fn is_safe(row: u8, column: u8, size: u8, queens: &amp;Vec&lt;u8&gt;) -&gt; bool {
