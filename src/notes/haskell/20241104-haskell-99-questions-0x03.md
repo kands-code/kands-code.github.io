@@ -4,7 +4,7 @@
 
 <p class="sp-comment">还是要继续练习才行</p>
 
-之前已经完成了前二十题，今天我们继续写 \\( 21 \sim 28 \\) 题
+之前已经完成了前二十题，今天我们继续写 `$21 \sim 28$` 题
 
 ## 题目
 
@@ -133,7 +133,7 @@ qRandomPermutation lst = qRandomSelect lst (qLength lst)
 
 > **_Generate the combinations of k elements chosen from the n elements of a list._**
 
-生成所有的 \\( C(n, k) \\) 的选择可能
+生成所有的 `$C(n, k)$` 的选择可能
 
 ```haskell
 qCombinantion :: [a] -> Int -> Maybe [[a]]

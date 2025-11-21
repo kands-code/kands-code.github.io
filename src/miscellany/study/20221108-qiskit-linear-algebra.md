@@ -26,8 +26,8 @@
 
 形式上，我们将向量定义为 "向量空间的元素"，一个更加直观的，几何的定义是 "向量是一个有方向有大小的量"
 
-例如，考虑一个向量由 \\( x \\) 和 \\( y \\) 构成，例如 \\( \dbinom{3}{5} \\)，
-那么这个向量就可以可视化为一个从原点指向坐标为 \\( (3, 5) \\) 位置的箭头
+例如，考虑一个向量由 `$x$` 和 `$y$` 构成，例如 `$\dbinom{3}{5}$`，
+那么这个向量就可以可视化为一个从原点指向坐标为 `$\left(3, 5\right)$` 位置的箭头
 
 ![vector as arrow](../../assets/qiskit-linear-algebra-pic01.png)
 
@@ -43,21 +43,21 @@
 
 ![state space](../../assets/qiskit-linear-algebra-pic02.svg)
 
-这个特定量子态是 \\( \ket{0} \\) 和 \\( \ket{1} \\) 的 _偶数态叠加_，
-\\( \ket{0} \\) 在球面顶部，\\( \ket{1} \\) 在球面底部
+这个特定量子态是 `$\ket{0}$` 和 `$\ket{1}$` 的 _偶数态叠加_，
+`$\ket{0}$` 在球面顶部，`$\ket{1}$` 在球面底部
 
 箭头，即向量，可以指向球面上任意一个点，分别对应着不同的量子态
 
 我们再回过头来看我们对于向量的形式化定义，我们现在要定义什么是 **_向量空间_**
 
-一个基于 \\( F \\) 域的向量空间 \\( V\_F \\) 是一个集合，其元素满足
+一个基于 `$F$` 域的向量空间 `$V_F$` 是一个集合，其元素满足
 
-\\[
-  \begin{aligned}
-    n \ket{v} &= \ket{v^{\prime}} &\qquad{} \ket{v}, \ket{v^{\prime}} \in V\_F,\quad{} n \in F \\\\
-    \ket{a} + \ket{b} &= \ket{c} &\qquad{} \ket{a}, \ket{b}, \ket{c} \in V\_F
-  \end{aligned}
-\\]
+```math
+\begin{aligned}
+  n \ket{v} &= \ket{v^{\prime}} &\qquad{} \ket{v}, \ket{v^{\prime}} \in V_F,\quad{} n \in F \\
+  \ket{a} + \ket{b} &= \ket{c} &\qquad{} \ket{a}, \ket{b}, \ket{c} \in V_F
+\end{aligned}
+```
 
 也就是满足 **_线性组合_**[^2]
 
@@ -67,19 +67,19 @@
 
 矩阵是一个可以将一个向量变为另一个向量的数学对象
 
-\\[
-  \ket{v} \to \ket{v^{\prime}} = M \ket{v}
-\\]
+```math
+\ket{v} \to \ket{v^{\prime}} = M \ket{v}
+```
 
 一般我们可以将矩阵写成列表形式，例如
 
-\\[
-  M = \begin{pmatrix}
-    1 & -2 & 3 \\\\
-    1 & 5\mathbf{i} & 0 \\\\
+```math
+M = \begin{pmatrix}
+    1 & -2 & 3\\
+    1 & 5\mathbf{i} & 0\\
     1 + \mathbf{i} & 7 & -4
   \end{pmatrix}
-\\]
+```
 
 我们可以使用矩阵乘法的方式，将矩阵 "作用" 到我们的向量上
 
@@ -89,48 +89,48 @@
 
 例如一个很常见的 _泡利-X 逻辑门_，可以表示为如下形式
 
-\\[
-  \sigma\_{x} = \begin{pmatrix}
-    0 & 1 \\\\
-    1 & 0
-  \end{pmatrix}
-\\]
+```math
+\sigma_{x} = \begin{pmatrix}
+  0 & 1 \\
+  1 & 0
+\end{pmatrix}
+```
 
-这个逻辑门就类似经典逻辑门中的 _非门_，可以 "翻转" 我们的量子态，即 \\( \ket{0} \\) 变成 \\( \ket{1} \\)，反之亦然
+这个逻辑门就类似经典逻辑门中的 _非门_，可以 "翻转" 我们的量子态，即 `$\ket{0}$` 变成 `$\ket{1}$`，反之亦然
 
-\\[
+```math
 \begin{aligned}
-  \sigma\_{x} \ket{0} &= \ket{1} \\\\
-  \sigma\_{x} \ket{1} &= \ket{0}
+  \sigma_{x} \ket{0} &= \ket{1} \\
+  \sigma_{x} \ket{1} &= \ket{0}
 \end{aligned}
-\\]
+```
 
 在量子计算中，我们有两种非常重要的矩阵，**_哈密顿矩阵_** 和 **_酉矩阵_**
 
-哈密顿矩阵指的是一个矩阵的 _共轭转置矩阵_ 和原矩阵一致 \\( M = M^{\dagger} \\)
+哈密顿矩阵指的是一个矩阵的 _共轭转置矩阵_ 和原矩阵一致 `$M = M^{\dagger}$`
 
 所谓共轭转置矩阵，就是将矩阵转置的同时，矩阵元素的值需要变成其共轭值，即虚部要取反
 
-而酉矩阵 (Unitary Matrix) 指的是原矩阵的 _逆_ 等于其共轭转置矩阵 \\( M^{-1} = M^{\dagger} \\)
+而酉矩阵 (Unitary Matrix) 指的是原矩阵的 _逆_ 等于其共轭转置矩阵 `$M^{-1} = M^{\dagger}$`
 
-即 \\( M M^{\dagger} = M^{\dagger} M = \mathbf{I} \\)
+即 `$M M^{\dagger} = M^{\dagger} M = \mathbf{I}$`
 
-其中 \\( \mathbf{I} \\) 指的是单位矩阵
+其中 `$\mathbf{I}$` 指的是单位矩阵
 
 我们可以发现，_泡利-Y 逻辑门_ 对应的矩阵既是哈密顿矩阵，也是酉矩阵
 
-\\[
-  \sigma\_y = \begin{pmatrix}
-    0 & -\mathbf{i} \\\\
-    \mathbf{i} & 0
-  \end{pmatrix},\quad{}
-  \sigma\_y^{\dagger} = \begin{pmatrix}
-    0 & -\mathbf{i} \\\\
-    \mathbf{i} & 0
-  \end{pmatrix}
-    \implies
-  \sigma\_y \sigma\_y^{\dagger} = \mathbf{I}
-\\]
+```math
+\sigma_y = \begin{pmatrix}
+  0 & -\mathbf{i} \\
+  \mathbf{i} & 0
+\end{pmatrix},\quad{}
+\sigma_y^{\dagger} = \begin{pmatrix}
+  0 & -\mathbf{i} \\
+  \mathbf{i} & 0
+\end{pmatrix}
+  \implies
+\sigma_y \sigma_y^{\dagger} = \mathbf{I}
+```
 
 酉矩阵的重要性在于，我们使用酉矩阵操作的时候，可以 "保持" 态向量的大小
 
@@ -138,44 +138,44 @@
 
 我们现在要来讨论构造线性空间的了
 
-考虑一个向量空间 \\( V\_F \\)，如果我们有一些向量 \\( \vec{v}\_n \\) 张成了一个向量空间 \\( V\_S \\)，
-其中 \\( V\_S \subset V\_F \\)
+考虑一个向量空间 `$V_F$`，如果我们有一些向量 `$\vec{v}_n$` 张成了一个向量空间 `$V_S$`，
+其中 `$V_S \subset V_F$`
 
 那么在这个子向量空间中的任意向量的线性组合的所有结果构成了一个生成集合
 
-对于一组向量 \\( \vec{v}\_n \\)，如果我们能找到一组不全为 \\( 0 \\) 的数 \\( b\_n \\) 有
+对于一组向量 `$\vec{v}_n$`，如果我们能找到一组不全为 `$0$` 的数 `$b_n$` 有
 
-\\[
-  b\_1 \vec{v}\_1 + b\_2 \vec{v}\_2 + \cdots + b\_n \vec{v}\_n
-    = \sum\_i^n{\vec{v}\_i} = \mathbf{0}
-\\]
+```math
+b_1 \vec{v}_1 + b_2 \vec{v}_2 + \cdots + b_n \vec{v}_n
+  = \sum_i^n{\vec{v}_i} = \mathbf{0}
+```
 
 那么我们就称这一组向量是线性相关的，上式还可以等价表述为 _该组向量中任一向量可以由该组的其他向量线性组合而成_
 
-\\[
-  \vec{v}\_a = \sum\_i^n c\_i \vec{v}\_i,\quad{}i \ne a
-\\]
+```math
+\vec{v}_a = \sum_i^n c_i \vec{v}_i,\quad{}i \ne a
+```
 
 于此相对的，我们还有 _非线性相关_ 或 _称线性独立_
 
 一个线性空间的基矢量的集合是一个线性独立的生成集合，而集合的大小或者元素个数，我们称为该线性空间的 **_维度_**
 
-例如对于 \\( \mathbb{R}^2 \\) 我们可以用 \\( \lbrace (1, 0), (0,1) \rbrace \\) 作为其基矢量，这两个矢量的线性组合刚好可以铺满整个 \\( \mathbb{R}^2 \\)，
+例如对于 `$\mathbb{R}^2$` 我们可以用 `$\lbrace (1, 0), (0,1) \rbrace$` 作为其基矢量，这两个矢量的线性组合刚好可以铺满整个 `$\mathbb{R}^2$`，
 
-所以 \\( \mathbb{R}^2 \\) 是这两个矢量的生成空间，这两个矢量是 \\( \mathbb{R}^2 \\) 的生成集合，
-\\( \mathbb{R}^2 \\) 的维度是 \\( 2 \\)
+所以 `$\mathbb{R}^2$` 是这两个矢量的生成空间，这两个矢量是 `$\mathbb{R}^2$` 的生成集合，
+`$\mathbb{R}^2$` 的维度是 `$2$`
 
 基集和生成集合很重要，因为它们允许我们 _缩减_ 向量空间，只用几个矢量来表达整个向量空间
 
 我们可以对基矢量得出某些结论，并将其推广到整个向量空间，因为空间中的每个向量都只是基矢量的线性组合
 
-对于量子计算，我们的基矢量就是 \\( \ket{0} \\) 和 \\( \ket{1} \\)，例如
+对于量子计算，我们的基矢量就是 `$\ket{0}$` 和 `$\ket{1}$`，例如
 
-\\[
-  \dfrac{\ket{0} + \ket{1}}{\sqrt{2}}
-\\]
+```math
+\dfrac{\ket{0} + \ket{1}}{\sqrt{2}}
+```
 
-就表明 \\( \ket{0} \\) 和 \\( \ket{1} \\) 的观测概率一样时的叠加态
+就表明 `$\ket{0}$` 和 `$\ket{1}$` 的观测概率一样时的叠加态
 
 ### 希尔伯特空间，正交规范性，以及内积
 
@@ -187,24 +187,24 @@
 
 而一个向量在某特定方向上的长度表示为在某一特定量子态的概率幅，基于此，不同量子态的观测概率就可以被计算了
 
-对于 \\( \ket{a} \\) 和 \\( \ket{b} \\)，内积被表示为 \\( \braket{a | b} \\)，
-其中 \\( \bra{a} \\) 为 \\( \ket{a} \\) 的共轭转置 \\( \ket{a}^{\dagger} \\)，即
+对于 `$\ket{a}$` 和 `$\ket{b}$`，内积被表示为 `$\braket{a | b}$`，
+其中 `$\bra{a}$` 为 `$\ket{a}$` 的共轭转置 `$\ket{a}^{\dagger}$`，即
 
-\\[
+```math
 \braket{a | b} =
-  \left(a\_1^{\dagger}\ a\_2^{\dagger}\ \cdots\ a\_n^{\dagger}\right)
+  \left(a_1^{\dagger}\ a_2^{\dagger}\ \cdots\ a_n^{\dagger}\right)
   \begin{pmatrix}
-    b\_1 \\\\
-    b\_2 \\\\
-    \vdots \\\\
-    b\_n
+    b_1 \\
+    b_2 \\
+    \vdots \\
+    b_n
   \end{pmatrix} =
-  a\_1^{\dagger} b\_1 + a\_2^{\dagger} b\_2 + \cdots + a\_n^{\dagger} b\_n
-\\]
+  a_1^{\dagger} b_1 + a_2^{\dagger} b_2 + \cdots + a_n^{\dagger} b_n
+```
 
-使用希尔伯特空间来表示量子系统，一个最重要的条件是态向量与其自身的内积等于 \\( 1 \\)，即 \\( \braket{\psi | \psi} = 1 \\)
+使用希尔伯特空间来表示量子系统，一个最重要的条件是态向量与其自身的内积等于 `$1$`，即 `$\braket{\psi | \psi} = 1$`
 
-这就是所谓的归一化条件[^4]，其物理意义在于，在某一特定态下的量子系统，观测到自身所在态的概率为 \\( 1 \\)
+这就是所谓的归一化条件[^4]，其物理意义在于，在某一特定态下的量子系统，观测到自身所在态的概率为 `$1$`
 
 让我们再来看看布洛赫球面
 
@@ -212,7 +212,7 @@
 
 这个球面连同量子比特态向量之间的内积正是一个希尔伯特空间
 
-并且这个空间还满足归一化条件，因为布洛赫球的半径为 \\( 1 \\)，因此每一个向量长度的平方也一定是 \\( 1 \\)
+并且这个空间还满足归一化条件，因为布洛赫球的半径为 `$1$`，因此每一个向量长度的平方也一定是 `$1$`
 
 最后关于希尔伯特空间和内积，我们来说说其与酉矩阵的关系
 
@@ -220,16 +220,16 @@
 
 也就是说，你使用一系列酉矩阵来变换一个态向量，其归一化条件仍然成立
 
-\\[
-  \braket{\psi|\psi} = 1
+```math
+\braket{\psi|\psi} = 1
     \implies
-  \ket{\psi} \to U \ket{\psi} = \bra{\psi^{\prime}}
+  \ket{\psi} \to U \ket{\psi} = \ket{\psi^{\prime}} \\
     \implies
   \braket{\psi^{\prime} | \psi^{\prime}}
     = (U \ket{\psi})^{\dagger} U \ket{\psi}
     = \bra{\psi} U^{\dagger} U \ket{\psi}
     = \braket{\psi | \psi} = 1
-\\]
+```
 
 这表明幺正演化是将一个量子态变为另一个量子态
 
@@ -241,96 +241,96 @@
 
 外积的结果是一个矩阵
 
-\\[
-  \ket{b} \bra{a} =
-    \begin{pmatrix}
-      b\_1 \\\\
-      b\_2 \\\\
-      \vdots \\\\
-      b\_n
-    \end{pmatrix}
-    (a\_1^{\dagger}\ a\_2^{\dagger}\ \cdots\ a\_n^{\dagger})
-    = \begin{pmatrix}
-      b\_1 a\_1^{\dagger} & b\_1 a\_2^{\dagger} & \cdots & b\_1 a\_n^{\dagger} \\\\
-      b\_2 a\_1^{\dagger} & b\_2 a\_2^{\dagger} & & \vdots \\\\
-      \vdots & & \ddots & \vdots \\\\
-      b\_n a\_1^{\dagger} & \cdots & \cdots & b\_n a\_n^{\dagger}
+```math
+\ket{b} \bra{a} =
+  \begin{pmatrix}
+    b_1 \\
+    b_2 \\
+    \vdots \\
+    b_n
   \end{pmatrix}
-\\]
+  (a_1^{\dagger}\ a_2^{\dagger}\ \cdots\ a_n^{\dagger}) =
+  \begin{pmatrix}
+    b_1 a_1^{\dagger} & b_1 a_2^{\dagger} & \cdots & b_1 a_n^{\dagger} \\
+    b_2 a_1^{\dagger} & b_2 a_2^{\dagger} & & \vdots \\
+    \vdots & & \ddots & \vdots \\
+    b_n a_1^{\dagger} & \cdots & \cdots & b_n a_n^{\dagger}
+  \end{pmatrix}
+```
 
 外积使得我们可以使用 _bra_ 和 _ket_ 来表示我们的量子逻辑门而不是使用矩阵
 
-例如 **泡利-X 逻辑门** 可以表示为 \\( \ket{0} \bra{1} + \ket{1} \bra{0} \\)
+例如 **泡利-X 逻辑门** 可以表示为 `$\ket{0} \bra{1} + \ket{1} \bra{0}$`
 
 外积其实是张量积的一个特例
 
 更一般来说，我们会经常看见使用张量积来共享多个量子比特的状态
 
-\\[
-  \ket{a} \otimes \ket{b} = \ket{a\\,b} =
-    \begin{pmatrix}
-        a\_1 \ket{b} \\\\
-        a\_2 \ket{b}
-    \end{pmatrix} =
-    \begin{pmatrix}
-        a\_1 b\_1 \\\\
-        a\_2 b\_2 \\\\
-        \vdots \\\\
-        a\_n b\_n
-    \end{pmatrix}
-\\]
+```math
+\ket{a} \otimes \ket{b} = \ket{a \,b} =
+  \begin{pmatrix}
+      a_1 \ket{b}\\
+      a_2 \ket{b}
+  \end{pmatrix} =
+  \begin{pmatrix}
+      a_1 b_1\\
+      a_2 b_2\\
+      \vdots\\
+      a_n b_n
+  \end{pmatrix}
+```
 
 而对于矩阵，张量积可以表示为如下形式，
 更多内容可以参考 [这里](https://qiskit.org/textbook/ch-gates/multiple-qubits-entangled-states.html#1.-Representing-Multi-Qubit-States-)
 
-\\[
-  \mathbf{A} \otimes \mathbf{B} =
-    \begin{pmatrix}
-        a\_{11} \mathbf{B} & \cdots & a\_{1n} \mathbf{B} \\\\
-        \vdots & \ddots & \vdots \\\\
-        a\_{m1} \mathbf{B} & \cdots & a\_{mn} \mathbf{B}
-    \end{pmatrix}
-\\]
+```math
+\mathbf{A} \otimes \mathbf{B} =
+  \begin{pmatrix}
+      a_{11} \mathbf{B} & \cdots & a_{1n} \mathbf{B}\\
+      \vdots & \ddots & \vdots\\
+      a_{m1} \mathbf{B} & \cdots & a_{mn} \mathbf{B}
+  \end{pmatrix}
+```
 
 ### 特征向量与特征值
 
 让我们来看看下面这个表达式
 
-\\[
-  \mathbf{A} \ket{v} = \lambda \ket{v}
-\\]
+```math
+\mathbf{A} \ket{v} = \lambda \ket{v}
+```
 
-其中 \\( \mathbf{A} \\) 是一个矩阵，而 \\( \lambda \\) 是一个数
+其中 `$\mathbf{A}$` 是一个矩阵，而 `$\lambda$` 是一个数
 
-如果给定一个矩阵，我们能找到这样一个向量 \\( \ket{v} \\) 和数 \\( \lambda \\)，那么这个向量被称为特征向量，而这个数被称为特征值
+如果给定一个矩阵，我们能找到这样一个向量 `$\ket{v}$` 和数 `$\lambda$`，那么这个向量被称为特征向量，而这个数被称为特征值
 
 特征值和特征向量在量子力学中有很重要的物理意义，在量子计算中也同样如此
 
-给定矩阵 \\( \mathbf{A} \\) 我们通过等式变换可以得到
+给定矩阵 `$\mathbf{A}$` 我们通过等式变换可以得到
 
-\\[
-  \left( \mathbf{A} - \lambda \mathbf{I} \right) \ket{v} = \mathbf{0}
-\\]
+```math
+\left( \mathbf{A} - \lambda \mathbf{I} \right) \ket{v} = \mathbf{0}
+```
 
-如果 \\( \mathbf{A} - \lambda \mathbf{I} \\) 可逆，那么我们就会得到 \\( \ket{v} = \mathbf{0} \\)，这是不可能的
+如果 `$\mathbf{A} - \lambda \mathbf{I}$` 可逆，那么我们就会得到 `$\ket{v} = \mathbf{0}$`，这是不可能的
 
 所以我们可以有
 
-\\[
-  \det{\left( \mathbf{A} - \lambda \mathbf{I} \right)} = 0
-\\]
+```math
+\det{\left( \mathbf{A} - \lambda \mathbf{I} \right)} = 0
+```
 
-对于 **泡利-Z 矩阵**，我们可以得到 \\( \lambda = \pm 1 \\)，其中 **泡利-Z 矩阵** 为
+对于 **泡利-Z 矩阵**，我们可以得到 `$\lambda = \pm 1$`，其中 **泡利-Z 矩阵** 为
 
-\\[
-  \sigma\_z = \begin{pmatrix}
-      1 & 0 \\\\
-      0 & -1
-    \end{pmatrix}
-\\]
+```math
+\sigma_z = \begin{pmatrix}
+    1 & 0 \\
+    0 & -1
+  \end{pmatrix}
+```
 
-故对于 \\( \lambda = 1 \\)，特征向量为 \\( \dbinom{1}{0} \\)，
-而 \\( \lambda = -1 \\) 对应着 \\( \dbinom{0}{1} \\)
+故对于 `$\lambda = 1$`，特征向量为 `$\dbinom{1}{0}$`，
+而 `$\lambda = -1$` 对应着 `$\dbinom{0}{1}$`
 
 所以，当我们在 _Z 空间_ 中观测量子比特，我们可以转而观测 **泡利-Z 矩阵** 的特征向量
 
@@ -352,69 +352,69 @@
 
 我们经常看到以下形式的幺正变换
 
-\\[
-  \mathbf{U} = \mathbf{e}^{\mathbf{i} \gamma \mathbf{H}}
-\\]
+```math
+\mathbf{U} = \mathbf{e}^{\mathbf{i} \gamma \mathbf{H}}
+```
 
-其中，\\( \mathbf{H} \\) 是一个哈密顿矩阵，\\( \gamma \\) 是一个实数，易证满足该式所有矩阵都是幺正的
+其中，`$\mathbf{H}$` 是一个哈密顿矩阵，`$\gamma$` 是一个实数，易证满足该式所有矩阵都是幺正的
 
-\\[
-  \mathbf{U}^{\dagger} = \mathbf{e}^{- \mathbf{i} \gamma \mathbf{H}^{\dagger}}
-    = \mathbf{e}^{- \mathbf{i} \gamma \mathbf{H}}
-\\]
+```math
+\mathbf{U}^{\dagger} = \mathbf{e}^{- \mathbf{i} \gamma \mathbf{H}^{\dagger}}
+  = \mathbf{e}^{- \mathbf{i} \gamma \mathbf{H}}
+```
 
-故 \\( \mathbf{U} \mathbf{U}^{\dagger} = \mathbf{I} \\)
+故 `$\mathbf{U} \mathbf{U}^{\dagger} = \mathbf{I}$`
 
 你可能会对于这种指数的形式有所顾忌，但是当我们将式子进行 Taylor 展开后，就会明了许多
 
-\\[
-  \mathbf{e}^{\mathbf{i} \gamma \mathbf{H}}
-    = \sum\_{n = 0}^{\infty}{\dfrac{\left( \mathbf{i} \gamma \mathbf{H} \right)^n}{n!}}
-\\]
+```math
+\mathbf{e}^{\mathbf{i} \gamma \mathbf{H}}
+  = \sum_{n = 0}^{\infty}{\dfrac{\left( \mathbf{i} \gamma \mathbf{H} \right)^n}{n!}}
+```
 
-如果我们将 \\( \mathbf{H} \\) 换成 \\( \mathbf{B} \\)，其中 \\( \mathbf{B} \\) 是对合矩阵，
-即 \\( \mathbf{B}^2 = \mathbf{I} \\)，则
+如果我们将 `$\mathbf{H}$` 换成 `$\mathbf{B}$`，其中 `$\mathbf{B}$` 是对合矩阵，
+即 `$\mathbf{B}^2 = \mathbf{I}$`，则
 
-\\[
-  \sum\_{n = 0}^{\infty}{\dfrac{\left( \mathbf{i} \gamma \mathbf{B} \right)^n}{n!}}
-    = \cos{\left( \gamma \right)} \mathbf{I} + \mathbf{i} \sin{\left( \gamma \right)} \mathbf{B}
-\\]
+```math
+\sum_{n = 0}^{\infty}{\dfrac{\left( \mathbf{i} \gamma \mathbf{B} \right)^n}{n!}}
+  = \cos{\left( \gamma \right)} \mathbf{I} + \mathbf{i} \sin{\left( \gamma \right)} \mathbf{B}
+```
 
 我们可以将式子分成实部和虚部两个部分
 
-\\[
-  \sum\_{n = 0}^{\infty}{\dfrac{\left( \mathbf{i} \gamma \mathbf{B} \right)^n}{n!}}
-    = \sum\_{n = 0}^{\infty}{\dfrac{(-1)^n \gamma^{2n} \mathbf{B}^{2n}}{\left( 2n \right)!}} +
-      \mathbf{i} \sum\_{n = 0}^{\infty}{\dfrac{(-1)^n \gamma^{2n + 1} \mathbf{B}^{2n + 1}}{\left( 2n + 1 \right)!}}
-\\]
+```math
+\sum_{n = 0}^{\infty}{\dfrac{\left( \mathbf{i} \gamma \mathbf{B} \right)^n}{n!}}
+  = \sum_{n = 0}^{\infty}{\dfrac{(-1)^n \gamma^{2n} \mathbf{B}^{2n}}{\left( 2n \right)!}} +
+    \mathbf{i} \sum_{n = 0}^{\infty}{\dfrac{(-1)^n \gamma^{2n + 1} \mathbf{B}^{2n + 1}}{\left( 2n + 1 \right)!}}
+```
 
-由于 \\( \mathbf{B}^2 = \mathbf{I} \\)，则 \\( \mathbf{B}^{2n} = \mathbf{I}^n = \mathbf{I} \\)，
-且 \\( \mathbf{B}^{2n + 1} = \mathbf{B} \\)
+由于 `$\mathbf{B}^2 = \mathbf{I}$`，则 `$\mathbf{B}^{2n} = \mathbf{I}^n = \mathbf{I}$`，
+且 `$\mathbf{B}^{2n + 1} = \mathbf{B}$`
 
 则证得
 
-\\[
-  \cos{\left( \gamma \right)} \mathbf{I} + \mathbf{i} \sin{\left( \gamma \right)} \mathbf{B} =
-    \sum\_{n = 0}^{\infty}{\dfrac{(-1)^n \gamma^{2n} \mathbf{B}^{2n}}{\left( 2n \right)!}} +
-      \mathbf{i} \sum\_{n = 0}^{\infty}{\dfrac{(-1)^n \gamma^{2n + 1} \mathbf{B}^{2n + 1}}{\left( 2n + 1 \right)!}}
-\\]
+```math
+\cos{\left( \gamma \right)} \mathbf{I} + \mathbf{i} \sin{\left( \gamma \right)} \mathbf{B} =
+  \sum_{n = 0}^{\infty}{\dfrac{(-1)^n \gamma^{2n} \mathbf{B}^{2n}}{\left( 2n \right)!}} +
+    \mathbf{i} \sum_{n = 0}^{\infty}{\dfrac{(-1)^n \gamma^{2n + 1} \mathbf{B}^{2n + 1}}{\left( 2n + 1 \right)!}}
+```
 
 注意到，泡利矩阵不仅仅是幺正的，还是哈密顿矩阵，同时也是对合矩阵
 
-这意味着 \\( \exp{\left( \mathbf{i} \gamma \sigma\_k \right)},\ k \in \lbrace x, y, z \rbrace \\) 不仅仅可以作为酉矩阵作用在量子态向量上，
-还可以使用 \\( \cos \\) 和 \\( \sin \\) 的形式来表示，这在量子计算中是十分有用的
+这意味着 `$\exp{\left( \mathbf{i} \gamma \sigma_k \right)},\ k \in \lbrace x, y, z \rbrace$` 不仅仅可以作为酉矩阵作用在量子态向量上，
+还可以使用 `$\cos$` 和 `$\sin$` 的形式来表示，这在量子计算中是十分有用的
 
-如果对于一个矩阵 \\( \mathbf{M} \\) 有特征值 \\( \lambda \\) 以及对应特征向量 \\( \ket{v} \\)，则
+如果对于一个矩阵 `$\mathbf{M}$` 有特征值 `$\lambda$` 以及对应特征向量 `$\ket{v}$`，则
 
-\\[
-  \mathbf{e}^{\mathbf{M}} \ket{v} = \mathbf{e}^{\lambda} \ket{v}
-\\]
+```math
+\mathbf{e}^{\mathbf{M}} \ket{v} = \mathbf{e}^{\lambda} \ket{v}
+```
 
 这个也是十分有用的，当我们创建量子电路来模拟某个特定的哈密顿量时，特别是变分电路，
-我们会经常使用形如 \\( \exp{\left( \mathbf{i} \gamma \sigma\_z \right)} \\) 的逻辑门，
-由于 \\( \ket{0} \\) 和 \\( \ket{1} \\) 是 \\( \sigma\_z \\) 的特征向量，
-所以我们可以断定 \\( \exp{\left( \mathbf{i} \gamma \sigma\_z \right)} \\) 在 \\( \ket{0} \\) 有 \\( \mathbf{e}^{\mathbf{i}\gamma} \\) 相，
-而在 \\( \ket{1} \\) 有 \\( \mathbf{e}^{-\mathbf{i}\gamma} \\) 相
+我们会经常使用形如 `$\exp{\left( \mathbf{i} \gamma \sigma_z \right)}$` 的逻辑门，
+由于 `$\ket{0}$` 和 `$\ket{1}$` 是 `$\sigma_z$` 的特征向量，
+所以我们可以断定 `$\exp{\left( \mathbf{i} \gamma \sigma_z \right)}$` 在 `$\ket{0}$` 有 `$\mathbf{e}^{\mathbf{i}\gamma}$` 相，
+而在 `$\ket{1}$` 有 `$\mathbf{e}^{-\mathbf{i}\gamma}$` 相
 
 然后，我们可以很轻松的用 **CNOT** 和 **相位/旋转 逻辑门** 来构建这个逻辑门，因为我们知道这个门在每个计算基态上的数学结果
 

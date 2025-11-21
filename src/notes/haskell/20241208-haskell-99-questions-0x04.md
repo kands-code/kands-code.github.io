@@ -4,7 +4,7 @@
 
 <p class="sp-comment">突然想起来这里还有个坑没有填，那我就继续写几道题目吧</p>
 
-有段时间没写了，所以今天我们继续写 \\( 31 \sim 41 \\) 题
+有段时间没写了，所以今天我们继续写 `$31 \sim 41$` 题
 
 ## 题目
 
@@ -100,7 +100,7 @@ qCoPrime n m =
 
 > **_Calculate Euler's totient function phi(m)._**
 
-计算欧拉函数 \\( \phi(m) \\)，其中该函数定义为在 \\( [1, m) \\) 中与 \\( m \\) 互质的元素的个数
+计算欧拉函数 `$\phi(m)$`，其中该函数定义为在 `$[1, m)$` 中与 `$m$` 互质的元素的个数
 
 ```haskell
 qEulerPhi :: Word -> Word
@@ -191,7 +191,7 @@ qMulFactor n =
 
 > **_Calculate Euler's totient function phi(m) (improved)._**
 
-还是计算 \\( \phi(m) \\)，但是可以利用分解质因数来优化计算，即 \\( \prod{(b - 1) \times b ^ {(e - 1)}} \\)
+还是计算 `$\phi(m)$`，但是可以利用分解质因数来优化计算，即 `$\prod{(b - 1) \times b ^ {(e - 1)}}$`
 
 ```haskell
 qEulerPhiF :: Word -> Word

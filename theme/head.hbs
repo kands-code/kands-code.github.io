@@ -1,1 +1,49 @@
 {{!-- 可以引入一些 css 或者 js --}}
+
+{{!-- KaTeX --}}
+<link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+<script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+
+{{!-- KaTeX 渲染 --}}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (typeof katex === 'undefined') {
+      console.error("KaTeX failed to load!");
+      return;
+    }
+
+    var codes = document.querySelectorAll("code");
+    codes.forEach(function (code) {
+      // 行间公式 ```math ```
+      if (code.classList.contains("language-math")) {
+        var pre = code.parentNode;
+        if (pre.tagName === 'PRE') {
+          var div = document.createElement("div");
+          div.className = "math-block";
+          div.style.overflowX = "auto";
+          div.style.margin = "1em 0";
+          try {
+            katex.render(code.textContent, div, {
+              displayMode: true,
+              throwOnError: false
+            });
+            pre.parentNode.replaceChild(div, pre);
+          } catch (e) { console.error(e); }
+        }
+      }
+      // 行内公式 `$...$`
+      else if (/^\$.*\$$/.test(code.textContent)) {
+        var rawTex = code.textContent.slice(1, -1);
+        var span = document.createElement("span");
+        span.className = "math-inline";
+        try {
+          katex.render(rawTex, span, {
+            displayMode: false,
+            throwOnError: false
+          });
+          code.parentNode.replaceChild(span, code);
+        } catch (e) { console.error(e); }
+      }
+    });
+  });
+</script>

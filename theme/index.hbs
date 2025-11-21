@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 {{! start theme config }}
 <html
   {{! 语言 book.langugae }}
@@ -25,7 +27,7 @@
       <base href="{{base_url}}" />
     {{/if}}
     {{! 其他 meta info 或者 head 设置 head.hbs }}
-    {{!-- {{> head}} --}}
+    {{> head}}
 
     {{! favicon 设置 }}
     {{#if favicon_svg}}
@@ -311,7 +313,6 @@
                   {{fa "solid" "pencil" "git-edit-button"}}
                 </a>
               {{/if}}
-
             </div>
           </div>
           {{! 搜索框内容 }}

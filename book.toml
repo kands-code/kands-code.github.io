@@ -36,7 +36,7 @@ preferred-dark-theme = "ayu"
 # convert straight quotes to curly quotes
 smart-punctuation = true
 # use mathjax
-mathjax-support = true
+mathjax-support = false
 # user difined css & js
 additional-css = ["theme/utils.css"]
 additional-js = ["theme/giscus.js"]
