@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -276,7 +319,7 @@
 
 <h2 id="lecture-2a"><a class="header" href="#lecture-2a">Lecture 2A</a></h2>
 <p>这一部分介绍了什么是高阶过程</p>
-<p>所谓高阶过程就是以过程为参数的某种过程，最典型的就是求和函数 \( \sum_i^n{f(i)} \)</p>
+<p>所谓高阶过程就是以过程为参数的某种过程，最典型的就是求和函数 <code>$\sum_i^n{f(i)}$</code></p>
 <h3 id="求和函数"><a class="header" href="#求和函数">求和函数</a></h3>
 <p>如果比较有经验，应该可以立刻写出求和函数的实现：</p>
 <pre><code class="language-rust">fn sum&lt;A, N, F&gt;(from: A, next: N, to: A, f: F) -&gt; A
@@ -318,9 +361,9 @@ where
 至于 <code>sum</code> 的实现就不是我们关心的问题了</p>
 <h3 id="不动点"><a class="header" href="#不动点">不动点</a></h3>
 <p>之前提到过，对于求根问题，我们大部分情况下都可以转为求不动点问题，那么是什么不动点呢？</p>
-<p>不动点就是对于一个函数 \( f \) 和参数 \( x \) 使得 \( x = f(x) \)，那么 \( x \) 就是 \( f(x) \) 的不动点</p>
-<p>对于简单函数，不动点可以通过求 \( f(x) \) 与 \( y = x \) 解得，
-但是通常情况下，这个 \( f \) 是不显然的，此时就需要我们使用迭代的方式求解不动点</p>
+<p>不动点就是对于一个函数 <code>$f$</code> 和参数 <code>$x$</code> 使得 <code>$x = f(x)$</code>，那么 <code>$x$</code> 就是 <code>$f(x)$</code> 的不动点</p>
+<p>对于简单函数，不动点可以通过求 <code>$f(x)$</code> 与 <code>$y = x$</code> 解得，
+但是通常情况下，这个 <code>$f$</code> 是不显然的，此时就需要我们使用迭代的方式求解不动点</p>
 <pre><code class="language-rust">fn fix&lt;F, P&gt;(f: F, init: f64, is_equal: P) -&gt; f64
 where
     F: Fn(f64) -&gt; f64 + std::clone::Clone,
@@ -372,9 +415,8 @@ where
     fix(|x| x - f(x) / df(x), init, is_equal)
 }</code></pre>
 <p>然后我们再来具体看怎么求导，导数的定义是：</p>
-<p>\[
-\dfrac{\mathrm{d} f(x)}{\mathrm{d} x} = \lim_{h \to 0}{\dfrac{f(x + h) - f(x)}{h}}
-\]</p>
+<pre><code class="language-math">\dfrac{\mathrm{d} f(x)}{\mathrm{d} x} = \lim_{h \to 0}{\dfrac{f(x + h) - f(x)}{h}}
+</code></pre>
 <p>我们大可以模仿这个定义写出如下函数：</p>
 <pre><code class="language-rust">fn derivative&lt;F&gt;(f: F) -&gt; impl Fn(f64) -&gt; f64 + std::clone::Clone
 where
@@ -404,8 +446,8 @@ println!("root is {} and {}", root1, root2);
 <p>复合类型在其他语言中常以结构体或者数据类的方式出现，不过在 LISP 中，复合类型通常使用元组来表示</p>
 <h3 id="有理数系统"><a class="header" href="#有理数系统">有理数系统</a></h3>
 <p>一个非常典型的复合类型就是二维向量类型，不过在这里介绍的则是有理数系统</p>
-<p>有理数定义为两个 互质<sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup> 整数的除法，\( q = \dfrac{m}{n},\,m \bot n \)，
-若 \( n = 1 \)，\( q \) 就是整数，\( n \ne 0 \)</p>
+<p>有理数定义为两个 互质<sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup> 整数的除法，<code>$q = \dfrac{m}{n}, \,m \bot n$</code>，
+若 <code>$n = 1$</code>，<code>$q$</code> 就是整数，<code>$n \ne 0$</code></p>
 <pre><code class="language-scheme">(define (make-rat n d) (cons n d))
 (define (num q) (car q))
 (define (den q) (cdr q))
@@ -464,19 +506,18 @@ fn main() {
 }</code></pre>
 <p><strong><em>CONS, CAR, CDR</em></strong></p>
 <p>这个是作为补充部分，看看 scheme 的 <code>cons</code> 是怎么实现的，
-作为理论，<code>cons</code> 实际上是在 \( \lambda \)-演算<sup class="footnote-reference" id="fr-6-1"><a href="#footnote-6">6</a></sup> 中提到的</p>
-<p>\[
-\begin{aligned}
-\textnormal{CONS} &amp;:= \lambda{x}.\lambda{y}.\lambda{p}.p\,x\,y \\
-\textnormal{CAR} &amp;:= \lambda{p}.p\,\textnormal{TRUE} \\
-\textnormal{CDR} &amp;:= \lambda{p}.p\,\textnormal{FALSE} \\
-\textnormal{NIL} &amp;:= \lambda{x}.\textnormal{TRUE}\\
-\textnormal{TRUE} &amp;:= \lambda{x}.\lambda{y}.x \\
-\textnormal{FALSE} &amp;:= \lambda{x}.\lambda{y}.y
+作为理论，<code>cons</code> 实际上是在 <code>$\lambda$</code>-演算<sup class="footnote-reference" id="fr-6-1"><a href="#footnote-6">6</a></sup> 中提到的</p>
+<pre><code class="language-math">\begin{aligned}
+  \textnormal{CONS} &amp;:= \lambda{x}.\lambda{y}.\lambda{p}.p \,x \,y \\
+  \textnormal{CAR} &amp;:= \lambda{p}.p \,\textnormal{TRUE} \\
+  \textnormal{CDR} &amp;:= \lambda{p}.p \,\textnormal{FALSE} \\
+  \textnormal{NIL} &amp;:= \lambda{x}.\textnormal{TRUE} \\\\
+  \textnormal{TRUE} &amp;:= \lambda{x}.\lambda{y}.x \\
+  \textnormal{FALSE} &amp;:= \lambda{x}.\lambda{y}.y
 \end{aligned}
-\]</p>
+</code></pre>
 <blockquote>
-<p>\( \textnormal{NIL} \) 也可以定义为 \( \textnormal{NIL} := \lambda{x}.\textnormal{FALSE} \)</p>
+<p><code>$\textnormal{NIL}$</code> 也可以定义为 <code>$\textnormal{NIL} := \lambda{x}.\textnormal{FALSE}$</code></p>
 </blockquote>
 <p>在 scheme 中，可以表示为：</p>
 <pre><code class="language-scheme">(define (cons' a b) (lambda (p) (if p a b)))
@@ -541,7 +582,7 @@ fn cdr&lt;A: std::clone::Clone, B: std::clone::Clone&gt;(p: impl Fn(bool) -&gt; 
 <a href="https://en.wikipedia.org/wiki/Mutator_method">https://en.wikipedia.org/wiki/Mutator_method</a> <a href="#fr-5-1">↩</a></p>
 </li>
 <li id="footnote-6">
-<p>\( \lambda \)-演算.Wikipedia [DB/OL].(2024-10-25)[2024-11-05].
+<p><code>$\lambda$</code>-演算.Wikipedia [DB/OL].(2024-10-25)[2024-11-05].
 <a href="https://en.wikipedia.org/wiki/Lambda_calculus#Pairs">https://en.wikipedia.org/wiki/Lambda_calculus#Pairs</a> <a href="#fr-6-1">↩</a></p>
 </li>
 </ol>

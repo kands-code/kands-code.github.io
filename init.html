@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "searchindex-941efb81.js";
     </script>
     <script src="toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -272,9 +315,8 @@
             <main><h1 id="init"><a class="header" href="#init">Init</a></h1>
 <p class="archive-time">archive time: 2021-06-03</p>
 
-<p>\[
-\int_{-\infty}^{\infty}\delta(x) \mathrm{d}{x} = 1
-\]</p>
+<pre><code class="language-math">\int_{-\infty}^{\infty}\delta(x) \mathrm{d}{x} = 1
+</code></pre>
 <h2 id="关于本博客"><a class="header" href="#关于本博客">关于本博客</a></h2>
 <p>实际上，这是我第 n 次来写博客了，距离上次开博客这个坑估计是半年前了</p>
 <p>为什么要写博客呢，多半是想用博客来记录点什么，哪怕是生活的小事，也是可以的</p>

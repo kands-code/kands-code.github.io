@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -285,30 +328,26 @@
 <h3 id="位移"><a class="header" href="#位移">位移</a></h3>
 <p>要描述运动，首先需要描述自身的位置</p>
 <p>通常我们可以通过设置坐标系来表示位置，
-例如 \( (1, 2) \) 表示在 x 轴正方向上距离原点 1 个单位长度，
+例如 <code>$(1, 2)$</code> 表示在 x 轴正方向上距离原点 1 个单位长度，
 在 y 轴正方向上距离原点 2 个单位长度</p>
-<p>相对于原点的位置通常使用字母 \( x \) 表示，其中 \( x(t) \) 表示 \( t \) 时刻物体的位置，或者称为 <strong>位移</strong></p>
+<p>相对于原点的位置通常使用字母 <code>$x$</code> 表示，其中 <code>$x(t)$</code> 表示 <code>$t$</code> 时刻物体的位置，或者称为 <strong>位移</strong></p>
 <h3 id="速度"><a class="header" href="#速度">速度</a></h3>
 <p>有了位移，我们就可以描述物体的速度了</p>
 <p>速度描述了物体位移变化的快慢，是一个向量，而速率是速度的大小，是一个标量</p>
 <p>在一维情况下，速度可以用一个带符号的标量表示，
 其中符号表示速度方向与给定正方向是否一致，而绝对值就是对应的速率</p>
 <p>在一段时间内的平均速度可以使用这一段时间内位移的变化量与时间间隔的比值表示，即：</p>
-<p>\[
-\overline{v}_{\left[t_0,\,t_1\right]} = \dfrac{x(t_1) - x(t_0)}{t_1 - t_0}
-\]</p>
+<pre><code class="language-math">\overline{v}_{\left[t_0, \,t_1\right]} = \dfrac{x(t_1) - x(t_0)}{t_1 - t_0}
+</code></pre>
 <p>如果时间间隔无限趋近于 0，此时平均速度就可以表示物体运动的瞬时速度，即：</p>
-<p>\[
-v_{t_0} = \lim_{t_1 \to t_0} \dfrac{x(t_1) - x(t_0)}{t_1 - t_0}
-\]</p>
-<p>或者使用 \( \Delta t \) 表示间隔，可以得到：</p>
-<p>\[
-v_{t} = \lim_{\Delta t \to 0} \dfrac{x(t + \Delta t / 2) - x(t - \Delta t / 2)}{\Delta t}
-\]</p>
+<pre><code class="language-math">v_{t_0} = \lim_{t_1 \to t_0} \dfrac{x(t_1) - x(t_0)}{t_1 - t_0}
+</code></pre>
+<p>或者使用 <code>$\Delta t$</code> 表示间隔，可以得到：</p>
+<pre><code class="language-math">v_{t} = \lim_{\Delta t \to 0} \dfrac{x(t + \Delta t / 2) - x(t - \Delta t / 2)}{\Delta t}
+</code></pre>
 <p>或者我们可以称：“<strong>速度是位移相对于时间的导数</strong>”，记为：</p>
-<p>\[
-v = \dfrac{\mathrm{d} x}{\mathrm{d} t}
-\]</p>
+<pre><code class="language-math">v = \dfrac{\mathrm{d} x}{\mathrm{d} t}
+</code></pre>
 <h3 id="rust-中的导数"><a class="header" href="#rust-中的导数">Rust 中的导数</a></h3>
 <p>导数在 Rust 中可以用如下方式实现：</p>
 <pre><code class="language-rust">pub fn derivative_real&lt;'a, R: RealFloat + 'a&gt;(
@@ -324,16 +363,14 @@ v = \dfrac{\mathrm{d} x}{\mathrm{d} t}
 可以参考 <a href="./20240727-rust-fuction-and-clousure.html#函数和闭包">函数和闭包</a></p>
 <h3 id="一维运动示例"><a class="header" href="#一维运动示例">一维运动示例</a></h3>
 <p>现在假设有一辆汽车，其位移与时间的关系为：</p>
-<p>\[
-x_\textnormal{Car} = \cos{t}
-\]</p>
+<pre><code class="language-math">x_\textnormal{Car} = \cos{t}
+</code></pre>
 <p>通过上述的 <code>derivative_real</code> 函数，我们可以找到这个汽车对应的速度与时间的关系：</p>
 <pre><code class="language-rust">let car_position = Rc::new(|t: Double| -&gt; Double { t.cosine() });
 let car_velocity = derivative_real(car_position.clone(), double_eps.clone());</code></pre>
 <p>理论上，汽车的速度函数应该是：</p>
-<p>\[
-v_\textnormal{Car} = \dfrac{\mathrm{d} x_\textnormal{Car}}{\mathrm{d} t} = - \sin{t}
-\]</p>
+<pre><code class="language-math">v_\textnormal{Car} = \dfrac{\mathrm{d} x_\textnormal{Car}}{\mathrm{d} t} = - \sin{t}
+</code></pre>
 <p>我们可以验证得到的速度函数与理论一致：</p>
 <pre><code class="language-rust">let test_time = Double::of(3.2);
 let car_velocity_analytic = Rc::new(|t: Double| -&gt; Double { -t.sine() });
@@ -343,24 +380,21 @@ assert_eq!(
 );</code></pre>
 <h3 id="加速度"><a class="header" href="#加速度">加速度</a></h3>
 <p>与速度类似，加速度描述了速度变化的快慢，即：</p>
-<p>\[
-a = \dfrac{\mathrm{d} v}{\mathrm{d} t}
-= \lim_{\Delta t \to 0} \dfrac{v(t + \Delta t / 2) - v(t - \Delta t / 2)}{\Delta t}
-\]</p>
+<pre><code class="language-math">a = \dfrac{\mathrm{d} v}{\mathrm{d} t}
+  = \lim_{\Delta t \to 0} \dfrac{v(t + \Delta t / 2) - v(t - \Delta t / 2)}{\Delta t}
+</code></pre>
 <p>除了使用位移得到速度或者使用速度得到加速度，我们可以从速度得到位移，从加速度得到速度</p>
 <p>求导的逆过程称为积分，即：</p>
-<p>\[
-f = \dfrac{\mathrm{d} F}{\mathrm{d} x},\quad F + C = \int{f} \mathrm{d}x
-\]</p>
-<p>其中 \( C \) 表示任意常数，给定合适的初始值，可以得到确定的 \( F \)</p>
+<pre><code class="language-math">f = \dfrac{\mathrm{d} F}{\mathrm{d} x},\quad F + C = \int{f} \mathrm{d}x
+</code></pre>
+<p>其中 <code>$C$</code> 表示任意常数，给定合适的初始值，可以得到确定的 <code>$F$</code></p>
 <h2 id="数值积分"><a class="header" href="#数值积分">数值积分</a></h2>
 <p>数值积分一个最简单的实现就是将积分区间划分成非常多的间隔，使用矩形或梯形去近似函数面积：</p>
-<p>\[
-\int_a^b f(x) \mathrm{d}x
-= \lim_{N \to \infty} \sum_{n = 0}^{N / 2 - 1}
-\left[2 (\dfrac{b - a}{N}) f(a + (2 n + 1) \dfrac{b - a}{N})\right]
-\]</p>
-<p>其中 \( 2 (b - a) / N \) 是间隔宽度，选取间隔中点的函数值来减小误差</p>
+<pre><code class="language-math">\int_a^b f(x) \mathrm{d}x
+  = \lim_{N \to \infty} \sum_{n = 0}^{N / 2 - 1}
+    \left[2 (\dfrac{b - a}{N}) f(a + (2 n + 1) \dfrac{b - a}{N})\right]
+</code></pre>
+<p>其中 <code>$2 (b - a) / N$</code> 是间隔宽度，选取间隔中点的函数值来减小误差</p>
 <p>使用 Rust 实现，我们可以选择传入间隔宽度而不是间隔数量，即：</p>
 <pre><code class="language-rust">pub fn integral_real&lt;'a, R: RealFloat + 'a&gt;(
     f: Rc&lt;dyn Fn(R) -&gt; R&gt;,
@@ -384,9 +418,8 @@ f = \dfrac{\mathrm{d} F}{\mathrm{d} x},\quad F + C = \int{f} \mathrm{d}x
     Double::one() / Double::of(3.0)
 );</code></pre>
 <p>要得到一个函数而不是具体积分结果，可以使用反导数，即传入初始值：</p>
-<p>\[
-F(x) = F_\textnormal{init} + \int_0^x f(t) \mathrm{d} t
-\]</p>
+<pre><code class="language-math">F(x) = F_\textnormal{init} + \int_0^x f(t) \mathrm{d} t
+</code></pre>
 <p>对应 Rust 代码为：</p>
 <pre><code class="language-rust">pub fn anti_derivative_real&lt;'a, R: RealFloat + 'a&gt;(
     f: Rc&lt;dyn Fn(R) -&gt; R&gt;,
@@ -555,7 +588,7 @@ fn run() -&gt; Option&lt;()&gt; {
     })
 }</code></pre>
 <p>其中 <code>one_step</code> 接受当前累加状态，返回下一次累加的状态</p>
-<p><code>Iterate</code> 是一个迭代器，将返回 \( \left(f(x_0), f(f(x_0)), f(f(f(x_0))), \cdots \right) \)，
+<p><code>Iterate</code> 是一个迭代器，将返回 <code>$\left(f(x_0), f(f(x_0)), f(f(f(x_0))), \cdots \right)$</code>，
 其具体定义如下：</p>
 <pre><code class="language-rust">#[derive(Clone)]
 pub struct Iterate&lt;'a, T&gt; {

@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -280,144 +323,145 @@
 同时也是让自己在记录的时候理一下思路，对于计算的过程更加清楚</p>
 <h2 id="qr-分解"><a class="header" href="#qr-分解">QR 分解</a></h2>
 <p>那么什么是 QR 分解呢？</p>
-<p>对于一个维数为 \( n \times k \) 的矩阵 \( A \)，如果这个矩阵的列向量 \( a_1,\ a_2,\ \dots,\ a_k \) 是两两线性无关的，
-这要求这个矩阵的应该是一个高矩阵或者是方阵，即 \( n \ge k,\,\textnormal{rank}(A) = k \)，
-那么我们可以说这个矩阵可以通过某些方法得到 \( A = Q R \)，其中 \( Q^T Q = \mathbf{I} \)，而 \( R \) 是一个上三角矩阵<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
-<p>由于 \( R \) 是上三角矩阵，对于位于 \( i \) 行 \( j \) 列的元素，如果 \( j &gt; i \)，那么 \( r_{i\,j} = 0 \)，
-则对于 \( A \) 的列向量 \( a_k \)，可以用 \( Q \) 的列向量 \( q_k \) 和 \( R \) 的元素来表示，即：</p>
-<p>\[
-a_k = \sum_i^k r_{i\,k} q_i
-\]</p>
+<p>对于一个维数为 <code>$n \times k$</code> 的矩阵 <code>$A$</code>，如果这个矩阵的列向量 <code>$a_1,\ a_2,\ \dots,\ a_k$</code> 是两两线性无关的，
+这要求这个矩阵的应该是一个高矩阵或者是方阵，即 <code>$n \ge k, \,\textnormal{rank}(A) = k$</code>，
+那么我们可以说这个矩阵可以通过某些方法得到 <code>$A = Q R$</code>，其中 <code>$Q^T Q = \mathbf{I}$</code>，而 <code>$R$</code> 是一个上三角矩阵<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
+<p>由于 <code>$R$</code> 是上三角矩阵，对于位于 <code>$i$</code> 行 <code>$j$</code> 列的元素，如果 <code>$j &gt; i$</code>，那么 <code>$r_{i \,j} = 0$</code>，
+则对于 <code>$A$</code> 的列向量 <code>$a_k$</code>，可以用 <code>$Q$</code> 的列向量 <code>$q_k$</code> 和 <code>$R$</code> 的元素来表示，即：</p>
+<pre><code class="language-math">a_k = \sum_i^k r_{i \,k} q_i
+</code></pre>
 <p>这个“某些方法”有很多，不过常见的方法只有三种，那就是 <strong><em>Gram-Schmidt 过程</em></strong>，<strong><em>Householder 方法</em></strong> 以及 <strong><em>Givens 旋转</em></strong></p>
 <p>但是由于 Givens 旋转只在相对较少的非对角线元素为零的时候比较有用，通常我们只会使用 Gram-Schmidt 过程 和 Householder 方法</p>
 <h3 id="gram-schmidt-过程"><a class="header" href="#gram-schmidt-过程">Gram-Schmidt 过程</a></h3>
-<p>Gram-Schmidt 过程计算是相对简单的，不过因此也是相对数值不稳定的<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup>，整个计算大概可以分成 \( 4 \) 步：</p>
+<p>Gram-Schmidt 过程计算是相对简单的，不过因此也是相对数值不稳定的<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup>，整个计算大概可以分成 <code>$4$</code> 步：</p>
 <ol>
-<li>将原矩阵 \( A \) 拆分成列向量表示，即 \( \left[a_1 \mid a_2 \mid \cdots \mid a_k \right] \)</li>
-<li>我们有辅助向量 \( u_k \)，其中 \( u_1 = a_1 \)，对于 \( k &gt; 1 \)，\( u_k = a_k - \sum_{n = 1}^{k - 1}{(a_k \cdot e_n)\, e_n} \)</li>
-<li>对应的，我们可以对其归一化，即 \( e_k = u_k / \lVert u_k \rVert_2 \)</li>
-<li>那么 \( Q = \left[e_1 \mid e_2 \mid \cdots \mid e_k \right] \)，\( R = Q^T A \) 或者 \( r_{i\,j}=a_i \cdot e_j \)</li>
+<li>将原矩阵 <code>$A$</code> 拆分成列向量表示，即 <code>$\left[a_1 \mid a_2 \mid \cdots \mid a_k \right]$</code></li>
+<li>我们有辅助向量 <code>$u_k$</code>，其中 <code>$u_1 = a_1$</code>，对于 <code>$k &gt; 1$</code>，<code>$u_k = a_k - \sum_{n = 1}^{k - 1}{(a_k \cdot e_n) \, e_n}$</code></li>
+<li>对应的，我们可以对其归一化，即 <code>$e_k = u_k / \lVert u_k \rVert_2$</code></li>
+<li>那么 <code>$Q = \left[e_1 \mid e_2 \mid \cdots \mid e_k \right]$</code>，<code>$R = Q^T A$</code> 或者 <code>$r_{i \,j}=a_i \cdot e_j$</code></li>
 </ol>
-<p>其中对于辅助向量 \( u_k \) 的计算是误差的关键，
+<p>其中对于辅助向量 <code>$u_k$</code> 的计算是误差的关键，
 所以就有了 <strong><em>MGS</em></strong>，即修正 Gram-Schmidt 过程，
-将计算 \( u_k \) 的过程展开为了：</p>
-<p>\[
-\begin{aligned}
-u_k^{(1)} &amp;= a_k - (a_k \cdot e_1) e_1 \\
-u_k^{(2)} &amp;= u_k^{(1)} - (u_k^{(1)} \cdot e_2) e_2 \\
-&amp;\vdots \\
-u_k^{(k - 1)} &amp;= u_k^{(k - 2)} - (u_k^{(k - 2)} \cdot e_{k - 1}) e_{k - 1}
+将计算 <code>$u_k$</code> 的过程展开为了：</p>
+<pre><code class="language-math">\begin{aligned}
+  u_k^{(1)} &amp;= a_k - (a_k \cdot e_1) e_1 \\
+  u_k^{(2)} &amp;= u_k^{(1)} - (u_k^{(1)} \cdot e_2) e_2 \\
+    &amp;\vdots \\
+  u_k^{(k - 1)} &amp;= u_k^{(k - 2)} - (u_k^{(k - 2)} \cdot e_{k - 1}) e_{k - 1}
 \end{aligned}
-\]</p>
+</code></pre>
 <p>这样可以有效的减少计算误差</p>
 <h3 id="householder-方法"><a class="header" href="#householder-方法">Householder 方法</a></h3>
 <p>Householder 方法的 QR 分解主要是靠 Householder 变换，
-即对于某个已经归一化的向量 \( v \)，我们可以有：</p>
-<p>\[
-P = \mathbf{I} - 2 v v^{\dagger}
-\]</p>
-<p>其中 \( v^{\dagger} \) 是 \( v \) 的共轭转置，也可表示为 \( v^H \)，对于实向量，等价为转置，即 \( v^T \)</p>
-<p>对于计算出来的这个 \( P \) 我们称为 Householder 矩阵，而这个过程就是 Householder 变换</p>
-<p>这个 Householder 矩阵有非常多的性质，其中非常重要的就是这个矩阵是自反矩阵，即 \( P P = \mathbf{I} \)</p>
+即对于某个已经归一化的向量 <code>$v$</code>，我们可以有：</p>
+<pre><code class="language-math">P = \mathbf{I} - 2 v v^{\dagger}
+</code></pre>
+<p>其中 <code>$v^{\dagger}$</code> 是 <code>$v$</code> 的共轭转置，也可表示为 <code>$v^H$</code>，对于实向量，等价为转置，即 <code>$v^T$</code></p>
+<p>对于计算出来的这个 <code>$P$</code> 我们称为 Householder 矩阵，而这个过程就是 Householder 变换</p>
+<p>这个 Householder 矩阵有非常多的性质，其中非常重要的就是这个矩阵是自反矩阵，即 <code>$P P = \mathbf{I}$</code></p>
 <p>具体的 QR 分解的步骤如下：</p>
 <ol>
-<li>先令 \( R^{(1)} = A \)，然后取 \( R^{(k)} \) 的第 \( k \) 列 \( x_k \)，并且令取出来的列向量中位置 \( i &lt; k \) 的元素都为 \( 0 \) 得到 \( \tilde{x}_k \)</li>
-<li>然后让 \( \tilde{x}_k \) 的第 \( k \) 位加上自身的模 \( \lVert \tilde{x}_k \rVert_2 \) 乘以 <strong><em>符号数</em></strong><sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup>，记为 \( v_k \)</li>
-<li>对 \( v_k \) 进行 Householder 变换，即
-\[
-P_k = \mathbf{I} - \dfrac{2}{v_k^{\dagger} \cdot v_k} v_k v_k^{\dagger}
-\]</li>
-<li>则 \( R^{(k)} = P_{k - 1} R^{(k - 1)} \)，其中对于维度为 \( m \times n \) 的矩阵 \( A \)，\( 1 \le k \le \min{(m,\,n)} \)</li>
-<li>\( Q = P_1 P_2 \dots P_{k - 1} \)</li>
+<li>
+<p>先令 <code>$R^{(1)} = A$</code>，然后取 <code>$R^{(k)}$</code> 的第 <code>$k$</code> 列 <code>$x_k$</code>，并且令取出来的列向量中位置 <code>$i &lt; k$</code> 的元素都为 <code>$0$</code> 得到 <code>$\tilde{x}_k$</code></p>
+</li>
+<li>
+<p>然后让 <code>$\tilde{x}_k$</code> 的第 <code>$k$</code> 位加上自身的模 <code>$\lVert \tilde{x}_k \rVert_2$</code> 乘以 <strong><em>符号数</em></strong><sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup>，记为 <code>$v_k$</code></p>
+</li>
+<li>
+<p>对 <code>$v_k$</code> 进行 Householder 变换，即</p>
+<pre><code class="language-math">P_k = \mathbf{I} - \dfrac{2}{v_k^{\dagger} \cdot v_k} v_k v_k^{\dagger}
+</code></pre>
+</li>
+<li>
+<p>则 <code>$R^{(k)} = P_{k - 1} R^{(k - 1)}$</code>，其中对于维度为 <code>$m \times n$</code> 的矩阵 <code>$A$</code>，<code>$1 \le k \le \min{(m, \,n)}$</code></p>
+</li>
+<li>
+<p><code>$Q = P_1 P_2 \dots P_{k - 1}$</code></p>
+</li>
 </ol>
-<p>整个计算过程相对 Gram-Schmidt 过程要复杂一点，但是通过对 \( x_k \) 的处理得到 \( v_k \)，可以尽可能保证计算的精度，即有一定的数值稳定性</p>
-<p>更进一步，对于高矩阵，\( R \) 通常会有部分行为 \( 0 \)，对此我们可以进行消减，
-即对于 \( m &gt; n \) 的矩阵 \( A \)，我们可以仅保留 \( Q \) 的前 \( n \) 列和 \( R \) 的前 \( n \) 行</p>
+<p>整个计算过程相对 Gram-Schmidt 过程要复杂一点，但是通过对 <code>$x_k$</code> 的处理得到 <code>$v_k$</code>，可以尽可能保证计算的精度，即有一定的数值稳定性</p>
+<p>更进一步，对于高矩阵，<code>$R$</code> 通常会有部分行为 <code>$0$</code>，对此我们可以进行消减，
+即对于 <code>$m &gt; n$</code> 的矩阵 <code>$A$</code>，我们可以仅保留 <code>$Q$</code> 的前 <code>$n$</code> 列和 <code>$R$</code> 的前 <code>$n$</code> 行</p>
 <h3 id="gram-schmidt-过程-和-householder-方法的比较"><a class="header" href="#gram-schmidt-过程-和-householder-方法的比较">Gram-Schmidt 过程 和 Householder 方法的比较</a></h3>
-<p>QR 分解是不唯一的，即你使用不同方法得到的矩阵 \( Q \) 和 \( R \) 也大概率是不一样的，特别是维度</p>
-<p>对于 \( m \times n \) 的矩阵 \( A \)，
-Gram-Schmidt 过程得到的 \( Q \) 是 \( m \times n \) 的，而 \( R \) 是 \( n \times n \) 的，
-不过 Householder 方法得到的 \( Q \) 是 \( m \times m \) 的，而 \( R \) 是 \( m \times n \) 的，</p>
-<p>但是通过优化，即舍去“多余”部分，我们可以得到与 Gram-Schmidt 过程的结果维度接近的 \( Q_1 \) 和 \( R_1 \)</p>
+<p>QR 分解是不唯一的，即你使用不同方法得到的矩阵 <code>$Q$</code> 和 <code>$R$</code> 也大概率是不一样的，特别是维度</p>
+<p>对于 <code>$m \times n$</code> 的矩阵 <code>$A$</code>，
+Gram-Schmidt 过程得到的 <code>$Q$</code> 是 <code>$m \times n$</code> 的，而 <code>$R$</code> 是 <code>$n \times n$</code> 的，
+不过 Householder 方法得到的 <code>$Q$</code> 是 <code>$m \times m$</code> 的，而 <code>$R$</code> 是 <code>$m \times n$</code> 的，</p>
+<p>但是通过优化，即舍去“多余”部分，我们可以得到与 Gram-Schmidt 过程的结果维度接近的 <code>$Q_1$</code> 和 <code>$R_1$</code></p>
 <h3 id="givens-旋转过程"><a class="header" href="#givens-旋转过程">Givens 旋转过程</a></h3>
 <p>使用 Givens 旋转来计算 QR 分解，实际上就是利用 Givens 旋转矩阵来将特定的位置变成零，从而构造出一个上三角矩阵，
-一般这个过程是按照列来进行的，即先将 \( A_{m\,1} \) 变成零，然后 \( A_{m - 1\,1} \)，直到将第一列第 \( 2 \) 到 \( m \) 行元素变为零，
-第二列也是如此，直到将第二列第 \( 3 \) 到 \( m \) 行的元素也就是主对角线下的元素变成零</p>
-<p>而这一系列的构造过程中，也就是这些 Givens 旋转矩阵的乘积就是我们的 \( Q^T \)，
+一般这个过程是按照列来进行的，即先将 <code>$A_{m \,1}$</code> 变成零，然后 <code>$A_{m - 1 \,1}$</code>，直到将第一列第 <code>$2$</code> 到 <code>$m$</code> 行元素变为零，
+第二列也是如此，直到将第二列第 <code>$3$</code> 到 <code>$m$</code> 行的元素也就是主对角线下的元素变成零</p>
+<p>而这一系列的构造过程中，也就是这些 Givens 旋转矩阵的乘积就是我们的 <code>$Q^T$</code>，
 所以 Givens 旋转计算 QR 分解的关键就是构造 Givens 旋转矩阵</p>
-<p>假设我想要将 \( m \times n \) 的矩阵 \( A \) 的 \( x \) 行 \( y \) 列元素 \( A_{x\,y} \) 变成零，通常做法是使用其上一行元素即 \( A_{x - 1\,y} \) 进行消元</p>
-<p>Givens 旋转矩阵是基于单位矩阵的，所以我们可以先构造一个 \( m \times m \) 的单位矩阵称为 \( G \)</p>
-<p>既然被称为旋转矩阵，那么自然是有“转”的部分的，令要被消元的元素为 \( e_1 \)，辅助消元的元素为 \( e_2 \)，
-那么对应旋转的半径就是这两个元素构成向量的模长，即 \( r = \sqrt{|e_1|^2 + |e_2|^2} \)，
-那么对应的 \( \sin{(\theta)} = e_1 / r \)，\( \cos{(\theta)} = e_2 / r \)</p>
-<p>那么对应例子中的 Givens 旋转矩阵只需要将 \( G \) 的 \( G_{x\,x} \) 和 \( G_{x - 1\,x - 1} \) 元素设置为 \( \cos{(\theta)} \)，
-\( G_{x\,x - 1} \) 设置为 \( -\sin{(\theta)} \)，而 \( G{x - 1\,x} \) 设置为 \( \sin{(\theta)} \)，
+<p>假设我想要将 <code>$m \times n$</code> 的矩阵 <code>$A$</code> 的 <code>$x$</code> 行 <code>$y$</code> 列元素 <code>$A_{x \,y}$</code> 变成零，通常做法是使用其上一行元素即 <code>$A_{x - 1 \,y}$</code> 进行消元</p>
+<p>Givens 旋转矩阵是基于单位矩阵的，所以我们可以先构造一个 <code>$m \times m$</code> 的单位矩阵称为 <code>$G$</code></p>
+<p>既然被称为旋转矩阵，那么自然是有“转”的部分的，令要被消元的元素为 <code>$e_1$</code>，辅助消元的元素为 <code>$e_2$</code>，
+那么对应旋转的半径就是这两个元素构成向量的模长，即 <code>$r = \sqrt{|e_1|^2 + |e_2|^2}$</code>，
+那么对应的 <code>$\sin{(\theta)} = e_1 / r$</code>，<code>$\cos{(\theta)} = e_2 / r$</code></p>
+<p>那么对应例子中的 Givens 旋转矩阵只需要将 <code>$G$</code> 的 <code>$G_{x \,x}$</code> 和 <code>$G_{x - 1 \,x - 1}$</code> 元素设置为 <code>$\cos{(\theta)}$</code>，
+<code>$G_{x \,x - 1}$</code> 设置为 <code>$-\sin{(\theta)}$</code>，而 <code>$G{x - 1 \,x}$</code> 设置为 <code>$\sin{(\theta)}$</code>，
 这样，一个合适的 Givens 旋转矩阵就构造好了，即：</p>
-<p>\[
-G_{(x-1,\,x)} = \begin{bmatrix}
-1 &amp; 0 &amp; \cdots &amp; 0_{x-1} &amp; 0_x &amp; \cdots &amp; 0 \\
-0 &amp; 1 &amp; \cdots &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\
-\vdots &amp; &amp; \ddots &amp; \vdots &amp; \vdots &amp; \cdots &amp; \vdots \\
-0_{x - 1} &amp;  &amp; \cdots &amp; \overline{\cos{(\theta)}} &amp; \overline{\sin{(\theta)}} &amp; \cdots &amp; 0 \\
-0_x &amp;  &amp; \cdots &amp; -\sin{(\theta)} &amp; \cos{(\theta)} &amp; \cdots &amp; 0 \\
-\vdots &amp; &amp; &amp; \vdots &amp; \vdots &amp; \ddots  &amp; \vdots \\
-0_n &amp; 0 &amp; \cdots &amp; \cdots &amp; \cdots &amp; &amp; 1
-\end{bmatrix}
-\]</p>
+<pre><code class="language-math">G_{(x-1, \,x)} = \begin{bmatrix}
+    1 &amp; 0 &amp; \cdots &amp; 0_{x-1} &amp; 0_x &amp; \cdots &amp; 0\\
+    0 &amp; 1 &amp; \cdots &amp; 0 &amp; 0 &amp; \cdots &amp; 0\\
+    \vdots &amp; &amp; \ddots &amp; \vdots &amp; \vdots &amp; \cdots &amp; \vdots\\
+    0_{x - 1} &amp;  &amp; \cdots &amp; \overline{\cos{(\theta)}} &amp; \overline{\sin{(\theta)}} &amp; \cdots &amp; 0\\
+    0_x &amp;  &amp; \cdots &amp; -\sin{(\theta)} &amp; \cos{(\theta)} &amp; \cdots &amp; 0\\
+    \vdots &amp; &amp; &amp; \vdots &amp; \vdots &amp; \ddots  &amp; \vdots\\
+    0_n &amp; 0 &amp; \cdots &amp; \cdots &amp; \cdots &amp; &amp; 1
+  \end{bmatrix}
+</code></pre>
 <h2 id="附记nullspace-计算"><a class="header" href="#附记nullspace-计算">附记：Nullspace 计算</a></h2>
 <p>这边再来记录一下如何计算 Nullspace</p>
 <p>Nullspace 又称为 Kernel 或者零空间，其在矩阵中的定义为：</p>
-<p>\[
-\textnormal{Null}(A) = \textnormal{ker}(A) = \lbrace x \mid A x = 0 \rbrace
-\]</p>
-<p>其中 \( A \) 是一个 \( m \times n \) 的矩阵，\( x \) 是一个长度为 \( n \) 的向量<sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">4</a></sup></p>
-<p>Nullspace 一般在 \( \textnormal{rank}(A) &lt; n \) 的时候用于表示该矩阵对应的齐次解对应的解空间，那么该如何计算呢？</p>
+<pre><code class="language-math">\textnormal{Null}(A) = \textnormal{ker}(A) = \lbrace x \mid A x = 0 \rbrace
+</code></pre>
+<p>其中 <code>$A$</code> 是一个 <code>$m \times n$</code> 的矩阵，<code>$x$</code> 是一个长度为 <code>$n$</code> 的向量<sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">4</a></sup></p>
+<p>Nullspace 一般在 <code>$\textnormal{rank}(A) &lt; n$</code> 的时候用于表示该矩阵对应的齐次解对应的解空间，那么该如何计算呢？</p>
 <p>其实还是比较简单的，也不用待定系数，通过比较就可以计算：</p>
 <ol>
 <li>将矩阵化简成行最简形式，如果是满秩矩阵，那么 Nullspace 就是空集，否则就继续运算</li>
-<li>记录每一行第一个不为零的元素的列数，所有的列数一起记为 \( C \)</li>
-<li>我们可以依次按列检查 \( \lbrace 1,\,2,\,\dots,\,n \rbrace - C \) 并设置对应向量</li>
-<li>对应向量的元素中，如果位置属于 \( C \)，对应元素取反，位置等于自身列数，记为 \( 1 \)，其他位置记为 \( 0 \)</li>
+<li>记录每一行第一个不为零的元素的列数，所有的列数一起记为 <code>$C$</code></li>
+<li>我们可以依次按列检查 <code>$\lbrace 1, \,2, \,\dots, \,n \rbrace - C$</code> 并设置对应向量</li>
+<li>对应向量的元素中，如果位置属于 <code>$C$</code>，对应元素取反，位置等于自身列数，记为 <code>$1$</code>，其他位置记为 <code>$0$</code></li>
 <li>将所有向量集合就是对应 Nullspace</li>
 </ol>
 <h3 id="例子"><a class="header" href="#例子">例子</a></h3>
 <p>假如我们有矩阵：</p>
-<p>\[
-A = \begin{bmatrix}
--3 &amp; 6 &amp; -1 &amp; 1 &amp; -7 \\
-1 &amp; -2 &amp; 2 &amp; 3 &amp; -1 \\
-2 &amp; -4 &amp; 5 &amp; 8 &amp; -4
+<pre><code class="language-math">A = \begin{bmatrix}
+  -3 &amp; 6 &amp; -1 &amp; 1 &amp; -7 \\
+  1 &amp; -2 &amp; 2 &amp; 3 &amp; -1 \\
+  2 &amp; -4 &amp; 5 &amp; 8 &amp; -4
 \end{bmatrix}
-\]</p>
+</code></pre>
 <p>要求这个矩阵的 Nullspace，首先将其化简为行最简形式：</p>
-<p>\[
-\tilde{A} = \begin{bmatrix}
-1 &amp; -2 &amp; 0 &amp; -1 &amp; 3 \\
-0 &amp; 0 &amp; 1 &amp; 2 &amp; -2 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 0
+<pre><code class="language-math">\tilde{A} = \begin{bmatrix}
+  1 &amp; -2 &amp; 0 &amp; -1 &amp; 3 \\
+  0 &amp; 0 &amp; 1 &amp; 2 &amp; -2 \\
+  0 &amp; 0 &amp; 0 &amp; 0 &amp; 0
 \end{bmatrix}
-\]</p>
-<p>我们可以标记第一列为第一行首个非零元素，第三列为第二行首个非零元素，那么 \( C = \lbrace 1, 3 \rbrace \)</p>
-<p>对应 \( \lbrace 1,\,2,\,3,\,4,\,5 \rbrace - C = \lbrace 2,\,4,\,5 \rbrace \)</p>
-<p>首先检查第二列，对应向量初始化为 \( \left[0,\,0,\,0,\,0,\,0\right] \)，
-第一列属于 \( C \)，并且对应第一行，那么第一个元素就是第二列第一行的元素的相反数，
-向量变成 \( \left[2,\,0,\,0,\,0,\,0\right] \)，第二列是自身，那么对应位置设为 \( 1 \)，
-第四列和第五列是其他位置，设置为 \( 0 \)，第三列属于 \( C \)，且对应第二行，那么第三个元素就是第二列第二行元素的相反数，
-综合下来，第二列对应的向量就是 \( \left[2,\,1,\,0,\,0,\,0\right] \)</p>
-<p>然后是第四列，第一个元素对应第四列第一行元素的相反数，第二个和第五个元素是其他位置，设为 \( 0 \)，
-第三个元素对应第四列第二行元素的相反数，最后第四个元素是自身，设为 \( 1 \)，
-综合下来第四列对应向量就是 \( \left[1,\,0,\,-2,\,1,\,0\right] \)</p>
-<p>第五列也是一样的流程，第一个和第三个元素分别对应第五列第一行和第二行元素的相反数，第二个和第四个元素是其他位置，设为 \( 0 \)，
-第五个元素是自身，设为 \( 1 \)，即 \( \left[-3,\,0,\,2,\,0,\,1\right] \)</p>
-<p>那么这个矩阵 \( A \) 对应的 Nullspace 就是：</p>
-<p>\[
-\textnormal{Null}(A) = \textnormal{ker}(A)
-= \lbrace
-\begin{bmatrix} 2 \ 1 \ 0 \ 0 \ 0 \end{bmatrix},\,
-\begin{bmatrix} 1 \ 0 \ -2 \ 1 \ 0 \end{bmatrix},\,
-\begin{bmatrix} -3 \ 0 \ 2 \ 0 \ 1 \end{bmatrix}
-\rbrace
-\]</p>
+</code></pre>
+<p>我们可以标记第一列为第一行首个非零元素，第三列为第二行首个非零元素，那么 <code>$C = \lbrace 1, 3 \rbrace$</code></p>
+<p>对应 <code>$\lbrace 1, \,2, \,3, \,4, \,5 \rbrace - C = \lbrace 2, \,4, \,5 \rbrace$</code></p>
+<p>首先检查第二列，对应向量初始化为 <code>$\left[0, \,0, \,0, \,0, \,0\right]$</code>，
+第一列属于 <code>$C$</code>，并且对应第一行，那么第一个元素就是第二列第一行的元素的相反数，
+向量变成 <code>$\left[2, \,0, \,0, \,0, \,0\right]$</code>，第二列是自身，那么对应位置设为 <code>$1$</code>，
+第四列和第五列是其他位置，设置为 <code>$0$</code>，第三列属于 <code>$C$</code>，且对应第二行，那么第三个元素就是第二列第二行元素的相反数，
+综合下来，第二列对应的向量就是 <code>$\left[2, \,1, \,0, \,0, \,0\right]$</code></p>
+<p>然后是第四列，第一个元素对应第四列第一行元素的相反数，第二个和第五个元素是其他位置，设为 <code>$0$</code>，
+第三个元素对应第四列第二行元素的相反数，最后第四个元素是自身，设为 <code>$1$</code>，
+综合下来第四列对应向量就是 <code>$\left[1, \,0, \,-2, \,1, \,0\right]$</code></p>
+<p>第五列也是一样的流程，第一个和第三个元素分别对应第五列第一行和第二行元素的相反数，第二个和第四个元素是其他位置，设为 <code>$0$</code>，
+第五个元素是自身，设为 <code>$1$</code>，即 <code>$\left[-3, \,0, \,2, \,0, \,1\right]$</code></p>
+<p>那么这个矩阵 <code>$A$</code> 对应的 Nullspace 就是：</p>
+<pre><code class="language-math">\textnormal{Null}(A) = \textnormal{ker}(A)
+  = \lbrace
+    \begin{bmatrix} 2 \\ 1 \\ 0 \\ 0 \\ 0 \end{bmatrix},\,
+    \begin{bmatrix} 1 \\ 0 \\ -2 \\ 1 \\ 0 \end{bmatrix},\,
+    \begin{bmatrix} -3 \\ 0 \\ 2 \\ 0 \\ 1 \end{bmatrix}
+  \rbrace
+</code></pre>
 <h2 id="后记"><a class="header" href="#后记">后记</a></h2>
 <p>整体实现的难度不是很大，按照步骤一步步实现即可，但是对于细节的处理还是需要多注意，
 例如 Householder 方法中，究竟是加上 模 与 符号数 的乘积，还是减去，这个有一个取舍，
@@ -435,7 +479,7 @@ A = \begin{bmatrix}
 <a href="https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process#Numerical_stability">https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process#Numerical_stability</a> <a href="#fr-2-1">↩</a></p>
 </li>
 <li id="footnote-3">
-<p>对于实数，符号数对于正数就是 \( 1 \)，负数就是 \( -1 \)，零就是 \( 0 \)，而对于复数，符号数就是对其归一化的值，即 \( c / |c| \) <a href="#fr-3-1">↩</a></p>
+<p>对于实数，符号数对于正数就是 <code>$1$</code>，负数就是 <code>$-1$</code>，零就是 <code>$0$</code>，而对于复数，符号数就是对其归一化的值，即 <code>$c / |c|$</code> <a href="#fr-3-1">↩</a></p>
 </li>
 <li id="footnote-4">
 <p>零空间.Wikipedia [DB/OL].(2024-12-4)[2024-12-23].

@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -288,28 +331,25 @@ pub struct Particle&lt;R: RealFloat, const E: usize&gt; {
     pub time: R,
 }</code></pre>
 <p>此时牛顿第二定律可以表示为：</p>
-<p>\[
-\begin{gathered}
-\vec{F}\left(t, \vec{r}(t), \dfrac{\mathrm{d} \vec{r}(t)}{\mathrm{d} t}\right)
-= m \dfrac{\mathrm{d}^2 \vec{r}(t)}{\mathrm{d} t^2} \\\\
-\dfrac{\mathrm{d} \vec{r}(t)}{\mathrm{d} t} = \vec{v}(t),
-\quad\dfrac{\mathrm{d}^2 \vec{r}(t)}{\mathrm{d} t^2} = \vec{a}(t)
+<pre><code class="language-math">\begin{gathered}
+  \vec{F}\left(t, \vec{r}(t), \dfrac{\mathrm{d} \vec{r}(t)}{\mathrm{d} t}\right)
+    = m \dfrac{\mathrm{d}^2 \vec{r}(t)}{\mathrm{d} t^2} \\\\
+  \dfrac{\mathrm{d} \vec{r}(t)}{\mathrm{d} t} = \vec{v}(t),
+    \quad\dfrac{\mathrm{d}^2 \vec{r}(t)}{\mathrm{d} t^2} = \vec{a}(t)
 \end{gathered}
-\]</p>
+</code></pre>
 <p>此时状态转移方程可以表示为：</p>
-<p>\[
-\begin{gathered}
-\vec{a}_n = \dfrac{\vec{F}_n\left(t_n, \vec{r}_n, \vec{v}_n\right)}{m},
-\quad\vec{v}_{n + 1} = \vec{v}_n + \vec{a}_n \Delta t \\
-\vec{r}_{n + 1} = \vec{r}_n + \vec{v}_{n + 1} \Delta t,
-\quad t_{n + 1} = t_n + \Delta t
+<pre><code class="language-math">\begin{gathered}
+  \vec{a}_n = \dfrac{\vec{F}_n\left(t_n, \vec{r}_n, \vec{v}_n\right)}{m},
+    \quad\vec{v}_{n + 1} = \vec{v}_n + \vec{a}_n \Delta t \\
+  \vec{r}_{n + 1} = \vec{r}_n + \vec{v}_{n + 1} \Delta t,
+    \quad t_{n + 1} = t_n + \Delta t
 \end{gathered}
-\]</p>
+</code></pre>
 <p>基于这个状态转移方程，我们可以得到一系列的状态：</p>
-<p>\[
-\left(m, \vec{r}_0, \vec{v}_0, t_0\right) \to \left(m, \vec{r}_1, \vec{v}_1, t_1\right)
-\to\cdots\to\left(m, \vec{r}_n, \vec{v}_n, t_n\right)
-\]</p>
+<pre><code class="language-math">\left(m, \vec{r}_0, \vec{v}_0, t_0\right) \to \left(m, \vec{r}_1, \vec{v}_1, t_1\right)
+  \to\cdots\to\left(m, \vec{r}_n, \vec{v}_n, t_n\right)
+</code></pre>
 <p>根据研究的问题判断迭代终止条件，最后的状态就是我们要的结果</p>
 <p>使用 Rust 实现可以得到：</p>
 <pre><code class="language-rust">impl&lt;'a, R: RealFloat + 'a, const E: usize&gt; Particle&lt;R, E&gt; {
@@ -338,18 +378,17 @@ pub struct Particle&lt;R: RealFloat, const E: usize&gt; {
 <p>作为受力随位置和速度相关的例子，可以考虑有一个阻尼谐振子，
 即一个竖直悬挂的弹簧，末端有一个小球</p>
 <p>假设向上为正方向，并且零点选择在弹簧平衡时的末端位置，
-小球质量为 \( 2.7\,\mathrm{g} \)，半径为 \( 2\,\mathrm{cm} \)</p>
-<p>假设空气阻力系数为 \( C = 2 \)，空气密度为 \( \rho = 1.2\,\mathrm{kg/m^3} \)，
-重力加速度为 \( g = \pi^2\,\mathrm{m/s^2} \)，则此时系统受力为：</p>
-<p>\[
-\begin{gathered}
-\vec{F}_\textnormal{total} = \vec{G} + \vec{F}_k + \vec{f} \\\\
-\vec{f} = - \dfrac{1}{2} C \rho A \lVert\vec{v}\rVert \vec{v} \\\\
-\vec{G} = m \vec{g},\quad\vec{F}_k = -k \Delta\vec{r}
+小球质量为 <code>$2.7 \,\mathrm{g}$</code>，半径为 <code>$2 \,\mathrm{cm}$</code></p>
+<p>假设空气阻力系数为 <code>$C = 2$</code>，空气密度为 <code>$\rho = 1.2 \,\mathrm{kg/m^3}$</code>，
+重力加速度为 <code>$g = \pi^2 \,\mathrm{m/s^2}$</code>，则此时系统受力为：</p>
+<pre><code class="language-math">\begin{gathered}
+  \vec{F}_\textnormal{total} = \vec{G} + \vec{F}_k + \vec{f} \\\\
+  \vec{f} = - \dfrac{1}{2} C \rho A \lVert\vec{v}\rVert \vec{v} \\\\
+  \vec{G} = m \vec{g},\quad\vec{F}_k = -k \Delta\vec{r}
 \end{gathered}
-\]</p>
-<p>其中 \( \Delta\vec{r} \) 表示弹簧距离平衡点的相对位移</p>
-<p>若劲度系数 \( k = 0.8\,\mathrm{kg/s^2} \)，初始位置为 \( 10\,\mathrm{cm} \)，初速度为 \( \vec{v} = \vec{0} \)，则：</p>
+</code></pre>
+<p>其中 <code>$\Delta\vec{r}$</code> 表示弹簧距离平衡点的相对位移</p>
+<p>若劲度系数 <code>$k = 0.8 \,\mathrm{kg/s^2}$</code>，初始位置为 <code>$10 \,\mathrm{cm}$</code>，初速度为 <code>$\vec{v} = \vec{0}$</code>，则：</p>
 <pre><code class="language-rust">use std::rc::Rc;
 
 use phyrs::newton::particle::Particle;
@@ -429,20 +468,19 @@ fn run() -&gt; Option&lt;()&gt; {
   <img src="../../assets/phyrs-0x03-pic01.png" width="64%" alt="阻尼谐振子">
 </div>
 
-<p>可以看到，由于小球的重力，系统的平衡点并不是最初的 \( 0\,\mathrm{m} \)，
-而是 \( z_0 = m g / k \approx 0.033\,\mathrm{m} \)</p>
+<p>可以看到，由于小球的重力，系统的平衡点并不是最初的 <code>$0 \,\mathrm{m}$</code>，
+而是 <code>$z_0 = m g / k \approx 0.033 \,\mathrm{m}$</code></p>
 <h3 id="欧拉-克罗默方法"><a class="header" href="#欧拉-克罗默方法">欧拉-克罗默方法</a></h3>
 <p>实际上，我们使用的方法是<strong>欧拉-克罗默</strong>方法<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
 <p>通常的欧拉法使用的是上一个状态的速度来计算下一个状态的位移，
 而欧拉-克罗默方法则是使用下一个状态的速度来计算下一个状态的位移，即：</p>
-<p>\[
-\begin{cases}
-\vec{r}_{n + 1} = \vec{r}_n + \vec{v}_{\textcolor{red}{n}}\Delta t
-&amp;\textnormal{Euler method} \\\\
-\vec{r}_{n + 1} = \vec{r}_n + \vec{v}_{\textcolor{green}{n + 1}}\Delta t
-&amp;\textnormal{Euler–Cromer}
+<pre><code class="language-math">\begin{cases}
+  \vec{r}_{n + 1} = \vec{r}_n + \vec{v}_{\textcolor{red}{n}}\Delta t
+    &amp;\textnormal{Euler method} \\\\
+  \vec{r}_{n + 1} = \vec{r}_n + \vec{v}_{\textcolor{green}{n + 1}}\Delta t
+    &amp;\textnormal{Euler–Cromer}
 \end{cases}
-\]</p>
+</code></pre>
 <p>欧拉-克罗默方法的结果比欧拉法更符合能量守恒，精度和稳定性也比欧拉法高</p>
 <h2 id="求解微分方程"><a class="header" href="#求解微分方程">求解微分方程</a></h2>
 <p>大部分动力学问题都可以转化为一个求解微分方程的问题</p>
@@ -612,7 +650,7 @@ pub fn dormand_prince_transition(
         }
     })
 }</code></pre>
-<p>这里使用 \( f(t) = e^t \) 在 \( t = 8 \) 处的值为例子：</p>
+<p>这里使用 <code>$f(t) = e^t$</code> 在 <code>$t = 8$</code> 处的值为例子：</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -632,29 +670,27 @@ pub fn dormand_prince_transition(
 <tr><th style="text-align: center">步长</th><th style="text-align: center">欧拉-克罗默</th><th style="text-align: center">四阶龙格-库塔</th><th style="text-align: center">Dormand Prince</th></tr>
 </thead>
 <tbody>
-<tr><td style="text-align: center">0.1</td><td style="text-align: center">\( 4.915\% \)</td><td style="text-align: center">\( \left(3.470 \times 10^{-6}\right)\% \)</td><td style="text-align: center">\( \left(1.456 \times 10^{-9}\right)\% \)</td></tr>
-<tr><td style="text-align: center">0.01</td><td style="text-align: center">\( \left(4.990 \times 10^{-1}\right)\% \)</td><td style="text-align: center">\( \left(3.366 \times 10^{-10}\right)\% \)</td><td style="text-align: center">\( \left(1.048 \times 10^{-11}\right)\% \)</td></tr>
-<tr><td style="text-align: center">0.001</td><td style="text-align: center">\( \left(1.499 \times 10^{-1}\right)\% \)</td><td style="text-align: center">\( \left(9.995 \times 10^{-2}\right)\% \)</td><td style="text-align: center">\( \left(9.995 \times 10^{-2}\right)\% \)</td></tr>
+<tr><td style="text-align: center">0.1</td><td style="text-align: center"><code>$4.915\\%$</code></td><td style="text-align: center"><code>$\left(3.470 \times 10^{-6}\right)\\%$</code></td><td style="text-align: center"><code>$\left(1.456 \times 10^{-9}\right)\\%$</code></td></tr>
+<tr><td style="text-align: center">0.01</td><td style="text-align: center"><code>$\left(4.990 \times 10^{-1}\right)\\%$</code></td><td style="text-align: center"><code>$\left(3.366 \times 10^{-10}\right)\\%$</code></td><td style="text-align: center"><code>$\left(1.048 \times 10^{-11}\right)\\%$</code></td></tr>
+<tr><td style="text-align: center">0.001</td><td style="text-align: center"><code>$\left(1.499 \times 10^{-1}\right)\\%$</code></td><td style="text-align: center"><code>$\left(9.995 \times 10^{-2}\right)\\%$</code></td><td style="text-align: center"><code>$\left(9.995 \times 10^{-2}\right)\\%$</code></td></tr>
 </tbody>
 </table>
 </div>
-<p>可以看到，在 \( \mathrm{d}t = 0.001 \) 的时候，四阶龙格-库塔方法和 Dormand Prince 方法都出现了误差增大的现象，
+<p>可以看到，在 <code>$\mathrm{d}t = 0.001$</code> 的时候，四阶龙格-库塔方法和 Dormand Prince 方法都出现了误差增大的现象，
 这是因为此时计算的误差主要是舍入误差而不是截断误差，这导致了步长变小，误差反而增大</p>
 <p>一般情况下，欧拉-克罗默方法就足够使用了</p>
 <h3 id="范德波尔振荡器"><a class="header" href="#范德波尔振荡器">范德波尔振荡器</a></h3>
 <p>这里再展示一个求解微分方程的例子，即范德波尔振荡器：</p>
-<p>\[
-\dfrac{\mathrm{d}^2 x}{\mathrm{d} t^2}
-- \mu\left(1 - x^2\right) \dfrac{\mathrm{d} x}{\mathrm{d} t} + x = 0
-\]</p>
-<p>类比牛顿第二定律，假设质量和劲度系数都为 \( 1 \)，此时合力可以看成：</p>
-<p>\[
-\begin{gathered}
-F_\textnormal{total} = F_k + F_\textnormal{damp} \\\\
-F_k = -x,\quad F_\textnormal{damp} = \mu (1 - x^2) v
+<pre><code class="language-math">\dfrac{\mathrm{d}^2 x}{\mathrm{d} t^2}
+  - \mu\left(1 - x^2\right) \dfrac{\mathrm{d} x}{\mathrm{d} t} + x = 0
+</code></pre>
+<p>类比牛顿第二定律，假设质量和劲度系数都为 <code>$1$</code>，此时合力可以看成：</p>
+<pre><code class="language-math">\begin{gathered}
+  F_\textnormal{total} = F_k + F_\textnormal{damp} \\\\
+  F_k = -x,\quad F_\textnormal{damp} = \mu (1 - x^2) v
 \end{gathered}
-\]</p>
-<p>则对于 \( \mu = 0 \)、\( \mu = 2 \)、\( \mu = 4 \) 和 \( \mu = 6 \) 有如下代码：</p>
+</code></pre>
+<p>则对于 <code>$\mu = 0$</code>、<code>$\mu = 2$</code>、<code>$\mu = 4$</code> 和 <code>$\mu = 6$</code> 有如下代码：</p>
 <pre><code class="language-rust">use std::rc::Rc;
 
 use phyrs::newton::particle::Particle;

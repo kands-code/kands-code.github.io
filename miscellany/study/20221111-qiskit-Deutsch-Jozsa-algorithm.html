@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -283,138 +326,137 @@
 <p>Deutsch-Jozsa 问题第一次被提出是在 <strong><em>Rapid solution of problems by quantum computation</em></strong><sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup> 一书中，
 同时也是第一个量子算法表现比经典算法要好的例子，这表明量子计算机作为某些特定问题的计算工具是很有优势的</p>
 <h4 id="deutsch-jozsa-问题"><a class="header" href="#deutsch-jozsa-问题">Deutsch-Jozsa 问题</a></h4>
-<p>我们有一个未知的 <em>布尔函数</em><sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup> \( f \)，它接受一个字符串或者一系列比特值，返回 \( 0 \) 或 \( 1 \)，也就是</p>
-<p>\[
-f\left(\lbrace x_0,\ x_1,\ \dots \rbrace \right) \to \mathbb{B}
-\]</p>
-<p>其中 \( x_i \) 的范围是 \( 0 \) 或 \( 1 \)，\( \mathbb{B} \) 用 \( 0 \) 或 \( 1 \) 表示</p>
+<p>我们有一个未知的 <em>布尔函数</em><sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup> <code>$f$</code>，它接受一个字符串或者一系列比特值，返回 <code>$0$</code> 或 <code>$1$</code>，也就是</p>
+<pre><code class="language-math">f\left(\lbrace x_0,\ x_1,\ \dots \rbrace \right) \to \mathbb{B}
+</code></pre>
+<p>其中 <code>$x_i$</code> 的范围是 <code>$0$</code> 或 <code>$1$</code>，<code>$\mathbb{B}$</code> 用 <code>$0$</code> 或 <code>$1$</code> 表示</p>
 <p>我们这个布尔函数有个特点，那就是他一定是一个常函数或者是一个平衡函数</p>
-<p>常函数就是指对于任一输入，都返回同一个值，比如全返回 \( 0 \) 或者 \( 1 \)</p>
-<p>而平衡函数是指对于所有的输入，对于其中一半的输入返回 \( 0 \)，而另一半则返回 \( 1 \)</p>
-<p>我们的目标是判断这个 \( f \) 是常函数还是平衡函数</p>
-<p>注意，Deutsch-Jozsa 问题是 Deutsch 问题问题的 \( n \) 比特拓展</p>
+<p>常函数就是指对于任一输入，都返回同一个值，比如全返回 <code>$0$</code> 或者 <code>$1$</code></p>
+<p>而平衡函数是指对于所有的输入，对于其中一半的输入返回 <code>$0$</code>，而另一半则返回 <code>$1$</code></p>
+<p>我们的目标是判断这个 <code>$f$</code> 是常函数还是平衡函数</p>
+<p>注意，Deutsch-Jozsa 问题是 Deutsch 问题问题的 <code>$n$</code> 比特拓展</p>
 <h4 id="经典方法"><a class="header" href="#经典方法">经典方法</a></h4>
 <p>从经典出发，最好情况下，我们只需要向 <em>预言机</em><sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup> 查询两次就可以知道我们这个函数是否是平衡函数，
-比如第一次输入得到返回值是 \( 0 \)，而第二次输入得到返回值是 \( 1 \)，我们就可以说这个函数是平衡的</p>
+比如第一次输入得到返回值是 <code>$0$</code>，而第二次输入得到返回值是 <code>$1$</code>，我们就可以说这个函数是平衡的</p>
 <p>但是在最坏的情况下，如果我们一直得到相同的输出，
-那么我们就不得不需要测试一半所有可能的输入加一来确定 \( f \) 是否是常函数，
-设可能的输入为 \( 2^n \) 个，即需要 \( 2^{n-1} + 1 \) 次测试</p>
+那么我们就不得不需要测试一半所有可能的输入加一来确定 <code>$f$</code> 是否是常函数，
+设可能的输入为 <code>$2^n$</code> 个，即需要 <code>$2^{n-1} + 1$</code> 次测试</p>
 <p>不过从概率学角度来看，这种情况是少见的，
-一般我们可以将连续 \( k \) 次得到相同结果的函数是常函数的概率用如下式子表述</p>
-<p>\[
-P_{\mathrm{constant}}\left( k \right) = 1 - \dfrac{1}{2^{k - 1}}
-\]</p>
-<p>其中 \( k \) 的范围是 \( 1 \lt k \le 2^{n - 1} \)</p>
+一般我们可以将连续 <code>$k$</code> 次得到相同结果的函数是常函数的概率用如下式子表述</p>
+<pre><code class="language-math">P_{\mathrm{constant}}\left( k \right) = 1 - \dfrac{1}{2^{k - 1}}
+</code></pre>
+<p>其中 <code>$k$</code> 的范围是 <code>$1 \lt k \le 2^{n - 1}$</code></p>
 <p>事实上，我们可以给我们的经典方法设置一个置信度，一但概率达到置信度，我们就可以提前得到结论，
-不过为了得到 \( 100% \) 的准确度，我们仍然需要测试 \( 2^{n-1} + 1 \) 次输入</p>
+不过为了得到 <code>$100\%$</code> 的准确度，我们仍然需要测试 <code>$2^{n-1} + 1$</code> 次输入</p>
 <h4 id="量子方法"><a class="header" href="#量子方法">量子方法</a></h4>
-<p>使用量子计算机，我们仅需执行 \( f \) 一次即可得到置信度为 \( 100% \) 的结果</p>
-<p>这里我们将 \( f \) 实现为一个 <em>量子预言机</em>，
-并且将 \( \ket{x}\ket{y} \) 状态映射到 \( \ket{x}\ket{y \oplus f(x)} \)</p>
-<p>其中 \( \oplus \) 是一个 <strong>模 2 加法</strong><sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">4</a></sup>，下图展示了实现算法的电路</p>
+<p>使用量子计算机，我们仅需执行 <code>$f$</code> 一次即可得到置信度为 <code>$100\%$</code> 的结果</p>
+<p>这里我们将 <code>$f$</code> 实现为一个 <em>量子预言机</em>，
+并且将 <code>$\ket{x}\ket{y}$</code> 状态映射到 <code>$\ket{x}\ket{y \oplus f(x)}$</code></p>
+<p>其中 <code>$\oplus$</code> 是一个 <strong>模 2 加法</strong><sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">4</a></sup>，下图展示了实现算法的电路</p>
 <p><img src="../../assets/qiskit-Deutsch-Jozsa-algorithm-pic01.png" alt="circuit of algorithm"></p>
 <p>现在让我们看看算法具体是怎样实现的</p>
 <ol>
 <li>
 <p>准备两个量子寄存器</p>
-<p>第一个量子寄存器是一个容纳 \( n \) 个 qubit 的寄存器，全部初始化为 \( \ket{0} \)</p>
-<p>而第二个寄存器是一个 qubit 的寄存器，初始化为 \( \ket{1} \)</p>
+<p>第一个量子寄存器是一个容纳 <code>$n$</code> 个 qubit 的寄存器，全部初始化为 <code>$\ket{0}$</code></p>
+<p>而第二个寄存器是一个 qubit 的寄存器，初始化为 <code>$\ket{1}$</code></p>
+<pre><code class="language-math">\ket{\psi_0} = \ket{0}^{\otimes n} \ket{1}
+</code></pre>
+</li>
+<li>
+<p>将 <em>Hadamard</em> 门<sup class="footnote-reference" id="fr-5-1"><a href="#footnote-5">5</a></sup> 应用到每一个 qubit 上</p>
+<pre><code class="language-math">\ket{\psi_1} = \dfrac{1}{\sqrt{2^{n + 1}}}
+  \sum_{x = 0}^{2^n - 1}\ket{x} \left(\ket{0} - \ket{1} \right)
+</code></pre>
+</li>
+<li>
+<p>应用量子预言机，将 <code>$\ket{x}\ket{y}$</code> 变成 <code>$\ket{x}\ket{y \oplus f(x)}$</code></p>
+<pre><code class="language-math">\begin{aligned}
+  \ket{\psi_2} &amp;= \dfrac{1}{\sqrt{2^{n + 1}}} \sum_{x = 0}^{2^n - 1} \ket{x}
+      \left(\ket{f(x)} - \ket{1 \oplus f(x)} \right) \\
+    &amp;= \dfrac{1}{\sqrt{2^{n + 1}}} \sum_{x = 0}^{2^n - 1}(-1)^{f(x)}\ket{x}
+      \left(\ket{0} - \ket{1} \right)
+\end{aligned}
+</code></pre>
+</li>
+<li>
+<p>在这一步，第二个量子寄存器可以被忽略，则将 Hadamard 门作用在第一个寄存器上</p>
+<pre><code class="language-math">\begin{aligned}
+  \ket{\psi_3} &amp;= \dfrac{1}{2^n}\sum_{x = 0}^{2^n - 1} (-1)^{f(x)}
+      \lbrack \sum_{y = 0}^{2^n - 1} (-1)^{x y} \ket{y} \rbrack \\
+    &amp;= \dfrac{1}{2^n}\sum_{y = 0}^{2^n - 1}
+      \lbrack \sum_{x = 0}^{2^n - 1} (-1)^{f(x)} (-1)^{x y} \rbrack \ket{y}
+\end{aligned}
+</code></pre>
+</li>
+<li>
+<p>测量第一个寄存器，概率可以表示为</p>
+<pre><code class="language-math">\ket{0}^{\otimes n} = \left|\dfrac{1}{2^n} \sum_{x = 0}^{2^n - 1} (-1)^{f(x)}\right|^2
+</code></pre>
 </li>
 </ol>
-<p>\[
-\ket{\psi_0} = \ket{0}^{\otimes n} \ket{1}
-\]
-2. 将 <em>Hadamard</em> 门<sup class="footnote-reference" id="fr-5-1"><a href="#footnote-5">5</a></sup> 应用到每一个 qubit 上</p>
-<p>\[
-\ket{\psi_1} = \dfrac{1}{\sqrt{2^{n + 1}}}
-\sum_{x = 0}^{2^n - 1}\ket{x} \left(\ket{0} - \ket{1} \right)
-\]
-3. 应用量子预言机，将 \( \ket{x}\ket{y} \) 变成 \( \ket{x}\ket{y \oplus f(x)} \)</p>
-<p>\[
-\begin{aligned}
-\ket{\psi_2} &amp;= \dfrac{1}{\sqrt{2^{n + 1}}} \sum_{x = 0}^{2^n - 1} \ket{x}
-\left(\ket{f(x)} - \ket{1 \oplus f(x)} \right) \\
-&amp;= \dfrac{1}{\sqrt{2^{n + 1}}} \sum_{x = 0}^{2^n - 1}(-1)^{f(x)}\ket{x}
-\left(\ket{0} - \ket{1} \right)
-\end{aligned}
-\]
-4. 在这一步，第二个量子寄存器可以被忽略，则将 Hadamard 门作用在第一个寄存器上</p>
-<p>\[
-\begin{aligned}
-\ket{\psi_3} &amp;= \dfrac{1}{2^n}\sum_{x = 0}^{2^n - 1} (-1)^{f(x)}
-\lbrack \sum_{y = 0}^{2^n - 1} (-1)^{x y} \ket{y} \rbrack \\
-&amp;= \dfrac{1}{2^n}\sum_{y = 0}^{2^n - 1}
-\lbrack \sum_{x = 0}^{2^n - 1} (-1)^{f(x)} (-1)^{x y} \rbrack \ket{y}
-\end{aligned}
-\]
-5. 测量第一个寄存器，概率可以表示为</p>
-<p>\[
-\ket{0}^{\otimes n} = \left|\dfrac{1}{2^n} \sum_{x = 0}^{2^n - 1} (-1)^{f(x)}\right|^2
-\]</p>
-<p>如果结果是概率是 \( 1 \)，则是常函数，若概率为 \( 0 \)，则为平衡函数</p>
+<p>如果结果是概率是 <code>$1$</code>，则是常函数，若概率为 <code>$0$</code>，则为平衡函数</p>
 <h4 id="为什么可以工作"><a class="header" href="#为什么可以工作">为什么可以工作</a></h4>
 <h5 id="常函数预言机"><a class="header" href="#常函数预言机">常函数预言机</a></h5>
 <p>如果预言机是常函数，那么它对于输入是不起作用的，查询前后量子态是一样的</p>
-<p>由于 Hadamard 门是自逆的，即 \( H H = \mathbf{I} \)</p>
-<p>则经历第 \( 2 \) 步和第 \( 4 \) 步后，如果预言机是常函数，那么最后会得到和原输入，也就是全为 \( \ket{0} \)</p>
-<p>\[
-H^{\otimes n}
-\begin{bmatrix}
-1 \\
-0 \\
-0 \\
-\vdots \\
-0
-\end{bmatrix}
-= \dfrac{1}{\sqrt{2^n}}
-\begin{bmatrix}
-1 \\
-1 \\
-1 \\
-\vdots \\
-1
-\end{bmatrix}
-\xrightarrow{\mathrm{after}\ U_f}
-H^{\otimes n}
-\dfrac{1}{\sqrt{2^n}}
-\begin{bmatrix}
-1 \\
-1 \\
-1 \\
-\vdots \\
-1
-\end{bmatrix}
-= \begin{bmatrix}
-1 \\
-0 \\
-0 \\
-\vdots \\
-0
-\end{bmatrix}
-\]</p>
+<p>由于 Hadamard 门是自逆的，即 <code>$H H = \mathbf{I}$</code></p>
+<p>则经历第 <code>$2$</code> 步和第 <code>$4$</code> 步后，如果预言机是常函数，那么最后会得到和原输入，也就是全为 <code>$\ket{0}$</code></p>
+<pre><code class="language-math">H^{\otimes n}
+  \begin{bmatrix}
+    1 \\
+    0 \\
+    0 \\
+    \vdots \\
+    0
+  \end{bmatrix} =
+  \dfrac{1}{\sqrt{2^n}}
+    \begin{bmatrix}
+      1 \\
+      1 \\
+      1 \\
+      \vdots \\
+      1
+    \end{bmatrix}
+  \xrightarrow{\mathrm{after}\ U_f}
+    H^{\otimes n}
+    \dfrac{1}{\sqrt{2^n}}
+    \begin{bmatrix}
+      1 \\
+      1 \\
+      1 \\
+      \vdots \\
+      1
+    \end{bmatrix} =
+    \begin{bmatrix}
+      1 \\
+      0 \\
+      0 \\
+      \vdots \\
+      0
+    \end{bmatrix}
+</code></pre>
 <h5 id="平衡函数预言机"><a class="header" href="#平衡函数预言机">平衡函数预言机</a></h5>
-<p>如果是平衡函数，那么在第 \( 3 \) 步，则</p>
-<p>\[
-U_f \dfrac{1}{\sqrt{2^n}}
-\begin{bmatrix}
-1 \\
-1 \\
-1 \\
-\vdots \\
-1
-\end{bmatrix}
-= \dfrac{1}{\sqrt{2^n}}
-\begin{bmatrix}
-- 1 \\
-1 \\
-- 1 \\
-\vdots \\
-1
-\end{bmatrix}
-\]</p>
+<p>如果是平衡函数，那么在第 <code>$3$</code> 步，则</p>
+<pre><code class="language-math">U_f \dfrac{1}{\sqrt{2^n}}
+  \begin{bmatrix}
+    1 \\
+    1 \\
+    1 \\
+    \vdots \\
+    1
+  \end{bmatrix} =
+  \dfrac{1}{\sqrt{2^n}}
+  \begin{bmatrix}
+    - 1 \\
+    1 \\
+    - 1 \\
+    \vdots \\
+    1
+  \end{bmatrix}
+</code></pre>
 <p>如果是平衡函数，<em>相回传</em><sup class="footnote-reference" id="fr-6-1"><a href="#footnote-6">6</a></sup> 会依次将这些态中的一半加上一个负相，查询前的态和查询后的态是正交关系</p>
-<p>那么在第 \( 4 \) 步后，我们会得到一个与 \( \ket{0\ 0\ \cdots\ 0} \) 正交的态</p>
-<p>也就是说，我们将不会测量到全为 \( 0 \) 的态</p>
+<p>那么在第 <code>$4$</code> 步后，我们会得到一个与 <code>$\ket{0\ 0\ \cdots\ 0}$</code> 正交的态</p>
+<p>也就是说，我们将不会测量到全为 <code>$0$</code> 的态</p>
 <h3 id="示例"><a class="header" href="#示例">示例</a></h3>
 <p>让我们来看一个平衡函数的例子</p>
 <pre><code class="language-plaintext">f(0, 0) = 0
@@ -422,60 +464,67 @@ f(0, 1) = 1
 f(1, 0) = 1
 f(1, 1) = 0
 </code></pre>
-<p>对应的 <em>相预言机 (phase oracle)</em> 是 \( U_f \ket{x_1, x_0} = (-1)^{f(x_1, x_0)} \ket{x} \)</p>
+<p>对应的 <em>相预言机 (phase oracle)</em> 是 <code>$U_f \ket{x_1, x_0} = (-1)^{f(x_1, x_0)} \ket{x}$</code></p>
 <p>我们先来检验一下预言机是否正常工作</p>
 <ol>
-<li>初始化，我们使用两个 qubit，然后使用一个 qubit 来存储结果</li>
+<li>
+<p>初始化，我们使用两个 qubit，然后使用一个 qubit 来存储结果</p>
+<pre><code class="language-math">\ket{\psi_0} = \ket{0\ 0}_{0 1} \otimes \ket{1}_2
+</code></pre>
+<p>其中下标的含义是对应的 qubit 标号</p>
+</li>
+<li>
+<p>在所有的 qubit 上应用 Hadamard 门</p>
+<pre><code class="language-math">\ket{\psi_1} = \dfrac{1}{2}(\ket{00} + \ket{01} + \ket{10} + \ket{11})_{01}
+  \otimes \dfrac{1}{\sqrt{2}} (\ket{0} - \ket{1})_2
+</code></pre>
+</li>
+<li>
+<p>这个预言机可以用 <code>$Q_f = \mathbf{CX}_{02} \mathbf{CX}_{12}$</code> 来实现</p>
+<pre><code class="language-math">\begin{aligned}
+  \ket{\psi_2} &amp; = \dfrac{1}{2\sqrt{2}}
+  \lbrack
+      \ket{00}_{01} \otimes (\ket{0 \oplus 0 \oplus 0} - \ket{1 \oplus 0 \oplus 0})_2 \\
+      &amp; + \ket{01}_{01} \otimes (\ket{0 \oplus 0 \oplus 1} - \ket{1 \oplus 0 \oplus 1})_2 \\
+      &amp; + \ket{10}_{01} \otimes (\ket{0 \oplus 1 \oplus 0} - \ket{1 \oplus 1 \oplus 0})_2 \\
+      &amp; + \ket{11}_{01} \otimes (\ket{0 \oplus 1 \oplus 1} - \ket{1 \oplus 1 \oplus 1})_2
+  \rbrack\\
+  &amp; = \dfrac{1}{2\sqrt{2}}
+  \lbrack
+      \ket{00}_{01} \otimes (\ket{0} - \ket{1})_2 \\
+      &amp; - \ket{01}_{01} \otimes (\ket{0} - \ket{1})_2 \\
+      &amp; - \ket{10}_{01} \otimes (\ket{0} - \ket{1})_2 \\
+      &amp; + \ket{11}_{01} \otimes (\ket{0} - \ket{1})_2
+  \rbrack
+\end{aligned}
+</code></pre>
+</li>
+<li>
+<p>化简上式</p>
+<pre><code class="language-math">\begin{aligned}
+  \ket{\psi_2} &amp;= \dfrac{1}{2}(\ket{00} - \ket{01} - \ket{10} + \ket{11})_{01}
+      \otimes \dfrac{1}{\sqrt{2}}(\ket{0} - \ket{1})_2 \\
+    &amp;= \dfrac{1}{\sqrt{2}}(\ket{0} - \ket{1})_0
+      \otimes \dfrac{1}{\sqrt{2}}(\ket{0} - \ket{1})_1
+      \otimes \dfrac{1}{\sqrt{2}}(\ket{0} - \ket{1})_2
+\end{aligned}
+</code></pre>
+</li>
+<li>
+<p>将 Hadamard 门作用在第 <code>$1$</code> 个寄存器上</p>
+<pre><code class="language-math">\ket{\psi_3} = \ket{1}_0 \otimes \ket{1}_1 \otimes (\ket{0} - \ket{1})_2
+</code></pre>
+</li>
+<li>
+<p>观测第 <code>$1$</code> 个寄存器，得到 <code>11</code> 这个结果，表明这是一个平衡函数</p>
+</li>
 </ol>
-<p>\[
-\ket{\psi_0} = \ket{0\ 0}_{0 1} \otimes \ket{1}_2
-\]</p>
-<p>其中下标的含义是对应的 qubit 标号
-2. 在所有的 qubit 上应用 Hadamard 门</p>
-<p>\[
-\ket{\psi_1} = \dfrac{1}{2}(\ket{00} + \ket{01} + \ket{10} + \ket{11})_{01}
-\otimes \dfrac{1}{\sqrt{2}} (\ket{0} - \ket{1})_2
-\]
-3. 这个预言机可以用 \( Q_f = \mathbf{CX}_{02} \mathbf{CX}_{12} \) 来实现</p>
-<p>\[
-\begin{aligned}
-\ket{\psi_2} &amp; = \dfrac{1}{2\sqrt{2}}
-\lbrack
-\ket{00}_{01} \otimes (\ket{0 \oplus 0 \oplus 0} - \ket{1 \oplus 0 \oplus 0})_2 \\
-&amp; + \ket{01}_{01} \otimes (\ket{0 \oplus 0 \oplus 1} - \ket{1 \oplus 0 \oplus 1})_2 \\
-&amp; + \ket{10}_{01} \otimes (\ket{0 \oplus 1 \oplus 0} - \ket{1 \oplus 1 \oplus 0})_2 \\
-&amp; + \ket{11}_{01} \otimes (\ket{0 \oplus 1 \oplus 1} - \ket{1 \oplus 1 \oplus 1})_2
-\rbrack \\
-&amp; = \dfrac{1}{2\sqrt{2}}
-\lbrack
-\ket{00}_{01} \otimes (\ket{0} - \ket{1})_2 \\
-&amp; - \ket{01}_{01} \otimes (\ket{0} - \ket{1})_2 \\
-&amp; - \ket{10}_{01} \otimes (\ket{0} - \ket{1})_2 \\
-&amp; + \ket{11}_{01} \otimes (\ket{0} - \ket{1})_2
-\rbrack
-\end{aligned}
-\]
-4. 化简上式</p>
-<p>\[
-\begin{aligned}
-\ket{\psi_2} &amp;= \dfrac{1}{2}(\ket{00} - \ket{01} - \ket{10} + \ket{11})_{01}
-\otimes \dfrac{1}{\sqrt{2}}(\ket{0} - \ket{1})_2 \\
-&amp;= \dfrac{1}{\sqrt{2}}(\ket{0} - \ket{1})_0
-\otimes \dfrac{1}{\sqrt{2}}(\ket{0} - \ket{1})_1
-\otimes \dfrac{1}{\sqrt{2}}(\ket{0} - \ket{1})_2
-\end{aligned}
-\]
-5. 将 Hadamard 门作用在第 \( 1 \) 个寄存器上</p>
-<p>\[
-\ket{\psi_3} = \ket{1}_0 \otimes \ket{1}_1 \otimes (\ket{0} - \ket{1})_2
-\]
-6. 观测第 \( 1 \) 个寄存器，得到 <code>11</code> 这个结果，表明这是一个平衡函数</p>
 <h3 id="创建量子预言机"><a class="header" href="#创建量子预言机">创建量子预言机</a></h3>
 <p>让我们来看看几种不同的创建量子预言机的方法</p>
 <p>对于常函数的做法比较简单</p>
 <ol>
-<li>如果 \( f(x) = 0 \)，则应用 I 门到第二个寄存器的 qubit 上</li>
-<li>如果 \( f(x) = 1 \)，则应用 X 门到第二个寄存器的 qubit 上</li>
+<li>如果 <code>$f(x) = 0$</code>，则应用 I 门到第二个寄存器的 qubit 上</li>
+<li>如果 <code>$f(x) = 1$</code>，则应用 X 门到第二个寄存器的 qubit 上</li>
 </ol>
 <p>对于一个平衡函数，我们可以创建许多不同的电路</p>
 <p>我们保证我们的电路是平衡的其中一个方法是对第一个寄存器中的每个量子比特进行 CNOT，以寄存器 2 中的量子比特为目标</p>
@@ -582,7 +631,7 @@ balanced_oracle.draw(output="mpl")
 <p>我们刚刚构建了一个平衡函数预言机，剩下的就是看 Deutsch-Jozsa 算法是否能解决它了</p>
 <h4 id="完整算法"><a class="header" href="#完整算法">完整算法</a></h4>
 <p>现在让我们把一切都放在一起</p>
-<p>该算法的第一步是将输入的 qubit 初始化为 \( \ket{+} \) 状态，输出 qubit 为 \( \ket{-} \) 状态</p>
+<p>该算法的第一步是将输入的 qubit 初始化为 <code>$\ket{+}$</code> 状态，输出 qubit 为 <code>$\ket{-}$</code> 状态</p>
 <pre><code class="language-python">dj_circuit = QuantumCircuit(n + 1, n)
 
 # Apply H-gates
@@ -626,7 +675,7 @@ answer = results.get_counts()
 plot_histogram(answer)
 </code></pre>
 <p><img src="../../assets/qiskit-Deutsch-Jozsa-algorithm-pic10.png" alt="output07"></p>
-<p>从上面的结果我们可以看出，我们有 \( 0% \) 的机会测量 \( \ket{000} \)，这正确地预测了函数是平衡的</p>
+<p>从上面的结果我们可以看出，我们有 <code>$0\%$</code> 的机会测量 <code>$\ket{000}$</code>，这正确地预测了函数是平衡的</p>
 <h4 id="通用电路"><a class="header" href="#通用电路">通用电路</a></h4>
 <p>下面，我们提供一个通用的函数，可以创建 Deutsch-Jozsa 预言机，并把它们变成量子门</p>
 <p>它接收参数 <code>case</code>，其中 <code>case</code> 要么是 <code>"constant"</code>，要么是 <code>"balanced"</code>，以及 <code>n</code>，即输入寄存器的大小</p>
@@ -739,7 +788,7 @@ answer = results.get_counts()
 plot_histogram(answer)
 </code></pre>
 <p><img src="../../assets/qiskit-Deutsch-Jozsa-algorithm-pic13.png" alt="output10"></p>
-<p>我们可以看到，最可能的结果是 \( \ket{1111} \)，其他结果是由于量子计算中的错误造成的</p>
+<p>我们可以看到，最可能的结果是 <code>$\ket{1111}$</code>，其他结果是由于量子计算中的错误造成的</p>
 <hr>
 <p>吐槽一句，<strong>IBM</strong> 这个 API 是真的难等，排队好慢</p>
 <hr>
@@ -756,7 +805,7 @@ plot_histogram(answer)
 <a href="https://en.wikipedia.org/wiki/Oracle_machine">https://en.wikipedia.org/wiki/Oracle_machine</a> <a href="#fr-3-1">↩</a></p>
 </li>
 <li id="footnote-4">
-<p>即 \( 1 \oplus 0 = 1 \) 而 \( 1 \oplus 1 = 0 \) <a href="#fr-4-1">↩</a></p>
+<p>即 <code>$1 \oplus 0 = 1$</code> 而 <code>$1 \oplus 1 = 0$</code> <a href="#fr-4-1">↩</a></p>
 </li>
 <li id="footnote-5">
 <p>参见 <a href="https://qiskit.org/textbook/ch-states/single-qubit-gates.html#hgate">The Hadamard Gate</a> <a href="#fr-5-1">↩</a></p>

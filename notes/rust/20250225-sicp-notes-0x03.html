@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -279,17 +322,16 @@
 <p>而这一部分列举了几个复合数据的例子，并展示了抽象的优势，即设计与实现分离，
 利用统一接口，无需关心具体方法的实现，以此来完成解耦，降低复杂度</p>
 <p>除此之外，闭包的概念也被提出，在这里里的闭包更倾向于数学概念，即某个集合在某个运算下封闭：</p>
-<p>\[
-\times : A \to A \to A
-\]</p>
-<p>这里， \( A \) 集合在运算 \( \times \)下就是封闭的，而 LISP 对象这个集合在 <code>CONS</code> 运算下就是封闭的，
+<pre><code class="language-math">\times : A \to A \to A
+</code></pre>
+<p>这里， <code>$A$</code> 集合在运算 <code>$\times$</code>下就是封闭的，而 LISP 对象这个集合在 <code>CONS</code> 运算下就是封闭的，
 也就是两个任意 LISP 对象通过 CONS 可以再构造出一个 LISP 对象，这赋予了我们构造更复杂结构的能力</p>
 <p>在其他语言中，例如 Rust，这个就类似于使用元组也是可以构造复杂的结构的，
 但是 Rust 中有更好的选择，即 <code>enum</code> 和 <code>struct</code></p>
 <h3 id="线段"><a class="header" href="#线段">线段</a></h3>
 <p>第一个例子就是用 <code>cons</code> 来模拟线段</p>
 <p>一条线段可以由两个点来表示，这里举例使用二维平面，
-所以一个线段可以表示为 \( s = \lbrace (x_a, y_a), (x_b, y_b) \rbrace \)，即：</p>
+所以一个线段可以表示为 <code>$s = \lbrace (x_a, y_a), (x_b, y_b) \rbrace$</code>，即：</p>
 <pre><code class="language-rust">type Point = (f64, f64);
 type Seg = (Point, Point);</code></pre>
 <p>相应的，我们有如下接口：</p>
@@ -404,7 +446,7 @@ fn main() {
     println!("{}", second);
     // =&gt; 2
 }</code></pre>
-<p>如果我想要对这个列表中的每一个元素都应用某个操作，例如都加上 \( 10 \)，或者都乘以 \( 2 \)</p>
+<p>如果我想要对这个列表中的每一个元素都应用某个操作，例如都加上 <code>$10$</code>，或者都乘以 <code>$2$</code></p>
 <p>我们可以有如下操作<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>：</p>
 <pre><code class="language-rust">fn trans_list&lt;A, B&gt;(lst: &amp;List&lt;A&gt;, f: impl Fn(A) -&gt; B) -&gt; List&lt;B&gt;
 where
@@ -511,18 +553,17 @@ DSL 不过是原语言的一个库</p>
 <p>有了上述的思想以及方法，我们就可以着手解决一个问题，那便是函数求导，
 并且与使用 <code>dx</code> 来进行数值模拟不同，这次要做的是对多项式进行符号微分，
 其基本原理就是函数求导的法则：</p>
-<p>\[
-\begin{gathered}
-\dfrac{\mathrm{d} \mathbf{c}}{\mathrm{d} x} = 0,\quad
-\dfrac{\mathrm{d} x}{\mathrm{d} x} = 1,\quad
-\dfrac{\mathrm{d} \mathbf{c} u}{\mathrm{d} x} = \mathbf{c} \dfrac{\mathrm{d} u}{\mathrm{d} x} \\\\
-\dfrac{\mathrm{d} (u + w)}{\mathrm{d} x} = \dfrac{\mathrm{d} u}{\mathrm{d} x} + \dfrac{\mathrm{d} w}{\mathrm{d} x},\quad
-\dfrac{\mathrm{d} (u w)}{\mathrm{d} x} = \dfrac{\mathrm{d} u}{\mathrm{d} x} w + u \dfrac{\mathrm{d} w}{\mathrm{d} x} \\\\
-\dfrac{\mathrm{d} (u / w)}{\mathrm{d} x} = \dfrac{\dfrac{\mathrm{d} u}{\mathrm{d} x} w - u \dfrac{\mathrm{d} w}{\mathrm{d} x}}{w^2} \\\\
-\dfrac{\mathrm{d} u^n}{\mathrm{d} x} = n u^{n - 1} \dfrac{\mathrm{d} u}{\mathrm{d} x}
+<pre><code class="language-math">\begin{gathered}
+  \dfrac{\mathrm{d} \mathbf{c}}{\mathrm{d} x} = 0,\quad
+  \dfrac{\mathrm{d} x}{\mathrm{d} x} = 1,\quad
+  \dfrac{\mathrm{d} \mathbf{c} u}{\mathrm{d} x} = \mathbf{c} \dfrac{\mathrm{d} u}{\mathrm{d} x} \\\\
+  \dfrac{\mathrm{d} (u + w)}{\mathrm{d} x} = \dfrac{\mathrm{d} u}{\mathrm{d} x} + \dfrac{\mathrm{d} w}{\mathrm{d} x},\quad
+  \dfrac{\mathrm{d} (u w)}{\mathrm{d} x} = \dfrac{\mathrm{d} u}{\mathrm{d} x} w + u \dfrac{\mathrm{d} w}{\mathrm{d} x} \\\\
+  \dfrac{\mathrm{d} (u / w)}{\mathrm{d} x} = \dfrac{\dfrac{\mathrm{d} u}{\mathrm{d} x} w - u \dfrac{\mathrm{d} w}{\mathrm{d} x}}{w^2} \\\\
+  \dfrac{\mathrm{d} u^n}{\mathrm{d} x} = n u^{n - 1} \dfrac{\mathrm{d} u}{\mathrm{d} x}
 \end{gathered}
-\]</p>
-<p>其中 \( \mathbf{c} \) 是任意常数</p>
+</code></pre>
+<p>其中 <code>$\mathbf{c}$</code> 是任意常数</p>
 <details>
 <summary>具体的 Rust 实现和分析如下</summary>
 <p>这里是一个直接的实现，没有考虑各种优化，只是对于微分结果有一定的简化：</p>
@@ -662,13 +703,11 @@ fn main() {
 )
 </code></pre>
 <p>即：</p>
-<p>\[
-\dfrac{2 x (x^3 + (-8 x^2 + 3)) + (- (x^2 + 3) (3 x^2))}{(x^3 + (-8 x^2) + 3)^2}
-\]</p>
+<pre><code class="language-math">\dfrac{2 x (x^3 + (-8 x^2 + 3)) + (- (x^2 + 3) (3 x^2))}{(x^3 + (-8 x^2) + 3)^2}
+</code></pre>
 <p>可以看到，还是有很多优化空间的，我们再手动优化一下可以得到：</p>
-<p>\[
-\dfrac{2 x}{x^3 -8 x^2 + 3} - \dfrac{3 x^2 (x^2 + 3)}{(x^3 -8 x^2 + 3)^2}
-\]</p>
+<pre><code class="language-math">\dfrac{2 x}{x^3 -8 x^2 + 3} - \dfrac{3 x^2 (x^2 + 3)}{(x^3 -8 x^2 + 3)^2}
+</code></pre>
 <p>可以发现这个答案就是我们想要的答案</p>
 </details>
 <p>在早期的 <strong>Maxima</strong><sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup>，符号微分的实现就是用类似的 LISP 代码来实现的，

@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -275,7 +318,7 @@
 <p class="sp-comment">趁热打铁，今天继续来看第五课</p>
 
 <h2 id="lecture-5a"><a class="header" href="#lecture-5a">Lecture 5A</a></h2>
-<p>这一节开始，我们要学习更多有关函数式编程和 \( \lambda \)-表达式相关的内容，
+<p>这一节开始，我们要学习更多有关函数式编程和 <code>$\lambda$</code>-表达式相关的内容，
 包括赋值，环境，以及副作用</p>
 <h3 id="赋值"><a class="header" href="#赋值">赋值</a></h3>
 <p>在 LISP 中，有个非常 “邪恶” 的操作，那就是 <code>set!</code>，
@@ -302,7 +345,7 @@
 <p><strong>环境（Environment）</strong>，又被称为 <strong>上下文（Context）</strong>，我们可以在这里找到一些变量对应的值</p>
 <p>不过在正式介绍环境前，还需要区分现有的变量类型，即 “<strong>绑定变量（Bound Variable）</strong>” 与 “<strong>自由变量（Free Variable）</strong>”</p>
 <p>在当前表达式中，对于某个变量，如果替换这个变量的名称不会改变这个表达式的语义，那么这个变量就是绑定变量，
-对应于 \( \lambda \)-表达式 中的 \( \alpha \)-约归<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>，反之则被称为自由变量</p>
+对应于 <code>$\lambda$</code>-表达式 中的 <code>$\alpha$</code>-约归<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>，反之则被称为自由变量</p>
 <blockquote>
 <p>Rust 规定使用 <code>static mut</code> 是 <code>unsafe</code> 的</p>
 </blockquote>
@@ -326,10 +369,10 @@ fn main() {
 一旦出了函数范围，<code>n</code> 就不再有效，
 而 <code>A</code> 的作用域就是当前模块内部</p>
 <blockquote>
-<p>If <code>x</code> is a bound variable in <code>E</code>, then there is a \( \lambda \)-expression where it is bound.</p>
-<p>如果 <code>x</code> 在 <code>E</code> 上是绑定变量，那么 <code>x</code> 一定绑定于某一个 \( \lambda \)-表达式</p>
+<p>If <code>x</code> is a bound variable in <code>E</code>, then there is a <code>$\lambda$</code>-expression where it is bound.</p>
+<p>如果 <code>x</code> 在 <code>E</code> 上是绑定变量，那么 <code>x</code> 一定绑定于某一个 <code>$\lambda$</code>-表达式</p>
 </blockquote>
-<p>在 \( \lambda \)-表达式中，变量的绑定发生在表达式的参数中，\( \lambda x \) 又被称为一个 <strong>binder</strong>，
+<p>在 <code>$\lambda$</code>-表达式中，变量的绑定发生在表达式的参数中，<code>$\lambda x$</code> 又被称为一个 <strong>binder</strong>，
 所以每一个绑定变量一定对应于某一个表达式，
 我们现在所谓的函数形参列表又被成为绑定变量列表</p>
 <h3 id="环境"><a class="header" href="#环境">环境</a></h3>
@@ -366,16 +409,16 @@ fn main() {
 <li>一个过程对象被应用到一系列参数时会在内部构建一个栈帧，
 用于存储形式参数（绑定变量）与实际参数的绑定（<code>=</code>），
 而过程运行的环境由内部栈帧与外部环境邻接而成</li>
-<li>定义一个 \( \lambda \)-表达式时，表达式会将表达式本身与所在环境一同捕获</li>
+<li>定义一个 <code>$\lambda$</code>-表达式时，表达式会将表达式本身与所在环境一同捕获</li>
 </ol>
 <p>第一条规则说明了代码执行时变量的值的参考是由内而外的，
-第二条规则说明 \( \lambda \)-表达式 中自由变量的值与当前环境有关，例如：</p>
+第二条规则说明 <code>$\lambda$</code>-表达式 中自由变量的值与当前环境有关，例如：</p>
 <pre><code class="language-rust">fn main() {
     let proc = |y: i32| -&gt; i32 { (|x: i32| x * y)(3) };
     println!("{}", proc(4));
     // =&gt; 12
 }</code></pre>
-<p>这里 <code>proc</code> 和 <code>|x: i32| x * y</code> 都是 \( \lambda \)-表达式，
+<p>这里 <code>proc</code> 和 <code>|x: i32| x * y</code> 都是 <code>$\lambda$</code>-表达式，
 其中在 <code>|x: i32| x * y</code> 中 <code>y</code> 是自由变量，
 在运行的时候会捕获环境中的 <code>y</code>，即与 <code>proc</code> 的形式参数 <code>y</code> 绑定</p>
 <h3 id="赋值的意义"><a class="header" href="#赋值的意义">赋值的意义</a></h3>
@@ -652,7 +695,7 @@ Agenda 就是一个链表</p>
 <h3 id="可赋值的有序对"><a class="header" href="#可赋值的有序对">可赋值的有序对</a></h3>
 <p><a href="./20241105-sicp-notes-0x02.html#cons-car-cdr">之前</a> 定义的有序对并不太适合引入了赋值后的系统，
 所以这里需要重新定义一种 <code>cons</code>，使其有能力使用 <code>set-car!</code> 和 <code>set-cdr!</code></p>
-<p>一种实现是使用多参数 \( \lambda \)-表达式，即：</p>
+<p>一种实现是使用多参数 <code>$\lambda$</code>-表达式，即：</p>
 <pre><code class="language-scheme">(define (cons x y)
   (lambda (m)
     (m x
@@ -672,7 +715,7 @@ Agenda 就是一个链表</p>
 (define (set-cdr! x n)
   (x (lambda (a d sa sd) (sd n))))
 </code></pre>
-<p>其中 <code>cons</code> 是一个 \( \lambda \)-表达式，这个表达式接受一个过程，
+<p>其中 <code>cons</code> 是一个 <code>$\lambda$</code>-表达式，这个表达式接受一个过程，
 这个过程有四个参数，第一个参数就是 <code>car</code>，第二个参数则是 <code>cdr</code>，
 第三个参数就是对于 <code>car</code> 的赋值，第四个则是对 <code>cdr</code> 的赋值</p>
 <details>
@@ -782,7 +825,7 @@ fn main() {
 <hr>
 <ol class="footnote-definition">
 <li id="footnote-1">
-<p>\( \alpha \)-约归.Wikipedia [DB/OL].(2025-02-27)[2025-03-17].
+<p><code>$\alpha$</code>-约归.Wikipedia [DB/OL].(2025-02-27)[2025-03-17].
 <a href="https://en.wikipedia.org/wiki/Lambda_calculus#α-conversion">https://en.wikipedia.org/wiki/Lambda_calculus#α-conversion</a> <a href="#fr-1-1">↩</a></p>
 </li>
 <li id="footnote-2">

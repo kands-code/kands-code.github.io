@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -301,21 +344,19 @@
 <li>能否更快收敛</li>
 </ul>
 <p>大部分的求根问题，都可以被抽象成一个求 不动点<sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup> 的迭代过程，其中最常用的方法就是牛顿法</p>
-<p>对于求平方根，我们可以将问题变成求 \( f(x) = x^2 - P \) 的根，其中 \( P \) 是我们要求平方根的数，即：</p>
-<p>\[
-x_{n + 1} = x_n - \dfrac{f(x_n)}{f^{\prime}(x_n)}
-\]</p>
+<p>对于求平方根，我们可以将问题变成求 <code>$f(x) = x^2 - P$</code> 的根，其中 <code>$P$</code> 是我们要求平方根的数，即：</p>
+<pre><code class="language-math">x_{n + 1} = x_n - \dfrac{f(x_n)}{f^{\prime}(x_n)}
+</code></pre>
 <p>我们要进行的迭代就是：</p>
-<p>\[
-x_{n + 1} = \dfrac{1}{2} (x_n + \dfrac{P}{x_n})
-\]</p>
-<p>例如对于 \( P = 5 \)，可以假设 \( x_0 = P / 2 \)，则有如下过程：</p>
+<pre><code class="language-math">x_{n + 1} = \dfrac{1}{2} (x_n + \dfrac{P}{x_n})
+</code></pre>
+<p>例如对于 <code>$P = 5$</code>，可以假设 <code>$x_0 = P / 2$</code>，则有如下过程：</p>
 <pre><code class="language-plaintext">x_0: 2.5
 x_1: 2.25
 x_2: 2.2361112
 x_3: 2.236068
 </code></pre>
-<p>仅用了 \( 3 \) 次迭代就得到了不动点，验证可以知道 \( 2.236068^2 \approx 5.000000100624 \)</p>
+<p>仅用了 <code>$3$</code> 次迭代就得到了不动点，验证可以知道 <code>$2.236068^2 \approx 5.000000100624$</code></p>
 <p>对应 Rust 代码为：</p>
 <pre><code class="language-rust">fn sqrt_f32(n: f32) -&gt; f32 {
     fn sqrt_f32_i(n: f32, guess: f32) -&gt; f32 {
@@ -329,12 +370,17 @@ x_3: 2.236068
 }</code></pre>
 <p>现在来尝试回答那三个问题：</p>
 <ul>
-<li>为什么会收敛：牛顿法利用切线在某一点的局部去近似函数，而 \( f(x) / f^{\prime}(x) \) 就是误差</li>
-<li>迭代过程是什么样的：大部分情况下根据根和函数的不同会呈现线性收敛和二次收敛</li>
-<li>能否更快收敛：可以，我们可以尝试给误差加上一个倍数 \( m \)，也就是
-\[
-x_{n + 1} = x_n - m \dfrac{f(x_n)}{f^{\prime}(x_n)}
-\]</li>
+<li>
+<p>为什么会收敛：牛顿法利用切线在某一点的局部去近似函数，而 <code>$f(x) / f^{\prime}(x)$</code> 就是误差</p>
+</li>
+<li>
+<p>迭代过程是什么样的：大部分情况下根据根和函数的不同会呈现线性收敛和二次收敛</p>
+</li>
+<li>
+<p>能否更快收敛：可以，我们可以尝试给误差加上一个倍数 <code>$m$</code>，也就是</p>
+<pre><code class="language-math">x_{n + 1} = x_n - m \dfrac{f(x_n)}{f^{\prime}(x_n)}
+</code></pre>
+</li>
 </ul>
 <h3 id="二分法求平方根"><a class="header" href="#二分法求平方根">二分法求平方根</a></h3>
 <p>如果我们不知道牛顿法，我们该怎么去求解呢？</p>
@@ -345,10 +391,9 @@ x_{n + 1} = x_n - m \dfrac{f(x_n)}{f^{\prime}(x_n)}
 <li>否则就进行“优化”，将优化的结果作为猜测返回第一步</li>
 </ol>
 <p>而这个迭代的效果就要取决于这个“优化”方法了，而最容易想到的方法就是二分法，也就是：</p>
-<p>\[
-x_{n + 1} = \dfrac{1}{2} (\dfrac{P}{x_n} + x_n)
-\]</p>
-<p>通过让 \( x_n \) 和 \( P / x_n \) 不断接近来求解 \( \sqrt{P} \)，因为 \( P / \sqrt{P} = \sqrt{P} \)</p>
+<pre><code class="language-math">x_{n + 1} = \dfrac{1}{2} (\dfrac{P}{x_n} + x_n)
+</code></pre>
+<p>通过让 <code>$x_n$</code> 和 <code>$P / x_n$</code> 不断接近来求解 <code>$\sqrt{P}$</code>，因为 <code>$P / \sqrt{P} = \sqrt{P}$</code></p>
 <p>而这个式子却和牛顿法惊奇地一致，这也算是某种“趋同”吧</p>
 <h2 id="lecture-1b"><a class="header" href="#lecture-1b">Lecture 1B</a></h2>
 <p>这一部分主要介绍计算过程和递归，包括复杂度的计算</p>
@@ -366,7 +411,7 @@ fn square(a: u8) -&gt; u8 {
 <p>当然，计算机或者说编译器要做的工作不止这些，但是对于计算过程，我们只需要关注到这种程度即可</p>
 <h3 id="peano-加法"><a class="header" href="#peano-加法">Peano 加法</a></h3>
 <p>在数学公理化中，有一个公理非常重要，那就是 Peano 公理<sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">4</a></sup>，
-这个公理中，自然数可以表示为两种状态 \( 0 \) 以及 \( S n \)，其中 \( S \) 表示后继</p>
+这个公理中，自然数可以表示为两种状态 <code>$0$</code> 以及 <code>$S n$</code>，其中 <code>$S$</code> 表示后继</p>
 <pre><code class="language-rust">enum Peano {
     Zero,
     Succ(Box&lt;Peano&gt;),
@@ -407,8 +452,8 @@ fn peano_add_r(a: Peano, b: Peano) -&gt; Peano {
 <p>某种意义上来说，一个计算过程的复杂度我们可以通过替换来呈现，
 其中时间复杂度就是这个过程的深度，
 而空间复杂度就是这个计算过程变量个数以及变量的大小</p>
-<p>第一种方式的时间复杂度和空间复杂度分别为 \( \mathcal{O}(N) \) 和 \( \mathcal{O}(1) \)，
-而第二种方式的时间复杂度和空间复杂度分别为 \( \mathcal{O}(N) \) 和 \( \mathcal{O}(N) \)</p>
+<p>第一种方式的时间复杂度和空间复杂度分别为 <code>$\mathcal{O}(N)$</code> 和 <code>$\mathcal{O}(1)$</code>，
+而第二种方式的时间复杂度和空间复杂度分别为 <code>$\mathcal{O}(N)$</code> 和 <code>$\mathcal{O}(N)$</code></p>
 <h3 id="fibonacci-数列"><a class="header" href="#fibonacci-数列">Fibonacci 数列</a></h3>
 <p>另外一个经典的递归案例就是 Fibonacci 数列，我们同样有两种（及以上）实现方式：</p>
 <pre><code class="language-rust">fn fib_l(n: u8) -&gt; usize {
@@ -429,20 +474,20 @@ fn fib_r(n: u8) -&gt; usize {
         _ =&gt; fib_r(n - 1) + fib_r(n - 2),
     }
 }</code></pre>
-<p>通过替换，我们可以发现 <code>fib_r</code> 的调用可以组成一个树，其空间复杂度就是这个树的深度，也就是 \( N \)，
+<p>通过替换，我们可以发现 <code>fib_r</code> 的调用可以组成一个树，其空间复杂度就是这个树的深度，也就是 <code>$N$</code>，
 其时间复杂度就是树的叶子个数，和 Fibnacci 数列成比例</p>
-<p>使用大 O 表示法，<code>fib_l</code> 的时间复杂度和空间复杂度为 \( \mathcal{O}(N) \) 和 \( \mathcal{O}(1) \)，
-而 <code>fib_r</code> 的时间复杂度和空间复杂度约<sup class="footnote-reference" id="fr-5-1"><a href="#footnote-5">5</a></sup>为 \( \mathcal{O}(2^N) \) 和 \( \mathcal{O}(N) \)，</p>
+<p>使用大 O 表示法，<code>fib_l</code> 的时间复杂度和空间复杂度为 <code>$\mathcal{O}(N)$</code> 和 <code>$\mathcal{O}(1)$</code>，
+而 <code>fib_r</code> 的时间复杂度和空间复杂度约<sup class="footnote-reference" id="fr-5-1"><a href="#footnote-5">5</a></sup>为 <code>$\mathcal{O}(2^N)$</code> 和 <code>$\mathcal{O}(N)$</code>，</p>
 <h3 id="hanoi-塔"><a class="header" href="#hanoi-塔">Hanoi 塔</a></h3>
 <p>还有一个经典例子用于展示时间复杂度，那就是 Hanoi 塔</p>
-<p>假设有 \( n \) 个物体堆在 \( A \) 处，要将这些物体通过 \( B \) 移动到 \( C \) 处，
+<p>假设有 <code>$n$</code> 个物体堆在 <code>$A$</code> 处，要将这些物体通过 <code>$B$</code> 移动到 <code>$C$</code> 处，
 并且这些物体有大小，必须小的放在大的上面，一次只能移动一个物体</p>
 <p>我们可以分解一下要求：</p>
 <ul>
-<li>要将 \( n \) 个物体从 \( A \) 通过 \( B \) 移动到 \( C \)</li>
-<li>可以先将上面 \( n - 1 \) 个物体从 \( A \) 通过 \( C \) 移动到 \( B \)</li>
-<li>然后将最下面的那个物体移动到 \( C \)</li>
-<li>最后再将其他物体从 \( B \) 通过 \( A \) 移动到 \( C \)</li>
+<li>要将 <code>$n$</code> 个物体从 <code>$A$</code> 通过 <code>$B$</code> 移动到 <code>$C$</code></li>
+<li>可以先将上面 <code>$n - 1$</code> 个物体从 <code>$A$</code> 通过 <code>$C$</code> 移动到 <code>$B$</code></li>
+<li>然后将最下面的那个物体移动到 <code>$C$</code></li>
+<li>最后再将其他物体从 <code>$B$</code> 通过 <code>$A$</code> 移动到 <code>$C$</code></li>
 <li>不断重复上述过程直到完成移动</li>
 </ul>
 <p>可以看到上面主要的有三个部分，第一就是起点，其次就是终点，剩下的就是中继点</p>
@@ -462,7 +507,7 @@ fn fib_r(n: u8) -&gt; usize {
     }
     hanoi_i(n, from, bypass, to, 0)
 }</code></pre>
-<p>总共的移动步数是 \( 2^n - 1 \) 步</p>
+<p>总共的移动步数是 <code>$2^n - 1$</code> 步</p>
 <hr>
 <p>前两节课主要是构建一个对于计算过程和递归的印象，之后的课程会详细讲解如何去优化某些过程</p>
 <hr>

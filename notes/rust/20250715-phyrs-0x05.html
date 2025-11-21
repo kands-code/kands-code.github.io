@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -278,9 +321,8 @@
 <h2 id="牛顿第三定律"><a class="header" href="#牛顿第三定律">牛顿第三定律</a></h2>
 <p>牛顿第三定律虽然不起眼，但这正是多体运动分析的基石</p>
 <p>物体 A 对物体 B 施加了一个力，那么物体 B 也会对物体 A 施加一个等大反向的力：</p>
-<p>\[
-\vec{F}_{A B} = -\vec{F}_{B A}
-\]</p>
+<pre><code class="language-math">\vec{F}_{A B} = -\vec{F}_{B A}
+</code></pre>
 <p>这称为作用力和反作用力，这两个力同时产生，没有时间顺序</p>
 <h3 id="万有引力"><a class="header" href="#万有引力">万有引力</a></h3>
 <p>在<a href="./20250713-phyrs-0x04.html#卫星运动">卫星运动</a>中，我们使用了万有引力，
@@ -327,9 +369,9 @@
 <tr><th style="text-align: center">位置关系</th><th style="text-align: center">弹簧状态</th><th style="text-align: center">在端点 A 的力</th><th style="text-align: center">在端点 B 的力</th></tr>
 </thead>
 <tbody>
-<tr><td style="text-align: center">\( \lVert\vec{r}_{B A}\rVert &gt; r_e \)</td><td style="text-align: center">拉伸</td><td style="text-align: center">\( k \left(\lVert\vec{r_{B A}}\rVert - r_e\right) \hat{r}_{B A} \)</td><td style="text-align: center">\( -k \left(\lVert\vec{r_{B A}}\rVert - r_e\right) \hat{r}_{B A} \)</td></tr>
-<tr><td style="text-align: center">\( \lVert\vec{r}_{B A}\rVert = r_e \)</td><td style="text-align: center">平衡</td><td style="text-align: center">\( 0 \)</td><td style="text-align: center">\( 0 \)</td></tr>
-<tr><td style="text-align: center">\( \lVert\vec{r}_{B A}\rVert &lt; r_e \)</td><td style="text-align: center">压缩</td><td style="text-align: center">\( k \left(\lVert\vec{r_{B A}}\rVert - r_e\right) \hat{r}_{B A} \)</td><td style="text-align: center">\( -k \left(\lVert\vec{r_{B A}}\rVert - r_e\right) \hat{r}_{B A} \)</td></tr>
+<tr><td style="text-align: center"><code>$\lVert\vec{r}_{B A}\rVert &gt; r_e$</code></td><td style="text-align: center">拉伸</td><td style="text-align: center"><code>$k \left(\lVert\vec{r_{B A}}\rVert - r_e\right) \hat{r}_{B A}$</code></td><td style="text-align: center"><code>$-k \left(\lVert\vec{r_{B A}}\rVert - r_e\right) \hat{r}_{B A}$</code></td></tr>
+<tr><td style="text-align: center"><code>$\lVert\vec{r}_{B A}\rVert = r_e$</code></td><td style="text-align: center">平衡</td><td style="text-align: center"><code>$0$</code></td><td style="text-align: center"><code>$0$</code></td></tr>
+<tr><td style="text-align: center"><code>$\lVert\vec{r}_{B A}\rVert &lt; r_e$</code></td><td style="text-align: center">压缩</td><td style="text-align: center"><code>$k \left(\lVert\vec{r_{B A}}\rVert - r_e\right) \hat{r}_{B A}$</code></td><td style="text-align: center"><code>$-k \left(\lVert\vec{r_{B A}}\rVert - r_e\right) \hat{r}_{B A}$</code></td></tr>
 </tbody>
 </table>
 </div>
@@ -370,13 +412,11 @@
 <p>可以发现，万有引力、恒定斥力和线性弹力有一个共通点，
 即由两个物体产生并且方向沿两个物体的连线，
 这种力称为有心力<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>，可以选取其中一个物体作为力中心点：</p>
-<p>\[
-\vec{F} = F \hat{r}
-\]</p>
+<pre><code class="language-math">\vec{F} = F \hat{r}
+</code></pre>
 <p>其中有心力还可以分为强有心力和弱有心力，强有心力的大小与两个物体的间距有关：</p>
-<p>\[
-\vec{F} = F(\lVert\vec{r}\rVert) \hat{r}
-\]</p>
+<pre><code class="language-math">\vec{F} = F(\lVert\vec{r}\rVert) \hat{r}
+</code></pre>
 <p>使用 Rust 可以表示为：</p>
 <pre><code class="language-rust">pub fn central_force&lt;'a, R: RealFloat + 'a, const E: usize&gt;(
     relation: Rc&lt;dyn Fn(R) -&gt; R + 'a&gt;,
@@ -463,17 +503,16 @@ impl&lt;R: RealFloat, const E: usize&gt; ParticleSystemBuilder&lt;R, E&gt; {
     }
 }</code></pre>
 <p>系统内的非相对论体系的牛顿第二定律可以用如下方程组来表示：</p>
-<p>\[
-\begin{gathered}
-\dfrac{\mathrm{d}}{\mathrm{d} t} \left[t\right] = 1,
-\quad\dfrac{\mathrm{d}}{\mathrm{d} t}\left[\vec{r}_n(t)\right] = \vec{v}_n(t) \\\\
-\dfrac{\mathrm{d}}{\mathrm{d} t} \left[\vec{v}_n(t)\right] = \dfrac{1}{m_n}\left(
-\vec{F}_{\textnormal{ex}\left[n\right]}\left(t, \vec{r}_n(t), \vec{v}_n(t)\right)
-+ \sum_m \vec{F}_{n m}\left(\vec{r}_n(t) - \vec{r}_m(t), \vec{v}_n(t) - \vec{v}_m(t)\right)\right)
+<pre><code class="language-math">\begin{gathered}
+  \dfrac{\mathrm{d}}{\mathrm{d} t} \left[t\right] = 1,
+    \quad\dfrac{\mathrm{d}}{\mathrm{d} t}\left[\vec{r}_n(t)\right] = \vec{v}_n(t) \\\\
+  \dfrac{\mathrm{d}}{\mathrm{d} t} \left[\vec{v}_n(t)\right] = \dfrac{1}{m_n}\left(
+    \vec{F}_{\textnormal{ex}\left[n\right]}\left(t, \vec{r}_n(t), \vec{v\}_n(t)\right)
+      + \sum_m \vec{F}_{n m}\left(\vec{r}_n(t) - \vec{r}_m(t), \vec{v}_n(t) - \vec{v}_m(t)\right)\right)
 \end{gathered}
-\]</p>
-<p>其中 \( \vec{F}_{\textnormal{ex}\left[n\right]} \) 表示物体 n 所受合外力，
-\( \vec{F}_{n m} \) 表示物体 n 与物体 m 之间的内力，一般认为内力不会直接依赖于时间</p>
+</code></pre>
+<p>其中 <code>$\vec{F}_{\textnormal{ex}\left[n\right]}$</code> 表示物体 n 所受合外力，
+<code>$\vec{F}_{n m}$</code> 表示物体 n 与物体 m 之间的内力，一般认为内力不会直接依赖于时间</p>
 <p>我们可以复用在单体系统中定义的数值方法：</p>
 <pre><code class="language-rust">impl&lt;R: RealFloat + 'static, const E: usize&gt; ParticleSystem&lt;R, E&gt; {
     pub fn force_to_acceleration(

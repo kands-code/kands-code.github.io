@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -282,39 +325,39 @@
 <p>环，英文是 Ring，是数学上的一个结构，这个结构满足如下性质：</p>
 <ul>
 <li>
-<p>是一个集合，并且在这个集合上定义有两种运算，\( + \) 和 \( \times \)</p>
+<p>是一个集合，并且在这个集合上定义有两种运算，<code>$+$</code> 和 <code>$\times$</code></p>
 </li>
 <li>
-<p>在集合中，\( + \) 有么元，记为 \( 0 \)</p>
+<p>在集合中，<code>$+$</code> 有么元，记为 <code>$0$</code></p>
 </li>
 <li>
-<p>在集合中，每个元素 \( x \) 都有对应的 \( + \) 逆元，记为 \( \overline{x} \) 或 \( -x \)</p>
+<p>在集合中，每个元素 <code>$x$</code> 都有对应的 <code>$+$</code> 逆元，记为 <code>$\overline{x}$</code> 或 <code>$-x$</code></p>
 </li>
 <li>
-<p>在集合中，\( + \) 满足交换律，即对于集合元素 \( a \) 和 \( b \)</p>
-<p>满足 \( a + b = b + a \)</p>
+<p>在集合中，<code>$+$</code> 满足交换律，即对于集合元素 <code>$a$</code> 和 <code>$b$</code></p>
+<p>满足 <code>$a + b = b + a$</code></p>
 </li>
 <li>
-<p>在集合中，\( + \) 满足结合律，即对于集合元素 \( a \)，\( b \) 和 \( c \)</p>
-<p>满足 \( (a + b) + c = a + (b + c) \)</p>
+<p>在集合中，<code>$+$</code> 满足结合律，即对于集合元素 <code>$a$</code>，<code>$b$</code> 和 <code>$c$</code></p>
+<p>满足 <code>$(a + b) + c = a + (b + c)$</code></p>
 </li>
 <li>
-<p>在集合中，\( \times \) 有么元，记为 \( 1 \)</p>
+<p>在集合中，<code>$\times$</code> 有么元，记为 <code>$1$</code></p>
 </li>
 <li>
-<p>在集合中，\( \times \) 满足结合律，即对于集合元素 \( a \)，\( b \) 和 \( c \)</p>
-<p>满足 \( (a \times b) \times c = a \times (b \times c) \)</p>
+<p>在集合中，<code>$\times$</code> 满足结合律，即对于集合元素 <code>$a$</code>，<code>$b$</code> 和 <code>$c$</code></p>
+<p>满足 <code>$(a \times b) \times c = a \times (b \times c)$</code></p>
 </li>
 <li>
-<p>在集合中，\( + \) 和 \( \times \) 满足左分配律，即对于集合元素 \( a \)，\( b \) 和 \( c \)</p>
-<p>满足 \( a \times (b + c) = a \times b + a \times c \)</p>
+<p>在集合中，<code>$+$</code> 和 <code>$\times$</code> 满足左分配律，即对于集合元素 <code>$a$</code>，<code>$b$</code> 和 <code>$c$</code></p>
+<p>满足 <code>$a \times (b + c) = a \times b + a \times c$</code></p>
 </li>
 <li>
-<p>在集合中，\( + \) 和 \( \times \) 满足右分配律，即对于集合元素 \( a \)，\( b \) 和 \( c \)</p>
-<p>满足 \( (a + b) \times c = a \times c + b \times c \)</p>
+<p>在集合中，<code>$+$</code> 和 <code>$\times$</code> 满足右分配律，即对于集合元素 <code>$a$</code>，<code>$b$</code> 和 <code>$c$</code></p>
+<p>满足 <code>$(a + b) \times c = a \times c + b \times c$</code></p>
 </li>
 </ul>
-<p>我们可以来验证一下，一个最常见的环就是整数环 \( \mathbb{Z} \)，在 SageMath 中表示为 <code>ZZ</code>：</p>
+<p>我们可以来验证一下，一个最常见的环就是整数环 <code>$\mathbb{Z}$</code>，在 SageMath 中表示为 <code>ZZ</code>：</p>
 <pre><code class="language-python"># 定义整数环，并且定义整数环上的三个元素，a，b 和 c
 R = PolynomialRing(ZZ, "a, b, c")
 (a, b, c) = (R.gen(0), R.gen(1), R.gen(2))
@@ -340,12 +383,12 @@ assert(a * (b + c) == a * b + a * c)
 # 乘法有右分配律
 assert((a + b) * c == a * c + b * c)
 </code></pre>
-<p>此外还有例如有理数环 \( \mathbb{Q} \) 对应 <code>QQ</code>，实数环 \( \mathbb{R} \) 对应 <code>RR</code>，以及复数环 \( \mathbb{C} \) 对应 <code>CC</code></p>
-<p>但是对于这些常见的环，例如有理数环 \( \mathbb{Q} \)，我们有个更加熟悉的名称，那就是有理数域，这又是怎么回事呢？</p>
+<p>此外还有例如有理数环 <code>$\mathbb{Q}$</code> 对应 <code>QQ</code>，实数环 <code>$\mathbb{R}$</code> 对应 <code>RR</code>，以及复数环 <code>$\mathbb{C}$</code> 对应 <code>CC</code></p>
+<p>但是对于这些常见的环，例如有理数环 <code>$\mathbb{Q}$</code>，我们有个更加熟悉的名称，那就是有理数域，这又是怎么回事呢？</p>
 <p>域，对应英文 Field，也是数学上的一种结构，并且是 环 的一种特殊情况，域在满足环的所有特点的同时还满足：</p>
 <ul>
-<li>在集合上，除了 \( + \) 么元，即 \( 0 \)，外的任一元素 \( a \) 都有对应 \( \times \) 逆元，记作：\( \frac{1}{a} \)</li>
-<li>在集合上，\( \times \) 满足交换律，即对于集合元素 \( a \) 和 \( b \)，满足 \( a \times b = b \times a \)</li>
+<li>在集合上，除了 <code>$+$</code> 么元，即 <code>$0$</code>，外的任一元素 <code>$a$</code> 都有对应 <code>$\times$</code> 逆元，记作：<code>$\frac{1}{a}$</code></li>
+<li>在集合上，<code>$\times$</code> 满足交换律，即对于集合元素 <code>$a$</code> 和 <code>$b$</code>，满足 <code>$a \times b = b \times a$</code></li>
 </ul>
 <pre><code class="language-python"># 定义实数域元素，其中 a 和 b 属于实数域
 a, b = var("a, b", domain=RR)
@@ -363,7 +406,7 @@ realRing.&lt;z&gt; = PolynomialRing(RR)
 tuple(map(lambda x: factor(x^2 - 2), (t, z)))
 # =&gt; (t^2 - 2, (z - 1.41421356237310) * (z + 1.41421356237310))
 </code></pre>
-<p>可以发现，在有理数域上的变量 <code>t</code>，因为不包含无理数 \( \sqrt{2} \)，所以无法对 \( t^2 - 2 \) 进行因式分解，而实数 <code>z</code> 就可以</p>
+<p>可以发现，在有理数域上的变量 <code>t</code>，因为不包含无理数 <code>$\sqrt{2}$</code>，所以无法对 <code>$t^2 - 2$</code> 进行因式分解，而实数 <code>z</code> 就可以</p>
 <blockquote>
 <p>对于某些预定义名称，如果不小心覆盖了其定义，可以使用 <code>reset()</code> 函数复原，例如 <code>reset("ZZ")</code></p>
 </blockquote>
@@ -398,7 +441,7 @@ w = vector([1, 1, -4])
 #  Echelon basis matrix:
 #  [ 1  1 -4])
 </code></pre>
-<p>其中 <code>kernel()</code> 函数返回对应矩阵的 <strong>左核</strong>，即 \( w \cdot A = 0 \)</p>
+<p>其中 <code>kernel()</code> 函数返回对应矩阵的 <strong>左核</strong>，即 <code>$w \cdot A = 0$</code></p>
 <p>对于可以求解的矩阵，SageMath 会返回对应方程组的解，否则会返回一个错误：</p>
 <pre><code class="language-python">A = Matrix([[1, 2, 3], [3, 2, 1], [1, 1, 1]])
 Y = vector([0, -4, -1])
@@ -414,8 +457,8 @@ X
 #     [(-2*I, [(1, -0.50000000000000000?*I)], 1),
 #      (2*I, [(1, 0.50000000000000000?*I)], 1)])
 </code></pre>
-<p><code>eigenvectors_left()</code> 求解的是 \( w \cdot A = \lambda w \)，
-而 <code>eigenvectors_right()</code> 则是 \( A \cdot w = \lambda w \)</p>
+<p><code>eigenvectors_left()</code> 求解的是 <code>$w \cdot A = \lambda w$</code>，
+而 <code>eigenvectors_right()</code> 则是 <code>$A \cdot w = \lambda w$</code></p>
 <h3 id="矩阵定义"><a class="header" href="#矩阵定义">矩阵定义</a></h3>
 <p>矩阵也可以在定义时指定所属的环或者域，例如：</p>
 <pre><code class="language-python">AZ = matrix(ZZ, [[2, 0], [0, 1]])
@@ -431,7 +474,7 @@ AQ = matrix(QQ, [[2, 0], [0, 1]])
 </code></pre>
 <p>通常为了能够计算，并且计算结果，会将矩阵定义在 <code>RDF</code> 或者 <code>CDF</code> 上，即 <strong>实/复双精度域</strong></p>
 <h3 id="矩阵空间"><a class="header" href="#矩阵空间">矩阵空间</a></h3>
-<p>我们可以通过 <code>MatrixSpace()</code> 来定义矩阵空间，即所有满足某条件的矩阵构成的集合，例如 \( \mathrm{Mat}_{3 \times 3}(\mathbb{Q}) \)</p>
+<p>我们可以通过 <code>MatrixSpace()</code> 来定义矩阵空间，即所有满足某条件的矩阵构成的集合，例如 <code>$\mathrm{Mat}_{3 \times 3}(\mathbb{Q})$</code></p>
 <pre><code class="language-python">M = MatrixSpace(QQ, 3)
 M
 # =&gt; Full MatrixSpace of 3 by 3 dense matrices over Rational Field

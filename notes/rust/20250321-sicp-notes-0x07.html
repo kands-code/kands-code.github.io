@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -716,15 +759,14 @@ closure(5.0 * (-1.0), {x = 2.0, y = 3.0})
 <p>对于一个方程组，如果我们能将其写成 <code>&lt;var&gt; = &lt;expr&gt;</code> 的形式，
 那么就可以将 <code>&lt;expr&gt;</code> 看成是一个函数，或者说一个变换，
 而这组方程的解就是这个变换的 <a href="./20241105-sicp-notes-0x02.html#不动点">不动点</a>，例如：</p>
-<p>\[
-\begin{aligned}
+<pre><code class="language-math">\begin{aligned}
 x &amp;= 3 - y \\
 y &amp;= x - 1 \\
 \end{aligned}
-\]</p>
-<p>左边就可以看成是向量 \( \langle{}x, y\rangle{} \)，
-右边就可以看成是 \( \mathcal{T} \langle{}x, y\rangle{} \)，
-这个方程组的解就是 \( \mathcal{T} \) 的不动点</p>
+</code></pre>
+<p>左边就可以看成是向量 <code>$\langle{}x, y\rangle{}$</code>，
+右边就可以看成是 <code>$\mathcal{T} \langle{}x, y\rangle{}$</code>，
+这个方程组的解就是 <code>$\mathcal{T}$</code> 的不动点</p>
 <p>对于递归函数，我们完全可以将其视为求不动点的过程，例如幂函数：</p>
 <pre><code class="language-rust">fn expt(x: u64, n: u8) -&gt; u64 {
     if n == 0 { 1 } else { x * expt(x, n - 1) }
@@ -733,8 +775,8 @@ y &amp;= x - 1 \\
 <pre><code class="language-rust">fn fix(g: Box&lt;dyn Fn(u64, u8) -&gt; u64&gt;) -&gt; impl Fn(u64, u8) -&gt; u64 {
     move |x: u64, n: u8| -&gt; u64 { if n == 0 { 1 } else { x * g(x, n - 1) } }
 }</code></pre>
-<p>如果 <code>g</code> 是一个好的幂函数，那么 <code>g(x, n - 1)</code> 将返回 \( x^{n - 1} \) 的结果，
-然后乘上 <code>x</code>，返回 \( x^n \)，即 <code>f</code> 的返回结果将是一个好的幂函数</p>
+<p>如果 <code>g</code> 是一个好的幂函数，那么 <code>g(x, n - 1)</code> 将返回 <code>$x^{n - 1}$</code> 的结果，
+然后乘上 <code>x</code>，返回 <code>$x^n$</code>，即 <code>f</code> 的返回结果将是一个好的幂函数</p>
 <p>可以发现 <code>fix(Box::new(expt))</code> 与 <code>expt</code> 是等价的，
 <strong><code>expt</code> 是 <code>fix</code> 的一个不动点</strong></p>
 <h3 id="y-组合子"><a class="header" href="#y-组合子">Y 组合子</a></h3>
@@ -779,15 +821,14 @@ y &amp;= x - 1 \\
 <p>但并非所有函数都有其不动点，也就是并非所有函数都是有解的，
 所以我们不能随意地对任意无限过程命名，找到其不动点，
 因为这个不动点可能压根就不存在，例如：</p>
-<p>\[
-\begin{aligned}
-v  &amp;= 1 + 2 + 4 + \cdots + 2^n + \cdots \\
-v - 1 &amp;= 2 + 4 + 8 + \cdots + 2^n + 2^{n + 1} + \cdots \\
-\dfrac{v - 1}{2} &amp;= 1 + 2 + 4 + \cdots + 2^{n} + \cdots \\
-\therefore \quad &amp; \dfrac{v - 1}{2} = v \\
-\therefore \quad &amp; v = -1
+<pre><code class="language-math">\begin{aligned}
+  v  &amp;= 1 + 2 + 4 + \cdots + 2^n + \cdots \\
+  v - 1 &amp;= 2 + 4 + 8 + \cdots + 2^n + 2^{n + 1} + \cdots \\
+  \dfrac{v - 1}{2} &amp;= 1 + 2 + 4 + \cdots + 2^{n} + \cdots \\
+  \therefore \quad &amp; \dfrac{v - 1}{2} = v \\
+  \therefore \quad &amp; v = -1
 \end{aligned}
-\]</p>
+</code></pre>
 <p>很明显这个结论是错误的</p>
 <h2 id="lecture-7b"><a class="header" href="#lecture-7b">Lecture 7B</a></h2>
 <p>实现了求值器后，我们还需要想想该如何使用</p>
@@ -841,7 +882,7 @@ fn main() {
 <p>这将引入 <code>Cons</code> 类型，由于处理起来还算简单，这里就不做演示了</p>
 </blockquote>
 <h3 id="动态绑定"><a class="header" href="#动态绑定">动态绑定</a></h3>
-<p>有时候我们需要在定义 \( \lambda \)-表达式的时候引入自由变量，
+<p>有时候我们需要在定义 <code>$\lambda$</code>-表达式的时候引入自由变量，
 以支持不同环境下的函数支持，要实现这点非常简单，那就是使用动态绑定，
 自由变量的值不再由定义的时候自动捕获，而是在执行时动态从环境中查找，
 这个特性非常方便，但这样也会引入一个非常著名的 <em>Bug</em></p>

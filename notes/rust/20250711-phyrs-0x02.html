@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -278,22 +321,20 @@
 但更多的运动发生在三维空间，所以还是需要引入向量和矩阵</p>
 <h2 id="描述三维运动"><a class="header" href="#描述三维运动">描述三维运动</a></h2>
 <p>类似一维运动，三维运动也有位移，速度以及加速度，只是从一个标量变成了向量形式：</p>
-<p>\[
-\begin{gathered}
-\vec{r} = \left(x, y, z\right) = x \hat{i} + y \hat{j} + z \hat{k} \\
-\vec{v} = \left(v_x, v_y, v_z\right),\quad\vec{a} = \left(a_x, a_y, a_z\right)
+<pre><code class="language-math">\begin{gathered}
+  \vec{r} = \left(x, y, z\right) = x \hat{i} + y \hat{j} + z \hat{k} \\
+  \vec{v} = \left(v_x, v_y, v_z\right),\quad\vec{a} = \left(a_x, a_y, a_z\right)
 \end{gathered}
-\]</p>
-<p>其中 \( \hat{i} \)，\( \hat{j} \) 和 \( \hat{k} \) 分别为 x 轴，y 轴 和 z 轴对应的单位向量，
-并且对于 \( \vec{r} \) 和 \( \vec{v} \)，有：</p>
-<p>\[
-\vec{v} = \dfrac{\mathrm{d} \vec{r}}{\mathrm{d} t}
-= \left(\dfrac{\mathrm{d} x}{\mathrm{d} t},
-\dfrac{\mathrm{d} y}{\mathrm{d} t},
-\dfrac{\mathrm{d} z}{\mathrm{d} t}\right)
-= \left(v_x, v_y, v_z\right)
-\]</p>
-<p>\( \vec{v} \) 与 \( \vec{a} \) 同理，我们可以写出对应的向量求导方法：</p>
+</code></pre>
+<p>其中 <code>$\hat{i}$</code>，<code>$\hat{j}$</code> 和 <code>$\hat{k}$</code> 分别为 x 轴，y 轴 和 z 轴对应的单位向量，
+并且对于 <code>$\vec{r}$</code> 和 <code>$\vec{v}$</code>，有：</p>
+<pre><code class="language-math">\vec{v} = \dfrac{\mathrm{d} \vec{r}}{\mathrm{d} t}
+  = \left(\dfrac{\mathrm{d} x}{\mathrm{d} t},
+    \dfrac{\mathrm{d} y}{\mathrm{d} t},
+    \dfrac{\mathrm{d} z}{\mathrm{d} t}\right)
+  = \left(v_x, v_y, v_z\right)
+</code></pre>
+<p><code>$\vec{v}$</code> 与 <code>$\vec{a}$</code> 同理，我们可以写出对应的向量求导方法：</p>
 <pre><code class="language-rust">pub fn derivative_vec&lt;'a, R: RealFloat + 'a, const E: usize&gt;(
     f: Rc&lt;dyn Fn(R) -&gt; VectorC&lt;R, E&gt;&gt;,
     dx: R,
@@ -308,22 +349,20 @@
 </blockquote>
 <h3 id="加速度分量"><a class="header" href="#加速度分量">加速度分量</a></h3>
 <p>在研究运动的时候还需要考虑加速度和速度的方向问题，一般可以将加速度分成两个分量，
-即法向加速度 \( \vec{a}_\bot \) 和切向加速度 \( \vec{a}_\parallel \)：</p>
-<p>\[
-\begin{gathered}
-\vec{a} = \vec{a}_\bot + \vec{a}_\parallel \\\\
-\vec{a}_\bot \cdot \vec{a}_\parallel = 0,
-\quad\hat{a}_\parallel = \hat{v} \\\\
-\vec{a}_\parallel = \operatorname{Proj}_{\hat{v}} \vec{a},
-\quad\vec{a}_\bot = \vec{a} - \vec{a}_\parallel
+即法向加速度 <code>$\vec{a}_\bot$</code> 和切向加速度 <code>$\vec{a}_\parallel$</code>：</p>
+<pre><code class="language-math">\begin{gathered}
+  \vec{a} = \vec{a}_\bot + \vec{a}_\parallel \\\\
+  \vec{a}_\bot \cdot \vec{a}_\parallel = 0,
+    \quad\hat{a}_\parallel = \hat{v} \\\\
+  \vec{a}_\parallel = \operatorname{Proj}_{\hat{v}} \vec{a},
+    \quad\vec{a}_\bot = \vec{a} - \vec{a}_\parallel
 \end{gathered}
-\]</p>
-<p>其中 \( \hat{v} \) 表示 \( \vec{v} \) 方向上的单位向量，\( \operatorname{Proj} \) 表示向量投影操作，即：</p>
-<p>\[
-\operatorname{Proj}_{\vec{\alpha}} \vec{\beta}
-= \left(\vec{\beta} \cdot \hat{\alpha}\right) \hat{\alpha},
-\quad\hat{\alpha} = \dfrac{\vec{\alpha}}{\lVert\vec{\alpha}\rVert}
-\]</p>
+</code></pre>
+<p>其中 <code>$\hat{v}$</code> 表示 <code>$\vec{v}$</code> 方向上的单位向量，<code>$\operatorname{Proj}$</code> 表示向量投影操作，即：</p>
+<pre><code class="language-math">\operatorname{Proj}_{\vec{\alpha}} \vec{\beta}
+  = \left(\vec{\beta} \cdot \hat{\alpha}\right) \hat{\alpha},
+    \quad\hat{\alpha} = \dfrac{\vec{\alpha}}{\lVert\vec{\alpha}\rVert}
+</code></pre>
 <p>在 Rust 中可以使用如下方式实现：</p>
 <pre><code class="language-rust">pub fn parallel_acceleration&lt;R: RealFloat, const E: usize&gt;(
     acceleration: VectorC&lt;R, E&gt;,
@@ -339,29 +378,27 @@ pub fn perpendicular_acceleration&lt;R: RealFloat, const E: usize&gt;(
     acceleration.clone() - parallel_acceleration(acceleration, velocity)
 }</code></pre>
 <p>切向加速度表示速度大小变化快慢，法向加速度表示速度方向的变化：</p>
-<p>\[
-\begin{aligned}
-\dfrac{\mathrm{d} v}{\mathrm{d} t}
-&amp;= \dfrac{\mathrm{d}}{\mathrm{d} t} \sqrt{\vec{v} \cdot \vec{v}}
-= \dfrac{1}{2} \left(\vec{v} \cdot \vec{v}\right)^{-1/2}
-\dfrac{\mathrm{d}}{\mathrm{d} t}\left(\vec{v} \cdot \vec{v}\right) \\
-&amp;= \dfrac{1}{2 v} \dfrac{\mathrm{d}}{\mathrm{d} t}\left(v_x^2 + v_y^2 + v_z^2\right) \\
-&amp;= \dfrac{1}{2 v}\left(2 v_x a_x + 2 v_y a_y + 2 v_z a_z \right) \\
-&amp;= \vec{a} \cdot \dfrac{\vec{v}}{v} = \vec{a} \cdot \hat{v} = a_\parallel
+<pre><code class="language-math">\begin{aligned}
+  \dfrac{\mathrm{d} v}{\mathrm{d} t}
+    &amp;= \dfrac{\mathrm{d}}{\mathrm{d} t} \sqrt{\vec{v} \cdot \vec{v}}
+      = \dfrac{1}{2} \left(\vec{v} \cdot \vec{v}\right)^{-1/2}
+        \dfrac{\mathrm{d}}{\mathrm{d} t}\left(\vec{v} \cdot \vec{v}\right) \\
+    &amp;= \dfrac{1}{2 v} \dfrac{\mathrm{d}}{\mathrm{d} t}\left(v_x^2 + v_y^2 + v_z^2\right) \\
+    &amp;= \dfrac{1}{2 v}\left(2 v_x a_x + 2 v_y a_y + 2 v_z a_z \right) \\
+    &amp;= \vec{a} \cdot \dfrac{\vec{v}}{v} = \vec{a} \cdot \hat{v} = a_\parallel
 \end{aligned}
-\]</p>
-<p>其中 \( v = \lVert\vec{v}\rVert \)，\( a_\parallel = \lVert\vec{a}_\parallel\rVert \)</p>
+</code></pre>
+<p>其中 <code>$v = \lVert\vec{v}\rVert$</code>，<code>$a_\parallel = \lVert\vec{a}_\parallel\rVert$</code></p>
 <h3 id="曲率半径"><a class="header" href="#曲率半径">曲率半径</a></h3>
-<p>如果物体的法向加速度 \( \vec{a}_\bot \neq \vec{0} \)，那么物体将做曲线运动，
+<p>如果物体的法向加速度 <code>$\vec{a}_\bot \neq \vec{0}$</code>，那么物体将做曲线运动，
 其每一时刻的运动轨迹会有一个圆与之对应，这个圆的半径被称为曲率半径，
 可以用如下公式表示：</p>
-<p>\[
-\begin{gathered}
-(v \Delta t)^2 + (R - \dfrac{1}{2} a_\bot \Delta t^2)^2 = R^2 \\
-R = \lim_{\Delta t \to 0} \dfrac{v^2 \Delta t^2 - \dfrac{1}{4} a_\bot^2 \Delta t^4}{a_\bot \Delta t^2}
-= \dfrac{v^2}{a_\bot}
+<pre><code class="language-math">\begin{gathered}
+  (v \Delta t)^2 + (R - \dfrac{1}{2} a_\bot \Delta t^2)^2 = R^2\\
+  R = \lim_{\Delta t \to 0} \dfrac{v^2 \Delta t^2 - \dfrac{1}{4} a_\bot^2 \Delta t^4}{a_\bot \Delta t^2}
+    = \dfrac{v^2}{a_\bot}
 \end{gathered}
-\]</p>
+</code></pre>
 <p>使用 Rust 可以表示为：</p>
 <pre><code class="language-rust">pub fn radius_of_curvature&lt;R: RealFloat, const E: usize&gt;(
     velocity: &amp;VectorC&lt;R, E&gt;,
@@ -372,32 +409,29 @@ R = \lim_{\Delta t \to 0} \dfrac{v^2 \Delta t^2 - \dfrac{1}{4} a_\bot^2 \Delta t
 }</code></pre>
 <h2 id="抛体运动"><a class="header" href="#抛体运动">抛体运动</a></h2>
 <p>抛体运动是一种常见的运动形式，按照抛出物体的角度，可以分为平抛，斜抛以及上抛</p>
-<p>这里假设重力加速度 \( g = \pi^2 \)，重力一般表示为 \( G = m g \)，其中 \( m \) 是物体质量</p>
+<p>这里假设重力加速度 <code>$g = \pi^2$</code>，重力一般表示为 <code>$G = m g$</code>，其中 <code>$m$</code> 是物体质量</p>
 <p>其实重力是地球对于地表物体的引力以及离心力<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>的合力，但大部分情况下可以忽略离心力</p>
 <p>一般而言，对于抛体运动，物体只考虑重力以及空气阻力：</p>
-<p>\[
-\begin{gathered}
-\vec{F}_{\textnormal{total}} = \vec{G} + \vec{f} \
-\vec{G} = m \vec{g},\quad\vec{f} = -\alpha v \hat{v}
+<pre><code class="language-math">\begin{gathered}
+  \vec{F}_{\textnormal{total}} = \vec{G} + \vec{f} \\
+  \vec{G} = m \vec{g},\quad\vec{f} = -\alpha v \hat{v}
 \end{gathered}
-\]</p>
-<p>其中 \( \vec{f} \) 是通常低速的空气阻力的表达式，
-\( \alpha \) 表示空气阻力系数，\( \alpha \gt 0 \)</p>
+</code></pre>
+<p>其中 <code>$\vec{f}$</code> 是通常低速的空气阻力的表达式，
+<code>$\alpha$</code> 表示空气阻力系数，<code>$\alpha \gt 0$</code></p>
 <p>所以抛体运动中物体随时间的位移函数为：</p>
-<p>\[
-\vec{r} = \vec{r}_0 + \vec{v}_0 t
-+ \dfrac{1}{2} \dfrac{\vec{F}_{\textnormal{total}}}{m} t^2
-\]</p>
+<pre><code class="language-math">\vec{r} = \vec{r}_0 + \vec{v}_0 t
+  + \dfrac{1}{2} \dfrac{\vec{F}_{\textnormal{total}}}{m} t^2
+</code></pre>
 <p>如果忽略空气阻力，则有：</p>
-<p>\[
-\begin{gathered}
-\vec{r} = \vec{r}_0 + \vec{v}_0 t + \dfrac{1}{2} \vec{g} t^2 \\
-\vec{v} = \vec{v}_0 + \vec{g} t,\quad\vec{a} = \vec{g}
+<pre><code class="language-math">\begin{gathered}
+  \vec{r} = \vec{r}_0 + \vec{v}_0 t + \dfrac{1}{2} \vec{g} t^2 \\
+  \vec{v} = \vec{v}_0 + \vec{g} t,\quad\vec{a} = \vec{g}
 \end{gathered}
-\]</p>
+</code></pre>
 <p>以物体起点为原点建立直角坐标系，y 轴对应物体高度，x 轴对应物体抛出水平距离，
-假设抛出速度大小为 \( v_x = 3.2\,\mathrm{m/s} \)，\( v_y = 9.6\,\mathrm{m/s} \)，
-设空气阻力系数 \( \alpha = 0.5 \)，则物体的运动轨迹图为：</p>
+假设抛出速度大小为 <code>$v_x = 3.2 \,\mathrm{m/s}$</code>，<code>$v_y = 9.6 \,\mathrm{m/s}$</code>，
+设空气阻力系数 <code>$\alpha = 0.5$</code>，则物体的运动轨迹图为：</p>
 <div class="center-box">
   <img src="../../assets/phyrs-0x02-pic01.webp" loading="lazy" decoding="async" width="64%" alt="抛物运动轨迹图">
 </div>
@@ -410,11 +444,10 @@ R = \lim_{\Delta t \to 0} \dfrac{v^2 \Delta t^2 - \dfrac{1}{4} a_\bot^2 \Delta t
 <h3 id="牛顿第二定律"><a class="header" href="#牛顿第二定律">牛顿第二定律</a></h3>
 <p>牛顿第二定律定量描述了物体运动改变与受力的关系，是牛顿三定律中最为重要的定律</p>
 <p>牛顿第二定律使用公式可以表示为：</p>
-<p>\[
-\vec{F}_{\textnormal{total}} = \dfrac{\mathrm{d}\vec{p}}{\mathrm{d} t},
-\quad\vec{p} = m \vec{v}
-\]</p>
-<p>其中 \( \vec{p} \) 是物体的动量，或者可以写为 \( \vec{F} = m \vec{a} \)</p>
+<pre><code class="language-math">\vec{F}_{\textnormal{total}} = \dfrac{\mathrm{d}\vec{p}}{\mathrm{d} t},
+  \quad\vec{p} = m \vec{v}
+</code></pre>
+<p>其中 <code>$\vec{p}$</code> 是物体的动量，或者可以写为 <code>$\vec{F} = m \vec{a}$</code></p>
 <p>根据合外力的依赖，我们需要选择不同的方法去求解方程：</p>
 <div class="table-wrapper">
 <table>
@@ -431,22 +464,20 @@ R = \lim_{\Delta t \to 0} \dfrac{v^2 \Delta t^2 - \dfrac{1}{4} a_\bot^2 \Delta t
 </table>
 </div>
 <p>对于恒力，即力不依赖于任何其他变量，
-物体的速度可以简单表示为 \( \vec{v} = \vec{v}_0 + \vec{F} t / m \)，
+物体的速度可以简单表示为 <code>$\vec{v} = \vec{v}_0 + \vec{F} t / m$</code>，
 如果力依赖于时间，那么加速度也将依赖于时间，
-此时速度不能简单地使用 \( \vec{v} = \vec{v}_0 + \vec{a} t \) 表示，而是：</p>
-<p>\[
-\vec{v} = \vec{v}_0 + \int{\vec{a}} \mathrm{d} t
-= \vec{v}_0 + \dfrac{1}{m} \int{\vec{F}} \mathrm{d} t
-\]</p>
-<p>例如，对于一个自行车，人和车总重 \( 50\,\mathrm{kg} \)，忽略其他阻力，其受力可以表示为：</p>
-<p>\[
-F(t) = \begin{cases}
-32\,\mathrm{N}
-&amp;(20\,\mathrm{s}) n \le t \lt (20\,\mathrm{s}) n + 10\,\mathrm{s},
-\,n\in \mathbb{N} \\
-0\,\mathrm{N} &amp;\textnormal{otherwise}
+此时速度不能简单地使用 <code>$\vec{v} = \vec{v}_0 + \vec{a} t$</code> 表示，而是：</p>
+<pre><code class="language-math">\vec{v} = \vec{v}_0 + \int{\vec{a}} \mathrm{d} t
+  = \vec{v}_0 + \dfrac{1}{m} \int{\vec{F}} \mathrm{d} t
+</code></pre>
+<p>例如，对于一个自行车，人和车总重 <code>$50 \,\mathrm{kg}$</code>，忽略其他阻力，其受力可以表示为：</p>
+<pre><code class="language-math">F(t) = \begin{cases}
+  32 \,\mathrm{N}
+    &amp;(20 \,\mathrm{s}) n \le t \lt (20 \,\mathrm{s}) n + 10 \,\mathrm{s},
+        \,n\in \mathbb{N} \\
+  0 \,\mathrm{N} &amp;\textnormal{otherwise}
 \end{cases}
-\]</p>
+</code></pre>
 <p>那么使用 Rust 可以表示为：</p>
 <pre><code class="language-rust">use std::rc::Rc;
 
@@ -541,7 +572,7 @@ fn run() -&gt; Option&lt;()&gt; {
 
     Some(())
 }</code></pre>
-<p>可以得到前 \( 40\,\mathrm{s} \) 的运动图像：</p>
+<p>可以得到前 <code>$40 \,\mathrm{s}$</code> 的运动图像：</p>
 <div class="center-box">
   <img src="../../assets/phyrs-0x02-pic02.png" width="64%" alt="变力时间位移图">
 </div>

@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html
   lang="zh-Hans"
   class="rust sidebar-visible"
@@ -9,6 +11,52 @@
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+
+    <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof katex === 'undefined') {
+          console.error("KaTeX failed to load!");
+          return;
+        }
+    
+        var codes = document.querySelectorAll("code");
+        codes.forEach(function (code) {
+          // 行间公式 ```math ```
+          if (code.classList.contains("language-math")) {
+            var pre = code.parentNode;
+            if (pre.tagName === 'PRE') {
+              var div = document.createElement("div");
+              div.className = "math-block";
+              div.style.overflowX = "auto";
+              div.style.margin = "1em 0";
+              try {
+                katex.render(code.textContent, div, {
+                  displayMode: true,
+                  throwOnError: false
+                });
+                pre.parentNode.replaceChild(div, pre);
+              } catch (e) { console.error(e); }
+            }
+          }
+          // 行内公式 `$...$`
+          else if (/^\$.*\$$/.test(code.textContent)) {
+            var rawTex = code.textContent.slice(1, -1);
+            var span = document.createElement("span");
+            span.className = "math-inline";
+            try {
+              katex.render(rawTex, span, {
+                displayMode: false,
+                throwOnError: false
+              });
+              code.parentNode.replaceChild(span, code);
+            } catch (e) { console.error(e); }
+          }
+        });
+      });
+    </script>
 
       <link rel="icon" href="../../favicon-afa3a202.svg" />
       <link rel="shortcut icon" href="../../favicon-41742578.png" />
@@ -36,10 +84,6 @@
 
       <link rel="stylesheet" href="../../theme/utils-60b669e3.css" />
 
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
 
     <script>
       // 获取 root 路径
@@ -49,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-cdd6c7ef.js";
+        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
     </script>
     <script src="../../toc-9d68f5d5.js"></script>
   </head>
@@ -229,7 +273,6 @@
                 >
                   <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                 </a>
-
             </div>
           </div>
             <div id="mdbook-search-wrapper" class="hidden">
@@ -282,25 +325,24 @@
 <p>我们现在考虑一个双星问题，比如地月系统，
 忽略地球自转和公转以及月球自转，月球围绕地球做卫星运动</p>
 <p>卫星运动中，两颗星体间的引力充当向心力</p>
-<p>实际上，地球和月球都在以近似相同的角速度 \( \omega \) 围绕一个地月之间的“质心”运动：</p>
-<p>\[
-\begin{gathered}
+<p>实际上，地球和月球都在以近似相同的角速度 <code>$\omega$</code> 围绕一个地月之间的“质心”运动：</p>
+<pre><code class="language-math">\begin{gathered}
 M_\textnormal{moon} \omega^2 R_\textnormal{moon}
-= \dfrac{G M_\textnormal{moon} M_\textnormal{earth}}{(R_\textnormal{moon} + R_\textnormal{earth})^2}
-= M_\textnormal{earth} \omega^2 R_\textnormal{earth} \\\\
-\dfrac{R_\textnormal{earth}}{R_\textnormal{moon}}
-= \dfrac{M_\textnormal{moon}}{M_\textnormal{earth}}
+    = \dfrac{G M_\textnormal{moon} M_\textnormal{earth}}{(R_\textnormal{moon} + R_\textnormal{earth})^2}
+    = M_\textnormal{earth} \omega^2 R_\textnormal{earth} \\\\
+    \dfrac{R_\textnormal{earth}}{R_\textnormal{moon}}
+    = \dfrac{M_\textnormal{moon}}{M_\textnormal{earth}}
 \end{gathered}
-\]</p>
+</code></pre>
 <p>离质心的距离与星体质量成反比，所以地球与质心的距离在地月系统中可以忽略不计，
 即可以近似为月球围绕地球做圆周运动</p>
 <p>不过实际的卫星运动的轨迹并不是一个完美的圆形，而是椭圆，由开普勒定律描述，
 而较大的星体位于椭圆轨迹的焦点处</p>
-<p>例如哈雷彗星，公转周期约 75 年，质量约为 \( 2.2 \times 10^{14}\,\mathrm{kg} \)，电荷量近似为零，
-设哈雷彗星距离太阳最近的位置为 \( \left(-8.766 \times 10^{10}\,\mathrm{m}, 0\right) \)，
-此时速度为 \( \left(0, 54569\,\mathrm{m/s}\right) \)<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
-<p>太阳质量约为 \( 1.98848 \times 10^{30}\,\mathrm{kg} \)，
-万有引力常数约为 \( G = 6.67408 \times 10^{-11}\,\mathrm{m^3 kg^{-1} s^{-2}} \)，则可以有：</p>
+<p>例如哈雷彗星，公转周期约 75 年，质量约为 <code>$2.2 \times 10^{14} \,\mathrm{kg}$</code>，电荷量近似为零，
+设哈雷彗星距离太阳最近的位置为 <code>$\left(-8.766 \times 10^{10} \,\mathrm{m}, 0\right)$</code>，
+此时速度为 <code>$\left(0, 54569 \,\mathrm{m/s}\right)$</code><sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
+<p>太阳质量约为 <code>$1.98848 \times 10^{30} \,\mathrm{kg}$</code>，
+万有引力常数约为 <code>$G = 6.67408 \times 10^{-11} \,\mathrm{m^3 kg^{-1} s^{-2}}$</code>，则可以有：</p>
 <pre><code class="language-rust">use std::{fs::File, io::Write, rc::Rc};
 
 use phyrs::newton::particle::Particle;
@@ -433,12 +475,11 @@ fn run() -&gt; Option&lt;()&gt; {
   <img src="../../assets/phyrs-0x04-pic01.webp" loading="lazy" decoding="async" width="64%" alt="哈雷彗星轨迹图">
 </div>
 
-<p>其中通过状态模拟得到的哈雷彗星的周期约是 \( 74.5 \) 年，与实际结果还是很接近的</p>
+<p>其中通过状态模拟得到的哈雷彗星的周期约是 <code>$74.5$</code> 年，与实际结果还是很接近的</p>
 <h2 id="磁场中的质子"><a class="header" href="#磁场中的质子">磁场中的质子</a></h2>
 <p>磁场是高能粒子实验的常客，遵循的定律是洛伦兹定律：</p>
-<p>\[
-\vec{F}_\textnormal{Lorentz} = q \left[\vec{E} + \vec{v}(t) \times \vec{B}\right]
-\]</p>
+<pre><code class="language-math">\vec{F}_\textnormal{Lorentz} = q \left[\vec{E} + \vec{v}(t) \times \vec{B}\right]
+</code></pre>
 <p>带电粒子在均匀磁场中会做圆周运动或螺旋运动，我们可以用数值方法验证这一点：</p>
 <pre><code class="language-rust">use std::rc::Rc;
 
@@ -557,35 +598,30 @@ fn run() -&gt; Option&lt;()&gt; {
 <p>在牛顿力学之上，我们有了一个能更加准确描述我们的世界的工具，那就是狭义相对论</p>
 <p>狭义相对论中，力的性质是没有太大变化的，
 一个物体所的合力仍然是作用在该物体上的所有力的矢量之和：</p>
-<p>\[
-\vec{F}_\textnormal{net}(t, \vec{r}(t), \vec{v}(t))
-= \sum_j \vec{F}_j(t, \vec{r}(t), \vec{v}(t))
-\]</p>
+<pre><code class="language-math">\vec{F}_\textnormal{net}(t, \vec{r}(t), \vec{v}(t))
+  = \sum_j \vec{F}_j(t, \vec{r}(t), \vec{v}(t))
+</code></pre>
 <p>但是对于牛顿第二定律，我们不使用加速度描述，而是使用物体的动量：</p>
-<p>\[
-\begin{gathered}
-\vec{F}_\textnormal{net}(t, \vec{r}(t), \vec{v}(t))
-= \dfrac{\mathrm{d} \vec{p}(t)}{\mathrm{d} t} \\\\
-\vec{p}(t) = \dfrac{m \vec{v}(t)}{
-\sqrt{1 - \dfrac{\lVert\vec{v}(t)\rVert^2}{\mathbf{c}^2}}}
+<pre><code class="language-math">\begin{gathered}
+  \vec{F}_\textnormal{net}(t, \vec{r}(t), \vec{v}(t))
+    = \dfrac{\mathrm{d} \vec{p}(t)}{\mathrm{d} t} \\\\
+  \vec{p}(t) = \dfrac{m \vec{v}(t)}{
+    \sqrt{1 - \dfrac{\lVert\vec{v}(t)\rVert^2}{\mathbf{c}^2}}}
 \end{gathered}
-\]</p>
-<p>其中 \( \mathbf{c} = 299792458\,\mathrm{m/s} \) 是真空光速</p>
+</code></pre>
+<p>其中 <code>$\mathbf{c} = 299792458 \,\mathrm{m/s}$</code> 是真空光速</p>
 <p>我们可以用动量来表示速度：</p>
-<p>\[
-\vec{v}(t) = \dfrac{\vec{p}(t)}{\sqrt{
-m^2 + \dfrac{\lVert\vec{p}(t)\rVert^2}{\mathbf{c}^2}}}
-\]</p>
+<pre><code class="language-math">\vec{v}(t) = \dfrac{\vec{p}(t)}{\sqrt{m^2 + \dfrac{\lVert\vec{p}(t)\rVert^2}{\mathbf{c}^2}}}
+</code></pre>
 <p>不过加速度依旧是速度对时间的导数，所以可以得到：</p>
-<p>\[
-\dfrac{\mathrm{d} \vec{v}(t)}{\mathrm{d} t}
-= \sqrt{1 - \dfrac{\lVert\vec{v}(t)\rVert^2}{\mathbf{c}^2}}
-\left[
-\dfrac{\vec{F}_\textnormal{net}(t, \vec{r}(t), \vec{v}(t))}{m}
-- \left(\dfrac{\vec{F}_\textnormal{net}(t, \vec{r}(t), \vec{v}(t))}{m}
-\cdot \dfrac{\vec{v}}{\mathbf{c}}\right)\dfrac{\vec{v}}{\mathbf{c}}
-\right]
-\]</p>
+<pre><code class="language-math">\dfrac{\mathrm{d} \vec{v}(t)}{\mathrm{d} t}
+  = \sqrt{1 - \dfrac{\lVert\vec{v}(t)\rVert^2}{\mathbf{c}^2}}
+    \left[
+      \dfrac{\vec{F}_\textnormal{net}(t, \vec{r}(t), \vec{v}(t))}{m}
+        - \left(\dfrac{\vec{F}_\textnormal{net}(t, \vec{r}(t), \vec{v}(t))}{m}
+        \cdot \dfrac{\vec{v}}{\mathbf{c}}\right)\dfrac{\vec{v}}{\mathbf{c}}
+    \right]
+</code></pre>
 <p>如果物体速度远小于光速，这个式子可以被化简为牛顿第二定律的形式，
 也就是说，对于低速物体，牛顿定律依旧是适用的</p>
 <p>狭义相对论的公式可以表示为：</p>
@@ -849,18 +885,17 @@ fn run() -&gt; Option&lt;()&gt; {
 
     Some(())
 }</code></pre>
-<p>其中，初速度为 x 轴方向 \( \dfrac{\sqrt{3}}{2} \mathbf{c} \)，
-磁场强度为 \( 1\,\mathrm{T} \)，得到的图像为：</p>
+<p>其中，初速度为 x 轴方向 <code>$\dfrac{\sqrt{3}}{2} \mathbf{c}$</code>，
+磁场强度为 <code>$1 \,\mathrm{T}$</code>，得到的图像为：</p>
 <div class="center-box">
   <img src="../../assets/phyrs-0x04-pic04.png" width="64%" alt="相对论与牛顿磁场对比">
 </div>
 
 <p>可以看见，狭义相对论中质子运动轨迹的半径要比牛顿力学重点轨迹半径要更大，
 这个差距来源于动量的定义，具体来说，狭义相对论的半径是牛顿力学半径的比例为：</p>
-<p>\[
-\dfrac{R_\textnormal{relativity}}{R_\textnormal{newton}}
-= \dfrac{1}{\sqrt{1 - \dfrac{\lVert\vec{v}\rVert^2}{\mathbf{c}^2}}}
-\]</p>
+<pre><code class="language-math">\dfrac{R_\textnormal{relativity}}{R_\textnormal{newton}}
+  = \dfrac{1}{\sqrt{1 - \dfrac{\lVert\vec{v}\rVert^2}{\mathbf{c}^2}}}
+</code></pre>
 <p>这个因子就是所谓的洛伦兹因子，这个现象被称为尺缩效应<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup></p>
 <hr>
 <p>不得不说，<strong>plotters</strong> 画图是真的麻烦，特别是三维图和动图</p>
