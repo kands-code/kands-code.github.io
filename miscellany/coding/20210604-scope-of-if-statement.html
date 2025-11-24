@@ -42,7 +42,7 @@
             }
           }
           // 行内公式 `$...$`
-          else if (/^\$.*\$$/.test(code.textContent)) {
+          else if (/^\$.+?\$$/.test(code.textContent)) {
             var rawTex = code.textContent.slice(1, -1);
             var span = document.createElement("span");
             span.className = "math-inline";
@@ -93,9 +93,9 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
+        window.path_to_searchindex_js = "../../searchindex-ec233cf3.js";
     </script>
-    <script src="../../toc-9d68f5d5.js"></script>
+    <script src="../../toc-30345fcb.js"></script>
   </head>
   <body>
     <div id="mdbook-help-container">
@@ -409,7 +409,7 @@ c* = t = 99
 <hr>
 <ol class="footnote-definition">
 <li id="footnote-1">
-<p>谭浩强所著的 C 语言教材多以这类不规范的代码书写，经常有初学者出现一个程序 999<strong>error</strong>的事迹， 因此得名 <a href="#fr-1-1">↩</a></p>
+<p>谭浩强所著的 C 语言教材多以这类不规范的代码书写，经常有初学者出现一个程序 <strong><em>999 error</em></strong> 的事迹， 因此得名 <a href="#fr-1-1">↩</a></p>
 </li>
 <li id="footnote-2">
 <p>参考网站，<a href="https://en.cppreference.com/w/c/language/scope">cppreference</a> <a href="#fr-2-1">↩</a></p>

@@ -6,7 +6,7 @@
   dir="ltr"
 >
   <head>
-    <title>SICP 笔记 - ex02 - Kevin Stephen&#x27;s Blogs</title>
+    <title>在 mdBook 中使用 KaTeX 渲染公式 - Kevin Stephen&#x27;s Blogs</title>
     <meta charset="UTF-8" />
     <meta name="description" content="找到属于自己的光" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -266,7 +266,7 @@
                   <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                 </a>
                 <a
-                  href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/notes/rust/20251109-sicp-notes-ex02.md"
+                  href="https://github.com/kands-code/kands-code.github.io/edit/repo-src/src/src/miscellany/coding/20251124-use-katex-in-mdbook.md"
                   title="Suggest an edit"
                   aria-label="Suggest an edit"
                   rel="edit"
@@ -312,272 +312,104 @@
             });
           </script>
           <div id="mdbook-content" class="content">
-            <main><h1 id="sicp-笔记---ex02"><a class="header" href="#sicp-笔记---ex02">SICP 笔记 - ex02</a></h1>
-<p class="archive-time">archive time: 2025-11-09</p>
+            <main><h1 id="在-mdbook-中使用-katex-渲染公式"><a class="header" href="#在-mdbook-中使用-katex-渲染公式">在 mdBook 中使用 KaTeX 渲染公式</a></h1>
+<p class="archive-time">archive time: 2025-11-24</p>
 
-<p class="sp-comment">做一些补充内容吧</p>
+<p class="sp-comment">现在 mdBook 可以不使用插件了</p>
 
-<h2 id="番外补"><a class="header" href="#番外补">番外（补）</a></h2>
-<p>好久没有更新博客了，心血来潮更新一篇番外</p>
-<p>这篇番外还是延续上一个番外的内容，即补充一点 KSL 现在的内容</p>
-<h3 id="ksl-的现状"><a class="header" href="#ksl-的现状">KSL 的现状</a></h3>
-<p>目前 KSL 经过陆陆续续的完善，我可以说，KSL 已经是一门能用的玩具语言了</p>
-<p>特别是在添加了 <code>UDPSocket</code> 的支持后，KSL 已经是可以做到很多有趣的事情了</p>
-<p>而且由于 Rust 出色的跨平台支持，KSL 也能在手机上使用，大大增加了 KSL 的可玩性</p>
-<p>不过问题还是有不少的，比如性能，比如迟迟未实现的 IR 生成</p>
-<h2 id="repl"><a class="header" href="#repl">REPL</a></h2>
-<p>KSL 的体积对比之前的版本已经膨胀了三四倍<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>，
-主要是使用了 <em>Clap</em><sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup> 支持命令行参数，以及使用了 <em>Reedline</em><sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup> 作为 REPL 支持</p>
-<h3 id="语法高亮"><a class="header" href="#语法高亮">语法高亮</a></h3>
-<p>Reedline 支持自定义语法高亮，这给了我很大的便利，我可以基于 KSL 生成的 Token 来生成语法高亮，
-并且如果我的 Token 规则改了，那么高亮也会一起修改，非常省心</p>
-<pre><code class="language-rust">struct KSLHighlighter {
-    bif: nu_ansi_term::Style,
-    symbol: nu_ansi_term::Style,
-    atom: nu_ansi_term::Style,
-    constant: nu_ansi_term::Style,
-    string: nu_ansi_term::Style,
-    chr: nu_ansi_term::Style,
-    number: nu_ansi_term::Style,
-    normal: nu_ansi_term::Style,
-}
+<h2 id="缘起"><a class="header" href="#缘起">缘起</a></h2>
+<p>在 <code>0.4.x</code> 版本时，mdBook 有一个非常好用的插件，叫做 <strong><em>mdbook-katex</em></strong>，
+通过这个插件，设置好公式起始符号，就可以像 <strong>正常</strong> Markdown 一样，
+使用 <code>$</code> 以及 <code>$$</code> 来书写公式了</p>
+<p>同时，mdBook 还没有内置的章节目录，所以还需要使用 <strong><em>mdbook-toc</em></strong> 来生成目录，方便阅读</p>
+<p>但是这在 mdBook 更新到 <code>0.5.0</code> 后就改变了</p>
+<p>在 <code>0.5.0</code> 版本，mdBook 支持了内置目录，虽然有 <a href="https://github.com/rust-lang/mdBook/issues/2944">Bug</a>，
+但很快就在 <code>0.5.1</code> 版本中修复，这个新目录虽然不太完美，但是对我而言够用了，而 <strong><em>mdbook-toc</em></strong> 插件不再是必需品</p>
+<p>另外一个则是 <strong><em>mdbook-katex</em></strong> 插件，这个插件已经很久没更新了，
+之前一直靠着 <code>0.4.x</code> 的兼容性，勉强能够使用，但是在更新到 <code>0.5.0</code> 后就<a href="https://github.com/lzanini/mdbook-katex/issues/130">不再兼容</a></p>
+<p>更加糟糕的是 <strong><em>mdbook-katex</em></strong> 插件作者的维护意愿，导致我不得不放弃使用这个插件，
+但是如果要完全转向 mdBook 支持的 MathJaX，那简直是地狱，需要数不清的转义符号才能让一个稍微复杂一点的物理公式正常渲染，
+然后我就在 mdBook 的 issue 评论中看到了<a href="https://github.com/rust-lang/mdBook/issues/1402#issuecomment-747023782">这么一条回复</a></p>
+<h2 id="解决方案"><a class="header" href="#解决方案">解决方案</a></h2>
+<p>具体来说，可以使用代码来包裹公式，然后在渲染公式时从代码内容中选出真正的公式来渲染即可：</p>
+<pre><code class="language-html">&lt;!-- head.hbs --&gt;
+&lt;!-- KaTeX --&gt;
+&lt;link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css" /&gt;
+&lt;script defer src="https://unpkg.com/katex@0/dist/katex.min.js"&gt;&lt;/script&gt;
 
-impl Default for KSLHighlighter {
-    fn default() -&gt; Self {
-        KSLHighlighter {
-            bif: nu_ansi_term::Color::Default.bold().italic(),
-            symbol: nu_ansi_term::Color::Yellow.normal(),
-            atom: nu_ansi_term::Color::Red.normal(),
-            constant: nu_ansi_term::Color::LightRed.bold().italic(),
-            string: nu_ansi_term::Color::LightGreen.normal(),
-            chr: nu_ansi_term::Color::Purple.normal().italic(),
-            number: nu_ansi_term::Color::Cyan.bold(),
-            normal: nu_ansi_term::Color::DarkGray.normal(),
-        }
+&lt;!-- KaTeX 渲染 --&gt;
+&lt;script&gt;
+  document.addEventListener("DOMContentLoaded", function () {
+    if (typeof katex === "undefined") {
+      console.error("KaTeX failed to load!");
+      return;
     }
-}
 
-fn convert_pos_to_chr_index(full_text: &amp;str, line_num: usize, col_num: usize, line_starts: &amp;[usize]) -&gt; Option&lt;usize&gt; {
-    if line_num == 0 || col_num == 0 {
-        return None;
-    }
-    let line_start_byte = *line_starts.get(line_num - 1)?;
-    let line_content = full_text.get(line_start_byte..)?.lines().next()?;
-    match line_content.char_indices().nth(col_num - 1) {
-        Some((col_byte_offset, _)) =&gt; Some(line_start_byte + col_byte_offset),
-        None =&gt; Some(line_start_byte + line_content.len()),
-    }
-}
-
-impl reedline::Highlighter for KSLHighlighter {
-    fn highlight(&amp;self, line: &amp;str, _cursor: usize) -&gt; reedline::StyledText {
-        let mut st = reedline::StyledText::new();
-        if line.is_empty() {
-            return st;
+    var codes = document.querySelectorAll("code");
+    codes.forEach(function (code) {
+      // 行间公式 ```math ```
+      if (code.classList.contains("language-math")) {
+        var pre = code.parentNode;
+        if (pre.tagName === "PRE") {
+          var div = document.createElement("div");
+          div.className = "math-block";
+          div.style.overflowX = "auto";
+          div.style.margin = "1em 0";
+          try {
+            katex.render(code.textContent, div, {
+              displayMode: true,
+              throwOnError: false,
+            });
+            pre.parentNode.replaceChild(div, pre);
+          } catch (e) {
+            console.error(e);
+          }
         }
-
-        let line_starts: Vec&lt;usize&gt; = std::iter::once(0)
-            .chain(line.match_indices('\n').map(|(i, _)| i + 1))
-            .collect();
-
-        match source_to_token(line) {
-            Ok(toks) =&gt; {
-                let mut last_pos = 0;
-
-                for tok in toks {
-                    let (start_line, start_col) = tok.position.0;
-                    let (end_line, end_col) = tok.position.1;
-
-                    let start_byte = match convert_pos_to_chr_index(line, start_line, start_col, &amp;line_starts) {
-                        Some(b) =&gt; b,
-                        None =&gt; continue,
-                    };
-                    let end_char_byte = match convert_pos_to_chr_index(line, end_line, end_col, &amp;line_starts) {
-                        Some(b) =&gt; b,
-                        None =&gt; continue,
-                    };
-
-                    let end_byte = end_char_byte
-                        + line
-                            .get(end_char_byte..)
-                            .and_then(|s| s.chars().next())
-                            .map_or(0, |c| c.len_utf8());
-
-                    if last_pos &lt; start_byte {
-                        st.push((self.normal, String::from(&amp;line[last_pos..start_byte])));
-                    }
-
-                    let style = match &amp;tok.value {
-                        TokenType::Symbol(sym) =&gt; {
-                            if BUILTIN_FUNCTIONS.contains(&amp;sym.iter().collect::&lt;String&gt;().as_str()) {
-                                self.bif
-                            } else {
-                                self.symbol
-                            }
-                        }
-                        TokenType::Atom(atm) =&gt; {
-                            if ["t", "f", "ok", "err"].contains(&amp;atm.iter().collect::&lt;String&gt;().as_str()) {
-                                self.constant
-                            } else {
-                                self.atom
-                            }
-                        }
-                        TokenType::String(_) =&gt; self.string,
-                        TokenType::Char(_) =&gt; self.chr,
-                        TokenType::Number(_) =&gt; self.number,
-                        _ =&gt; self.normal,
-                    };
-                    st.push((style, String::from(&amp;line[start_byte..end_byte])));
-
-                    last_pos = end_byte;
-                }
-
-                if last_pos &lt; line.len() {
-                    st.push((self.normal, String::from(&amp;line[last_pos..])));
-                }
-            }
-            Err(_) =&gt; {
-                st.push((self.normal, line.to_string()));
-            }
+      }
+      // 行内公式 `$...$`
+      else if (/^\$.+?\$$/.test(code.textContent)) {
+        var rawTex = code.textContent.slice(1, -1);
+        var span = document.createElement("span");
+        span.className = "math-inline";
+        try {
+          katex.render(rawTex, span, {
+            displayMode: false,
+            throwOnError: false,
+          });
+          code.parentNode.replaceChild(span, code);
+        } catch (e) {
+          console.error(e);
         }
-
-        st
-    }
-}</code></pre>
-<h3 id="基本补全"><a class="header" href="#基本补全">基本补全</a></h3>
-<p>由于内置函数比较多<sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">4</a></sup>，很多情况下如果在 REPL 中能补全内置函数，那自然会方便很多</p>
-<pre><code class="language-rust">struct KSLCompleter;
-
-impl reedline::Completer for KSLCompleter {
-    fn complete(&amp;mut self, line: &amp;str, pos: usize) -&gt; Vec&lt;reedline::Suggestion&gt; {
-        let mut word_start = pos;
-        while word_start &gt; 0 {
-            let (idx, ch) = line[..word_start]
-                .char_indices()
-                .next_back()
-                .unwrap_or((0, ' '));
-            if ch.is_whitespace() || "[]{},;".contains(ch) {
-                break;
-            }
-            word_start = idx;
-        }
-
-        let word_to_complete = &amp;line[word_start..pos];
-
-        BUILTIN_FUNCTIONS
-            .iter()
-            .filter(|bif| {
-                bif.to_lowercase()
-                    .starts_with(word_to_complete.to_lowercase().as_str())
-            })
-            .map(|bif| reedline::Suggestion {
-                value: (*bif).to_string(),
-                description: None,
-                extra: None,
-                span: reedline::Span::new(word_start, pos),
-                style: None,
-                append_whitespace: false,
-            })
-            .collect()
-    }
-}</code></pre>
-<h3 id="多行输入支持"><a class="header" href="#多行输入支持">多行输入支持</a></h3>
-<p>由于 KSL 的字符串性质，支持多行输入就显得十分重要，好在 Reedline 中有 <code>Validator</code> 来实现这个功能</p>
-<pre><code class="language-rust">#[derive(Default)]
-struct KSLValidator;
-
-impl reedline::Validator for KSLValidator {
-    fn validate(&amp;self, line: &amp;str) -&gt; reedline::ValidationResult {
-        fn is_input_complete(buffer: &amp;str) -&gt; bool {
-            if buffer.trim_end().ends_with(';') {
-                return true;
-            }
-            let mut brace_balance = 0;
-            let mut bracket_balance = 0;
-            let mut in_string = false;
-            for char in buffer.chars() {
-                match char {
-                    '"' =&gt; in_string = !in_string,
-                    '{' if !in_string =&gt; brace_balance += 1,
-                    '}' if !in_string =&gt; brace_balance -= 1,
-                    '[' if !in_string =&gt; bracket_balance += 1,
-                    ']' if !in_string =&gt; bracket_balance -= 1,
-                    _ =&gt; (),
-                }
-            }
-            brace_balance == 0 &amp;&amp; bracket_balance == 0 &amp;&amp; !in_string
-        }
-
-        if is_input_complete(line) {
-            reedline::ValidationResult::Complete
-        } else {
-            reedline::ValidationResult::Incomplete
-        }
-    }
-}</code></pre>
-<h2 id="符号命名"><a class="header" href="#符号命名">符号命名</a></h2>
-<p>之前由于某些原因，KSL 的符号支持一直限制在 ASCII 字符内</p>
-<p>现在，KSL 终于支持 Unicode 了，也就意味着如下代码是可以正常运行了：</p>
-<pre><code class="language-ksl">Let[你好, "Hello"];
-Print[你好]; (* 打印 Hello *)
+      }
+    });
+  });
+&lt;/script&gt;
 </code></pre>
-<p>并且在 <code>Load</code> 函数中增加限制，现在下划线开头的符号不会被加载，这样可以避免暴露过多的实现细节，例如：</p>
-<pre><code class="language-ksl">(* 文件 A.ksl *)
-Module["A"];
+<p>使用代码包裹公式内容，还可以解决行内公式无法使用 HTML 标签避免 Markdown 渲染的<a href="https://github.com/rust-lang/mdBook/issues/997">问题</a></p>
+<h3 id="效果展示"><a class="header" href="#效果展示">效果展示</a></h3>
+<p>在主题的 <code>index.hbs</code> 中引入更改后的 <code>head.hbs</code>，那么下面的 Markdown：</p>
+<pre><code class="language-markdown">测试公式 `$e^{-\mathbf{i} \pi} + 1 = 0$`
 
-Let[_a, 16];
-Let[MulA, Fun[{ n },
-  Div[Mul[n, _a], Max[Abs[Add[n, _a]], 2]]]];
+```math
+\int_0^1{\ln{x}\,\mathrm{d}x} = -1
+```
 </code></pre>
-<p>在 REPL，我们可以检查是否导入了 <code>_a</code>：</p>
-<pre><code class="language-ksl">Load[A, "A"];
-
-Print[Try[Use[A, MulA], #f]];
-(* 打印 λ(n) =&gt; &lt;lambda&gt; *)
-
-Print[Try[Use[A, _a], #f]];
-(* 打印 #f *)
-
-Print[Apply[Use[A, MulA], 12]];
-(* 打印 6.85714285714286 *)
+<p>就可以被渲染为：</p>
+<blockquote>
+<p>测试公式 <code>$e^{-\mathbf{i} \pi} + 1 = 0$</code></p>
+<pre><code class="language-math">\int_0^1{\ln{x}\,\mathrm{d}x} = -1
 </code></pre>
-<h2 id="语法改进"><a class="header" href="#语法改进">语法改进</a></h2>
-<p>之前 <code>Thread</code> 函数是直接返回一个 <code>Thread</code> 对象，但现在，<code>Thread</code> 以及 <code>OpenStream</code> 函数一定需要绑定一个变量了</p>
-<p>这是在语法层面上要求用户去保存这些资源，防止到时候需要释放这些资源时完全无法访问，例如：</p>
-<pre><code class="language-ksl">Let[GLOBAL_CONST, 16];
-Thread[t1, { GLOBAL_CONST }, Block[
-  Sleep[Div[GLOBAL_CONST, 8]],
-  Div[GLOBAL_CONST, 2],
-]];
-Print[Consume[t1]];
-</code></pre>
-<p>另外，不知道改进了什么，总之，KSL 现在支持使用 <code>Plugin</code> 来加载 Raylib 库了，
-例子可以参考 <a href="https://github.com/kands-code/rswk/tree/repo-src/ksl_cplugin">ksl_cplugin</a>，
-使用起来还算是方便，最起码比之前只能用一个函数调用要好很多</p>
-<hr>
-<p>嗯，KSL 确实是越来越像样了，可惜目前只有我一个用户，希望这点也能有所改善吧</p>
-<hr>
-<ol class="footnote-definition">
-<li id="footnote-1">
-<p>之前二进制体积大约是 <code>$950 \,\mathrm{KB}$</code>，但是现在已经是 <code>$2.97 \,\mathrm{MB}$</code> 了 <a href="#fr-1-1">↩</a></p>
-</li>
-<li id="footnote-2">
-<p>clap [CP/OL].(2025-11-04)[2025-11-09].
-<a href="https://github.com/clap-rs/clap">https://github.com/clap-rs/clap</a> <a href="#fr-2-1">↩</a></p>
-</li>
-<li id="footnote-3">
-<p>reedline [CP/OL].(2025-11-04)[2025-11-09].
-<a href="https://github.com/nushell/reedline">https://github.com/nushell/reedline</a> <a href="#fr-3-1">↩</a></p>
-</li>
-<li id="footnote-4">
-<p>目前内置函数已经有 <code>$108$</code> 个了 <a href="#fr-4-1">↩</a></p>
-</li>
-</ol>
+</blockquote>
+<p>非常完美，并且行间公式可与在 VSCode 中被正常渲染为公式，预览问题也解决了：</p>
+<p><img src="../../assets/use-katex-in-mdbook-pic01.png" alt="VSCode 中的预览效果"></p>
+<h2 id="后记"><a class="header" href="#后记">后记</a></h2>
+<p>使用这个方法，哪怕后续 mdBook 更新，不支持 MathJaX 了，也不会影响公式的渲染，
+就是之后如果有主题更新，需要手动维护一下，这个代价也算是比较合理了</p>
 </main>
             <nav class="nav-wrapper" aria-label="Page navigation">
                 <a
                   rel="prev"
-                  href="../../notes/rust/20250419-sicp-notes-ex01.html"
+                  href="../../miscellany/coding/20250423-rust-link-static-library-on-macos.html"
                   class="mobile-nav-chapters previous"
                   title="Previous chapter"
                   aria-label="Previous chapter"
@@ -586,7 +418,7 @@ Print[Consume[t1]];
                     <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                 </a>
                 <a rel="next prefetch"
-                  href="../../notes/rust/20250710-phyrs-0x01.html"
+                  href="../../miscellany/study/index.html"
                   class="mobile-nav-chapters next"
                   title="Next chapter"
                   aria-label="Next chapter"
@@ -601,7 +433,7 @@ Print[Consume[t1]];
         <nav class="nav-wide-wrapper" aria-label="Page navigation">
             <a
               rel="prev"
-              href="../../notes/rust/20250419-sicp-notes-ex01.html"
+              href="../../miscellany/coding/20250423-rust-link-static-library-on-macos.html"
               class="nav-chapters previous"
               title="Previous chapter"
               aria-label="Previous chapter"
@@ -611,7 +443,7 @@ Print[Consume[t1]];
             </a>
             <a
               rel="next prefetch"
-              href="../../notes/rust/20250710-phyrs-0x01.html"
+              href="../../miscellany/study/index.html"
               class="nav-chapters next"
               title="Next chapter"
               aria-label="Next chapter"

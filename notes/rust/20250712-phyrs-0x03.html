@@ -42,7 +42,7 @@
             }
           }
           // 行内公式 `$...$`
-          else if (/^\$.*\$$/.test(code.textContent)) {
+          else if (/^\$.+?\$$/.test(code.textContent)) {
             var rawTex = code.textContent.slice(1, -1);
             var span = document.createElement("span");
             span.className = "math-inline";
@@ -93,9 +93,9 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
+        window.path_to_searchindex_js = "../../searchindex-ec233cf3.js";
     </script>
-    <script src="../../toc-9d68f5d5.js"></script>
+    <script src="../../toc-30345fcb.js"></script>
   </head>
   <body>
     <div id="mdbook-help-container">
@@ -471,7 +471,7 @@ fn run() -&gt; Option&lt;()&gt; {
 <p>可以看到，由于小球的重力，系统的平衡点并不是最初的 <code>$0 \,\mathrm{m}$</code>，
 而是 <code>$z_0 = m g / k \approx 0.033 \,\mathrm{m}$</code></p>
 <h3 id="欧拉-克罗默方法"><a class="header" href="#欧拉-克罗默方法">欧拉-克罗默方法</a></h3>
-<p>实际上，我们使用的方法是<strong>欧拉-克罗默</strong>方法<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
+<p>实际上，我们使用的方法是 <strong>欧拉-克罗默</strong> 方法<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
 <p>通常的欧拉法使用的是上一个状态的速度来计算下一个状态的位移，
 而欧拉-克罗默方法则是使用下一个状态的速度来计算下一个状态的位移，即：</p>
 <pre><code class="language-math">\begin{cases}
@@ -487,7 +487,7 @@ fn run() -&gt; Option&lt;()&gt; {
 <p>但是大部分微分方程很难得到一个精确解，所以求解微分方程更多的还是使用数值方法，例如欧拉法</p>
 <p>由于数值方法多种多样，所以在 <code>Particle</code> 中，
 <code>simulate</code> 接受 <code>transition</code> 而不是合力，这是为了将模拟过程与数值方法解耦</p>
-<p>比如我们还可以使用<strong>龙格-库塔</strong>方法<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup>：</p>
+<p>比如我们还可以使用 <strong>龙格-库塔</strong> 方法<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup>：</p>
 <pre><code class="language-rust">// Self: Particle&lt;R, E&gt;
 pub fn rk4_transition(
     acceleration: Rc&lt;dyn Fn(Self) -&gt; VectorC&lt;R, E&gt;&gt;,

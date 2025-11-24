@@ -42,7 +42,7 @@
             }
           }
           // 行内公式 `$...$`
-          else if (/^\$.*\$$/.test(code.textContent)) {
+          else if (/^\$.+?\$$/.test(code.textContent)) {
             var rawTex = code.textContent.slice(1, -1);
             var span = document.createElement("span");
             span.className = "math-inline";
@@ -93,9 +93,9 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-941efb81.js";
+        window.path_to_searchindex_js = "../../searchindex-ec233cf3.js";
     </script>
-    <script src="../../toc-9d68f5d5.js"></script>
+    <script src="../../toc-30345fcb.js"></script>
   </head>
   <body>
     <div id="mdbook-help-container">
