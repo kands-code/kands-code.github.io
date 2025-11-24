@@ -32,7 +32,7 @@
         }
       }
       // 行内公式 `$...$`
-      else if (/^\$.*\$$/.test(code.textContent)) {
+      else if (/^\$.+?\$$/.test(code.textContent)) {
         var rawTex = code.textContent.slice(1, -1);
         var span = document.createElement("span");
         span.className = "math-inline";
