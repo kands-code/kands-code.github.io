@@ -93,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-ec233cf3.js";
+        window.path_to_searchindex_js = "../../searchindex-18860cf8.js";
     </script>
     <script src="../../toc-30345fcb.js"></script>
   </head>
@@ -577,9 +577,7 @@ enum DiffElement {
     Pow(Box&lt;DiffElement&gt;, f64),
 }
 
-fn is_zero(x: &amp;f64) -&gt; bool {
-    x.abs() &lt;= core::f64::EPSILON.sqrt()
-}
+fn is_zero(x: &amp;f64) -&gt; bool { x.abs() &lt;= core::f64::EPSILON.sqrt() }
 
 impl DiffElement {
     pub fn make_add(e1: DiffElement, e2: DiffElement) -&gt; DiffElement {
@@ -604,9 +602,7 @@ impl DiffElement {
 
     pub fn make_div(e1: DiffElement, e2: DiffElement) -&gt; DiffElement {
         match (&amp;e1, &amp;e2) {
-            (DiffElement::Constant(a), DiffElement::Constant(b)) if !is_zero(b) =&gt; {
-                DiffElement::Constant(a / b)
-            }
+            (DiffElement::Constant(a), DiffElement::Constant(b)) if !is_zero(b) =&gt; DiffElement::Constant(a / b),
             (DiffElement::Constant(a), _) if is_zero(a) =&gt; DiffElement::Constant(0.0),
             (_, DiffElement::Constant(a)) if is_zero(&amp;(a - 1.0)) =&gt; e1,
             _ =&gt; DiffElement::Div(Box::new(e1), Box::new(e2)),
@@ -622,27 +618,27 @@ impl DiffElement {
         }
     }
 
-    pub fn diff(self) -&gt; DiffElement {
+    pub fn diff(&amp;self) -&gt; DiffElement {
         match self {
             DiffElement::Constant(_) =&gt; DiffElement::Constant(0.0),
             DiffElement::Variable =&gt; DiffElement::Constant(1.0),
             DiffElement::Add(e1, e2) =&gt; DiffElement::make_add(e1.diff(), e2.diff()),
             DiffElement::Mul(e1, e2) =&gt; DiffElement::make_add(
-                DiffElement::make_mul(e1.diff(), e2),
-                DiffElement::make_mul(e1, e2.diff()),
+                DiffElement::make_mul(e1.diff(), *e2.clone()),
+                DiffElement::make_mul(*e1.clone(), e2.diff()),
             ),
             DiffElement::Div(e1, e2) =&gt; DiffElement::make_div(
                 DiffElement::make_add(
                     DiffElement::make_mul(e1.clone().diff(), *e2.clone()),
                     DiffElement::make_mul(
                         DiffElement::Constant(-1.0),
-                        DiffElement::make_mul(*e1, e2.clone().diff()),
+                        DiffElement::make_mul(*e1.clone(), e2.clone().diff()),
                     ),
                 ),
-                DiffElement::make_pow(*e2, 2.0),
+                DiffElement::make_pow(*e2.clone(), 2.0),
             ),
             DiffElement::Pow(e, n) =&gt; DiffElement::make_mul(
-                DiffElement::Constant(n),
+                DiffElement::Constant(*n),
                 DiffElement::make_mul(DiffElement::make_pow(*e.clone(), n - 1.0), e.diff()),
             ),
         }
@@ -686,27 +682,28 @@ fn main() {
 |   |   |   Constant(-1.0),
 |   |   |   Mul(
 |   |   |   |   Add(Pow(Variable, 2.0), Constant(3.0)),
-|   |   |   |   Mul(Constant(3.0), Pow(Variable, 2.0))
+|   |   |   |   Add(
+|   |   |   |   |   Mul(Constant(3.0), Pow(Variable, 2.0)),
+|   |   |   |   |   Mul(Constant(-8.0), Mul(Constant(2.0), Variable))
+|   |   |   |   )
 |   |   |   )
 |   |   )
 |   ),
 |   Pow(
 |   |   Add(
 |   |   |   Pow(Variable, 3.0),
-|   |   |   Add(
-|   |   |   |   Mul(Constant(-8.0), Pow(Variable, 2.0)),
-|   |   |   |   Constant(3.0)
-|   |   |   )
+|   |   |   Add(Mul(Constant(-8.0), Pow(Variable, 2.0)), Constant(3.0))
 |   |   ),
-|   |    2.0
+|   |   2.0
 |   )
 )
 </code></pre>
 <p>即：</p>
-<pre><code class="language-math">\dfrac{2 x (x^3 + (-8 x^2 + 3)) + (- (x^2 + 3) (3 x^2))}{(x^3 + (-8 x^2) + 3)^2}
+<pre><code class="language-math">\dfrac{2 x (x^3 + (-8 x^2 + 3)) + (- (x^2 + 3) (3 x^2 + (- 8 (2 x))))}{(x^3 + (-8 x^2) + 3)^2}
 </code></pre>
 <p>可以看到，还是有很多优化空间的，我们再手动优化一下可以得到：</p>
-<pre><code class="language-math">\dfrac{2 x}{x^3 -8 x^2 + 3} - \dfrac{3 x^2 (x^2 + 3)}{(x^3 -8 x^2 + 3)^2}
+<pre><code class="language-math">\dfrac{2 x}{x^3 -8 x^2 + 3}
+    - \dfrac{(3 x^2 - 16 x)(x^2 + 3)}{(x^3 -8 x^2 + 3)^2}
 </code></pre>
 <p>可以发现这个答案就是我们想要的答案</p>
 </details>
