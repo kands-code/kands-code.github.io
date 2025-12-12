@@ -60062,7 +60062,16 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         $pattern: new RegExp(SYMBOL_IDENT_RE, "u"),
         keyword: "And Block Do Fun If Let Module Or Set Try Unit Use While",
         built_in:
-          "Abs Add All Any Append Apply ArcCos ArcSin ArcTan ArcTan2 Ceiling Chars CloseStream Concat Consume Cos Cosh Delete Div Drop Eq Evial Exp Filter Find Floor FromJSON Get GetAddress GetDate GetEnv GetMessage GetTime GetType Greater Has Head Index Input IsAtom IsBuiltin IsInteger IsLambda IsList IsNumber IsObject IsPlugin IsRawObject IsString IsThread IsUnit Keys Length Less ListFiles Ln Load Lowercase Map Max Min Mod Mul NDiv Neg Not Object OpenStream ParseNumber Ping Plugin Power Prepend Print Quot Range Read ReCapture Reduce Rem ReMatch Reverse Round SendMessage SetEnv Sin Sinh Sleep SlideBy SplitBy Sqrt Sub SubString Tail Take Tan Tanh Thread ToJSON ToString Trim Trunc Uppercase Write Zip",
+          "Abs Add All Any Append Apply ArcCos ArcSin ArcTan ArcTan2 " +
+          "Ceiling Chars Chn CloseStream Concat Consume Cos Cosh Delete Div " +
+          "Drop Eq Evial Exp Filter Find Floor FromJSON Get GetAddress GetDate " +
+          "GetEnv GetMessage GetTime GetType Greater Has Head Index Input IsAtom " +
+          "IsBuiltin IsInteger IsLambda IsList IsMember IsNumber IsObject IsPlugin " +
+          "IsNativeObject IsString IsThread IsUnit Keys Length Less ListFiles Ln Load " +
+          "Lowercase Map Max Min Mod Mul NDiv Neg Not Object OpenStream ParseNumber " +
+          "Ping Plugin Power Prepend Print Quot Range Read ReCapture Reduce Rem ReMatch " +
+          "Reverse Round SendMessage SetEnv Sin Sinh Sleep SlideBy SplitBy Sqrt Sub " +
+          "SubString Tail Take Tan Tanh Thread ToJSON ToString Trim Trunc Uppercase Write Zip",
         literal: "t f err ok",
       };
 
