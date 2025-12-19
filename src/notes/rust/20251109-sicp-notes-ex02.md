@@ -260,7 +260,7 @@ Print[Try[Use[A, MulA], #f]];
 Print[Try[Use[A, _a], #f]];
 (* 打印 #f *)
 
-Print[Apply[Use[A, MulA], 12]];
+Print[Use[A, MulA][12]];
 (* 打印 6.85714285714286 *)
 ```
 
