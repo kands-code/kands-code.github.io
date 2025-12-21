@@ -199,23 +199,31 @@ struct KSLValidator;
 impl reedline::Validator for KSLValidator {
     fn validate(&self, line: &str) -> reedline::ValidationResult {
         fn is_input_complete(buffer: &str) -> bool {
-            if buffer.trim_end().ends_with(';') {
-                return true;
-            }
-            let mut brace_balance = 0;
-            let mut bracket_balance = 0;
+            let mut chars = buffer.chars().peekable();
+            let (mut brace_bal, mut bracket_bal, mut comment_depth) = (0i32, 0i32, 0usize);
             let mut in_string = false;
-            for char in buffer.chars() {
-                match char {
+            let mut has_content = false;
+
+            while let Some(ch) = chars.next() {
+                if !ch.is_whitespace() {
+                    has_content = true;
+                }
+                match ch {
+                    '(' if comment_depth > 0 && chars.next_if_eq(&'*').is_some() => comment_depth += 1,
+                    '*' if comment_depth > 0 && chars.next_if_eq(&')').is_some() => comment_depth -= 1,
+                    _ if comment_depth > 0 => continue,
                     '"' => in_string = !in_string,
-                    '{' if !in_string => brace_balance += 1,
-                    '}' if !in_string => brace_balance -= 1,
-                    '[' if !in_string => bracket_balance += 1,
-                    ']' if !in_string => bracket_balance -= 1,
+                    _ if in_string => continue,
+                    '(' if chars.next_if_eq(&'*').is_some() => comment_depth = 1,
+                    '{' => brace_bal += 1,
+                    '}' => brace_bal -= 1,
+                    '[' => bracket_bal += 1,
+                    ']' => bracket_bal -= 1,
                     _ => (),
                 }
             }
-            brace_balance == 0 && bracket_balance == 0 && !in_string
+
+            has_content && comment_depth == 0 && !in_string && brace_bal <= 0 && bracket_bal <= 0
         }
 
         if is_input_complete(line) {
