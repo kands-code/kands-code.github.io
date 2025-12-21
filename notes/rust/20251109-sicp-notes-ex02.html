@@ -93,7 +93,7 @@
       // 获取默认暗色主题
       const default_dark_theme = "ayu";
       // 启用搜索
-        window.path_to_searchindex_js = "../../searchindex-0c9c2568.js";
+        window.path_to_searchindex_js = "../../searchindex-2f192341.js";
     </script>
     <script src="../../toc-b0101032.js"></script>
   </head>
@@ -489,23 +489,31 @@ struct KSLValidator;
 impl reedline::Validator for KSLValidator {
     fn validate(&amp;self, line: &amp;str) -&gt; reedline::ValidationResult {
         fn is_input_complete(buffer: &amp;str) -&gt; bool {
-            if buffer.trim_end().ends_with(';') {
-                return true;
-            }
-            let mut brace_balance = 0;
-            let mut bracket_balance = 0;
+            let mut chars = buffer.chars().peekable();
+            let (mut brace_bal, mut bracket_bal, mut comment_depth) = (0i32, 0i32, 0usize);
             let mut in_string = false;
-            for char in buffer.chars() {
-                match char {
+            let mut has_content = false;
+
+            while let Some(ch) = chars.next() {
+                if !ch.is_whitespace() {
+                    has_content = true;
+                }
+                match ch {
+                    '(' if comment_depth &gt; 0 &amp;&amp; chars.next_if_eq(&amp;'*').is_some() =&gt; comment_depth += 1,
+                    '*' if comment_depth &gt; 0 &amp;&amp; chars.next_if_eq(&amp;')').is_some() =&gt; comment_depth -= 1,
+                    _ if comment_depth &gt; 0 =&gt; continue,
                     '"' =&gt; in_string = !in_string,
-                    '{' if !in_string =&gt; brace_balance += 1,
-                    '}' if !in_string =&gt; brace_balance -= 1,
-                    '[' if !in_string =&gt; bracket_balance += 1,
-                    ']' if !in_string =&gt; bracket_balance -= 1,
+                    _ if in_string =&gt; continue,
+                    '(' if chars.next_if_eq(&amp;'*').is_some() =&gt; comment_depth = 1,
+                    '{' =&gt; brace_bal += 1,
+                    '}' =&gt; brace_bal -= 1,
+                    '[' =&gt; bracket_bal += 1,
+                    ']' =&gt; bracket_bal -= 1,
                     _ =&gt; (),
                 }
             }
-            brace_balance == 0 &amp;&amp; bracket_balance == 0 &amp;&amp; !in_string
+
+            has_content &amp;&amp; comment_depth == 0 &amp;&amp; !in_string &amp;&amp; brace_bal &lt;= 0 &amp;&amp; bracket_bal &lt;= 0
         }
 
         if is_input_complete(line) {
