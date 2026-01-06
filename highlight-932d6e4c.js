@@ -60062,17 +60062,18 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         $pattern: new RegExp(SYMBOL_IDENT_RE, "u"),
         keyword: "And Block Do Fun If Let Module Or Set Try Unit Use While",
         built_in:
-          "Abs Add All Any Append ArcCos ArcSin ArcTan ArcTan2 " +
-          "Ceiling Chars Chn CloseStream Concat Consume Cos Cosh " +
-          "Delete Div Drop Eq Evial Exp Filter Find Floor FromJSON " +
-          "Get GetAddress GetDate GetEnv GetMessage GetTime GetType Greater " +
-          "Has Head Index Input IsAtom IsBuiltin IsInteger IsLambda IsList " +
-          "IsMember IsNativeObject IsNumber IsObject IsPlugin IsString IsThread " +
-          "IsUnit Keys Length Less ListFiles Ln Load Lowercase Map Max Min " +
-          "Mod Mul NDiv Neg Not Object OpenStream ParseNumber Ping Plugin " +
-          "Power Prepend Print Quot Range Read ReCapture Reduce Rem ReMatch Reverse " +
-          "Round RunShell SendMessage SetEnv Sin Sinh Sleep SlideBy SplitBy Sqrt " +
-          "Sub SubString Tail Take Tan Tanh Thread ToJSON ToString Trim Trunc Uppercase Write Zip",
+          "Abs Add All And Any Append ArcCos ArcSin ArcTan ArcTan2 " +
+          "Block Ceiling Chars Chn CloseStream Concat Cond Consume " +
+          "Cos Cosh Delete Div Do Drop Eq Evial Exp Filter Find Floor FromJSON Fun " +
+          "Get GetAddress GetDate GetEnv GetMessage GetTime GetType Global Greater " +
+          "Has Head If Index Input Insert IsAtom IsBuiltin IsInteger IsLambda IsList " +
+          "IsMember IsNativeObject IsNumber IsObject IsPlugin IsString IsThread IsUnit " +
+          "Keys Length Less Let Ln Load Lowercase Map Max Min Mod Module Mul NDiv Neg Not " +
+          "Object OpenStream Or ParseNumber Ping Plugin Power Prepend Print Quot " +
+          "Range Read ReCapture Reduce Rem ReMatch Remove Reverse Round RunShell " +
+          "SendMessage Set SetEnv Sin Sinh Sleep SlideBy SplitBy Sqrt Sub SubString " +
+          "Tail Take Tan Tanh Thread ToJSON ToString Trim Trunc Try " +
+          "Unit Uppercase Use While Write Zip ZipWith",
         literal: "t f err ok",
       };
 
