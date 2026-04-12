@@ -24,7 +24,7 @@ function playground_text(playground, hidden = true) {
     return Promise.race([
       fetch(url, options),
       new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("timeout")), timeout)
+        setTimeout(() => reject(new Error("timeout")), timeout),
       ),
     ]);
   }
@@ -43,7 +43,7 @@ function playground_text(playground, hidden = true) {
         // get list of crates available in the rust playground
         const playground_crates = response.crates.map((item) => item["id"]);
         playgrounds.forEach((block) =>
-          handle_crate_list_update(block, playground_crates)
+          handle_crate_list_update(block, playground_crates),
         );
       });
   }
@@ -157,7 +157,7 @@ function playground_text(playground, hidden = true) {
       .catch(
         (error) =>
           (result_block.innerText =
-            "Playground Communication: " + error.message)
+            "Playground Communication: " + error.message),
       );
   }
 
@@ -262,61 +262,61 @@ aria-label="Show hidden lines"></button>';
   }
 
   // Process playground code blocks
-  Array.from(document.querySelectorAll(".playground")).forEach(function (
-    pre_block
-  ) {
-    // Add play button
-    let buttons = pre_block.querySelector(".buttons");
-    if (!buttons) {
-      buttons = document.createElement("div");
-      buttons.className = "buttons";
-      pre_block.insertBefore(buttons, pre_block.firstChild);
-    }
+  Array.from(document.querySelectorAll(".playground")).forEach(
+    function (pre_block) {
+      // Add play button
+      let buttons = pre_block.querySelector(".buttons");
+      if (!buttons) {
+        buttons = document.createElement("div");
+        buttons.className = "buttons";
+        pre_block.insertBefore(buttons, pre_block.firstChild);
+      }
 
-    const runCodeButton = document.createElement("button");
-    runCodeButton.className = "play-button";
-    runCodeButton.hidden = true;
-    runCodeButton.title = "Run this code";
-    runCodeButton.setAttribute("aria-label", runCodeButton.title);
-    runCodeButton.innerHTML = document.getElementById("fa-play").innerHTML;
+      const runCodeButton = document.createElement("button");
+      runCodeButton.className = "play-button";
+      runCodeButton.hidden = true;
+      runCodeButton.title = "Run this code";
+      runCodeButton.setAttribute("aria-label", runCodeButton.title);
+      runCodeButton.innerHTML = document.getElementById("fa-play").innerHTML;
 
-    buttons.insertBefore(runCodeButton, buttons.firstChild);
-    runCodeButton.addEventListener("click", () => {
-      run_rust_code(pre_block);
-    });
-
-    if (window.playground_copyable) {
-      const copyCodeClipboardButton = document.createElement("button");
-      copyCodeClipboardButton.className = "clip-button";
-      copyCodeClipboardButton.innerHTML = '<i class="tooltiptext"></i>';
-      copyCodeClipboardButton.title = "Copy to clipboard";
-      copyCodeClipboardButton.setAttribute(
-        "aria-label",
-        copyCodeClipboardButton.title
-      );
-
-      buttons.insertBefore(copyCodeClipboardButton, buttons.firstChild);
-    }
-
-    const code_block = pre_block.querySelector("code");
-    if (window.ace && code_block.classList.contains("editable")) {
-      const undoChangesButton = document.createElement("button");
-      undoChangesButton.className = "reset-button";
-      undoChangesButton.title = "Undo changes";
-      undoChangesButton.setAttribute("aria-label", undoChangesButton.title);
-      undoChangesButton.innerHTML += document.getElementById(
-        "fa-clock-rotate-left"
-      ).innerHTML;
-
-      buttons.insertBefore(undoChangesButton, buttons.firstChild);
-
-      undoChangesButton.addEventListener("click", function () {
-        const editor = window.ace.edit(code_block);
-        editor.setValue(editor.originalCode);
-        editor.clearSelection();
+      buttons.insertBefore(runCodeButton, buttons.firstChild);
+      runCodeButton.addEventListener("click", () => {
+        run_rust_code(pre_block);
       });
-    }
-  });
+
+      if (window.playground_copyable) {
+        const copyCodeClipboardButton = document.createElement("button");
+        copyCodeClipboardButton.className = "clip-button";
+        copyCodeClipboardButton.innerHTML = '<i class="tooltiptext"></i>';
+        copyCodeClipboardButton.title = "Copy to clipboard";
+        copyCodeClipboardButton.setAttribute(
+          "aria-label",
+          copyCodeClipboardButton.title,
+        );
+
+        buttons.insertBefore(copyCodeClipboardButton, buttons.firstChild);
+      }
+
+      const code_block = pre_block.querySelector("code");
+      if (window.ace && code_block.classList.contains("editable")) {
+        const undoChangesButton = document.createElement("button");
+        undoChangesButton.className = "reset-button";
+        undoChangesButton.title = "Undo changes";
+        undoChangesButton.setAttribute("aria-label", undoChangesButton.title);
+        undoChangesButton.innerHTML += document.getElementById(
+          "fa-clock-rotate-left",
+        ).innerHTML;
+
+        buttons.insertBefore(undoChangesButton, buttons.firstChild);
+
+        undoChangesButton.addEventListener("click", function () {
+          const editor = window.ace.edit(code_block);
+          editor.setValue(editor.originalCode);
+          editor.clearSelection();
+        });
+      }
+    },
+  );
 })();
 
 (function themes() {
@@ -418,7 +418,7 @@ aria-label="Show hidden lines"></button>';
 
     setTimeout(function () {
       themeColorMetaTag.content = getComputedStyle(
-        document.documentElement
+        document.documentElement,
       ).backgroundColor;
     }, 1);
 
@@ -545,10 +545,10 @@ aria-label="Show hidden lines"></button>';
   const sidebarLinks = document.querySelectorAll("#mdbook-sidebar a");
   const sidebarToggleButton = document.getElementById("mdbook-sidebar-toggle");
   const sidebarResizeHandle = document.getElementById(
-    "mdbook-sidebar-resize-handle"
+    "mdbook-sidebar-resize-handle",
   );
   const sidebarCheckbox = document.getElementById(
-    "mdbook-sidebar-toggle-anchor"
+    "mdbook-sidebar-toggle-anchor",
   );
   let firstContact = null;
 
@@ -608,14 +608,14 @@ aria-label="Show hidden lines"></button>';
     if (sidebarCheckbox.checked) {
       const current_width = parseInt(
         document.documentElement.style.getPropertyValue(
-          "--sidebar-target-width"
+          "--sidebar-target-width",
         ),
-        10
+        10,
       );
       if (current_width < 150) {
         document.documentElement.style.setProperty(
           "--sidebar-target-width",
-          "150px"
+          "150px",
         );
       }
       showSidebar();
@@ -642,7 +642,7 @@ aria-label="Show hidden lines"></button>';
       pos = Math.min(pos, window.innerWidth - 100);
       document.documentElement.style.setProperty(
         "--sidebar-target-width",
-        pos + "px"
+        pos + "px",
       );
     }
   }
@@ -661,7 +661,7 @@ aria-label="Show hidden lines"></button>';
         time: Date.now(),
       };
     },
-    { passive: true }
+    { passive: true },
   );
 
   document.addEventListener(
@@ -688,7 +688,7 @@ aria-label="Show hidden lines"></button>';
         firstContact = null;
       }
     },
-    { passive: true }
+    { passive: true },
   );
 })();
 
@@ -877,7 +877,7 @@ aria-label="Show hidden lines"></button>';
         }
         prevScrollTop = scrollTop;
       },
-      { passive: true }
+      { passive: true },
     );
   })();
   (function controllBorder() {

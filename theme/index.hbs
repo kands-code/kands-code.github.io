@@ -511,9 +511,7 @@
       {{#if fragment_map}}
         <script>
           document.addEventListener("DOMContentLoaded", function () {
-            const fragmentMap =
-              {{{fragment_map}}}
-            ;
+            const fragmentMap = {{{fragment_map}}};
             const target = fragmentMap[window.location.hash];
             if (target) {
               let url = new URL(target, window.location.href);
