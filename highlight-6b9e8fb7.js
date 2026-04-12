@@ -568,7 +568,7 @@ var hljs = (function () {
           if (m.index !== 0) resp.ignoreMatch();
         },
       },
-      opts
+      opts,
     );
   };
 
@@ -611,7 +611,7 @@ var hljs = (function () {
         end,
         contains: [],
       },
-      modeOptions
+      modeOptions,
     );
     mode.contains.push({
       scope: "doctag",
@@ -638,7 +638,7 @@ var hljs = (function () {
       // note: this is not an exhaustive list of contractions, just popular ones
       /[A-Za-z]+['](d|ve|re|ll|t|s|n)/, // contractions - can't we'd they're let's, etc
       /[A-Za-z]+[-][a-z]+/, // `no-way`, etc.
-      /[A-Za-z][a-z]{2,}/ // allow capitalized words at beginning of sentences
+      /[A-Za-z][a-z]{2,}/, // allow capitalized words at beginning of sentences
     );
     // looking like plain text, more likely to be a comment
     mode.contains.push({
@@ -662,7 +662,7 @@ var hljs = (function () {
         "(",
         ENGLISH_WORD,
         /[.]?[:]?([.][ ]|[ ])/,
-        "){3}"
+        "){3}",
       ), // look for 3 words in a row
     });
     return mode;
@@ -884,7 +884,7 @@ var hljs = (function () {
     mode.keywords = originalMode.keywords;
     mode.begin = concat(
       originalMode.beforeMatch,
-      lookahead(originalMode.begin)
+      lookahead(originalMode.begin),
     );
     mode.starts = {
       relevance: 0,
@@ -921,7 +921,7 @@ var hljs = (function () {
   function compileKeywords(
     rawKeywords,
     caseInsensitive,
-    scopeName = DEFAULT_KEYWORD_SCOPE
+    scopeName = DEFAULT_KEYWORD_SCOPE,
   ) {
     /** @type {import("highlight.js/private").KeywordDict} */
     const compiledKeywords = Object.create(null);
@@ -937,7 +937,7 @@ var hljs = (function () {
         // collapse all our objects back into the parent object
         Object.assign(
           compiledKeywords,
-          compileKeywords(rawKeywords[scopeName], caseInsensitive, scopeName)
+          compileKeywords(rawKeywords[scopeName], caseInsensitive, scopeName),
         );
       });
     }
@@ -1095,7 +1095,7 @@ var hljs = (function () {
 
     if (mode.skip || mode.excludeBegin || mode.returnBegin) {
       error(
-        "skip, excludeBegin, returnBegin not compatible with beginScope: {}"
+        "skip, excludeBegin, returnBegin not compatible with beginScope: {}",
       );
       throw MultiClassError;
     }
@@ -1195,7 +1195,7 @@ var hljs = (function () {
         "m" +
           (language.case_insensitive ? "i" : "") +
           (language.unicodeRegex ? "u" : "") +
-          (global ? "g" : "")
+          (global ? "g" : ""),
       );
     }
 
@@ -1239,7 +1239,7 @@ var hljs = (function () {
         const terminators = this.regexes.map((el) => el[1]);
         this.matcherRe = langRe(
           _rewriteBackreferences(terminators, { joinWith: "|" }),
-          true
+          true,
         );
         this.lastIndex = 0;
       }
@@ -1402,7 +1402,7 @@ var hljs = (function () {
       const mm = new ResumableMultiRegex();
 
       mode.contains.forEach((term) =>
-        mm.addRule(term.begin, { rule: term, type: "begin" })
+        mm.addRule(term.begin, { rule: term, type: "begin" }),
       );
 
       if (mode.terminatorEnd) {
@@ -1497,7 +1497,7 @@ var hljs = (function () {
       if (mode.keywords) {
         mode.keywords = compileKeywords(
           mode.keywords,
-          language.case_insensitive
+          language.case_insensitive,
         );
       }
 
@@ -1521,7 +1521,7 @@ var hljs = (function () {
       mode.contains = [].concat(
         ...mode.contains.map(function (c) {
           return expandOrCloneMode(c === "self" ? mode : c);
-        })
+        }),
       );
       mode.contains.forEach(function (c) {
         compileMode(/** @type Mode */ (c), cmode);
@@ -1540,7 +1540,7 @@ var hljs = (function () {
     // self is not valid at the top-level
     if (language.contains && language.contains.includes("self")) {
       throw new Error(
-        "ERR: contains `self` is not supported at the top-level of a language.  See documentation."
+        "ERR: contains `self` is not supported at the top-level of a language.  See documentation.",
       );
     }
 
@@ -1757,11 +1757,11 @@ var hljs = (function () {
         // old API
         deprecated(
           "10.7.0",
-          "highlight(lang, code, ...args) has been deprecated."
+          "highlight(lang, code, ...args) has been deprecated.",
         );
         deprecated(
           "10.7.0",
-          "Please use highlight(code, options) instead.\nhttps://github.com/highlightjs/highlight.js/issues/2277"
+          "Please use highlight(code, options) instead.\nhttps://github.com/highlightjs/highlight.js/issues/2277",
         );
         languageName = codeOrLanguageName;
         code = optionsOrCode;
@@ -1806,7 +1806,7 @@ var hljs = (function () {
       languageName,
       codeToHighlight,
       ignoreIllegals,
-      continuation
+      continuation,
     ) {
       const keywordHits = Object.create(null);
 
@@ -1878,7 +1878,7 @@ var hljs = (function () {
             top.subLanguage,
             modeBuffer,
             true,
-            continuations[top.subLanguage]
+            continuations[top.subLanguage],
           );
           continuations[top.subLanguage] = /** @type {CompiledMode} */ (
             result._top
@@ -1886,7 +1886,7 @@ var hljs = (function () {
         } else {
           result = highlightAuto(
             modeBuffer,
-            top.subLanguage.length ? top.subLanguage : null
+            top.subLanguage.length ? top.subLanguage : null,
           );
         }
 
@@ -1960,7 +1960,7 @@ var hljs = (function () {
             emitKeyword(
               modeBuffer,
               language.classNameAliases[mode.beginScope._wrap] ||
-                mode.beginScope._wrap
+                mode.beginScope._wrap,
             );
             modeBuffer = "";
           } else if (mode.beginScope._multi) {
@@ -2169,7 +2169,7 @@ var hljs = (function () {
               lexeme +
               '" for mode "' +
               (top.scope || "<unnamed>") +
-              '"'
+              '"',
           );
           err.mode = top;
           throw err;
@@ -2194,7 +2194,7 @@ var hljs = (function () {
         // so we bail
         if (iterations > 100000 && iterations > match.index * 3) {
           const err = new Error(
-            "potential infinite loop, way more iterations than matches"
+            "potential infinite loop, way more iterations than matches",
           );
           throw err;
         }
@@ -2408,7 +2408,7 @@ var hljs = (function () {
       if (element.dataset.highlighted) {
         console.log(
           "Element previously highlighted. To highlight again, first unset `dataset.highlighted`.",
-          element
+          element,
         );
         return;
       }
@@ -2421,10 +2421,10 @@ var hljs = (function () {
       if (element.children.length > 0) {
         if (!options.ignoreUnescapedHTML) {
           console.warn(
-            "One of your code blocks includes unescaped HTML. This is a potentially serious security risk."
+            "One of your code blocks includes unescaped HTML. This is a potentially serious security risk.",
           );
           console.warn(
-            "https://github.com/highlightjs/highlight.js/wiki/security"
+            "https://github.com/highlightjs/highlight.js/wiki/security",
           );
           console.warn("The element with unescaped HTML:");
           console.warn(element);
@@ -2432,7 +2432,7 @@ var hljs = (function () {
         if (options.throwUnescapedHTML) {
           const err = new HTMLInjectionError(
             "One of your code blocks includes unescaped HTML.",
-            element.innerHTML
+            element.innerHTML,
           );
           throw err;
         }
@@ -2477,7 +2477,7 @@ var hljs = (function () {
       highlightAll();
       deprecated(
         "10.6.0",
-        "initHighlighting() deprecated.  Use highlightAll() now."
+        "initHighlighting() deprecated.  Use highlightAll() now.",
       );
     };
 
@@ -2486,7 +2486,7 @@ var hljs = (function () {
       highlightAll();
       deprecated(
         "10.6.0",
-        "initHighlightingOnLoad() deprecated.  Use highlightAll() now."
+        "initHighlightingOnLoad() deprecated.  Use highlightAll() now.",
       );
     }
 
@@ -2530,8 +2530,8 @@ var hljs = (function () {
         error(
           "Language definition for '{}' could not be registered.".replace(
             "{}",
-            languageName
-          )
+            languageName,
+          ),
         );
         // hard or soft error
         if (!SAFE_MODE) throw error$1;
@@ -2617,14 +2617,14 @@ var hljs = (function () {
       ) {
         plugin["before:highlightElement"] = (data) => {
           plugin["before:highlightBlock"](
-            Object.assign({ block: data.el }, data)
+            Object.assign({ block: data.el }, data),
           );
         };
       }
       if (plugin["after:highlightBlock"] && !plugin["after:highlightElement"]) {
         plugin["after:highlightElement"] = (data) => {
           plugin["after:highlightBlock"](
-            Object.assign({ block: data.el }, data)
+            Object.assign({ block: data.el }, data),
           );
         };
       }
@@ -3488,7 +3488,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const IDENT_RE = /[a-zA-Z_$][a-zA-Z0-9_$]*/;
       const PKG_NAME_RE = regex.concat(
         IDENT_RE,
-        regex.concat("(\\.", IDENT_RE, ")*")
+        regex.concat("(\\.", IDENT_RE, ")*"),
       );
       const IDENT_FUNC_RETURN_TYPE_RE = /([*]|[a-zA-Z_$][a-zA-Z0-9_$]*)/;
 
@@ -5206,7 +5206,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           /(?!switch)/,
           /(?!while)/,
           hljs.IDENT_RE,
-          regex.lookahead(/(<[^<>]+>|)\s*\(/)
+          regex.lookahead(/(<[^<>]+>|)\s*\(/),
         ),
       };
 
@@ -5363,7 +5363,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
                 3: "title.class",
               },
             },
-          ]
+          ],
         ),
       };
     }
@@ -5953,7 +5953,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             /\*\*/,
             /((\*(?!\*)|\\[^\n]|[^*\n\\])+\n)+/,
             /(\*(?!\*)|\\[^\n]|[^*\n\\])*/,
-            /\*\*/
+            /\*\*/,
           ),
           relevance: 0,
         },
@@ -5983,7 +5983,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             /__/,
             /((_(?!_)|\\[^\n]|[^_\n\\])+\n)+/,
             /(_(?!_)|\\[^\n]|[^_\n\\])*/,
-            /__/
+            /__/,
           ),
           relevance: 0,
         },
@@ -6036,7 +6036,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             // can also be done as...
             // '^/{4,}$',
             // '^/{4,}$',
-            { relevance: 10 }
+            { relevance: 10 },
           ),
           // line comment
           hljs.COMMENT("^//", "$", { relevance: 0 }),
@@ -7058,7 +7058,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
               /\$[\w\d#@][\w\d_]*/,
               // negative look-ahead tries to avoid matching patterns that are not
               // Perl at all like $ident$, @ident@, etc.
-              `(?![\\w\\d])(?![$])`
+              `(?![\\w\\d])(?![$])`,
             ),
           },
           BRACED_VAR,
@@ -8114,7 +8114,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
                 hljs.TITLE_MODE,
               ],
             },
-          ]
+          ],
         ),
         exports: {
           preprocessor: PREPROCESSOR,
@@ -9056,7 +9056,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const excluding = (list) => (kw) => !list.includes(kw);
       const KEYWORDS$1 = {
         keyword: KEYWORDS.concat(COFFEE_KEYWORDS).filter(
-          excluding(NOT_VALID_KEYWORDS)
+          excluding(NOT_VALID_KEYWORDS),
         ),
         literal: LITERALS.concat(COFFEE_LITERALS),
         built_in: BUILT_INS.concat(COFFEE_BUILT_INS),
@@ -10272,7 +10272,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           /(?!switch)/,
           /(?!while)/,
           hljs.IDENT_RE,
-          regex.lookahead(/(<[^<>]+>|)\s*\(/)
+          regex.lookahead(/(<[^<>]+>|)\s*\(/),
         ),
       };
 
@@ -10429,7 +10429,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
                 3: "title.class",
               },
             },
-          ]
+          ],
         ),
       };
     }
@@ -11095,7 +11095,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             { begin: '""' },
             SUBST_NO_LF,
           ],
-        }
+        },
       );
       SUBST.contains = [
         INTERPOLATED_VERBATIM_STRING,
@@ -13037,7 +13037,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             match: regex.either(
               /^@@ +-\d+,\d+ +\+\d+,\d+ +@@/,
               /^\*\*\* +\d+,\d+ +\*\*\*\*$/,
-              /^--- +\d+,\d+ +----$/
+              /^--- +\d+,\d+ +----$/,
             ),
           },
           {
@@ -13051,7 +13051,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
                   /^-{3}/,
                   /^\*{3} /,
                   /^\+{3}/,
-                  /^diff --git/
+                  /^diff --git/,
                 ),
                 end: /$/,
               },
@@ -13950,7 +13950,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         contains: SIGIL_DELIMITER_MODES.map((x) =>
           hljs.inherit(x, {
             contains: [escapeSigilEnd(x.end), BACKSLASH_ESCAPE, SUBST],
-          })
+          }),
         ),
       };
 
@@ -13958,7 +13958,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         className: "string",
         begin: "~[A-Z]" + "(?=" + SIGIL_DELIMITERS + ")",
         contains: SIGIL_DELIMITER_MODES.map((x) =>
-          hljs.inherit(x, { contains: [escapeSigilEnd(x.end)] })
+          hljs.inherit(x, { contains: [escapeSigilEnd(x.end)] }),
         ),
       };
 
@@ -13971,7 +13971,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
               hljs.inherit(x, {
                 end: regex.concat(x.end, /[uismxfU]{0,7}/),
                 contains: [escapeSigilEnd(x.end), BACKSLASH_ESCAPE, SUBST],
-              })
+              }),
             ),
           },
           {
@@ -13980,7 +13980,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
               hljs.inherit(x, {
                 end: regex.concat(x.end, /[uismxfU]{0,7}/),
                 contains: [escapeSigilEnd(x.end)],
-              })
+              }),
             ),
           },
         ],
@@ -14514,7 +14514,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             begin: regex.concat(
               /\?(::)?/,
               /([A-Z]\w*)/, // at least one identifier
-              /((::)[A-Z]\w*)*/ // perhaps more
+              /((::)[A-Z]\w*)*/, // perhaps more
             ),
           },
           { begin: "->" },
@@ -15259,21 +15259,21 @@ if (typeof exports === "object" && typeof module !== "undefined") {
               /\b\d+/,
               /\.(\d*)/,
               OPTIONAL_NUMBER_EXP,
-              OPTIONAL_NUMBER_SUFFIX
+              OPTIONAL_NUMBER_SUFFIX,
             ),
           },
           {
             begin: regex.concat(
               /\b\d+/,
               OPTIONAL_NUMBER_EXP,
-              OPTIONAL_NUMBER_SUFFIX
+              OPTIONAL_NUMBER_SUFFIX,
             ),
           },
           {
             begin: regex.concat(
               /\.\d+/,
               OPTIONAL_NUMBER_EXP,
-              OPTIONAL_NUMBER_SUFFIX
+              OPTIONAL_NUMBER_SUFFIX,
             ),
           },
         ],
@@ -16126,7 +16126,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           {
             match: concat(
               BEGIN_GENERIC_TYPE_SYMBOL_RE,
-              hljs.UNDERSCORE_IDENT_RE
+              hljs.UNDERSCORE_IDENT_RE,
             ),
           },
         ],
@@ -16145,22 +16145,22 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         const OPERATOR_CHAR_RE = concat(
           "[",
           ...OPERATOR_CHARS.map(escape),
-          "]"
+          "]",
         );
         // The lone dot operator is special. It cannot be redefined, and we don't want to highlight it. It can be used as part of a multi-chars operator though.
         const OPERATOR_CHAR_OR_DOT_RE = either(OPERATOR_CHAR_RE, /\./);
         // When a dot is present, it must be followed by another operator char:
         const OPERATOR_FIRST_CHAR_OF_MULTIPLE_RE = concat(
           OPERATOR_CHAR_OR_DOT_RE,
-          lookahead(OPERATOR_CHAR_OR_DOT_RE)
+          lookahead(OPERATOR_CHAR_OR_DOT_RE),
         );
         const SYMBOLIC_OPERATOR_RE = either(
           concat(
             OPERATOR_FIRST_CHAR_OF_MULTIPLE_RE,
             OPERATOR_CHAR_OR_DOT_RE,
-            "*"
+            "*",
           ), // Matches at least 2 chars operators
-          concat(OPERATOR_CHAR_RE, "+") // Matches at least one char operators
+          concat(OPERATOR_CHAR_RE, "+"), // Matches at least one char operators
         );
         return {
           scope: "operator",
@@ -16174,7 +16174,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             /:>/,
             /:=/, // Reference cell assignment
             /::?/, // : or ::
-            /\$/
+            /\$/,
           ), // A single $ can be used as an operator
           relevance: 0,
         };
@@ -16201,10 +16201,10 @@ if (typeof exports === "object" && typeof module !== "undefined") {
                   /#/, // flexible type name
                   /``/, // quoted type name
                   /\(/, // parens type expression
-                  /{\|/ // anonymous type annotation
-                )
-              )
-            )
+                  /{\|/, // anonymous type annotation
+                ),
+              ),
+            ),
           ),
           beginScope: prefixScope,
           // BUG: because ending with \n is necessary for some cases, multi-line type annotations are not properly supported.
@@ -16228,7 +16228,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const TYPE_ANNOTATION = makeTypeAnnotationMode(/:/, "operator");
       const DISCRIMINATED_UNION_TYPE_ANNOTATION = makeTypeAnnotationMode(
         /\bof\b/,
-        "keyword"
+        "keyword",
       );
 
       // type MyType<'a> = ...
@@ -16371,9 +16371,9 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           /'/,
           either(
             /[^\\']/, // either a single non escaped char...
-            /\\(?:.|\d{3}|x[a-fA-F\d]{2}|u[a-fA-F\d]{4}|U[a-fA-F\d]{8})/ // ...or an escape sequence
+            /\\(?:.|\d{3}|x[a-fA-F\d]{2}|u[a-fA-F\d]{4}|U[a-fA-F\d]{8})/, // ...or an escape sequence
           ),
-          /'/
+          /'/,
         ),
       };
       // F# allows a lot of things inside string placeholders.
@@ -16550,7 +16550,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             begin: regex.concat(
               COMMENT_WORD,
               // [ ] because \s would be too broad (matching newlines)
-              regex.anyNumberOfTimes(regex.concat(/[ ]+/, COMMENT_WORD))
+              regex.anyNumberOfTimes(regex.concat(/[ ]+/, COMMENT_WORD)),
             ),
             relevance: 0,
           },
@@ -16848,7 +16848,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             excludeEnd: true,
             contains: [].concat(PARSE_PARAMS),
           },
-          {}
+          {},
         );
         mode.contains.push(FUNCTION_DEF);
         mode.contains.push(hljs.C_NUMBER_MODE);
@@ -20974,7 +20974,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           hljs.APOS_STRING_MODE,
           hljs.QUOTE_STRING_MODE,
         ],
-        { className: "string" }
+        { className: "string" },
       );
 
       const CLASS_DEFINITION = {
@@ -21284,13 +21284,13 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         DOUBLE_QUOTED_ID_REGEX,
         SINGLE_QUOTED_ID_REGEX,
         BRACKET_QUOTED_ID_REGEX,
-        PLAIN_ID_REGEX
+        PLAIN_ID_REGEX,
       );
 
       const IDENTIFIER_REGEX = regex.concat(
         regex.optional(/\.|\.\/|\//), // relative or absolute path
         ANY_ID,
-        regex.anyNumberOfTimes(regex.concat(PATH_DELIMITER_REGEX, ANY_ID))
+        regex.anyNumberOfTimes(regex.concat(PATH_DELIMITER_REGEX, ANY_ID)),
       );
 
       // identifier followed by a equal-sign (without the equal sign)
@@ -21299,7 +21299,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         BRACKET_QUOTED_ID_REGEX,
         "|",
         PLAIN_ID_REGEX,
-        ")(?==)"
+        ")(?==)",
       );
 
       const HELPER_NAME_OR_PATH_EXPRESSION = { begin: IDENTIFIER_REGEX };
@@ -21369,7 +21369,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           className: "name",
           keywords: BUILT_INS,
           starts: hljs.inherit(HELPER_PARAMETERS, { end: /\)/ }),
-        }
+        },
       );
 
       SUB_EXPRESSION.contains = [SUB_EXPRESSION_CONTENTS];
@@ -21380,7 +21380,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           keywords: BUILT_INS,
           className: "name",
           starts: hljs.inherit(HELPER_PARAMETERS, { end: /\}\}/ }),
-        }
+        },
       );
 
       const CLOSING_BLOCK_MUSTACHE_CONTENTS = hljs.inherit(
@@ -21388,7 +21388,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         {
           keywords: BUILT_INS,
           className: "name",
-        }
+        },
       );
 
       const BASIC_MUSTACHE_CONTENTS = hljs.inherit(
@@ -21397,7 +21397,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           className: "name",
           keywords: BUILT_INS,
           starts: hljs.inherit(HELPER_PARAMETERS, { end: /\}\}/ }),
-        }
+        },
       );
 
       const ESCAPE_MUSTACHE_WITH_PRECEEDING_BACKSLASH = {
@@ -22341,14 +22341,14 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const ANY_KEY = regex.either(
         BARE_KEY,
         QUOTED_KEY_DOUBLE_QUOTE,
-        QUOTED_KEY_SINGLE_QUOTE
+        QUOTED_KEY_SINGLE_QUOTE,
       );
       const DOTTED_KEY = regex.concat(
         ANY_KEY,
         "(\\s*\\.\\s*",
         ANY_KEY,
         ")*",
-        regex.lookahead(/\s*=\s*[^#\s]/)
+        regex.lookahead(/\s*=\s*[^#\s]/),
       );
 
       return {
@@ -22419,21 +22419,21 @@ if (typeof exports === "object" && typeof module !== "undefined") {
               /\b\d+/,
               /\.(\d*)/,
               OPTIONAL_NUMBER_EXP,
-              OPTIONAL_NUMBER_SUFFIX
+              OPTIONAL_NUMBER_SUFFIX,
             ),
           },
           {
             begin: regex.concat(
               /\b\d+/,
               OPTIONAL_NUMBER_EXP,
-              OPTIONAL_NUMBER_SUFFIX
+              OPTIONAL_NUMBER_SUFFIX,
             ),
           },
           {
             begin: regex.concat(
               /\.\d+/,
               OPTIONAL_NUMBER_EXP,
-              OPTIONAL_NUMBER_SUFFIX
+              OPTIONAL_NUMBER_SUFFIX,
             ),
           },
         ],
@@ -25808,7 +25808,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             JAVA_IDENT_RE +
             "~~~)*>)?",
           /~~~/g,
-          2
+          2,
         );
       const MAIN_KEYWORDS = [
         "synchronized",
@@ -26447,7 +26447,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
                 IDENT_RE$1,
                 "(",
                 regex.concat(/\./, IDENT_RE$1),
-                ")*"
+                ")*",
               ),
             ],
             scope: {
@@ -26478,7 +26478,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           // CSSFactory, CSSFactoryT
           /\b[A-Z]{2,}([A-Z][a-z]+|\d)+([A-Z][a-z]*)*/,
           // FPs, FPsT
-          /\b[A-Z]{2,}[a-z]+([A-Z][a-z]+|\d)*([A-Z][a-z]*)*/
+          /\b[A-Z]{2,}[a-z]+([A-Z][a-z]+|\d)*([A-Z][a-z]*)*/,
           // P
           // single letters are not highlighted
           // BLAH
@@ -26534,10 +26534,10 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         match: regex.concat(
           /\b/,
           noneOf(
-            [...BUILT_IN_GLOBALS, "super", "import"].map((x) => `${x}\\s*\\(`)
+            [...BUILT_IN_GLOBALS, "super", "import"].map((x) => `${x}\\s*\\(`),
           ),
           IDENT_RE$1,
-          regex.lookahead(/\s*\(/)
+          regex.lookahead(/\s*\(/),
         ),
         className: "title.function",
         relevance: 0,
@@ -26546,7 +26546,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const PROPERTY_ACCESS = {
         begin: regex.concat(
           /\./,
-          regex.lookahead(regex.concat(IDENT_RE$1, /(?![0-9A-Za-z$_(])/))
+          regex.lookahead(regex.concat(IDENT_RE$1, /(?![0-9A-Za-z$_(])/)),
         ),
         end: IDENT_RE$1,
         excludeBegin: true,
@@ -27904,7 +27904,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           "(?:[Ss]igma|varsigma|tau|[Uu]psilon|[Pp]hi|varphi|chi|[Pp]si|[Oo]mega)",
           "(?:frac|sum|prod|lim|infty|times|sqrt|leq|geq|left|right|middle|[bB]igg?)",
           "(?:[lr]angle|q?quad|[lcvdi]?dots|d?dot|hat|tilde|bar)",
-        ].map((word) => word + "(?![a-zA-Z@:_])")
+        ].map((word) => word + "(?![a-zA-Z@:_])"),
       );
       const L3_REGEX = new RegExp(
         [
@@ -27930,7 +27930,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           "::[a-zA-Z:]",
         ]
           .map((pattern) => pattern + "(?![a-zA-Z:_])")
-          .join("|")
+          .join("|"),
       );
       const L2_VARIANTS = [
         { begin: /[a-zA-Z@]+/ }, // control word
@@ -28053,7 +28053,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             },
             relevance: 0,
           },
-          ARGUMENT_AND_THEN(ARGUMENT_M, starts_mode)
+          ARGUMENT_AND_THEN(ARGUMENT_M, starts_mode),
         );
       };
       const VERBATIM_DELIMITED_EQUAL = (innerName = "string") => {
@@ -28099,19 +28099,19 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       };
       const VERBATIM = [
         ...["verb", "lstinline"].map((csname) =>
-          CSNAME(csname, { contains: [VERBATIM_DELIMITED_EQUAL()] })
+          CSNAME(csname, { contains: [VERBATIM_DELIMITED_EQUAL()] }),
         ),
         CSNAME(
           "mint",
           ARGUMENT_AND_THEN(ARGUMENT_M, {
             contains: [VERBATIM_DELIMITED_EQUAL()],
-          })
+          }),
         ),
         CSNAME(
           "mintinline",
           ARGUMENT_AND_THEN(ARGUMENT_M, {
             contains: [VERBATIM_DELIMITED_BRACES(), VERBATIM_DELIMITED_EQUAL()],
-          })
+          }),
         ),
         CSNAME("url", {
           contains: [
@@ -28124,38 +28124,38 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           "href",
           ARGUMENT_AND_THEN(ARGUMENT_O, {
             contains: [VERBATIM_DELIMITED_BRACES("link")],
-          })
+          }),
         ),
         ...[].concat(
           ...["", "\\*"].map((suffix) => [
             BEGIN_ENV(
               "verbatim" + suffix,
-              VERBATIM_DELIMITED_ENV("verbatim" + suffix)
+              VERBATIM_DELIMITED_ENV("verbatim" + suffix),
             ),
             BEGIN_ENV(
               "filecontents" + suffix,
               ARGUMENT_AND_THEN(
                 ARGUMENT_M,
-                VERBATIM_DELIMITED_ENV("filecontents" + suffix)
-              )
+                VERBATIM_DELIMITED_ENV("filecontents" + suffix),
+              ),
             ),
             ...["", "B", "L"].map((prefix) =>
               BEGIN_ENV(
                 prefix + "Verbatim" + suffix,
                 ARGUMENT_AND_THEN(
                   ARGUMENT_O,
-                  VERBATIM_DELIMITED_ENV(prefix + "Verbatim" + suffix)
-                )
-              )
+                  VERBATIM_DELIMITED_ENV(prefix + "Verbatim" + suffix),
+                ),
+              ),
             ),
-          ])
+          ]),
         ),
         BEGIN_ENV(
           "minted",
           ARGUMENT_AND_THEN(
             ARGUMENT_O,
-            ARGUMENT_AND_THEN(ARGUMENT_M, VERBATIM_DELIMITED_ENV("minted"))
-          )
+            ARGUMENT_AND_THEN(ARGUMENT_M, VERBATIM_DELIMITED_ENV("minted")),
+          ),
         ),
       ];
 
@@ -29111,7 +29111,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         },
         modes.IMPORTANT,
         { beginKeywords: "and not" },
-        modes.FUNCTION_DISPATCH
+        modes.FUNCTION_DISPATCH,
       );
 
       const VALUE_WITH_RULESETS = VALUE_MODES.concat({
@@ -29253,7 +29253,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         RULE_MODE,
         SELECTOR_MODE,
         MIXIN_GUARD_MODE,
-        modes.FUNCTION_DISPATCH
+        modes.FUNCTION_DISPATCH,
       );
 
       return {
@@ -37877,7 +37877,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const NUMBER_RE = /(\d*\.\d+|\d+\.\d*|\d+)/;
       const BASE_NUMBER_RE = regex.either(
         regex.concat(BASE_RE, BASE_DIGITS_RE),
-        NUMBER_RE
+        NUMBER_RE,
       );
 
       const ACCURACY_RE = /``[+-]?(\d*\.\d+|\d+\.\d*|\d+)/;
@@ -37889,7 +37889,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const MATHEMATICA_NUMBER_RE = regex.concat(
         BASE_NUMBER_RE,
         regex.optional(APPROXIMATE_NUMBER_RE),
-        regex.optional(SCIENTIFIC_NOTATION_RE)
+        regex.optional(SCIENTIFIC_NOTATION_RE),
       );
 
       const NUMBERS = {
@@ -39995,7 +39995,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           {
             className: "section",
             begin: regex.concat(
-              hljs.UNDERSCORE_IDENT_RE + regex.lookahead(/\s+\{/)
+              hljs.UNDERSCORE_IDENT_RE + regex.lookahead(/\s+\{/),
             ),
             relevance: 0,
           },
@@ -41728,7 +41728,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
               /[$%@](?!")(\^\w\b|#\w+(::\w+)*|\{\w+\}|\w+(::\w*)*)/,
               // negative look-ahead tries to avoid matching patterns that are not
               // Perl at all like $ident$, @ident@, etc.
-              `(?![A-Za-z])(?![@$%])`
+              `(?![A-Za-z])(?![@$%])`,
             ),
           },
           {
@@ -41779,7 +41779,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           middle,
           /(?:\\.|[^\\\/])*?/,
           close,
-          REGEX_MODIFIERS
+          REGEX_MODIFIERS,
         );
       };
       /**
@@ -41793,7 +41793,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           open,
           /(?:\\.|[^\\\/])*?/,
           close,
-          REGEX_MODIFIERS
+          REGEX_MODIFIERS,
         );
       };
       const PERL_DEFAULT_CONTAINS = [
@@ -41877,7 +41877,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
                 {
                   begin: PAIRED_DOUBLE_RE(
                     "s|tr|y",
-                    regex.either(...REGEX_DELIMS, { capture: true })
+                    regex.either(...REGEX_DELIMS, { capture: true }),
                   ),
                 },
                 // and then paired delmis
@@ -41903,7 +41903,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
                   begin: PAIRED_RE(
                     "m|qr",
                     regex.either(...REGEX_DELIMS, { capture: true }),
-                    /\1/
+                    /\1/,
                   ),
                 },
                 // allow common paired delmins
@@ -42609,12 +42609,12 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const NOT_PERL_ETC = /(?![A-Za-z0-9])(?![$])/;
       const IDENT_RE = regex.concat(
         /[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/,
-        NOT_PERL_ETC
+        NOT_PERL_ETC,
       );
       // Will not detect camelCase classes
       const PASCAL_CASE_CLASS_NAME_RE = regex.concat(
         /(\\?[A-Z][a-z0-9_\x7f-\xff]+|\\?[A-Z]+(?=[A-Z][a-z0-9_\x7f-\xff])){1,}/,
-        NOT_PERL_ETC
+        NOT_PERL_ETC,
       );
       const VARIABLE = {
         scope: "variable",
@@ -42927,7 +42927,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
               regex.concat(
                 "(?!",
                 normalizeKeywords(BUILT_INS).join("\\b|"),
-                "\\b)"
+                "\\b)",
               ),
               PASCAL_CASE_CLASS_NAME_RE,
             ],
@@ -42987,7 +42987,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         match: regex.concat(
           IDENT_RE,
           regex.lookahead(":"),
-          regex.lookahead(/(?!::)/)
+          regex.lookahead(/(?!::)/),
         ),
       };
       const PARAMS_MODE = {
@@ -43015,7 +43015,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             normalizeKeywords(KWS).join("\\b|"),
             "|",
             normalizeKeywords(BUILT_INS).join("\\b|"),
-            "\\b)"
+            "\\b)",
           ),
           IDENT_RE,
           regex.concat(WHITESPACE, "*"),
@@ -43641,7 +43641,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             className: "keyword",
             begin: "(".concat(
               KEYWORDS.keyword.toString().replace(/\s/g, "|"),
-              ")\\b"
+              ")\\b",
             ),
             endsParent: true,
             relevance: 0,
@@ -43683,7 +43683,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             className: "type",
             begin: /[\.\w\d]+/,
             relevance: 0,
-          }
+          },
         ),
       };
 
@@ -43699,7 +43699,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           PS_FUNCTION,
           PS_USING,
           PS_ARGUMENTS,
-          PS_TYPE
+          PS_TYPE,
         ),
       };
     }
@@ -43992,7 +43992,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           {
             match: regex.concat(
               regex.either(...BUILT_INS),
-              regex.lookahead(/\s*\(/)
+              regex.lookahead(/\s*\(/),
             ),
             className: "built_in",
           },
@@ -44001,7 +44001,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             match: regex.concat(
               /\b(?!for|if|while)/,
               IDENT,
-              regex.lookahead(/\s*\(/)
+              regex.lookahead(/\s*\(/),
             ),
             className: "title.function",
           },
@@ -45416,7 +45416,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         // Hexadecimal numbers without fraction and optional binary power
         /0[xX][0-9a-fA-F]+(?:[pP][+-]?\d+)?[Li]?/,
         // Decimal numbers
-        /(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?[Li]?/
+        /(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?[Li]?/,
       );
       const OPERATORS_RE =
         /[=!<>:]=|\|\||&&|:::?|<-|<<-|->>|->|\|>|[-+*\/?!$&|:<=>@^~]|\*\*/;
@@ -45426,7 +45426,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         /\[\[/,
         /[[\]]/,
         /\\/,
-        /,/
+        /,/,
       );
 
       return {
@@ -45481,8 +45481,8 @@ if (typeof exports === "object" && typeof module !== "undefined") {
                       // end if another doc comment
                       /\n^#'\s*(?=@[a-zA-Z]+)/,
                       // or a line with no comment
-                      /\n^(?!#')/
-                    )
+                      /\n^(?!#')/,
+                    ),
                   ),
                   endsParent: true,
                 },
@@ -46275,11 +46275,11 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const CLASS_NAME_RE = regex.either(
         /\b([A-Z]+[a-z0-9]+)+/,
         // ends in caps
-        /\b([A-Z]+[a-z0-9]+)+[A-Z]+/
+        /\b([A-Z]+[a-z0-9]+)+[A-Z]+/,
       );
       const CLASS_NAME_WITH_NAMESPACE_RE = regex.concat(
         CLASS_NAME_RE,
-        /(::\w+)*/
+        /(::\w+)*/,
       );
       // very popular ruby built-ins that one might even assume
       // are actual keywords (despite that not being the case)
@@ -46428,7 +46428,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             // positive (auto-detect, etc.)
             begin: regex.concat(
               /<<[-~]?'?/,
-              regex.lookahead(/(\w+)(?=\W)[^\n]*\n(?:[^\n]*\n)*?\s*\1\b/)
+              regex.lookahead(/(\w+)(?=\W)[^\n]*\n(?:[^\n]*\n)*?\s*\1\b/),
             ),
             contains: [
               hljs.END_SAME_AS_BEGIN({
@@ -46780,7 +46780,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const RAW_IDENTIFIER = /(r#)?/;
       const UNDERSCORE_IDENT_RE = regex.concat(
         RAW_IDENTIFIER,
-        hljs.UNDERSCORE_IDENT_RE
+        hljs.UNDERSCORE_IDENT_RE,
       );
       const IDENT_RE = regex.concat(RAW_IDENTIFIER, hljs.IDENT_RE);
       // ============================================
@@ -46791,7 +46791,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           /\b/,
           /(?!let|for|while|if|else|match\b)/,
           IDENT_RE,
-          regex.lookahead(/\s*\(/)
+          regex.lookahead(/\s*\(/),
         ),
       };
       const NUMBER_SUFFIX = "([ui](8|16|32|64|128|size)|f(32|64))?";
@@ -52554,7 +52554,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const KEYWORDS = [...RESERVED_WORDS, ...NON_RESERVED_WORDS].filter(
         (keyword) => {
           return !RESERVED_FUNCTIONS.includes(keyword);
-        }
+        },
       );
 
       const VARIABLE = {
@@ -53076,7 +53076,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             match: regex.concat(
               /[<,]\s*/,
               regex.either(...RANGE_CONSTRAINTS),
-              /\s*=/
+              /\s*=/,
             ),
             keywords: RANGE_CONSTRAINTS,
           },
@@ -53104,7 +53104,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             begin: regex.concat(
               /\w*/,
               regex.either(...DISTRIBUTIONS),
-              /(_lpdf|_lupdf|_lpmf|_cdf|_lcdf|_lccdf|_qf)(?=\s*[\(.*\)])/
+              /(_lpdf|_lupdf|_lpmf|_cdf|_lcdf|_lccdf|_qf)(?=\s*[\(.*\)])/,
             ),
           },
           {
@@ -53144,7 +53144,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
               /(?:\b\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\B\.\d+(?:_\d+)*)/,
               // grabs scientific notation
               // grabs complex numbers with i
-              /(?:[eE][+-]?\d+(?:_\d+)*)?i?(?!\w)/
+              /(?:[eE][+-]?\d+(?:_\d+)*)?i?(?!\w)/,
             ),
             relevance: 0,
           },
@@ -54542,7 +54542,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       /[\u2E00-\u2E7F]/,
       /[\u3001-\u3003]/,
       /[\u3008-\u3020]/,
-      /[\u3030]/
+      /[\u3030]/,
     );
 
     // Valid characters for operators.
@@ -54552,7 +54552,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       /[\u1DC0-\u1DFF]/,
       /[\u20D0-\u20FF]/,
       /[\uFE00-\uFE0F]/,
-      /[\uFE20-\uFE2F]/
+      /[\uFE20-\uFE2F]/,
       // TODO: The following characters are also allowed, but the regex isn't supported yet.
       // /[\u{E0100}-\u{E01EF}]/u
     );
@@ -54572,7 +54572,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       /[\u2C00-\u2DFF\u2E80-\u2FFF]/,
       /[\u3004-\u3007\u3021-\u302F\u3031-\u303F\u3040-\uD7FF]/,
       /[\uF900-\uFD3D\uFD40-\uFDCF\uFDF0-\uFE1F\uFE30-\uFE44]/,
-      /[\uFE47-\uFEFE\uFF00-\uFFFD]/ // Should be /[\uFE47-\uFFFD]/, but we have to exclude FEFF.
+      /[\uFE47-\uFEFE\uFF00-\uFFFD]/, // Should be /[\uFE47-\uFFFD]/, but we have to exclude FEFF.
       // The following characters are also allowed, but the regexes aren't supported yet.
       // /[\u{10000}-\u{1FFFD}\u{20000-\u{2FFFD}\u{30000}-\u{3FFFD}\u{40000}-\u{4FFFD}]/u,
       // /[\u{50000}-\u{5FFFD}\u{60000-\u{6FFFD}\u{70000}-\u{7FFFD}\u{80000}-\u{8FFFD}]/u,
@@ -54584,7 +54584,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
     const identifierCharacter = either(
       identifierHead,
       /\d/,
-      /[\u0300-\u036F\u1DC0-\u1DFF\u20D0-\u20FF\uFE20-\uFE2F]/
+      /[\u0300-\u036F\u1DC0-\u1DFF\u20D0-\u20FF\uFE20-\uFE2F]/,
     );
 
     // Valid identifier.
@@ -54699,7 +54699,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const KEYWORDS = {
         $pattern: either(
           /\b\w+/, // regular keywords
-          /#\w+/ // number keywords
+          /#\w+/, // number keywords
         ),
         keyword: PLAIN_KEYWORDS.concat(numberSignKeywords),
         literal: literals,
@@ -54896,7 +54896,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         match: concat(
           /@/,
           either(...keywordAttributes),
-          lookahead(either(/\(/, /\s+/))
+          lookahead(either(/\(/, /\s+/)),
         ),
       };
 
@@ -54922,7 +54922,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             match: concat(
               /(AV|CA|CF|CG|CI|CL|CM|CN|CT|MK|MP|MTK|MTL|NS|SCN|SK|UI|WK|XC)/,
               identifierCharacter,
-              "+"
+              "+",
             ),
           },
           {
@@ -55000,7 +55000,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const FUNCTION_PARAMETER_NAME = {
         begin: either(
           lookahead(concat(identifier, /\s*:/)),
-          lookahead(concat(identifier, /\s+/, identifier, /\s*:/))
+          lookahead(concat(identifier, /\s+/, identifier, /\s*:/)),
         ),
         end: /:/,
         relevance: 0,
@@ -55112,7 +55112,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       // Add supported submodes to string interpolation.
       for (const variant of STRING.variants) {
         const interpolation = variant.contains.find(
-          (mode) => mode.label === "interpol"
+          (mode) => mode.label === "interpol",
         );
         // TODO: Interpolation can contain any expression, so there's room for improvement here.
         interpolation.keywords = KEYWORDS;
@@ -55458,7 +55458,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
                   TCL_IDENT,
                   "(::",
                   TCL_IDENT,
-                  ")*"
+                  ")*",
                 ),
               },
               {
@@ -56418,7 +56418,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
                 IDENT_RE$1,
                 "(",
                 regex.concat(/\./, IDENT_RE$1),
-                ")*"
+                ")*",
               ),
             ],
             scope: {
@@ -56449,7 +56449,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           // CSSFactory, CSSFactoryT
           /\b[A-Z]{2,}([A-Z][a-z]+|\d)+([A-Z][a-z]*)*/,
           // FPs, FPsT
-          /\b[A-Z]{2,}[a-z]+([A-Z][a-z]+|\d)*([A-Z][a-z]*)*/
+          /\b[A-Z]{2,}[a-z]+([A-Z][a-z]+|\d)*([A-Z][a-z]*)*/,
           // P
           // single letters are not highlighted
           // BLAH
@@ -56505,10 +56505,10 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         match: regex.concat(
           /\b/,
           noneOf(
-            [...BUILT_IN_GLOBALS, "super", "import"].map((x) => `${x}\\s*\\(`)
+            [...BUILT_IN_GLOBALS, "super", "import"].map((x) => `${x}\\s*\\(`),
           ),
           IDENT_RE$1,
-          regex.lookahead(/\s*\(/)
+          regex.lookahead(/\s*\(/),
         ),
         className: "title.function",
         relevance: 0,
@@ -56517,7 +56517,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const PROPERTY_ACCESS = {
         begin: regex.concat(
           /\./,
-          regex.lookahead(regex.concat(IDENT_RE$1, /(?![0-9A-Za-z$_(])/))
+          regex.lookahead(regex.concat(IDENT_RE$1, /(?![0-9A-Za-z$_(])/)),
         ),
         end: IDENT_RE$1,
         excludeBegin: true,
@@ -56833,7 +56833,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
 
       // highlight the function params
       const ATTRIBUTE_HIGHLIGHT = tsLanguage.contains.find(
-        (c) => c.className === "attr"
+        (c) => c.className === "attr",
       );
       tsLanguage.exports.PARAMS_CONTAINS.push([
         tsLanguage.exports.CLASS_REFERENCE, // class reference for highlighting the params types
@@ -56851,7 +56851,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       swapMode(tsLanguage, "use_strict", USE_STRICT);
 
       const functionDeclaration = tsLanguage.contains.find(
-        (m) => m.label === "func.def"
+        (m) => m.label === "func.def",
       );
       functionDeclaration.relevance = 0; // () => {} is more typical in TypeScript
 
@@ -56985,7 +56985,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             begin: regex.concat(
               /# */,
               regex.either(YYYY_MM_DD, MM_DD_YYYY),
-              / *#/
+              / *#/,
             ),
           },
           {
@@ -57003,7 +57003,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
               regex.either(YYYY_MM_DD, MM_DD_YYYY),
               / +/,
               regex.either(TIME_12H, TIME_24H),
-              / *#/
+              / *#/,
             ),
           },
         ],
@@ -58520,7 +58520,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         match: regex.concat(
           /\b(?!(if|while|for|else|super)\b)/,
           IDENT_RE,
-          /(?=\s*[({])/
+          /(?=\s*[({])/,
         ),
         className: "title.function",
       };
@@ -58528,9 +58528,9 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         match: regex.concat(
           regex.either(
             regex.concat(/\b(?!(if|while|for|else|super)\b)/, IDENT_RE),
-            regex.either(...OPERATORS)
+            regex.either(...OPERATORS),
           ),
-          /(?=\s*\([^)]+\)\s*\{)/
+          /(?=\s*\([^)]+\)\s*\{)/,
         ),
         className: "title.function",
         starts: {
@@ -58652,7 +58652,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
           "\\b(?!",
           ALL_KWS.join("|"),
           "\\b)",
-          /[a-zA-Z_]\w*(?:[?!]|\b)/
+          /[a-zA-Z_]\w*(?:[?!]|\b)/,
         ),
         className: "variable",
       };
@@ -59114,7 +59114,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       const TAG_NAME_RE = regex.concat(
         /[\p{L}_]/u,
         regex.optional(/[\p{L}0-9_.-]*:/u),
-        /[\p{L}0-9_.-]*/u
+        /[\p{L}0-9_.-]*/u,
       );
       const XML_IDENT_RE = /[\p{L}0-9._:-]+/u;
       const XML_ENTITIES = {
@@ -59290,9 +59290,9 @@ if (typeof exports === "object" && typeof module !== "undefined") {
                   // <tag/>
                   // <tag>
                   // <tag ...
-                  regex.either(/\/>/, />/, /\s/)
-                )
-              )
+                  regex.either(/\/>/, />/, /\s/),
+                ),
+              ),
             ),
             end: /\/?>/,
             contains: [
@@ -59309,7 +59309,7 @@ if (typeof exports === "object" && typeof module !== "undefined") {
             className: "tag",
             begin: regex.concat(
               /<\//,
-              regex.lookahead(regex.concat(TAG_NAME_RE, />/))
+              regex.lookahead(regex.concat(TAG_NAME_RE, />/)),
             ),
             contains: [
               {
@@ -60063,17 +60063,18 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         keyword: "And Block Do Fun If Let Module Or Set Try Unit Use While",
         built_in:
           "Abs Add All And Any Append ArcCos ArcSin ArcTan ArcTan2 " +
-          "Block Ceiling Chars Chn CloseStream Concat Cond Consume " +
-          "Cos Cosh Delete Div Do Drop Eq Evial Exp Filter Find Floor FromJSON Fun " +
-          "Get GetAddress GetDate GetEnv GetMessage GetTime GetType Global Greater " +
+          "Band Block Bor Bxor Cd Ceiling Chars Chn Concat Cond Consume Cos Cosh " +
+          "Delete Div Do Drop DropReceiver DropSender Eq Evial Exit Exp " +
+          "FileMeta Filter Find Floor FromJSON Fstr Fun " +
+          "Get GetChar GetDate GetEnv GetTime GetType Glob Greater " +
           "Has Head If Index Input Insert IsAtom IsBuiltin IsInteger IsLambda IsList " +
           "IsMember IsNativeObject IsNumber IsObject IsPlugin IsString IsThread IsUnit " +
-          "Keys Length Less Let Ln Load Lowercase Map Max Min Mod Module Mul NDiv Neg Not " +
-          "Object OpenStream Or ParseNumber Ping Plugin Power Prepend Print Quot " +
-          "Range Read ReCapture Reduce Rem ReMatch Remove Reverse Round RunShell " +
-          "SendMessage Set SetEnv Sin Sinh Sleep SlideBy SplitBy Sqrt Sub SubString " +
-          "Tail Take Tan Tanh Thread ToJSON ToString Trim Trunc Try " +
-          "Unit Uppercase Use While Write Zip ZipWith",
+          "Keys Length Less Let Ln Load Lowercase Many Map Max Min Mkdir Mod Module Mul " +
+          "NDiv Neg Not Object OpenChannel Or ParseNumber Plugin Power Prepend Print Pwd Quot " +
+          "Range Read ReCapture ReceiveValue Reduce Rem ReMatch Remove Reverse Rm Round RunShell " +
+          "SendValue Set SetEnv ShiftL ShiftR Sin Sinh Sleep SlideBy SplitBy Sqrt Sub SubString " +
+          "Tail Take Tan Tanh Thread Timeit ToJSON ToString Trim Trunc Try " +
+          "Unit Update Uppercase Use While Write WriteTerm Zip ZipWith",
         literal: "t f err ok",
       };
 
@@ -60146,7 +60147,6 @@ if (typeof exports === "object" && typeof module !== "undefined") {
 
     return ksl;
   })();
-
   if (typeof exports !== "undefined" && typeof module !== "undefined") {
     module.exports = hljsGrammar;
   } else {
