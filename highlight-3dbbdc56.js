@@ -60055,33 +60055,30 @@ if (typeof exports === "object" && typeof module !== "undefined") {
 
     /** @type LanguageFn */
     function ksl(hljs) {
-      const SYMBOL_IDENT_RE = "\\b[\\p{L}_][\\p{L}\\p{N}_']*\\b";
-      const ATOM_IDENT_RE = "\\b\\p{L}[\\p{L}\\p{N}_']*\\b";
-
+      const IDENT_RE = "(?:[^\\s\\p{P}0-9]|_)(?:[^\\s\\p{P}]|_|')*";
       const KEYWORDS = {
-        $pattern: new RegExp(SYMBOL_IDENT_RE, "u"),
-        keyword: "And Block Do Fun If Let Module Or Set Try Unit Use While",
+        $pattern: new RegExp(IDENT_RE, "u"),
+        keyword:
+          "Unit And Or Block Do If While Try Exit Cond Let Update Fun Load Use Module",
         built_in:
-          "Abs Add All And Any Append ArcCos ArcSin ArcTan ArcTan2 " +
-          "Band Block Bor Bxor Cd Ceiling Chars Chn Concat Cond Consume Cos Cosh " +
-          "Delete Div Do Drop DropReceiver DropSender Eq Evial Exit Exp " +
-          "FileMeta Filter Find Floor FromJSON Fstr Fun " +
-          "Get GetChar GetDate GetEnv GetTime GetType Glob Greater " +
-          "Has Head If Index Input Insert IsAtom IsBuiltin IsInteger IsLambda IsList " +
-          "IsMember IsNativeObject IsNumber IsObject IsPlugin IsString IsThread IsUnit " +
-          "Keys Length Less Let Ln Load Lowercase Many Map Max Min Mkdir Mod Module Mul " +
-          "NDiv Neg Not Object OpenChannel Or ParseNumber Plugin Power Prepend Print Pwd Quot " +
+          "Abs Add All Any Append ArcCos ArcSin ArcTan ArcTan2 Band Bor Bxor " +
+          "Cd Ceiling Chars Chn Concat Consume Cos Cosh Delete Div Drop DropReceiver DropSender " +
+          "Eq Evial Exp FileMeta Filter Find Floor FromJSON Fstr " +
+          "Get GetChar GetDate GetEnv GetTime GetType Glob Greater Has Head " +
+          "Index Input Insert IsAtom IsBuiltin IsInteger IsLambda IsList IsMember IsNativeObject IsNumber " +
+          "IsObject IsPlugin IsString IsThread IsUnit Keys Length Less Ln Lowercase " +
+          "Many Map Max Min Mkdir Mod Mul NDiv Neg Not Object OpenChannel " +
+          "PadLeft PadRight ParseNumber Plugin Power Prepend Print Pwd Quot " +
           "Range Read ReCapture ReceiveValue Reduce Rem ReMatch Remove Reverse Rm Round RunShell " +
           "SendValue Set SetEnv ShiftL ShiftR Sin Sinh Sleep SlideBy SplitBy Sqrt Sub SubString " +
-          "Tail Take Tan Tanh Thread Timeit ToJSON ToString Trim Trunc Try " +
-          "Unit Update Uppercase Use While Write WriteTerm Zip ZipWith",
-        literal: "t f err ok",
+          "Tail Take Tan Tanh Thread Timeit ToJSON ToString Trim Trunc Uppercase Write WriteTerm Zip ZipWith",
       };
 
       const NUMBER = {
         className: "number",
         relevance: 0,
-        begin: /\b[+-]?[0-9]+(\.[0-9]*)?(e[+-]?[0-9]+)?\b/,
+        begin:
+          /(?<![\p{L}\p{N}_'])[+-]?[0-9]+(?:\.[0-9]*)?(?:e[+-]?[0-9]+)?(?![\p{L}\p{N}_'])/u,
       };
 
       const COMMENT = {
@@ -60093,41 +60090,39 @@ if (typeof exports === "object" && typeof module !== "undefined") {
       };
 
       const ATOM = {
-        begin: /#/,
-        contains: [
+        variants: [
           {
-            begin: /\b(t|f|err|ok)\b/,
+            begin: /#(t|f|err|ok)(?![\p{L}\p{N}_'])/u,
             className: "literal",
           },
           {
-            begin: /\b[0-9]{1,7}\b/,
-            className: "char",
+            begin: /#[0-9]{1,7}(?![\p{L}\p{N}_'])/u,
+            className: "string",
           },
           {
-            begin: new RegExp(ATOM_IDENT_RE, "u"),
-            className: "meta",
+            begin: new RegExp("#" + IDENT_RE, "u"),
+            className: "symbol",
           },
         ],
-        className: "meta",
       };
 
       const STRING = {
         className: "string",
         begin: /"/,
         end: /"/,
-        contains: [hljs.BACKSLASH_ESCAPE],
+        contains: [],
       };
 
-      const BRACES = {
-        className: "brace",
-        relevance: 0,
-        begin: /[[\]{}]/,
+      const FUNCTION_CALL = {
+        className: "title.function",
+        begin: new RegExp(IDENT_RE + "(?=\\s*\\[)", "u"),
+        keywords: KEYWORDS,
       };
 
-      const SEPARATOR = {
-        className: "operator",
-        match: /[,;]/,
+      const PUNCTUATION = {
+        className: "punctuation",
         relevance: 0,
+        begin: /[[\]{},;]/,
       };
 
       return {
@@ -60135,18 +60130,13 @@ if (typeof exports === "object" && typeof module !== "undefined") {
         aliases: ["ksl"],
         unicodeRegex: true,
         keywords: KEYWORDS,
-        classNameAliases: {
-          literal: "constant",
-          char: "string",
-          meta: "symbol",
-          "title.function": "built_in",
-        },
-        contains: [COMMENT, ATOM, STRING, NUMBER, BRACES, SEPARATOR],
+        contains: [COMMENT, ATOM, STRING, NUMBER, FUNCTION_CALL, PUNCTUATION],
       };
     }
 
     return ksl;
   })();
+
   if (typeof exports !== "undefined" && typeof module !== "undefined") {
     module.exports = hljsGrammar;
   } else {
