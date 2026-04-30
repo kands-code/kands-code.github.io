@@ -23,7 +23,7 @@ KSL 这个名字，_L_ 很好理解，就是 Language，而 _KS_ 则是我的名
 我们先来看一段 KSL 代码吧，
 下面的代码展示的是分别通过递归函数和循环两种方式来求 `$13$` 的阶乘的过程：
 
-```ksl
+```plaintext
 (** 使用递归函数 *)
 Let[Factorial, Fun[{n},
   Block[
@@ -92,7 +92,6 @@ pub enum Value {
 - **Number**: 数字，数字默认使用 `f64`，如果要判断是否是整数，可以使用 `IsInteger` 函数
 - **List**: 列表，内部使用 `Vec<Value>` 来存储，使用 `{ }` 输入，例如 `{1, 2}`
 - **Lambda**: 函数对象，除了内置函数和插件函数，所有的函数都是函数对象
-
   - 获得函数对象可以使用 `Fun` 函数，例如 `Fun[{x}, Add[x, 1]]`
   - 函数对象不能直接调用，例如 `Fun[{x}, Add[x, 1]][2]` 就是无效的，
     如果需要调用函数对象，可以先将函数对象绑定到某个符号上，
@@ -125,7 +124,7 @@ pub enum Value {
 如果想要自己构建类型，简单的可以使用列表，例如 `{#ok, 12}`，
 复杂的可以使用 `Object` 函数，然后自己往对象中填充数据，例如：
 
-```ksl
+```plaintext
 Let[obj, Object[A]];
 
 Let[obj, Set[obj, "key1", 1]];
@@ -147,7 +146,7 @@ Print[Get[obj, "key3"]]; (* 打印 3 *)
 第二个参数对应结果是 `#t` 的情况，
 第三个参数则对应结果是 `#f` 的情况，例如：
 
-```ksl
+```plaintext
 Print[If[#t, 2, 3]]; (* 打印 2 *)
 ```
 
@@ -196,7 +195,7 @@ Builtin 是语言内提供的，至于 Plugin，在 [语言插件](#语言插件
 
 Lambda 的定义使用 `Fun` 函数，下面是一个编写和使用斐波那契函数的示例：
 
-```ksl
+```plaintext
 Let[Fib, Fun[{n},
   If[And[IsInteger[n], Greater[n, 0]],
     Block[
@@ -212,7 +211,7 @@ Print[Fib[24]];
 
 当然，除了绑定到符号上，还可以作为参数使用，例如：
 
-```ksl
+```plaintext
 Let[Map, Fun[{f, lst},
   If[And[IsList[lst],
     Or[IsLambda[f],
@@ -497,6 +496,7 @@ test
 不管怎样，KSL 目前还属于半可用状态，核心库代码也没有很好注释，后续有时间了会补上
 
 [^1]: 基本语法并非完全自己设计，有参考 Wolfram 和 LISP，但是其他部分都是自己独立实现的
+
 [^2]:
     Wolfram Language.Wikipedia \[DB/OL\].(2025-04-11)\[2025-04-14\].
     <https://en.wikipedia.org/wiki/Wolfram_Language>

@@ -60048,98 +60048,27 @@ if (typeof exports === "object" && typeof module !== "undefined") {
 
   hljs.registerLanguage("zephir", hljsGrammar);
 })();
-/*! `ksl` grammar compiled for Highlight.js */
-(function () {
-  var hljsGrammar = (function () {
-    "use strict";
+/*! `ksl` grammar for Highlight.js */
+hljs.registerLanguage("ksl", function (hljs) {
+  "use strict";
 
-    /** @type LanguageFn */
-    function ksl(hljs) {
-      const IDENT_RE = "(?:[^\\s\\p{P}0-9]|_)(?:[^\\s\\p{P}]|_|')*";
-      const KEYWORDS = {
-        $pattern: new RegExp(IDENT_RE, "u"),
-        keyword:
-          "Unit And Or Block Do If While Try Exit Cond Let Update Fun Load Use Module",
-        built_in:
-          "Abs Add All Any Append ArcCos ArcSin ArcTan ArcTan2 Band Bor Bxor " +
-          "Cd Ceiling Chars Chn Concat Consume Cos Cosh Delete Div Drop DropReceiver DropSender " +
-          "Eq Evial Exp FileMeta Filter Find Floor FromJSON Fstr " +
-          "Get GetChar GetDate GetEnv GetTime GetType Glob Greater Has Head " +
-          "Index Input Insert IsAtom IsBuiltin IsInteger IsLambda IsList IsMember IsNativeObject IsNumber " +
-          "IsObject IsPlugin IsString IsThread IsUnit Keys Length Less Ln Lowercase " +
-          "Many Map Max Min Mkdir Mod Mul NDiv Neg Not Object OpenChannel " +
-          "PadLeft PadRight ParseNumber Plugin Power Prepend Print Pwd Quot " +
-          "Range Read ReCapture ReceiveValue Reduce Rem ReMatch Remove Reverse Rm Round RunShell " +
-          "SendValue Set SetEnv ShiftL ShiftR Sin Sinh Sleep SlideBy SplitBy Sqrt Sub SubString " +
-          "Tail Take Tan Tanh Thread Timeit ToJSON ToString Trim Trunc Uppercase Write WriteTerm Zip ZipWith",
-      };
-
-      const NUMBER = {
-        className: "number",
-        relevance: 0,
-        begin:
-          /(?<![\p{L}\p{N}_'])[+-]?[0-9]+(?:\.[0-9]*)?(?:e[+-]?[0-9]+)?(?![\p{L}\p{N}_'])/u,
-      };
-
-      const COMMENT = {
-        className: "comment",
-        variants: [
-          { begin: /\(\*\*/, end: /\*\)/, relevance: 10, contains: ["self"] },
-          { begin: /\(\*/, end: /\*\)/, contains: ["self"] },
-        ],
-      };
-
-      const ATOM = {
-        variants: [
-          {
-            begin: /#(t|f|err|ok)(?![\p{L}\p{N}_'])/u,
-            className: "literal",
-          },
-          {
-            begin: /#[0-9]{1,7}(?![\p{L}\p{N}_'])/u,
-            className: "string",
-          },
-          {
-            begin: new RegExp("#" + IDENT_RE, "u"),
-            className: "symbol",
-          },
-        ],
-      };
-
-      const STRING = {
-        className: "string",
-        begin: /"/,
-        end: /"/,
-        contains: [],
-      };
-
-      const FUNCTION_CALL = {
-        className: "title.function",
-        begin: new RegExp(IDENT_RE + "(?=\\s*\\[)", "u"),
-        keywords: KEYWORDS,
-      };
-
-      const PUNCTUATION = {
-        className: "punctuation",
-        relevance: 0,
-        begin: /[[\]{},;]/,
-      };
-
-      return {
-        name: "KSL",
-        aliases: ["ksl"],
-        unicodeRegex: true,
-        keywords: KEYWORDS,
-        contains: [COMMENT, ATOM, STRING, NUMBER, FUNCTION_CALL, PUNCTUATION],
-      };
-    }
-
-    return ksl;
-  })();
-
-  if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    module.exports = hljsGrammar;
-  } else {
-    hljs.registerLanguage("ksl", hljsGrammar);
-  }
-})();
+  return {
+    name: "KSL",
+    keywords: {
+      keyword:
+        "Block While Do If And Or Cond Fun Let Load Module Object Plugin Thread Timeit Use Cd Evial Exit Try Update",
+      operator: "Has",
+      built_in:
+        "ArcTan Chars GetTime IsModule Print Drop Rm GetEnv Mod Uppercase Length Max ParseNumber Append Set Get Rem Tail Neg DropReceiver ToJSON Cosh Index ArcSin IsNumber GetDate ReCapture FromJSON IsString IsMember Prepend Quot Tanh Bor Delete Sub Cos IsAtom PadLeft Map SlideBy Abs Sinh IsThread Bxor Take Tan Filter IsPlugin Consume Write All Min Exp Head Fstr Ln Power SendValue Sqrt IsUnit Concat Keys Not Any Less IsInteger OpenChannel ArcCos Sin Find SplitBy SubString Ceiling IsNativeObject Many Reduce Round FileMeta IsList Insert Reverse Div Unit GetType ZipWith Range ShiftR Add Input IsBuiltin Mul IsObject PadRight Pwd Glob ReMatch Floor Band IsLambda Read Chn GetChar Mkdir ShiftL Trim Eq SetEnv ReceiveValue ToString Greater ArcTan2 Lowercase Sleep RunShell Trunc NDiv Zip WriteTerm DropSender",
+    },
+    contains: [
+      hljs.COMMENT(/\(\*/, /\*\)/, { contains: ["self"] }),
+      { scope: "comment", match: /#.*$/ },
+      { scope: "string", begin: /"/, end: /"/ },
+      { scope: "string.escape", match: /:[0-9]{1,8}(?=[\s,\]\)\};]|$)/ },
+      { scope: "literal", match: /:(true|false|ok|err)\b/ },
+      { scope: "type", match: /:[\p{L}][\p{L}\d_\-@$'?!]*/u },
+      hljs.C_NUMBER_MODE,
+    ],
+  };
+});
