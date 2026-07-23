@@ -1,525 +1,371 @@
-<!DOCTYPE html>
-
-{{! start theme config }}
-<html
-  {{! 语言 book.langugae }}
-  lang="{{language}}"
-  {{! 默认主题 output.html.default-theme }}
-  class="{{default_theme}} sidebar-visible"
-  {{! 文字排版 book.text_direction }}
-  dir="{{text_direction}}"
->
-  <head>
-    <title>{{title}}</title>
-    {{! 标题 book.title }}
-    {{! meta info }}
-    <meta charset="UTF-8" />
-    <meta name="description" content="{{description}}" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#ffffff" />
-    {{#if is_print}}
-      {{! 设置 robots.txt }}
-      <meta name="robots" content="noindex" />
-    {{/if}}
-    {{! 设置基础链接 output.html.site-url }}
-    {{#if base_url}}
-      {{! 只影响 404 页面！ }}
-      <base href="{{base_url}}" />
-    {{/if}}
-    {{! 其他 meta info 或者 head 设置 head.hbs }}
-    {{> head}}
-
-    {{! favicon 设置 }}
-    {{#if favicon_svg}}
-      {{! 如果有 theme/favicon.svg }}
-      <link rel="icon" href="{{resource 'favicon.svg'}}" />
-    {{/if}}
-    {{#if favicon_png}}
-      {{! 如果有 theme/favicon.png }}
-      <link rel="shortcut icon" href="{{resource 'favicon.png'}}" />
-    {{/if}}
-    {{! 基本 css 设置 }}
-    <link rel="stylesheet" href="{{resource 'css/variables.css'}}" />
-    <link rel="stylesheet" href="{{resource 'css/general.css'}}" />
-    <link rel="stylesheet" href="{{resource 'css/chrome.css'}}" />
-    {{! 是否可以打印 output.html.print.enable }}
-    {{#if print_enable}}
-      <link
-        rel="stylesheet"
-        href="{{resource 'css/print.css'}}"
-        media="print"
-      />
-    {{/if}}
-
-    {{! 字体设置 }}
-    {{! ? 用户如要添加字体，需更改 theme/fonts/fonts.css }}
-    <link rel="stylesheet" href="{{resource 'fonts/fonts.css'}}" />
-
-    {{! 代码高亮设置 }}
-    <link
-      rel="stylesheet"
-      id="mdbook-highlight-css"
-      href="{{resource 'highlight.css'}}"
-    />
-    <link
-      rel="stylesheet"
-      id="mdbook-tomorrow-night-css"
-      href="{{resource 'tomorrow-night.css'}}"
-    />
-    <link
-      rel="stylesheet"
-      id="mdbook-ayu-highlight-css"
-      href="{{resource 'ayu-highlight.css'}}"
-    />
-
-    {{! ! 自定义 css ! }}
-    {{#each additional_css}}
-      <link rel="stylesheet" href="{{resource this}}" />
-    {{/each}}
-
-    {{! 是否启用 mathjax }}
-    {{#if mathjax_support}}
-      <script id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
-      </script>
-    {{/if}}
-
-    {{! 内容设置 }}
-    <script>
-      // 获取 root 路径
-      const path_to_root = "{{path_to_root}}";
-      // 获取默认亮色主题
-      const default_light_theme = "{{default_theme}}";
-      // 获取默认暗色主题
-      const default_dark_theme = "{{preferred_dark_theme}}";
-      // 启用搜索
-      {{#if search_js}}
-        window.path_to_searchindex_js = "{{resource "searchindex.js"}}";
-      {{/if}}
-    </script>
-    {{! 加载 toc.js  }}
-    <script src="{{resource 'toc.js'}}"></script>
-  </head>
-  <body>
-    {{! 帮助页面 }}
-    <div id="mdbook-help-container">
-      <div id="mdbook-help-popup">
-        <h2 class="mdbook-help-title">键盘快捷键</h2>
-        <div>
-          <p>使用 <kbd>←</kbd> 或 <kbd>→</kbd> 跳转章节</p>
-          {{#if search_enabled}}
-            <p>使用 <kbd>S</kbd> 或 <kbd>/</kbd> 在本书内搜索</p>
-          {{/if}}
-          <p>使用 <kbd>?</kbd> 显示帮助页面</p>
-          <p>使用 <kbd>Esc</kbd> 隐藏帮助页面</p>
-        </div>
-      </div>
-    </div>
-    {{! 主内容 }}
-    <div id="mdbook-body-container">
-      {{! 尝试从 localStorage 中获取基本设置 }}
-      <script>
-        try {
-          let theme = localStorage.getItem("mdbook-theme");
-          let sidebar = localStorage.getItem("mdbook-sidebar");
-          if (theme.startsWith('"') && theme.endsWith('"')) {
-            localStorage.setItem(
-              "mdbook-theme",
-              theme.slice(1, theme.length - 1).trim()
-            );
-          }
-          if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
-            localStorage.setItem(
-              "mdbook-sidebar",
-              sidebar.slice(1, sidebar.length - 1).trim()
-            );
-          }
-        } catch {}
-      </script>
-      {{! 在内容加载前设置主题 防止闪屏 }}
-      <script>
-        // 获取默认主题
-        const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? default_dark_theme
-          : default_light_theme;
-        let theme;
-        try {
-          theme = localStorage.getItem("mdbook-theme");
-        } catch { }
-        if (theme === null || theme === undefined) {
-          theme = default_theme;
-        }
-        const html = document.documentElement;
-        html.classList.remove("{{default_theme}}");
-        html.classList.add(theme);
-        html.classList.add("js");
-      </script>
-      {{! 搜索框 }}
-      <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden" />
-      {{! ? 设置是否显示搜索框 }}
-      <script>
-        let sidebar = null;
-        const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
-        if (document.body.clientWidth >= 1080) {
-          try {
-            sidebar = localStorage.getItem("mdbook-sidebar");
-          } catch { }
-          sidebar = sidebar || "visible";
-        } else {
-          sidebar = "hidden";
-          sidebar_toggle.checked = false;
-        }
-        if (sidebar === "visible") {
-          sidebar_toggle.checked = true;
-        } else {
-          html.classList.remove("sidebar-visible");
-        }
-      </script>
-      {{! 侧边栏目录 }}
-      <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
-        {{! 通过 JS 弹出 }}
-        <mdbook-sidebar-scrollbox
-          class="sidebar-scrollbox"
-        ></mdbook-sidebar-scrollbox>
-        <noscript>
-          <iframe
-            class="sidebar-iframe-outer"
-            src="{{path_to_root}}toc.html"
-          ></iframe>
-        </noscript>
-        <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
-          <div class="sidebar-resize-indicator"></div>
-        </div>
-      </nav>
-
-      {{! 页面设置 }}
-      <div id="mdbook-page-wrapper" class="page-wrapper">
-        <div class="page">
-          {{! 自定义顶部显示 theme/header.hbs }}
-          {{!-- {{> header}} --}}
-          <div id="mdbook-menu-bar-hover-placeholder"></div>
-          <div id="mdbook-menu-bar" class="menu-bar sticky">
-            {{! 左边的按钮 }}
-            <div class="left-buttons">
-              {{! 侧边栏按钮 }}
-              <label
-                id="mdbook-sidebar-toggle"
-                class="icon-button"
-                for="mdbook-sidebar-toggle-anchor"
-                title="Toggle Table of Contents"
-                aria-label="Toggle Table of Contents"
-                aria-controls="mdbook-sidebar"
-              >
-                {{fa "solid" "bars"}}
-              </label>
-              {{! 主题按钮 }}
-              <button
-                id="mdbook-theme-toggle"
-                class="icon-button"
-                type="button"
-                title="Change theme"
-                aria-label="Change theme"
-                aria-haspopup="true"
-                aria-expanded="false"
-                aria-controls="mdbook-theme-list"
-              >
-                {{fa "solid" "paintbrush"}}
-              </button>
-              {{! 主题列表 }}
-              <ul
-                id="mdbook-theme-list"
-                class="theme-popup"
-                aria-label="Themes"
-                role="menu"
-              >
-                <li role="none">
-                  <button role="menuitem" class="theme" id="mdbook-theme-default_theme">
-                    Auto
-                  </button>
-                </li>
-                <li role="none">
-                  <button role="menuitem" class="theme" id="mdbook-theme-light">
-                    Light
-                  </button>
-                </li>
-                <li role="none">
-                  <button role="menuitem" class="theme" id="mdbook-theme-rust">
-                    Rust
-                  </button>
-                </li>
-                <li role="none">
-                  <button role="menuitem" class="theme" id="mdbook-theme-coal">
-                    Coal
-                  </button>
-                </li>
-                <li role="none">
-                  <button role="menuitem" class="theme" id="mdbook-theme-navy">
-                    Navy
-                  </button>
-                </li>
-                <li role="none">
-                  <button role="menuitem" class="theme" id="mdbook-theme-ayu">
-                    Ayu
-                  </button>
-                </li>
-              </ul>
-              {{! 是否启用搜索功能 output.html.search.enable }}
-              {{#if search_enabled}}
-                {{! 搜索按钮 }}
-                <button
-                  id="mdbook-search-toggle"
-                  class="icon-button"
-                  type="button"
-                  title="Search (`/`)"
-                  aria-label="Toggle Searchbar"
-                  aria-expanded="false"
-                  aria-keyshortcuts="/ s"
-                  aria-controls="mdbook-searchbar"
-                >
-                  {{fa "solid" "magnifying-glass"}}
-                </button>
-              {{/if}}
-            </div>
-            {{! 网站/书籍标题 }}
-            <h1 class="menu-title">{{book_title}}</h1>
-            {{! 右边按钮 }}
-            <div class="right-buttons">
-              {{#if print_enable}}
-                <a
-                  href="{{path_to_root}}print.html"
-                  title="Print this book"
-                  aria-label="Print this book"
-                >
-                  {{fa "solid" "print" "print-button"}}
-                </a>
-              {{/if}}
-              {{#if git_repository_url}}
-                <a
-                  href="{{git_repository_url}}"
-                  title="Git repository"
-                  aria-label="Git repository"
-                >
-                  {{fa git_repository_icon_class git_repository_icon}}
-                </a>
-              {{/if}}
-              {{#if git_repository_edit_url}}
-                <a
-                  href="{{git_repository_edit_url}}"
-                  title="Suggest an edit"
-                  aria-label="Suggest an edit"
-                  rel="edit"
-                >
-                  {{fa "solid" "pencil" "git-edit-button"}}
-                </a>
-              {{/if}}
-            </div>
-          </div>
-          {{! 搜索框内容 }}
-          {{#if search_enabled}}
-            <div id="mdbook-search-wrapper" class="hidden">
-              <form id="mdbook-searchbar-outer" class="searchbar-outer">
-                <div class="search-wrapper">
-                  <input
-                    type="search"
-                    id="mdbook-searchbar"
-                    name="searchbar"
-                    placeholder="Search this book ..."
-                    aria-controls="mdbook-searchresults-outer"
-                    aria-describedby="searchresults-header"
-                  />
-                  <div class="spinner-wrapper">
-                    {{fa "solid" "spinner" "fa-spin"}}
-                  </div>
-                </div>
-              </form>
-              <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
-                <div
-                  id="mdbook-searchresults-header"
-                  class="searchresults-header"
-                ></div>
-                <ul id="mdbook-searchresults">
-                </ul>
-              </div>
-            </div>
-          {{/if}}
-          {{! 对于搜索框的 ARIA 优化 }}
-          <script>
-            document
-              .getElementById("mdbook-sidebar-toggle")
-              .setAttribute("aria-expanded", sidebar === "visible");
-            document
-              .getElementById("mdbook-sidebar")
-              .setAttribute("aria-hidden", sidebar !== "visible");
-            Array.from(document.querySelectorAll("#mdbook-sidebar a")).forEach(function (link) {
-              link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
-            });
-          </script>
-          {{! ! 主体内容 ! }}
-          <div id="mdbook-content" class="content">
-            <main>{{{content}}}</main>
-            {{! 手机翻页键 }}
-            <nav class="nav-wrapper" aria-label="Page navigation">
-              {{! 上一个 }}
-              {{#if previous}}
-                <a
-                  rel="prev"
-                  href="{{ path_to_root }}{{previous.link}}"
-                  class="mobile-nav-chapters previous"
-                  title="Previous chapter"
-                  aria-label="Previous chapter"
-                  aria-keyshortcuts="Left"
-                >
-                  {{#if (eq ../text_direction "rtl")}}
-                    {{fa "solid" "angle-right"}}
-                  {{else}}
-                    {{fa "solid" "angle-left"}}
-                  {{/if}}
-                </a>
-              {{/if}}
-              {{! 下一个 }}
-              {{#if next}}
-                <a rel="next prefetch"
-                  href="{{ path_to_root }}{{next.link}}"
-                  class="mobile-nav-chapters next"
-                  title="Next chapter"
-                  aria-label="Next chapter"
-                  aria-keyshortcuts="Right"
-                >
-                  {{#if (eq ../text_direction "rtl")}}
-                    {{fa "solid" "angle-left"}}
-                  {{else}}
-                    {{fa "solid" "angle-right"}}
-                  {{/if}}
-                </a>
-              {{/if}}
-              <div style="clear: both"></div>
-            </nav>
-          </div>
-        </div>
-        {{! 电脑翻页键 }}
-        <nav class="nav-wide-wrapper" aria-label="Page navigation">
-          {{#if previous}}
-            <a
-              rel="prev"
-              href="{{ path_to_root }}{{previous.link}}"
-              class="nav-chapters previous"
-              title="Previous chapter"
-              aria-label="Previous chapter"
-              aria-keyshortcuts="Left"
-            >
-              {{#if (eq ../text_direction "rtl")}}
-                {{fa "solid" "angle-right"}}
-              {{else}}
-                {{fa "solid" "angle-left"}}
-              {{/if}}
-            </a>
-          {{/if}}
-          {{#if next}}
-            <a
-              rel="next prefetch"
-              href="{{ path_to_root }}{{next.link}}"
-              class="nav-chapters next"
-              title="Next chapter"
-              aria-label="Next chapter"
-              aria-keyshortcuts="Right"
-            >
-              {{#if (eq text_direction "rtl")}}
-                {{fa "solid" "angle-left"}}
-              {{else}}
-                {{fa "solid" "angle-right"}}
-              {{/if}}
-            </a>
-          {{/if}}
-        </nav>
-        {{! ? giscus 聊天框 }}
-        <div class="giscus-comment"></div>
-      </div>
-
-      <template id=fa-eye>{{fa "solid" "eye"}}</template>
-      <template id=fa-eye-slash>{{fa "solid" "eye-slash"}}</template>
-      <template id=fa-copy>{{fa "regular" "copy"}}</template>
-      <template id=fa-play>{{fa "solid" "play"}}</template>
-      <template id=fa-clock-rotate-left>{{fa "solid" "clock-rotate-left"}}</template>
-
-      {{! 热更新 }}
-      {{#if live_reload_endpoint}}
-        <script>
-          const wsProtocol = location.protocol === "https:" ? "wss:" : "ws:";
-          const wsAddress =
-            wsProtocol + "//" + location.host + "/" + "{{{live_reload_endpoint}}}";
-          const socket = new WebSocket(wsAddress);
-          socket.onmessage = function (event) {
-            if (event.data === "reload") {
-              socket.close();
-              location.reload();
-            }
-          };
-          window.onbeforeunload = function () {
-            socket.close();
-          };
-        </script>
-      {{/if}}
-      {{! rust playground 设置 }}
-      {{#if playground_line_numbers}}
-        <script>
-          window.playground_line_numbers = true;
-        </script>
-      {{/if}}
-      {{#if playground_copyable}}
-        <script>
-          window.playground_copyable = true;
-        </script>
-      {{/if}}
-      {{#if playground_js}}
-        <script src="{{resource 'ace.js'}}"></script>
-        <script src="{{resource 'mode-rust.js'}}"></script>
-        <script src="{{resource 'editor.js'}}"></script>
-        <script src="{{resource 'theme-dawn.js'}}"></script>
-        <script src="{{resource 'theme-tomorrow_night.js'}}"></script>
-      {{/if}}
-      {{#if search_js}}
-        <script src="{{resource 'elasticlunr.min.js'}}"></script>
-        <script src="{{resource 'mark.min.js'}}"></script>
-        <script src="{{resource 'searcher.js'}}"></script>
-      {{/if}}
-      <script src="{{resource 'clipboard.min.js'}}"></script>
-      <script src="{{resource 'highlight.js'}}"></script>
-      <script src="{{resource 'book.js'}}"></script>
-      {{! ! 用户自定义 JS ! }}
-      {{#each additional_js}}
-        <script src="{{resource this}}"></script>
-      {{/each}}
-      {{! 打印功能 以及 mathjax }}
-      {{#if is_print}}
-        {{#if mathjax_support}}
-          <script>
-            window.addEventListener("load", function () {
-              MathJax.Hub.Register.StartupHook("End", function () {
-                window.setTimeout(window.print, 100);
-              });
-            });
-          </script>
-        {{else}}
-          <script>
-            window.addEventListener("load", function () {
-              window.setTimeout(window.print, 100);
-            });
-          </script>
+<!DOCTYPE HTML>
+<html lang="{{ language }}" class="{{ default_theme }} sidebar-visible" dir="{{ text_direction }}">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>{{ title }}</title>
+        {{#if is_print }}
+        <meta name="robots" content="noindex">
         {{/if}}
-      {{/if}}
-      {{#if fragment_map}}
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            const fragmentMap = {{{fragment_map}}};
-            const target = fragmentMap[window.location.hash];
-            if (target) {
-              let url = new URL(target, window.location.href);
-              window.location.replace(url.href);
-            }
-          });
+        {{#if base_url}}
+        <base href="{{ base_url }}">
+        {{/if}}
+
+
+        <!-- Custom HTML head -->
+        {{> head}}
+
+        <meta name="description" content="{{ description }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        {{#if favicon_svg}}
+        <link rel="icon" href="{{ resource "favicon.svg" }}">
+        {{/if}}
+        {{#if favicon_png}}
+        <link rel="shortcut icon" href="{{ resource "favicon.png" }}">
+        {{/if}}
+        <link rel="stylesheet" href="{{ resource "css/variables.css" }}">
+        <link rel="stylesheet" href="{{ resource "css/general.css" }}">
+        <link rel="stylesheet" href="{{ resource "css/chrome.css" }}">
+        {{#if print_enable}}
+        <link rel="stylesheet" href="{{ resource "css/print.css" }}" media="print">
+        {{/if}}
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="{{ resource "fonts/fonts.css" }}">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="{{ resource "highlight.css" }}">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="{{ resource "tomorrow-night.css" }}">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="{{ resource "ayu-highlight.css" }}">
+
+        <!-- Custom theme stylesheets -->
+        {{#each additional_css}}
+        <link rel="stylesheet" href="{{ resource this }}">
+        {{/each}}
+
+        {{#if mathjax_support}}
+        <!-- MathJax -->
+        <script id="MathJax-script"
+          async
+          src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js">
         </script>
-      {{/if}}
+        {{/if}}
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "{{ path_to_root }}";
+            const default_light_theme = "{{ default_theme }}";
+            const default_dark_theme = "{{ preferred_dark_theme }}";
+        {{#if search_js}}
+            window.path_to_searchindex_js = "{{ resource "searchindex.js" }}";
+        {{/if}}
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="{{ resource "toc.js" }}"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">键盘快捷键</h2>
+            <div>
+                <p>使用 <kbd>←</kbd> 或 <kbd>→</kbd> 跳转章节</p>
+                {{#if search_enabled}}
+                <p>使用 <kbd>S</kbd> 或 <kbd>/</kbd> 在本书内搜索</p>
+                {{/if}}
+                <p>使用 <kbd>?</kbd> 显示帮助页面</p>
+                <p>使用 <kbd>Esc</kbd> 隐藏帮助页面</p>
+            </div>
+        </div>
     </div>
-  </body>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('{{ default_theme }}')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="{{ path_to_root }}toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                {{> header}}
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            {{fa "solid" "bars"}}
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            {{fa "solid" "paintbrush"}}
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        {{#if search_enabled}}
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            {{fa "solid" "magnifying-glass"}}
+                        </button>
+                        {{/if}}
+                    </div>
+
+                    <h1 class="menu-title">{{ book_title }}</h1>
+
+                    <div class="right-buttons">
+                        {{#if print_enable}}
+                        <a href="{{ path_to_root }}print.html" title="Print this book" aria-label="Print this book">
+                            {{fa "solid" "print" "print-button"}}
+                        </a>
+                        {{/if}}
+                        {{#if git_repository_url}}
+                        <a href="{{git_repository_url}}" title="Git repository" aria-label="Git repository">
+                            {{fa git_repository_icon_class git_repository_icon}}
+                        </a>
+                        {{/if}}
+                        {{#if git_repository_edit_url}}
+                        <a href="{{git_repository_edit_url}}" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            {{fa "solid" "pencil" "git-edit-button"}}
+                        </a>
+                        {{/if}}
+
+                    </div>
+                </div>
+
+                {{#if search_enabled}}
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                {{fa "solid" "spinner" "fa-spin"}}
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+                {{/if}}
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        {{{ content }}}
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        {{#if previous}}
+                            <a rel="prev" href="{{ path_to_root }}{{previous.link}}" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                {{#if (eq ../text_direction "rtl")}}
+                                {{fa "solid" "angle-right"}}
+                                {{else}}
+                                {{fa "solid" "angle-left"}}
+                                {{/if}}
+                            </a>
+                        {{/if}}
+
+                        {{#if next}}
+                            <a rel="next prefetch" href="{{ path_to_root }}{{next.link}}" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                {{#if (eq ../text_direction "rtl")}}
+                                {{fa "solid" "angle-left"}}
+                                {{else}}
+                                {{fa "solid" "angle-right"}}
+                                {{/if}}
+                            </a>
+                        {{/if}}
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                {{#if previous}}
+                    <a rel="prev" href="{{ path_to_root }}{{previous.link}}" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        {{#if (eq ../text_direction "rtl")}}
+                        {{fa "solid" "angle-right"}}
+                        {{else}}
+                        {{fa "solid" "angle-left"}}
+                        {{/if}}
+                    </a>
+                {{/if}}
+
+                {{#if next}}
+                    <a rel="next prefetch" href="{{ path_to_root }}{{next.link}}" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        {{#if (eq text_direction "rtl")}}
+                        {{fa "solid" "angle-left"}}
+                        {{else}}
+                        {{fa "solid" "angle-right"}}
+                        {{/if}}
+                    </a>
+                {{/if}}
+            </nav>
+            <!-- giscus 聊天框 -->
+            <div class="giscus-comment"></div>
+        </div>
+
+        <template id=fa-eye>{{fa "solid" "eye"}}</template>
+        <template id=fa-eye-slash>{{fa "solid" "eye-slash"}}</template>
+        <template id=fa-copy>{{fa "regular" "copy"}}</template>
+        <template id=fa-play>{{fa "solid" "play"}}</template>
+        <template id=fa-clock-rotate-left>{{fa "solid" "clock-rotate-left"}}</template>
+
+        {{#if live_reload_endpoint}}
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "{{{live_reload_endpoint}}}";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        {{/if}}
+
+        {{#if playground_line_numbers}}
+        <script>
+            window.playground_line_numbers = true;
+        </script>
+        {{/if}}
+
+        {{#if playground_copyable}}
+        <script>
+            window.playground_copyable = true;
+        </script>
+        {{/if}}
+
+        {{#if playground_js}}
+        <script src="{{ resource "ace.js" }}"></script>
+        <script src="{{ resource "mode-rust.js" }}"></script>
+        <script src="{{ resource "editor.js" }}"></script>
+        <script src="{{ resource "theme-dawn.js" }}"></script>
+        <script src="{{ resource "theme-tomorrow_night.js" }}"></script>
+        {{/if}}
+
+        {{#if search_js}}
+        <script src="{{ resource "elasticlunr.min.js" }}"></script>
+        <script src="{{ resource "mark.min.js" }}"></script>
+        <script src="{{ resource "searcher.js" }}"></script>
+        {{/if}}
+
+        <script src="{{ resource "clipboard.min.js" }}"></script>
+        <script src="{{ resource "highlight.js" }}"></script>
+        <script src="{{ resource "book.js" }}"></script>
+
+        <!-- Custom JS scripts -->
+        {{#each additional_js}}
+        <script src="{{ resource this}}"></script>
+        {{/each}}
+
+        {{#if is_print}}
+        {{#if mathjax_support}}
+        <script>
+        window.addEventListener('load', function() {
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
+        });
+        </script>
+        {{else}}
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+        {{/if}}
+        {{/if}}
+
+        {{#if fragment_map}}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const fragmentMap =
+                    {{{fragment_map}}}
+                ;
+                const target = fragmentMap[window.location.hash];
+                if (target) {
+                    let url = new URL(target, window.location.href);
+                    window.location.replace(url.href);
+                }
+            });
+        </script>
+        {{/if}}
+
+    </div>
+    </body>
 </html>

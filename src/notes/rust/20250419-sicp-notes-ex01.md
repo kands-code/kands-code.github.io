@@ -23,7 +23,7 @@ KSL 这个名字，_L_ 很好理解，就是 Language，而 _KS_ 则是我的名
 我们先来看一段 KSL 代码吧，
 下面的代码展示的是分别通过递归函数和循环两种方式来求 `$13$` 的阶乘的过程：
 
-```plaintext
+```mathematica
 (** 使用递归函数 *)
 Let[Factorial, Fun[{n},
   Block[
@@ -99,13 +99,13 @@ pub enum Value {
     基本语法为 `Apply[<function>, ...<args>]`，
     例如对于：
 
-    ```ksl
+    ```mathematica
     Fun[{x, y}, Mul[Add[x, y], x]]
     ```
 
     可以使用：
 
-    ```ksl
+    ```mathematica
     Apply[Fun[{x, y}, Mul[Add[x, y], x]], 2, 3]
     ```
 
@@ -124,7 +124,7 @@ pub enum Value {
 如果想要自己构建类型，简单的可以使用列表，例如 `{#ok, 12}`，
 复杂的可以使用 `Object` 函数，然后自己往对象中填充数据，例如：
 
-```plaintext
+```mathematica
 Let[obj, Object[A]];
 
 Let[obj, Set[obj, "key1", 1]];
@@ -152,7 +152,7 @@ Print[If[#t, 2, 3]]; (* 打印 2 *)
 
 `Do` 用于迭代一个列表，一共有三个参数，要执行的表达式，绑定的符号以及列表，例如：
 
-```ksl
+```mathematica
 Let[x, 0];
 Do[Let[x, Add[x, n]], n, Range[1, 1, 4]];
 Print[x]; (* 输出 10 *)
@@ -170,7 +170,7 @@ println!("{}", x);
 
 `While` 接受两个参数，第一个参数是一个 boolean，第二个参数推荐使用列表，但是可以是任意表达式，例如：
 
-```ksl
+```mathematica
 Let[i, 0];
 While[Less[i, 5], {Print[i], Let[i, Add[i, 1]]}];
 ```
@@ -240,7 +240,7 @@ Print[Map[Fun[{x}, Add[x, 2]], {1, 2, 3}]]; (* 打印 {3, 4, 5} *)
 事实上，只有使用 `Block` 和 加载模块 以及 构建函数 的时候会开辟新的作用域，
 其他情况下，对于环境的修改都会影响到外部
 
-```ksl
+```mathematica
 Let[x, 1];
 
 Print[Block[Let[x, 2], x]]; (* 打印 2 *)
@@ -359,7 +359,7 @@ pub fn hello(args: &[Value], env: &Environment) -> Option<(Value, Environment)> 
 
 为了让 KSL 能够找到这个动态库，我们可以将这个动态库移动到 `<project-root>/lib/` 下，然后编写包裹模块：
 
-```ksl
+```mathematica
 Module["example"];
 
 Plugin[Hello, "example/hello"];
@@ -374,7 +374,7 @@ Plugin[Hello, "example/hello"];
 
 现在我们来尝试使用一下这个模块吧！
 
-```ksl
+```mathematica
 Load[m_e, "example"];
 
 Apply[Use[m_e, Hello], "Kevin"];
@@ -465,7 +465,7 @@ pub fn test_func(args: &[Value], env: &Environment) -> Option<(Value, Environmen
 
 然后编译项目，再在 `use_example.ksl` 中调用函数：
 
-```ksl
+```mathematica
 Load[m_e, "example"];
 
 Apply[Use[m_e, Hello], "Kevin"];

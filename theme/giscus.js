@@ -20,7 +20,7 @@ const setGiscusTheme = () => {
     if (igiscus) {
       igiscus.contentWindow.postMessage(
         { giscus: message },
-        "https://giscus.app"
+        "https://giscus.app",
       );
     }
   };
@@ -49,7 +49,7 @@ if (!testUrl.test(window.location.pathname)) {
     };
     const giscusScript = document.createElement("script");
     Object.entries(giscusAttributes).forEach(([key, value]) =>
-      giscusScript.setAttribute(key, value)
+      giscusScript.setAttribute(key, value),
     );
     document.querySelector(".giscus-comment").appendChild(giscusScript);
   });

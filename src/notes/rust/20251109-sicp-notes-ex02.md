@@ -241,14 +241,14 @@ impl reedline::Validator for KSLValidator {
 
 现在，KSL 终于支持 Unicode 了，也就意味着如下代码是可以正常运行了：
 
-```ksl
+```mathematica
 Let[你好, "Hello"];
 Print[你好]; (* 打印 Hello *)
 ```
 
 并且在 `Load` 函数中增加限制，现在下划线开头的符号不会被加载，这样可以避免暴露过多的实现细节，例如：
 
-```ksl
+```mathematica
 (* 文件 A.ksl *)
 Module["A"];
 
@@ -259,7 +259,7 @@ Let[MulA, Fun[{ n },
 
 在 REPL，我们可以检查是否导入了 `_a`：
 
-```ksl
+```mathematica
 Load[A, "A"];
 
 Print[Try[Use[A, MulA], #f]];
@@ -278,7 +278,7 @@ Print[Use[A, MulA][12]];
 
 这是在语法层面上要求用户去保存这些资源，防止到时候需要释放这些资源时完全无法访问，例如：
 
-```ksl
+```mathematica
 Let[GLOBAL_CONST, 16];
 Thread[t1, { GLOBAL_CONST }, Block[
   Sleep[Div[GLOBAL_CONST, 8]],
@@ -296,6 +296,7 @@ Print[Consume[t1]];
 嗯，KSL 确实是越来越像样了，可惜目前只有我一个用户，希望这点也能有所改善吧
 
 [^1]: 之前二进制体积大约是 `$950 \,\mathrm{KB}$`，但是现在已经是 `$2.97 \,\mathrm{MB}$` 了
+
 [^2]:
     clap \[CP/OL\].(2025-11-04)\[2025-11-09\].
     <https://github.com/clap-rs/clap>
