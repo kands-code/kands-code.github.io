@@ -43,6 +43,7 @@
   - [在 macOS 上使用 Rust 链接静态库](./miscellany/coding/20250423-rust-link-static-library-on-macos.md)
   - [在 mdBook 中使用 KaTeX 渲染公式](./miscellany/coding/20251124-use-katex-in-mdbook.md)
   - [在 mdBook 中使用自定义字体](./miscellany/coding/20260413-use-font-in-mdbook.md)
+  - [在 GNOME 上让 Flatpak 的 Qt 应用也能有阴影](./miscellany/coding/20260826-use-shadows-with-qt-on-flatpak-for-gnome.md)
 - [Study](./miscellany/study/index.md)
   - [Qiskit 线性代数](./miscellany/study/20221108-qiskit-linear-algebra.md)
   - [Qiskit Deutsch-Jozsa 算法](./miscellany/study/20221111-qiskit-Deutsch-Jozsa-algorithm.md)
