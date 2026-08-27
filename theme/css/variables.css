@@ -15,6 +15,12 @@
   --searchbar-margin-block-start: 5px;
 }
 
+@media only screen and (max-width: 768px) {
+  :root {
+    --content-max-width: 100%;
+  }
+}
+
 /* Themes */
 
 .ayu {
