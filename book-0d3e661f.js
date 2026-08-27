@@ -39,7 +39,7 @@ function mdbook_something_else_has_focus(e) {
     return Promise.race([
       fetch(url, options),
       new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("timeout")), timeout),
+        setTimeout(() => reject(new Error("timeout")), timeout)
       ),
     ]);
   }
@@ -58,7 +58,7 @@ function mdbook_something_else_has_focus(e) {
         // get list of crates available in the rust playground
         const playground_crates = response.crates.map((item) => item["id"]);
         playgrounds.forEach((block) =>
-          handle_crate_list_update(block, playground_crates),
+          handle_crate_list_update(block, playground_crates)
         );
       });
   }
@@ -170,9 +170,10 @@ function mdbook_something_else_has_focus(e) {
         }
       })
       .catch(
-        (error) =>
-          (result_block.innerText =
-            "Playground Communication: " + error.message),
+        (
+          error,
+        ) => (result_block.innerText = "Playground Communication: " +
+          error.message),
       );
   }
 
@@ -185,7 +186,8 @@ function mdbook_something_else_has_focus(e) {
   const code_nodes = Array.from(document.querySelectorAll("code"))
     // Don't highlight `inline code` blocks in headers.
     .filter(function (node) {
-      return !node.parentElement.classList.contains("header");
+      return !node.parentElement.classList.contains("header") &&
+        !node.classList.contains("language-math");
     });
 
   if (window.ace) {
@@ -228,8 +230,7 @@ function mdbook_something_else_has_focus(e) {
 
     const buttons = document.createElement("div");
     buttons.className = "buttons";
-    buttons.innerHTML =
-      '<button title="Show hidden lines" \
+    buttons.innerHTML = '<button title="Show hidden lines" \
 aria-label="Show hidden lines"></button>';
     buttons.firstChild.innerHTML = document.getElementById("fa-eye").innerHTML;
 
@@ -709,9 +710,11 @@ aria-label="Show hidden lines"></button>';
 
 (function chapterNavigation() {
   function zoomOutImages() {
-    for (const elem of Array.from(
-      document.querySelectorAll("input.checkbox-img"),
-    )) {
+    for (
+      const elem of Array.from(
+        document.querySelectorAll("input.checkbox-img"),
+      )
+    ) {
       elem.checked = false;
     }
   }
